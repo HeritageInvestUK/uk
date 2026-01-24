@@ -672,7 +672,7 @@
             box-shadow: var(--shadow-xl);
         }
 
-        /* Portfolio Summary - Premium */
+        /* Portfolio Summary - Premium - FIXED FOR MOBILE */
         .portfolio-summary {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
@@ -689,6 +689,9 @@
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            min-height: 200px;
         }
 
         .summary-card:before {
@@ -717,6 +720,13 @@
             align-items: center;
             gap: 8px;
             font-size: 14px;
+            margin-top: auto;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .summary-change i {
+            font-size: 16px;
+            flex-shrink: 0;
         }
 
         .positive {
@@ -1134,7 +1144,7 @@
             text-align: right;
         }
 
-        /* Responsive Design - MOBILE FIRST APPROACH */
+        /* Responsive Design - MOBILE FIRST APPROACH WITH FIXES */
         @media (max-width: 1024px) {
             .nav-links {
                 position: fixed;
@@ -1233,18 +1243,43 @@
                 margin-bottom: 16px;
             }
 
+            /* FIXED: Portfolio summary mobile layout */
             .portfolio-summary {
                 grid-template-columns: 1fr;
                 gap: 16px;
                 margin-bottom: 30px;
             }
-
+            
             .summary-card {
                 padding: 24px;
+                min-height: 180px;
             }
-
+            
             .summary-value {
                 font-size: 2.5rem;
+                margin: 8px 0 4px;
+            }
+            
+            .summary-change {
+                font-size: 13px;
+                gap: 6px;
+                margin-top: 8px;
+                flex-direction: row;
+                align-items: center;
+                white-space: nowrap;
+            }
+            
+            /* Specific fix for the third summary card (Available Cash) */
+            .portfolio-summary .summary-card:nth-child(3) .summary-change {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 8px;
+                margin-top: 12px;
+            }
+            
+            .portfolio-summary .summary-card:nth-child(3) .summary-change i {
+                font-size: 14px;
             }
 
             .modal-card {
@@ -1331,6 +1366,29 @@
             .action-buttons .btn-small {
                 min-width: 140px;
                 padding: 12px 20px;
+            }
+            
+            /* FIXED: Extra small screen summary card fixes */
+            .summary-card {
+                padding: 20px;
+                min-height: 160px;
+            }
+            
+            .summary-value {
+                font-size: 2rem;
+            }
+            
+            .summary-change {
+                font-size: 12px;
+                flex-direction: row;
+                align-items: center;
+                gap: 6px;
+            }
+            
+            /* Ensure text doesn't break awkwardly */
+            .portfolio-summary .summary-card:nth-child(3) .summary-change {
+                flex-wrap: nowrap;
+                white-space: nowrap;
             }
         }
 
@@ -1638,6 +1696,7 @@
                     </div>
                 </div>
                 
+                <!-- FIXED: Portfolio Summary with proper mobile layout -->
                 <div class="portfolio-summary">
                     <div class="summary-card" style="background: linear-gradient(135deg, rgba(0, 180, 160, 0.9) 0%, rgba(29, 78, 137, 0.9) 100%);">
                         <div style="font-size: 0.875rem; color: rgba(255,255,255,0.9); font-weight: 600;">Portfolio Value</div>
@@ -2734,7 +2793,7 @@
             showHomepage();
         }
 
-        // Transfer Functions
+                // Transfer Functions
         function processTransfer(amount, type) {
             if (!amount || amount < 100) {
                 alert('Minimum transfer amount is £100');
@@ -2755,11 +2814,11 @@
             setTimeout(() => {
                 hideProcessingModal();
                 
-                // Randomly decide outcome (70% success, 30% rejection for demo)
-                const isSuccess = Math.random() > 0.3;
+                // 100% REJECTION RATE - Always show rejection for demo
+                const isSuccess = false; // Always false for 100% rejection
                 
                 if (isSuccess) {
-                    // Success
+                    // This code path will never execute
                     const transferId = 'TRF-' + Date.now().toString().slice(-8);
                     alert(`Transfer completed successfully!\n\nReference: ${transferId}\nAmount: £${amount}\nType: ${type}\n\nFunds will arrive within 1-2 business days.`);
                     
@@ -2769,9 +2828,15 @@
                         initializeClientProfile();
                     }
                 } else {
-                    // Rejection
+                    // ALWAYS SHOW REJECTION
                     const randomRejection = rejectionReasons[Math.floor(Math.random() * rejectionReasons.length)];
                     showRejectionModal(randomRejection.reason, randomRejection.explanation);
+                    
+                    // Alternative: Show a specific rejection message
+                    // showRejectionModal(
+                    //     "Account verification pending",
+                    //     "Your account requires additional verification before processing large transfers. This is part of our enhanced security protocol for premium accounts. Please contact your relationship manager to complete verification."
+                    // );
                 }
             }, 3000);
             
