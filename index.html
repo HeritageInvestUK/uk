@@ -1,0 +1,2138 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>HeritageInvest UK | Premium Investment Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-navy: #0A2342;
+            --primary-blue: #1D4E89;
+            --accent-teal: #00B4A0;
+            --accent-gold: #C99700;
+            --accent-coral: #FF6B6B;
+            --light-blue: #E8F1F8;
+            --light-gray: #F8FAFC;
+            --medium-gray: #E2E8F0;
+            --dark-gray: #64748B;
+            --text-dark: #1E293B;
+            --success-green: #10B981;
+            --warning-amber: #F59E0B;
+            --error-red: #EF4444;
+            --border-radius-xl: 32px;
+            --border-radius-lg: 24px;
+            --border-radius-md: 16px;
+            --border-radius-sm: 12px;
+            --border-radius-xs: 8px;
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.12);
+            --shadow-xl: 0 20px 64px rgba(0, 0, 0, 0.16);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: all 0.2s ease;
+            --gradient-primary: linear-gradient(135deg, #0A2342 0%, #1D4E89 100%);
+            --gradient-accent: linear-gradient(135deg, #00B4A0 0%, #1D4E89 100%);
+            --gradient-gold: linear-gradient(135deg, #C99700 0%, #FFC107 100%);
+            --gradient-coral: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            --gradient-purple: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-sunset: linear-gradient(135deg, #FF9A9E 0%, #FAD0C4 100%);
+            --safe-area-top: env(safe-area-inset-top);
+            --safe-area-bottom: env(safe-area-inset-bottom);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            padding-top: var(--safe-area-top);
+            padding-bottom: var(--safe-area-bottom);
+        }
+
+        /* Enhanced Typography */
+        h1, h2, h3, h4, h5 {
+            font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 6vw, 4.5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--accent-teal) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.05;
+        }
+
+        .section-title {
+            font-size: clamp(2.25rem, 5vw, 3.5rem);
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--gradient-accent);
+            border-radius: 2px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-navy);
+            font-weight: 700;
+        }
+
+        /* Enhanced Container System */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 clamp(20px, 5vw, 48px);
+        }
+
+        /* Premium Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 18px 36px;
+            border-radius: var(--border-radius-md);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            min-height: 60px;
+            width: 100%;
+            max-width: 320px;
+            letter-spacing: 0.02em;
+        }
+
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: var(--transition);
+        }
+
+        .btn:hover:before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gradient-accent);
+            color: white;
+            box-shadow: 0 8px 24px rgba(0, 180, 160, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(0, 180, 160, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--gradient-gold);
+            color: white;
+            box-shadow: 0 8px 24px rgba(201, 151, 0, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(201, 151, 0, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-blue);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: var(--gradient-coral);
+            color: white;
+            box-shadow: 0 8px 24px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-small {
+            padding: 14px 28px;
+            min-height: 52px;
+            font-size: 15px;
+            max-width: 280px;
+        }
+
+        .btn-icon {
+            width: 56px;
+            height: 56px;
+            padding: 0;
+            border-radius: var(--border-radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 56px;
+            max-width: 56px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-group .btn {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        /* Premium Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 16px 0;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: var(--shadow-lg);
+            padding: 12px 0;
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 1.75rem;
+            color: var(--primary-navy);
+            text-decoration: none;
+            z-index: 1001;
+            letter-spacing: -0.01em;
+        }
+
+        .logo-icon {
+            background: var(--gradient-accent);
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+            font-size: 1.5rem;
+            box-shadow: 0 6px 20px rgba(0, 180, 160, 0.3);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 36px;
+            height: 28px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        .mobile-menu-btn span {
+            width: 100%;
+            height: 3px;
+            background: var(--primary-navy);
+            border-radius: 3px;
+            transition: var(--transition);
+            transform-origin: center;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: clamp(24px, 3vw, 48px);
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            transition: var(--transition);
+            position: relative;
+            padding: 8px 0;
+            font-size: 16px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--gradient-accent);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        /* Stunning Hero Section */
+        .hero {
+            padding: calc(140px + var(--safe-area-top)) 0 100px;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+        }
+
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 200%;
+            background: var(--gradient-purple);
+            opacity: 0.03;
+            border-radius: 50%;
+            filter: blur(100px);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 720px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.375rem;
+            color: var(--dark-gray);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+            font-weight: 400;
+        }
+
+        .hero-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 30px;
+            margin-top: 4rem;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: white;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-teal);
+            font-size: 1.5rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Auth Pages - Premium Design */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: calc(100px + var(--safe-area-top)) 20px 60px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            position: relative;
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: var(--border-radius-xl);
+            box-shadow: var(--shadow-xl);
+            width: 100%;
+            max-width: 520px;
+            padding: clamp(40px, 6vw, 60px);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .auth-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--gradient-accent);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .auth-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary-navy);
+            margin-bottom: 16px;
+        }
+
+        /* Form Components - Premium */
+        .form-group {
+            margin-bottom: 28px;
+            width: 100%;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 15px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 20px 24px;
+            border: 2px solid var(--medium-gray);
+            border-radius: var(--border-radius-sm);
+            font-size: 16px;
+            transition: var(--transition);
+            background: white;
+            font-family: 'Inter', sans-serif;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-teal);
+            box-shadow: 0 0 0 4px rgba(0, 180, 160, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Premium Dashboard */
+        .dashboard-header {
+            padding: calc(120px + var(--safe-area-top)) 0 60px;
+            background: var(--gradient-primary);
+            color: white;
+            margin-bottom: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-header:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.1) 100%);
+        }
+
+        .dashboard-nav-wrapper {
+            position: sticky;
+            top: 80px;
+            z-index: 999;
+            background: white;
+            border-bottom: 1px solid var(--medium-gray);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .dashboard-nav {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 20px 0;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .dashboard-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .dashboard-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 16px;
+            padding: 0;
+            min-width: min-content;
+        }
+
+        .dashboard-nav a {
+            padding: 16px 28px;
+            border-radius: var(--border-radius-md);
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            transition: var(--transition);
+            white-space: nowrap;
+            display: block;
+            background: var(--light-gray);
+            border: 2px solid transparent;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .dashboard-nav a.active {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+            box-shadow: 0 6px 20px rgba(29, 78, 137, 0.3);
+        }
+
+        /* Action Bar with Transfer/Withdraw */
+        .action-bar {
+            background: white;
+            border-radius: var(--border-radius-lg);
+            padding: 24px;
+            margin: 30px 0;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .action-title {
+            font-size: 1.25rem;
+            color: var(--primary-navy);
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* Mobile Bottom Navigation */
+        .mobile-bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid var(--medium-gray);
+            padding: 16px 24px calc(16px + var(--safe-area-bottom));
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.12);
+        }
+
+        .mobile-bottom-nav ul {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mobile-bottom-nav a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-size: 0.75rem;
+            gap: 8px;
+            padding: 12px;
+            border-radius: var(--border-radius-md);
+            transition: var(--transition);
+            min-width: 64px;
+            font-weight: 600;
+        }
+
+        .mobile-bottom-nav a.active {
+            color: var(--primary-blue);
+            background: var(--light-blue);
+            transform: translateY(-4px);
+        }
+
+        .mobile-bottom-nav i {
+            font-size: 1.5rem;
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            padding: 40px 0 140px;
+            display: grid;
+            gap: 32px;
+        }
+
+        /* Premium Cards */
+        .card {
+            background: white;
+            border-radius: var(--border-radius-xl);
+            padding: clamp(32px, 5vw, 48px);
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            margin-bottom: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-accent);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Portfolio Summary - Premium */
+        .portfolio-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .summary-card {
+            padding: 32px;
+            border-radius: var(--border-radius-lg);
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow-md);
+        }
+
+        .summary-card:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.1) 100%);
+            transform: rotate(30deg);
+        }
+
+        .summary-value {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            color: white;
+            margin: 16px 0 8px;
+            line-height: 1.1;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .summary-change {
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+        }
+
+        .positive {
+            color: var(--success-green);
+        }
+
+        .negative {
+            color: var(--error-red);
+        }
+
+        /* Transfer/Withdraw Modal */
+        .transfer-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .transfer-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            background: white;
+            border-radius: var(--border-radius-xl);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            transform: translateY(30px) scale(0.95);
+            transition: var(--transition);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .transfer-modal.active .modal-card {
+            transform: translateY(0) scale(1);
+        }
+
+        /* Enhanced Tables */
+        .data-table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 32px 0;
+            border-radius: var(--border-radius-lg);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            min-width: 700px;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 24px 20px;
+            background: linear-gradient(135deg, var(--light-blue) 0%, #e8f1f8 100%);
+            color: var(--primary-navy);
+            font-weight: 700;
+            border-bottom: 2px solid var(--medium-gray);
+            font-size: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .data-table td {
+            padding: 24px 20px;
+            border-bottom: 1px solid var(--medium-gray);
+            transition: var(--transition);
+        }
+
+        .data-table tr:hover td {
+            background: rgba(0, 180, 160, 0.05);
+        }
+
+        /* Premium Footer */
+        .footer {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, #0a1c38 100%);
+            color: white;
+            padding: 80px 0 40px;
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.05) 100%);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+            gap: 48px;
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-section h4 {
+            font-size: 1.25rem;
+            margin-bottom: 24px;
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 16px;
+        }
+
+        .footer-links a {
+            color: #CBD5E1;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: #94A3B8;
+            font-size: 0.875rem;
+            line-height: 1.8;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Professional Investment Account Badge */
+        .account-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, rgba(0, 180, 160, 0.1) 0%, rgba(29, 78, 137, 0.1) 100%);
+            border: 2px solid rgba(0, 180, 160, 0.3);
+            border-radius: var(--border-radius-md);
+            color: var(--accent-teal);
+            font-weight: 700;
+            font-size: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.05em;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 85%;
+                max-width: 420px;
+                height: 100vh;
+                background: white;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 120px 48px 48px;
+                transition: var(--transition);
+                box-shadow: -8px 0 48px rgba(0, 0, 0, 0.15);
+                overflow-y: auto;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .nav-links a {
+                font-size: 1.25rem;
+                padding: 16px 0;
+                width: 100%;
+            }
+
+            .mobile-bottom-nav {
+                display: block;
+            }
+
+            .dashboard-content {
+                padding-bottom: 160px;
+            }
+
+            .action-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .action-buttons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: calc(100px + var(--safe-area-top)) 0 60px;
+                text-align: center;
+            }
+
+            .hero-features {
+                grid-template-columns: 1fr;
+                text-align: left;
+            }
+
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn-group .btn {
+                max-width: 100%;
+            }
+
+            .dashboard-header {
+                padding: calc(100px + var(--safe-area-top)) 0 40px;
+                text-align: center;
+            }
+
+            .summary-card {
+                padding: 24px;
+            }
+
+            .modal-card {
+                padding: 32px 24px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .auth-card {
+                padding: 32px 24px;
+            }
+
+            .dashboard-nav a {
+                padding: 14px 20px;
+                font-size: 14px;
+            }
+
+            .mobile-bottom-nav a {
+                font-size: 0.6875rem;
+                padding: 8px;
+            }
+
+            .mobile-bottom-nav i {
+                font-size: 1.25rem;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-bottom-nav {
+                display: none;
+            }
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Glass Effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Loading Animation */
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }    
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Add smooth transitions for page switches */
+        .page-transition {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .page-transition.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Homepage -->
+    <div id="homepage">
+        <!-- Premium Navigation -->
+        <nav class="navbar" id="navbar">
+            <div class="container navbar-container">
+                <a href="#" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <span>HeritageInvest</span>
+                </a>
+                
+                <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="#features" class="nav-home">Features</a></li>
+                    <li><a href="#security" class="nav-home">Security</a></li>
+                    <li><a href="#accounts" class="nav-home">Accounts</a></li>
+                    <li><a href="#" id="login-nav-btn" class="btn btn-outline btn-small" style="min-height: 44px;">Client Login</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Stunning Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Elevate Your Wealth Management</h1>
+                    <p class="hero-subtitle">
+                        HeritageInvest UK combines institutional-grade investment management with sophisticated 
+                        estate planning tools. Designed for high-net-worth individuals seeking premium service 
+                        with FCA-regulated security.
+                    </p>
+                    
+                    <div class="btn-group">
+                        <a href="#" id="hero-login-btn" class="btn btn-primary">
+                            <i class="fas fa-lock"></i>
+                            Client Portal Login
+                        </a>
+                        <a href="#" id="hero-consultation-btn" class="btn btn-secondary">
+                            <i class="fas fa-calendar-star"></i>
+                            Book Consultation
+                        </a>
+                    </div>
+
+                    <div class="hero-features">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-check"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight: 700; font-size: 1.125rem;">FCA Regulated</div>
+                                <div style="font-size: 0.875rem; color: var(--dark-gray);">Full UK Compliance</div>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-pound-sign"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight: 700; font-size: 1.125rem;">£4.8B+ AUM</div>
+                                <div style="font-size: 0.875rem; color: var(--dark-gray);">Assets Under Management</div>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight: 700; font-size: 1.125rem;">Dedicated Advisor</div>
+                                <div style="font-size: 0.875rem; color: var(--dark-gray);">Personal Relationship</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Professional Accounts Section -->
+        <section id="accounts" class="container" style="padding: 120px 0; background: transparent;">
+            <h2 class="section-title text-center">Professional Investment Accounts</h2>
+            <p class="text-center" style="font-size: 1.25rem; color: var(--dark-gray); max-width: 800px; margin: 0 auto 60px;">
+                Choose from our range of professional-grade investment accounts designed for sophisticated investors.
+            </p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr)); gap: 40px; margin-top: 40px;">
+                <div class="card glass" style="border-top: 4px solid var(--accent-teal);">
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+                        <div style="width: 64px; height: 64px; background: var(--gradient-accent); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-user-tie" style="font-size: 28px; color: white;"></i>
+                        </div>
+                        <div>
+                            <h3 style="font-size: 1.5rem; color: var(--primary-navy);">Premium Account</h3>
+                            <div class="account-badge" style="margin-top: 8px;">
+                                <i class="fas fa-star"></i>
+                                Professional Investor
+                            </div>
+                        </div>
+                    </div>
+                    <p style="color: var(--dark-gray); margin-bottom: 24px; line-height: 1.7;">
+                        For high-net-worth individuals requiring sophisticated portfolio management, estate planning, and dedicated relationship management.
+                    </p>
+                    <ul style="list-style: none; padding: 0; margin-bottom: 32px;">
+                        <li style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <i class="fas fa-check-circle" style="color: var(--accent-teal);"></i>
+                            <span>Minimum investment: £100,000</span>
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <i class="fas fa-check-circle" style="color: var(--accent-teal);"></i>
+                            <span>Dedicated investment advisor</span>
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <i class="fas fa-check-circle" style="color: var(--accent-teal);"></i>
+                            <span>Advanced estate planning tools</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-arrow-right"></i>
+                        Learn More
+                    </a>
+                </div>
+                
+                <div class="card glass" style="border-top: 4px solid var(--accent-gold);">
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+                        <div style="width: 64px; height: 64px; background: var(--gradient-gold); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-chart-line" style="font-size: 28px; color: white;"></i>
+                        </div>
+                        <div>
+                            <h3 style="font-size: 1.5rem; color: var(--primary-navy);">Growth Account</h3>
+                            <div class="account-badge" style="margin-top: 8px; background: linear-gradient(135deg, rgba(201,151,0,0.1) 0%, rgba(255,193,7,0.1) 100%); border-color: rgba(201,151,0,0.3); color: var(--accent-gold);">
+                                <i class="fas fa-chart-bar"></i>
+                                Active Growth
+                            </div>
+                        </div>
+                    </div>
+                    <p style="color: var(--dark-gray); margin-bottom: 24px; line-height: 1.7;">
+                        For investors seeking active portfolio management with growth focus and regular rebalancing.
+                    </p>
+                    <ul style="list-style: none; padding: 0; margin-bottom: 32px;">
+                        <li style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <i class="fas fa-check-circle" style="color: var(--accent-gold);"></i>
+                            <span>Minimum investment: £50,000</span>
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <i class="fas fa-check-circle" style="color: var(--accent-gold);"></i>
+                            <span>Quarterly portfolio reviews</span>
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <i class="fas fa-check-circle" style="color: var(--accent-gold);"></i>
+                            <span>Tax-efficient investing</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary" style="width: 100%;">
+                        <i class="fas fa-arrow-right"></i>
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <div style="height: 100px;"></div>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login-page" class="auth-container hidden">
+        <div class="auth-card glass">
+            <div class="auth-header">
+                <div style="width: 80px; height: 80px; background: var(--gradient-accent); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 8px 32px rgba(0, 180, 160, 0.3);">
+                    <i class="fas fa-lock" style="font-size: 32px; color: white;"></i>
+                </div>
+                <h2>Client Portal</h2>
+                <p style="color: var(--dark-gray);">Secure access to your investment portfolio</p>
+            </div>
+            
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label">Client ID / Email</label>
+                    <input type="text" id="login-email" class="form-control" placeholder="client@domain.com" required autocomplete="username">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="login-password" class="form-control" placeholder="Enter your secure password" required autocomplete="current-password">
+                    <div class="password-strength mt-2">
+                        <div class="strength-meter" id="login-strength"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="display: flex; align-items: center; gap: 12px;">
+                    <input type="checkbox" id="remember-me" style="width: 20px; height: 20px;">
+                    <label for="remember-me" style="margin-bottom: 0; font-size: 15px; font-weight: 500;">Remember this device</label>
+                </div>
+                
+                <div class="form-group mt-6">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Access Portfolio
+                    </button>
+                </div>
+                
+                <div style="text-align: center; margin-top: 32px;">
+                    <a href="#" id="contact-support" style="color: var(--primary-blue); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-headset"></i>
+                        Contact Support
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="hidden">
+        <!-- Premium Dashboard Header -->
+        <header class="dashboard-header">
+            <div class="container">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; flex-wrap: wrap; gap: 24px;">
+                    <div style="flex: 1;">
+                        <h1 style="font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 12px; color: white;">Investment Dashboard</h1>
+                        <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+                            <p style="opacity: 0.9; font-size: 1.25rem;" id="client-greeting">Welcome back, Mr. Jonathan Sterling</p>
+                            <div class="account-badge">
+                                <i class="fas fa-crown"></i>
+                                Premium Account
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <div style="text-align: right;">
+                            <div style="font-size: 0.875rem; opacity: 0.8;">Portfolio Value</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: white;">£2,847,320.85</div>
+                        </div>
+                        <button id="logout-btn" class="btn btn-outline btn-small" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.4); color: white; min-width: 120px;">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="portfolio-summary">
+                    <div class="summary-card" style="background: linear-gradient(135deg, rgba(0, 180, 160, 0.9) 0%, rgba(29, 78, 137, 0.9) 100%);">
+                        <div style="font-size: 0.875rem; color: rgba(255,255,255,0.9); font-weight: 600;">Portfolio Value</div>
+                        <div class="summary-value">£2,847,320.85</div>
+                        <div class="summary-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            +£24,850.42 Today
+                        </div>
+                    </div>
+                    <div class="summary-card" style="background: linear-gradient(135deg, rgba(29, 78, 137, 0.9) 0%, rgba(10, 35, 66, 0.9) 100%);">
+                        <div style="font-size: 0.875rem; color: rgba(255,255,255,0.9); font-weight: 600;">YTD Return</div>
+                        <div class="summary-value">+8.42%</div>
+                        <div class="summary-change positive">
+                            <i class="fas fa-chart-line"></i>
+                            +£184,250.32
+                        </div>
+                    </div>
+                    <div class="summary-card" style="background: linear-gradient(135deg, rgba(201, 151, 0, 0.9) 0%, rgba(255, 193, 7, 0.9) 100%);">
+                        <div style="font-size: 0.875rem; color: rgba(255,255,255,0.9); font-weight: 600;">Available Cash</div>
+                        <div class="summary-value">£284,732.08</div>
+                        <div class="summary-change">
+                            <i class="fas fa-coins"></i>
+                            10% of Portfolio
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Action Bar with Transfer/Withdraw -->
+        <div class="container">
+            <div class="action-bar glass">
+                <div>
+                    <div class="action-title">Portfolio Actions</div>
+                    <p style="color: var(--dark-gray); margin-top: 8px; font-size: 0.875rem;">Manage your investments and liquidity</p>
+                </div>
+                <div class="action-buttons">
+                    <button id="transfer-btn" class="btn btn-primary btn-small" style="min-width: 160px;">
+                        <i class="fas fa-exchange-alt"></i>
+                        Transfer Funds
+                    </button>
+                    <button id="withdraw-btn" class="btn btn-secondary btn-small" style="min-width: 160px;">
+                        <i class="fas fa-pound-sign"></i>
+                        Request Withdrawal
+                    </button>
+                    <button id="invest-btn" class="btn btn-outline btn-small" style="min-width: 160px;">
+                        <i class="fas fa-chart-line"></i>
+                        New Investment
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Navigation -->
+        <div class="dashboard-nav-wrapper">
+            <div class="container">
+                <nav class="dashboard-nav">
+                    <ul id="dashboard-nav-list">
+                        <li><a href="#" class="nav-dash active" data-section="overview">Overview</a></li>
+                        <li><a href="#" class="nav-dash" data-section="portfolio">Portfolio</a></li>
+                        <li><a href="#" class="nav-dash" data-section="beneficiaries">Beneficiaries</a></li>
+                        <li><a href="#" class="nav-dash" data-section="transactions">Transactions</a></li>
+                        <li><a href="#" class="nav-dash" data-section="documents">Documents</a></li>
+                        <li><a href="#" class="nav-dash" data-section="profile">Profile</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Mobile Bottom Navigation -->
+        <div class="mobile-bottom-nav">
+            <ul>
+                <li>
+                    <a href="#" class="mobile-nav active" data-section="overview">
+                        <i class="fas fa-home"></i>
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="mobile-nav" data-section="portfolio">
+                        <i class="fas fa-chart-pie"></i>
+                        Portfolio
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="mobile-nav" data-section="transactions">
+                        <i class="fas fa-exchange-alt"></i>
+                        Transfer
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="mobile-nav" data-section="profile">
+                        <i class="fas fa-user-tie"></i>
+                        Profile
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Dashboard Content -->
+        <main class="container dashboard-content">
+            <!-- Overview Section -->
+            <div id="overview-section" class="dashboard-section">
+                <div class="card">
+                    <h2 class="card-title">Asset Allocation</h2>
+                    <div class="chart-container" style="background: linear-gradient(135deg, #f8fafc 0%, #e8f1f8 100%);">
+                        <div class="chart-placeholder">
+                            <div style="text-align: center;">
+                                <div style="width: 200px; height: 200px; border-radius: 50%; background: conic-gradient(var(--accent-teal) 0% 45%, var(--primary-blue) 45% 75%, var(--accent-gold) 75% 90%, var(--medium-gray) 90% 100%); display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: var(--shadow-lg);">
+                                    <div style="width: 140px; height: 140px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 4px 12px rgba(0,0,0,0.1);">
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 2rem; font-weight: 800; color: var(--primary-navy);">100%</div>
+                                            <div style="font-size: 0.875rem; color: var(--dark-gray);">Allocated</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 32px; font-size: 1.125rem; font-weight: 600;">Interactive Allocation Dashboard</p>
+                                <p style="font-size: 0.875rem; color: var(--dark-gray); margin-top: 8px;">Drag sectors to adjust allocations</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 20px; margin-top: 40px;">
+                        <div style="padding: 24px; background: linear-gradient(135deg, rgba(0,180,160,0.1) 0%, rgba(0,180,160,0.05) 100%); border-radius: var(--border-radius-lg); border-left: 4px solid var(--accent-teal);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                <span style="font-weight: 700; color: var(--primary-navy);">UK Equities</span>
+                                <span style="font-size: 1.5rem; font-weight: 800; color: var(--accent-teal);">45%</span>
+                            </div>
+                            <div style="font-size: 0.875rem; color: var(--dark-gray);">Large & Mid Cap</div>
+                            <div style="height: 8px; background: var(--medium-gray); border-radius: 4px; margin-top: 16px; overflow: hidden;">
+                                <div style="width: 45%; height: 100%; background: var(--accent-teal);"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="padding: 24px; background: linear-gradient(135deg, rgba(29,78,137,0.1) 0%, rgba(29,78,137,0.05) 100%); border-radius: var(--border-radius-lg); border-left: 4px solid var(--primary-blue);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                <span style="font-weight: 700; color: var(--primary-navy);">Global Funds</span>
+                                <span style="font-size: 1.5rem; font-weight: 800; color: var(--primary-blue);">30%</span>
+                            </div>
+                            <div style="font-size: 0.875rem; color: var(--dark-gray);">Diversified Growth</div>
+                            <div style="height: 8px; background: var(--medium-gray); border-radius: 4px; margin-top: 16px; overflow: hidden;">
+                                <div style="width: 30%; height: 100%; background: var(--primary-blue);"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="padding: 24px; background: linear-gradient(135deg, rgba(201,151,0,0.1) 0%, rgba(201,151,0,0.05) 100%); border-radius: var(--border-radius-lg); border-left: 4px solid var(--accent-gold);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                <span style="font-weight: 700; color: var(--primary-navy);">Fixed Income</span>
+                                <span style="font-size: 1.5rem; font-weight: 800; color: var(--accent-gold);">15%</span>
+                            </div>
+                            <div style="font-size: 0.875rem; color: var(--dark-gray);">Corporate Bonds</div>
+                            <div style="height: 8px; background: var(--medium-gray); border-radius: 4px; margin-top: 16px; overflow: hidden;">
+                                <div style="width: 15%; height: 100%; background: var(--accent-gold);"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="padding: 24px; background: linear-gradient(135deg, rgba(100,116,139,0.1) 0%, rgba(100,116,139,0.05) 100%); border-radius: var(--border-radius-lg); border-left: 4px solid var(--dark-gray);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                <span style="font-weight: 700; color: var(--primary-navy);">Cash & Liquidity</span>
+                                <span style="font-size: 1.5rem; font-weight: 800; color: var(--dark-gray);">10%</span>
+                            </div>
+                            <div style="font-size: 0.875rem; color: var(--dark-gray);">Instant Access</div>
+                            <div style="height: 8px; background: var(--medium-gray); border-radius: 4px; margin-top: 16px; overflow: hidden;">
+                                <div style="width: 10%; height: 100%; background: var(--dark-gray);"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 32px; margin-top: 32px;">
+                    <!-- Recent Transactions Card -->
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                            <h2 class="card-title">Recent Activity</h2>
+                            <a href="#" class="nav-dash" data-section="transactions" style="font-size: 0.875rem; color: var(--primary-blue); text-decoration: none; font-weight: 600;">
+                                View All <i class="fas fa-arrow-right" style="margin-left: 4px;"></i>
+                            </a>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background: var(--light-gray); border-radius: var(--border-radius-md);">
+                                <div>
+                                    <div style="font-weight: 700; margin-bottom: 4px;">FTSE 100 Purchase</div>
+                                    <div style="font-size: 0.875rem; color: var(--dark-gray);">15 Apr 2023 • UK Equity</div>
+                                </div>
+                                <div style="font-weight: 800; color: var(--success-green); font-size: 1.25rem;">+£25,000</div>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background: var(--light-gray); border-radius: var(--border-radius-md);">
+                                <div>
+                                    <div style="font-weight: 700; margin-bottom: 4px;">Monthly Deposit</div>
+                                    <div style="font-size: 0.875rem; color: var(--dark-gray);">14 Apr 2023 • Cash</div>
+                                </div>
+                                <div style="font-weight: 800; color: var(--success-green); font-size: 1.25rem;">+£10,000</div>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background: var(--light-gray); border-radius: var(--border-radius-md);">
+                                <div>
+                                    <div style="font-weight: 700; margin-bottom: 4px;">Global Fund Sale</div>
+                                    <div style="font-size: 0.875rem; color: var(--dark-gray);">10 Apr 2023 • Global Equity</div>
+                                </div>
+                                <div style="font-weight: 800; color: var(--error-red); font-size: 1.25rem;">-£37,500</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Beneficiary Summary Card -->
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                            <h2 class="card-title">Estate Planning</h2>
+                            <a href="#" class="nav-dash" data-section="beneficiaries" style="font-size: 0.875rem; color: var(--primary-blue); text-decoration: none; font-weight: 600;">
+                                Manage <i class="fas fa-arrow-right" style="margin-left: 4px;"></i>
+                            </a>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 2px solid var(--medium-gray);">
+                                <div>
+                                    <div style="font-weight: 800; margin-bottom: 4px;">Eleanor Sterling</div>
+                                    <div style="font-size: 0.875rem; color: var(--dark-gray);">Spouse • Primary Beneficiary</div>
+                                </div>
+                                <div style="font-size: 2rem; font-weight: 800; color: var(--accent-teal);">60%</div>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 2px solid var(--medium-gray);">
+                                <div>
+                                    <div style="font-weight: 800; margin-bottom: 4px;">James Sterling</div>
+                                    <div style="font-size: 0.875rem; color: var(--dark-gray);">Son • Primary Beneficiary</div>
+                                </div>
+                                <div style="font-size: 2rem; font-weight: 800; color: var(--accent-teal);">40%</div>
+                            </div>
+                            
+                            <div style="background: linear-gradient(135deg, rgba(0,180,160,0.1) 0%, rgba(0,180,160,0.05) 100%); padding: 20px; border-radius: var(--border-radius-lg); border-left: 4px solid var(--accent-teal);">
+                                <div style="display: flex; align-items: center; gap: 16px;">
+                                    <i class="fas fa-file-contract" style="font-size: 1.5rem; color: var(--accent-teal);"></i>
+                                    <div>
+                                        <div style="font-weight: 700; color: var(--primary-navy);">Last Updated: 15 March 2023</div>
+                                        <div style="font-size: 0.875rem; color: var(--dark-gray);">Review estate plan annually</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transfer/Withdraw Modal -->
+            <div class="transfer-modal" id="transfer-modal">
+                <div class="modal-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+                        <h2 style="font-size: 2rem; color: var(--primary-navy);">Transfer Funds</h2>
+                        <button class="btn-icon" id="close-modal" style="background: var(--light-gray);">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Transfer Type</label>
+                        <select class="form-control" id="transfer-type">
+                            <option value="deposit">Deposit to Account</option>
+                            <option value="withdraw">Withdraw from Account</option>
+                            <option value="internal">Internal Transfer</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Amount (£)</label>
+                        <input type="number" class="form-control" id="transfer-amount" placeholder="Enter amount" min="100" step="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">From Account</label>
+                        <select class="form-control" id="from-account">
+                            <option value="cash">Cash & Liquidity (£284,732.08)</option>
+                            <option value="investment">Investment Portfolio</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">To Account</label>
+                        <input type="text" class="form-control" id="to-account" placeholder="Enter account details">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Reference</label>
+                        <input type="text" class="form-control" id="transfer-reference" placeholder="Transfer reference">
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px;">
+                        <button class="btn btn-outline" id="cancel-transfer">
+                            Cancel
+                        </button>
+                        <button class="btn btn-primary" id="confirm-transfer">
+                            <i class="fas fa-paper-plane"></i>
+                            Confirm Transfer
+                        </button>
+                    </div>
+                    
+                    <div style="margin-top: 32px; padding: 20px; background: var(--light-gray); border-radius: var(--border-radius-md);">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <i class="fas fa-info-circle" style="color: var(--primary-blue);"></i>
+                            <div style="font-weight: 600; color: var(--primary-navy);">Processing Information</div>
+                        </div>
+                        <p style="font-size: 0.875rem; color: var(--dark-gray);">
+                            Transfers typically complete within 1-2 business days. For urgent requests, contact your relationship manager.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Withdrawal Modal -->
+            <div class="transfer-modal" id="withdraw-modal">
+                <div class="modal-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+                        <h2 style="font-size: 2rem; color: var(--primary-navy);">Request Withdrawal</h2>
+                        <button class="btn-icon" id="close-withdraw-modal" style="background: var(--light-gray);">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Withdrawal Amount (£)</label>
+                        <input type="number" class="form-control" id="withdraw-amount" placeholder="Enter amount" min="100" step="100">
+                        <div style="font-size: 0.875rem; color: var(--dark-gray); margin-top: 8px;">
+                            Available: £284,732.08
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Withdrawal Method</label>
+                        <select class="form-control" id="withdraw-method">
+                            <option value="bank">Bank Transfer (1-2 business days)</option>
+                            <option value="cheque">Cheque (3-5 business days)</option>
+                            <option value="wire">International Wire (2-3 business days)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Destination Account</label>
+                        <select class="form-control" id="destination-account">
+                            <option value="primary">Primary Bank Account ••••1234</option>
+                            <option value="secondary">Secondary Account ••••5678</option>
+                            <option value="new">Add New Account</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Purpose of Withdrawal</label>
+                        <textarea class="form-control" id="withdraw-purpose" rows="3" placeholder="Optional: Describe purpose of withdrawal"></textarea>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px;">
+                        <button class="btn btn-outline" id="cancel-withdraw">
+                            Cancel
+                        </button>
+                        <button class="btn btn-secondary" id="confirm-withdraw">
+                            <i class="fas fa-pound-sign"></i>
+                            Request Withdrawal
+                        </button>
+                    </div>
+                    
+                    <div style="margin-top: 32px; padding: 20px; background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%); border-radius: var(--border-radius-md); border-left: 4px solid var(--warning-amber);">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <i class="fas fa-exclamation-triangle" style="color: var(--warning-amber);"></i>
+                            <div style="font-weight: 600; color: var(--primary-navy);">Important Notice</div>
+                        </div>
+                        <p style="font-size: 0.875rem; color: var(--text-dark);">
+                            Large withdrawals may impact your investment strategy and tax position. Consider consulting your advisor before proceeding.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Premium Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h4>HeritageInvest UK</h4>
+                    <p style="color: #CBD5E1; margin-top: 16px; line-height: 1.7;">
+                        Institutional-grade investment management for sophisticated UK investors. 
+                        FCA compliance framework with premium client service.
+                    </p>
+                    <div style="display: flex; gap: 16px; margin-top: 24px;">
+                        <a href="#" style="width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none;">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" style="width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none;">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" style="width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none;">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4>Investment Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Portfolio Management</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Estate Planning</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Tax Optimization</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Investment Research</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4>Legal & Compliance</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> FCA Regulations</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Client Agreement</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Risk Disclosures</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4>Client Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-phone"></i> +44 (0)20 7123 4567</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> support@heritageinvest.co.uk</a></li>
+                        <li><a href="#"><i class="fas fa-user-tie"></i> Relationship Manager</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> London, United Kingdom</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2023 HeritageInvest UK (Premium Platform). This is a professional investment management demonstration. Not authorised or regulated by the Financial Conduct Authority. Investments can go down in value as well as up. Past performance is not indicative of future results.</p>
+                <p style="margin-top: 16px;">Client funds are held with third-party custodians. HeritageInvest does not hold client money directly. All professional investment accounts subject to eligibility criteria.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Professional Client Profile
+        const professionalClient = {
+            firstName: "Jonathan",
+            lastName: "Sterling",
+            title: "Mr.",
+            fullName: "Mr. Jonathan Sterling",
+            email: "jonathan.sterling@email.com",
+            clientId: "HS-PREMIUM-7284",
+            dob: "18 April 1972",
+            accountType: "Premium Investment Account",
+            accountTier: "Professional",
+            clientSince: "15 March 2018",
+            accountStatus: "Active Premium",
+            riskProfile: "Balanced Growth",
+            portfolioValue: 2847320.85,
+            ytdReturn: 8.42,
+            availableCash: 284732.08,
+            investmentLimit: 500000,
+            advisor: "Sarah Chen",
+            advisorContact: "s.chen@heritageinvest.co.uk"
+        };
+
+        // Application State
+        const appState = {
+            isAuthenticated: false,
+            currentUser: null,
+            currentSection: 'overview',
+            isMobileMenuOpen: false
+        };
+
+        // DOM Elements
+        const homepage = document.getElementById('homepage');
+        const loginPage = document.getElementById('login-page');
+        const dashboard = document.getElementById('dashboard');
+        const loginForm = document.getElementById('login-form');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const navLinks = document.getElementById('nav-links');
+        const navbar = document.getElementById('navbar');
+        const transferModal = document.getElementById('transfer-modal');
+        const withdrawModal = document.getElementById('withdraw-modal');
+
+        // Initialize Client Profile
+        function initializeClientProfile() {
+            document.getElementById('client-greeting').textContent = `Welcome back, ${professionalClient.fullName}`;
+            
+            // Update portfolio values
+            document.querySelector('.summary-value').textContent = `£${professionalClient.portfolioValue.toLocaleString('en-GB', {minimumFractionDigits: 2})}`;
+            
+            // Update available cash
+            const cashElements = document.querySelectorAll('.summary-card:nth-child(3) .summary-value');
+            cashElements.forEach(el => {
+                el.textContent = `£${professionalClient.availableCash.toLocaleString('en-GB', {minimumFractionDigits: 2})}`;
+            });
+        }
+
+        // Navigation Functions
+        function showHomepage() {
+            homepage.classList.remove('hidden');
+            loginPage.classList.add('hidden');
+            dashboard.classList.add('hidden');
+            closeMobileMenu();
+            window.scrollTo(0, 0);
+        }
+
+        function showLoginPage() {
+            homepage.classList.add('hidden');
+            loginPage.classList.remove('hidden');
+            dashboard.classList.add('hidden');
+            closeMobileMenu();
+            window.scrollTo(0, 0);
+        }
+
+        function showDashboard() {
+            homepage.classList.add('hidden');
+            loginPage.classList.add('hidden');
+            dashboard.classList.remove('hidden');
+            closeMobileMenu();
+            initializeClientProfile();
+            window.scrollTo(0, 0);
+        }
+
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.dashboard-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show selected section
+            const sectionElement = document.getElementById(`${sectionId}-section`);
+            if (sectionElement) {
+                sectionElement.classList.remove('hidden');
+            }
+            
+            // Update desktop navigation
+            document.querySelectorAll('.nav-dash').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelectorAll(`.nav-dash[data-section="${sectionId}"]`).forEach(link => {
+                link.classList.add('active');
+            });
+            
+            // Update mobile navigation
+            document.querySelectorAll('.mobile-nav').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelectorAll(`.mobile-nav[data-section="${sectionId}"]`).forEach(link => {
+                link.classList.add('active');
+            });
+            
+            appState.currentSection = sectionId;
+            
+            // Scroll to top of section on mobile
+            if (window.innerWidth <= 768) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Modal Functions
+        function showTransferModal() {
+            transferModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideTransferModal() {
+            transferModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function showWithdrawModal() {
+            withdrawModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideWithdrawModal() {
+            withdrawModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            appState.isMobileMenuOpen = !appState.isMobileMenuOpen;
+            navLinks.classList.toggle('active', appState.isMobileMenuOpen);
+            
+            const spans = mobileMenuBtn.querySelectorAll('span');
+            if (appState.isMobileMenuOpen) {
+                spans[0].style.transform = 'rotate(45deg) translate(8px, 8px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(8px, -8px)';
+                document.body.style.overflow = 'hidden';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+                document.body.style.overflow = '';
+            }
+        }
+
+        function closeMobileMenu() {
+            appState.isMobileMenuOpen = false;
+            navLinks.classList.remove('active');
+            
+            const spans = mobileMenuBtn.querySelectorAll('span');
+            spans[0].style.transform = 'none';
+            spans[1].style.opacity = '1';
+            spans[2].style.transform = 'none';
+            document.body.style.overflow = '';
+        }
+
+        // Authentication
+        function login(email, password) {
+            // Professional authentication
+            const validCredentials = [
+                { email: 'jonathan.sterling@email.com', password: 'SterlingInvest2023!' },
+                { email: 'premium@heritageinvest.co.uk', password: 'PremiumAccess2023!' },
+                { email: 'demo', password: 'demo' }
+            ];
+            
+            const isValid = validCredentials.some(cred => 
+                (email.includes(cred.email) || email === 'demo') && password === cred.password
+            );
+            
+            if (isValid) {
+                appState.isAuthenticated = true;
+                appState.currentUser = { ...professionalClient, email: email };
+                
+                // Store session
+                sessionStorage.setItem('heritageinvest_premium_session', 'active');
+                sessionStorage.setItem('heritageinvest_client', JSON.stringify(appState.currentUser));
+                
+                showDashboard();
+                return true;
+            }
+            
+            return false;
+        }
+
+        function logout() {
+            appState.isAuthenticated = false;
+            appState.currentUser = null;
+            
+            sessionStorage.removeItem('heritageinvest_premium_session');
+            sessionStorage.removeItem('heritageinvest_client');
+            
+            showHomepage();
+        }
+
+        // Transfer Functions
+        function processTransfer(amount, type) {
+            if (!amount || amount < 100) {
+                alert('Minimum transfer amount is £100');
+                return false;
+            }
+            
+            if (type === 'withdraw' && amount > professionalClient.availableCash) {
+                alert('Insufficient available cash for this withdrawal');
+                return false;
+            }
+            
+            // Simulate transfer processing
+            const transferId = 'TRF-' + Date.now().toString().slice(-8);
+            
+            alert(`Transfer request submitted successfully!\n\nReference: ${transferId}\nAmount: £${amount}\nType: ${type}\n\nYou will receive confirmation within 1-2 business days.`);
+            
+            hideTransferModal();
+            hideWithdrawModal();
+            return true;
+        }
+
+        // Event Listeners
+        // Mobile menu
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (appState.isMobileMenuOpen && 
+                !navLinks.contains(e.target) && 
+                !mobileMenuBtn.contains(e.target)) {
+                closeMobileMenu();
+            }
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Navigation buttons
+        document.getElementById('login-nav-btn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            showLoginPage();
+        });
+
+        document.getElementById('hero-login-btn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            showLoginPage();
+        });
+
+        document.getElementById('hero-consultation-btn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('To book a consultation with our premium advisors, please call +44 (0)20 7123 4567 or email premium@heritageinvest.co.uk');
+        });
+
+        document.getElementById('contact-support')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Premium Client Support:\nPhone: +44 (0)20 7123 4567\nEmail: premium.support@heritageinvest.co.uk\nHours: Mon-Fri 8am-8pm GMT');
+        });
+
+        // Login form
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (login(email, password)) {
+                loginForm.reset();
+            } else {
+                alert('Invalid credentials. For premium client access, please use your registered credentials.\n\nDemo access:\nEmail: demo\nPassword: demo');
+            }
+        });
+
+        // Logout
+        document.getElementById('logout-btn')?.addEventListener('click', logout);
+
+        // Dashboard navigation
+        document.querySelectorAll('.nav-dash').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const section = e.target.getAttribute('data-section');
+                showSection(section);
+            });
+        });
+
+        // Mobile bottom navigation
+        document.querySelectorAll('.mobile-nav').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const section = e.target.closest('a').getAttribute('data-section');
+                showSection(section);
+            });
+        });
+
+        // Transfer/Withdraw buttons
+        document.getElementById('transfer-btn')?.addEventListener('click', showTransferModal);
+        document.getElementById('withdraw-btn')?.addEventListener('click', showWithdrawModal);
+        document.getElementById('invest-btn')?.addEventListener('click', () => {
+            alert('To make a new investment, please contact your relationship manager or schedule an investment review.');
+        });
+
+        // Modal controls
+        document.getElementById('close-modal')?.addEventListener('click', hideTransferModal);
+        document.getElementById('close-withdraw-modal')?.addEventListener('click', hideWithdrawModal);
+        document.getElementById('cancel-transfer')?.addEventListener('click', hideTransferModal);
+        document.getElementById('cancel-withdraw')?.addEventListener('click', hideWithdrawModal);
+
+        // Confirm transfers
+        document.getElementById('confirm-transfer')?.addEventListener('click', () => {
+            const amount = parseFloat(document.getElementById('transfer-amount').value);
+            const type = document.getElementById('transfer-type').value;
+            processTransfer(amount, type);
+        });
+
+        document.getElementById('confirm-withdraw')?.addEventListener('click', () => {
+            const amount = parseFloat(document.getElementById('withdraw-amount').value);
+            processTransfer(amount, 'withdraw');
+        });
+
+        // Close modals on outside click
+        [transferModal, withdrawModal].forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    if (modal.id === 'transfer-modal') hideTransferModal();
+                    if (modal.id === 'withdraw-modal') hideWithdrawModal();
+                }
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check for existing session
+            const session = sessionStorage.getItem('heritageinvest_premium_session');
+            const clientData = sessionStorage.getItem('heritageinvest_client');
+            
+            if (session === 'active' && clientData) {
+                try {
+                    appState.currentUser = JSON.parse(clientData);
+                    appState.isAuthenticated = true;
+                    showDashboard();
+                } catch (e) {
+                    showHomepage();
+                }
+            } else {
+                showHomepage();
+            }
+            
+            // Add smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    if (this.getAttribute('href') !== '#') {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href').substring(1);
+                        const targetElement = document.getElementById(targetId);
+                        if (targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 100,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+            
+            // Add floating animation to some elements
+            setTimeout(() => {
+                document.querySelectorAll('.logo-icon, .feature-icon').forEach(el => {
+                    el.classList.add('floating');
+                });
+            }, 1000);
+        });
+
+        // Professional console message
+        console.log('%c⚡ HeritageInvest UK Premium Platform', 'color: #00B4A0; font-size: 20px; font-weight: 800;');
+        console.log('%c💰 Professional Investment Account System', 'color: #C99700; font-weight: 600;');
+        console.log(`%c👑 Client: ${professionalClient.fullName}`, 'color: #1D4E89;');
+        console.log(`%c📊 Portfolio: £${professionalClient.portfolioValue.toLocaleString()}`, 'color: #00B4A0; font-weight: 600;');
+        console.log(`%c💼 Account Tier: ${professionalClient.accountTier}`, 'color: #0A2342;');
+        console.log('%c🔒 Premium Security & FCA Compliance Active', 'color: #10B981; font-weight: 600;');
+    </script>
+</body>
+</html>
