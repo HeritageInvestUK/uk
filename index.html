@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HeritageInvest UK | Institutional Wealth Management</title>
+    <title>HeritageInvest | Institutional Wealth Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -1692,7 +1692,7 @@
                     <div class="logo-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
-                    <span>HeritageInvest UK</span>
+                    <span>HeritageInvest</span>
                 </a>
                 
                 <button class="mobile-nav-toggle" id="mobileToggle">
@@ -1731,7 +1731,7 @@
                     
                     <h1 class="mb-3">Institutional-Grade Wealth Management</h1>
                     <p class="text-lead mb-4">
-                        HeritageInvest UK provides sophisticated investment management services 
+                        HeritageInvest provides sophisticated investment management services 
                         for high-net-worth individuals and family offices. Our institutional approach 
                         combines rigorous research with personalised strategy implementation.
                     </p>
@@ -1909,7 +1909,7 @@
             <div class="container">
                 <div class="grid grid-cols-3 gap-4 mb-5 mobile-only">
                     <div class="col-span-3">
-                        <h4 class="mb-3" style="color: white;">HeritageInvest UK</h4>
+                        <h4 class="mb-3" style="color: white;">HeritageInvest</h4>
                         <p style="color: rgba(255, 255, 255, 0.8);">
                             25 St James's Square, London SW1Y 4JH<br>
                             United Kingdom
@@ -1920,7 +1920,7 @@
                 <div class="desktop-only">
                     <div class="grid grid-cols-3 gap-4 mb-5">
                         <div>
-                            <h4 class="mb-3" style="color: white;">HeritageInvest UK</h4>
+                            <h4 class="mb-3" style="color: white;">HeritageInvest</h4>
                             <p style="color: rgba(255, 255, 255, 0.8);">
                                 25 St James's Square, London SW1Y 4JH<br>
                                 United Kingdom
@@ -1947,7 +1947,7 @@
                 
                 <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: var(--space-lg);">
                     <p style="color: rgba(255, 255, 255, 0.6); font-size: var(--font-size-sm);">
-                        HeritageInvest UK is a trading name of Heritage Investment Management Limited, 
+                        HeritageInvest is a trading name of Heritage Investment Management Limited, 
                         authorised and regulated by the Financial Conduct Authority (FRN: 123456). 
                         Registered in England and Wales No: 07896543. Registered Office: 25 St James's Square, London SW1Y 4JH.
                     </p>
@@ -1969,7 +1969,7 @@
                         <div class="logo-icon">
                             <i class="fas fa-shield-alt"></i>
                         </div>
-                        <span>HeritageInvest UK</span>
+                        <span>HeritageInvest</span>
                     </div>
                     <h2 class="mb-1">Client Portal</h2>
                     <p class="text-small">Secure access to your investment portfolio</p>
@@ -1993,7 +1993,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary w-100">
+                            <button type="submit" class="btn btn-primary w-100" id="loginButton">
                                 <i class="fas fa-lock mr-2"></i>
                                 Secure Login
                             </button>
@@ -2024,8 +2024,8 @@
                     <div class="logo-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
-                    <span class="desktop-only">HeritageInvest UK</span>
-                    <span class="mobile-only">HI UK</span>
+                    <span class="desktop-only">HeritageInvest</span>
+                    <span class="mobile-only">HeritageInvest</span>
                 </a>
                 
                 <div class="flex items-center gap-3">
@@ -4099,10 +4099,66 @@
             });
         });
 
+        // Update your existing login form handler with this:
+        document.getElementById('loginForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('clientId').value;
+            const password = document.getElementById('password').value;
+            const loginButton = document.getElementById('loginButton');
+            
+            // Disable button and show loading
+            if (loginButton) {
+                loginButton.disabled = true;
+                loginButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Authenticating...';
+            }
+            
+            // Simple 5-second delay
+            setTimeout(() => {
+                // Your existing login validation
+                const validCredentials = [
+                    { email: 'jonathan.sterling@email.com', password: 'SterlingInvest2023!' },
+                    { email: 'premium@heritageinvest.co.uk', password: 'PremiumAccess2023!' },
+                    { email: 'demo', password: 'demo' }
+                ];
+                
+                const isValid = validCredentials.some(cred => 
+                    (email.includes(cred.email) || email === 'demo') && password === cred.password
+                );
+                
+                if (isValid) {
+                    appState.isAuthenticated = true;
+                    appState.currentUser = { 
+                        ...professionalClient, 
+                        email: email 
+                    };
+                    
+                    // Store session
+                    sessionStorage.setItem('heritageinvest_premium_session', 'active');
+                    sessionStorage.setItem('heritageinvest_client', JSON.stringify(appState.currentUser));
+                    
+                    // Reset form
+                    document.getElementById('loginForm').reset();
+                    
+                    // Show success message and go to dashboard
+                    if (securitySession) {
+                        securitySession.showToast('Successfully logged in', 'success');
+                    }
+                    showPage('dashboard');
+                } else {
+                    // Reset button on failure
+                    if (loginButton) {
+                        loginButton.disabled = false;
+                        loginButton.innerHTML = '<i class="fas fa-lock mr-2"></i> Secure Login';
+                    }
+                    alert('Invalid credentials. For premium client access, please use your registered credentials.\n\nDemo access:\nEmail: demo\nPassword: demo');
+                }
+            }, 5000); // 5000ms = 5 seconds
+        });
+
         // Make managers globally available for button onclick handlers
         window.transactionsManager = transactionsManager;
         window.documentsManager = documentsManager;
     </script>
 </body>
 </html>
-
