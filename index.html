@@ -2120,7 +2120,7 @@
                 <div class="dashboard-stats">
                     <div class="stat-card stat-card-primary">
                         <div class="stat-label">Total Portfolio Value</div>
-                        <div class="stat-value">£2,847,320.85</div>
+                        <div class="stat-value">£9,847,320.85</div>
                         <div class="stat-change positive">
                             <i class="fas fa-arrow-up"></i>
                             +£24,850.42 (+0.88%) today
@@ -2140,7 +2140,7 @@
                     
                     <div class="stat-card stat-card-warning">
                         <div class="stat-label">Available Liquidity</div>
-                        <div class="stat-value">£284,732.08</div>
+                        <div class="stat-value">£784,732.08</div>
                         <div class="flex gap-2 mt-3">
                             <button class="btn btn-accent btn-small" id="quickDeposit">
                                 <i class="fas fa-plus"></i>
@@ -3735,38 +3735,41 @@
         }
 
         function showSection(sectionName) {
-            // Hide all sections
-            Object.values(sections).forEach(section => {
-                if (section) section.classList.add('hidden');
-            });
-            
-            // Show requested section
-            if (sections[sectionName]) {
-                sections[sectionName].classList.remove('hidden');
-                appState.currentSection = sectionName;
-            }
-            
-            // Update desktop navigation
-            dashboardNavLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('data-section') === sectionName) {
-                    link.classList.add('active');
-                }
-            });
-            
-            // Update mobile navigation
-            mobileNavLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('data-section') === sectionName) {
-                    link.classList.add('active');
-                }
-            });
-            
-            // Scroll to top on mobile
-            if (window.innerWidth <= 768) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
+        // Hide all sections
+        Object.values(sections).forEach(section => {
+            if (section) section.classList.add('hidden');
+        });
+        
+        // Show requested section
+        if (sections[sectionName]) {
+            sections[sectionName].classList.remove('hidden');
+            appState.currentSection = sectionName;
         }
+        
+        // Toggle dashboard header visibility
+        toggleDashboardHeader(sectionName);
+        
+        // Update desktop navigation
+        dashboardNavLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('data-section') === sectionName) {
+                link.classList.add('active');
+            }
+        });
+        
+        // Update mobile navigation
+        mobileNavLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('data-section') === sectionName) {
+                link.classList.add('active');
+            }
+        });
+        
+        // Scroll to top on mobile
+        if (window.innerWidth <= 768) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
 
         // ===== TRANSFER FLOW =====
         function showTransferStep(stepNumber) {
@@ -4254,6 +4257,30 @@ function strictLoginCheck(email, password) {
                 }
             }, 5000);
         });
+
+        // Add this function to show/hide dashboard header based on section
+        function toggleDashboardHeader(sectionName) {
+            const dashboardHeader = document.querySelector('.dashboard-header');
+            const dashboardNav = document.querySelector('.dashboard-nav');
+            
+            if (!dashboardHeader) return;
+            
+            // Hide header for these sections
+            const hideHeaderSections = ['transactions', 'transfers', 'documents'];
+            
+            if (hideHeaderSections.includes(sectionName)) {
+                dashboardHeader.style.display = 'none';
+                if (dashboardNav) {
+                    dashboardNav.style.top = '72px'; // Adjust navbar position
+                }
+            } else {
+                dashboardHeader.style.display = 'block';
+                if (dashboardNav) {
+                    dashboardNav.style.top = '72px'; // Reset to default
+                }
+            }
+        }
+
         // Make managers globally available for button onclick handlers
         window.transactionsManager = transactionsManager;
         window.documentsManager = documentsManager;
