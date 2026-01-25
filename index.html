@@ -1993,7 +1993,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary w-100" id="loginButton">
+                            <button type="submit" class="btn btn-primary w-100" id="loginSubmitBtn">
                                 <i class="fas fa-lock mr-2"></i>
                                 Secure Login
                             </button>
@@ -4099,63 +4099,161 @@
             });
         });
 
-        // Update your existing login form handler with this:
-        document.getElementById('loginForm')?.addEventListener('submit', (e) => {
+        // STRICT LOGIN FUNCTION - Blocks ALL unauthorized access
+function strictLoginCheck(email, password) {
+    // Normalize inputs
+    email = String(email).trim().toLowerCase();
+    password = String(password).trim();
+    
+    console.log('🔐 Login attempt:', email.substring(0, 3) + '***'); // Hide full email in logs
+    
+    // ONLY these exact credentials will work
+    const authorizedCredentials = {
+        'jonathan.sterling@email.com': 'SterlingInvest2023!',
+        'premium@heritageinvest.co.uk': 'PremiumAccess2023!',
+        'demo': 'demo'
+    };
+    
+    // Check if email exists
+    if (!authorizedCredentials.hasOwnProperty(email)) {
+        console.log('❌ ACCESS DENIED: Unauthorized email address');
+        return false;
+    }
+    
+    // Check if password matches EXACTLY
+    if (authorizedCredentials[email] !== password) {
+        console.log('❌ ACCESS DENIED: Incorrect password for', email);
+        return false;
+    }
+    
+    console.log('✅ ACCESS GRANTED: Valid credentials for', email);
+    return true;
+}
+
+        // UPDATED LOGIN HANDLER WITH 5-SECOND DELAY (NO CONSOLE LOGS)
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            e.stopImmediatePropagation();
             
+            // Get values
             const email = document.getElementById('clientId').value;
             const password = document.getElementById('password').value;
-            const loginButton = document.getElementById('loginButton');
+            const submitBtn = document.querySelector('#loginForm button[type="submit"]');
             
             // Disable button and show loading
-            if (loginButton) {
-                loginButton.disabled = true;
-                loginButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Authenticating...';
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
             }
             
-            // Simple 5-second delay
-            setTimeout(() => {
-                // Your existing login validation
-                const validCredentials = [
-                    { email: 'jonathan.sterling@email.com', password: 'SterlingInvest2023!' },
-                    { email: 'premium@heritageinvest.co.uk', password: 'PremiumAccess2023!' },
-                    { email: 'demo', password: 'demo' }
-                ];
+            // Wait 5 seconds WITHOUT console logs
+            setTimeout(function() {
+                // Validate credentials
+                const isValid = strictLoginCheck(email, password);
                 
-                const isValid = validCredentials.some(cred => 
-                    (email.includes(cred.email) || email === 'demo') && password === cred.password
-                );
+                // Reset button
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-lock mr-2"></i> Secure Login';
+                }
                 
                 if (isValid) {
+                    // SUCCESS - Set authentication state
                     appState.isAuthenticated = true;
-                    appState.currentUser = { 
-                        ...professionalClient, 
-                        email: email 
+                    appState.currentUser = {
+                        ...professionalClient,
+                        email: email,
+                        name: email === 'demo' ? 'Demo User' : 'Jonathan Sterling'
                     };
                     
                     // Store session
                     sessionStorage.setItem('heritageinvest_premium_session', 'active');
                     sessionStorage.setItem('heritageinvest_client', JSON.stringify(appState.currentUser));
                     
-                    // Reset form
+                    // Clear form
                     document.getElementById('loginForm').reset();
                     
-                    // Show success message and go to dashboard
-                    if (securitySession) {
-                        securitySession.showToast('Successfully logged in', 'success');
+                    // Show success (without console log)
+                    if (securitySession && securitySession.showToast) {
+                        securitySession.showToast('Login successful', 'success');
                     }
+                    
+                    // Redirect to dashboard
                     showPage('dashboard');
+                    
                 } else {
-                    // Reset button on failure
-                    if (loginButton) {
-                        loginButton.disabled = false;
-                        loginButton.innerHTML = '<i class="fas fa-lock mr-2"></i> Secure Login';
-                    }
-                    alert('Invalid credentials. For premium client access, please use your registered credentials.\n\nDemo access:\nEmail: demo\nPassword: demo');
+                    // FAILURE - Show access denied
+                    alert('ACCESS DENIED\n\n' +
+                        'The credentials you entered are not authorized.\n\n' +
+                        'Authorized credentials:\n' +
+                        '• jonathan.sterling@email.com / SterlingInvest2023!\n' +
+                        '• premium@heritageinvest.co.uk / PremiumAccess2023!\n' +
+                        '• demo / demo');
+                    
+                    // Clear password only
+                    document.getElementById('password').value = '';
+                    
+                    // Focus back to email field
+                    document.getElementById('clientId').focus();
                 }
-            }, 5000); // 5000ms = 5 seconds
+            }, 5000); // 5-second delay
         });
 
+        // REMOVE any other login event listeners
+        const form = document.getElementById('loginForm');
+        const newForm = form.cloneNode(true);
+        form.parentNode.replaceChild(newForm, form);
+
+        // Add the event listener to the new form
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            
+            const email = document.getElementById('clientId').value;
+            const password = document.getElementById('password').value;
+            const btn = this.querySelector('button[type="submit"]');
+            
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Verifying...';
+            }
+            
+            // 5-second delay with NO console logs
+            setTimeout(() => {
+                // Strict validation
+                const validLogins = {
+                    'jonathan.sterling@email.com': 'SterlingInvest2023!',
+                    'premium@heritageinvest.co.uk': 'PremiumAccess2023!',
+                    'demo': 'demo'
+                };
+                
+                const normalizedEmail = email.trim().toLowerCase();
+                const isValid = validLogins.hasOwnProperty(normalizedEmail) && 
+                            validLogins[normalizedEmail] === password.trim();
+                
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-lock mr-2"></i> Secure Login';
+                }
+                
+                if (isValid) {
+                    // Login success - no console logs
+                    appState.isAuthenticated = true;
+                    sessionStorage.setItem('heritageinvest_premium_session', 'active');
+                    document.getElementById('loginForm').reset();
+                    
+                    if (securitySession?.showToast) {
+                        securitySession.showToast('Welcome back', 'success');
+                    }
+                    
+                    showPage('dashboard');
+                } else {
+                    // Login failed - show alert
+                    alert('❌ ACCESS DENIED\nInvalid credentials detected.');
+                    document.getElementById('password').value = '';
+                }
+            }, 5000);
+        });
         // Make managers globally available for button onclick handlers
         window.transactionsManager = transactionsManager;
         window.documentsManager = documentsManager;
