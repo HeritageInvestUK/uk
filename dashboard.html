@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeritageInvest | Client Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Inactivity Warning Modal -->
+    <div class="inactivity-warning hidden" id="inactivityWarning">
+        <div class="inactivity-card">
+            <div class="feature-icon mb-4" style="margin: 0 auto; background: linear-gradient(135deg, var(--warning), #996515);">
+                <i class="fas fa-clock"></i>
+            </div>
+            <h3 class="mb-2">Session Timeout Warning</h3>
+            <p class="text-small mb-4">
+                For security reasons, your session will automatically log out due to inactivity.
+            </p>
+            <div class="inactivity-countdown" id="countdown">30</div>
+            <p class="text-micro mb-4">Seconds remaining</p>
+            <button class="btn btn-primary w-100" id="extendSession">
+                <i class="fas fa-sync-alt mr-2"></i>
+                Extend Session
+            </button>
+        </div>
+    </div>
+
+    <!-- Transfer Processing Modal -->
+    <div class="modal-overlay hidden" id="transferProcessingModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Processing Transfer</h3>
+            </div>
+            <div class="modal-body">
+                <div class="transfer-processing">
+                    <div class="loading-spinner mb-4"></div>
+                    <h4 class="mb-2">Processing Your Transfer</h4>
+                    <p class="text-small mb-4">
+                        Your transfer request is being processed through our secure banking systems.
+                    </p>
+                    
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="transferProgress" style="width: 0%"></div>
+                    </div>
+                    
+                    <div class="text-micro">
+                        <span id="processingStep">Initiating transfer...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transfer Rejected Modal -->
+    <div class="modal-overlay hidden" id="transferRejectedModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Transfer Declined</h3>
+                <button class="btn btn-outline btn-small" id="closeRejectedModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <div class="feature-icon mb-3" style="margin: 0 auto; background: linear-gradient(135deg, var(--error), #DC2626);">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h4 class="mb-2" id="rejectionTitle">Transfer Not Processed</h4>
+                    <p class="text-small" id="rejectionMessage">
+                        Your transfer request could not be completed at this time.
+                    </p>
+                </div>
+                
+                <div class="transfer-status error">
+                    <i class="fas fa-times-circle" style="color: var(--error);"></i>
+                    <div>
+                        <div class="font-semibold" id="rejectionReason">Security verification required</div>
+                        <div class="text-small" id="rejectionDetail">Additional verification needed for large transfers</div>
+                    </div>
+                </div>
+                
+                <div class="security-notice mt-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <i class="fas fa-shield-alt" style="color: var(--navy-primary);"></i>
+                        <strong>Security Protocol</strong>
+                    </div>
+                    <p class="text-small">
+                        All transfers are subject to enhanced security verification. Large withdrawals may require additional authorisation from your relationship manager.
+                    </p>
+                </div>
+                
+                <div class="mt-4">
+                    <div class="text-micro mb-2">Reference Number</div>
+                    <div class="font-mono text-sm">TRF-DECLINED-7284</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="closeRejectedBtn">Close</button>
+                <button class="btn btn-primary" id="contactAdvisorBtn">
+                    <i class="fas fa-headset mr-2"></i>
+                    Contact Advisor
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transfer Confirmation Modal -->
+    <div class="modal-overlay hidden" id="transferSuccessModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Transfer Confirmation</h3>
+                <button class="btn btn-outline btn-small" id="closeSuccessModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <div class="feature-icon mb-3" style="margin: 0 auto; background: linear-gradient(135deg, var(--success), #006B54);">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <h4 class="mb-2">Transfer Submitted</h4>
+                    <p class="text-small">Your transfer request has been received and is being processed.</p>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <div class="text-micro">Reference</div>
+                                <div id="successReference">TRF-7284-2023</div>
+                            </div>
+                            <div>
+                                <div class="text-micro">Amount</div>
+                                <div class="font-semibold" id="successAmount">£10,000.00</div>
+                            </div>
+                            <div>
+                                <div class="text-micro">Status</div>
+                                <div><span class="badge badge-info">Processing</span></div>
+                            </div>
+                            <div>
+                                <div class="text-micro">Estimated Completion</div>
+                                <div id="successEstCompletion">27 April 2023</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="security-notice">
+                    <div class="flex items-center gap-2 mb-2">
+                        <i class="fas fa-info-circle" style="color: var(--navy-primary);"></i>
+                        <strong>Security Notice</strong>
+                    </div>
+                    <p class="text-small">All withdrawals are subject to security verification. Large withdrawals may require additional authorisation from your relationship manager.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="closeSuccessBtn">Close</button>
+                <button class="btn btn-primary" id="downloadConfirmation">
+                    <i class="fas fa-download mr-2"></i>
+                    Download Confirmation
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="page">
+        <nav class="navbar">
+            <div class="container navbar-content">
+                <a href="dashboard.html" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <span class="desktop-only">HeritageInvest</span>
+                    <span class="mobile-only">HeritageInvest</span>
+                </a>
+                
+                <div class="flex items-center gap-3">
+                    <div class="time-display text-right desktop-only" id="currentTime">
+                        <div class="date" id="currentDate"></div>
+                        <div class="time" id="currentTimeDisplay"></div>
+                    </div>
+                    <div class="text-right desktop-only">
+                        <div class="text-small">Jonathan Sterling</div>
+                        <div class="text-micro">Client ID: HS-7284-PRE</div>
+                    </div>
+                    <button class="btn btn-outline btn-small" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span class="desktop-only">Logout</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="dashboard-nav desktop-only">
+            <div class="container">
+                <div class="dashboard-nav-content">
+                    <a href="#overview" class="dashboard-nav-link active" data-section="overview">
+                        <i class="fas fa-home mr-2"></i>
+                        Overview
+                    </a>
+                    <a href="#portfolio" class="dashboard-nav-link" data-section="portfolio">
+                        <i class="fas fa-chart-pie mr-2"></i>
+                        Portfolio
+                    </a>
+                    <a href="#transactions" class="dashboard-nav-link" data-section="transactions">
+                        <i class="fas fa-exchange-alt mr-2"></i>
+                        Transactions
+                    </a>
+                    <a href="#transfers" class="dashboard-nav-link" data-section="transfers">
+                        <i class="fas fa-pound-sign mr-2"></i>
+                        Transfers
+                    </a>
+                    <a href="#documents" class="dashboard-nav-link" data-section="documents">
+                        <i class="fas fa-folder mr-2"></i>
+                        Documents
+                    </a>
+                    <a href="#profile" class="dashboard-nav-link" data-section="profile">
+                        <i class="fas fa-user-tie mr-2"></i>
+                        Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Bottom Navigation -->
+        <div class="mobile-bottom-nav mobile-only">
+            <nav>
+                <a href="#overview" class="mobile-nav active" data-section="overview">
+                    <i class="fas fa-home"></i>
+                    Home
+                </a>
+                <a href="#portfolio" class="mobile-nav" data-section="portfolio">
+                    <i class="fas fa-chart-pie"></i>
+                    Portfolio
+                </a>
+                <a href="#transactions" class="mobile-nav" data-section="transactions">
+                    <i class="fas fa-exchange-alt"></i>
+                    Transactions
+                </a>
+                <a href="#transfers" class="mobile-nav" data-section="transfers">
+                    <i class="fas fa-pound-sign"></i>
+                    Transfer
+                </a>
+                <a href="#documents" class="mobile-nav" data-section="documents">
+                    <i class="fas fa-folder"></i>
+                    Docs
+                </a>
+                <a href="#profile" class="mobile-nav" data-section="profile">
+                    <i class="fas fa-user-tie"></i>
+                    Profile
+                </a>
+            </nav>
+        </div>
+
+        <div class="dashboard-header">
+            <div class="container">
+                <div class="client-info">
+                    <div class="client-welcome">
+                        <h1>Good <span id="greetingTime">afternoon</span>, Mr. Sterling</h1>
+                        <p id="lastLoginInfo">Last login: Loading...</p>
+                    </div>
+                    <div class="client-badges">
+                        <div class="client-badge">
+                            <i class="fas fa-crown"></i>
+                            Premium Client
+                        </div>
+                        <div class="client-badge">
+                            <i class="fas fa-user-tie"></i>
+                            Advisor: Sarah Chen
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-stats">
+                    <div class="stat-card stat-card-primary">
+                        <div class="stat-label">Total Portfolio Value</div>
+                        <div class="stat-value">£9,847,320.85</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            +£24,850.42 (+0.88%) today
+                        </div>
+                        <div class="text-small mt-2">As of <span id="currentDateTime">25 April 2023, 16:30 GMT</span></div>
+                    </div>
+                    
+                    <div class="stat-card stat-card-success">
+                        <div class="stat-label">Year-to-Date Performance</div>
+                        <div class="stat-value">+8.42%</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-chart-line"></i>
+                            +2.14% vs benchmark
+                        </div>
+                        <div class="text-small mt-2">Annualised return: 9.8%</div>
+                    </div>
+                    
+                    <div class="stat-card stat-card-warning">
+                        <div class="stat-label">Available Liquidity</div>
+                        <div class="stat-value">£784,732.08</div>
+                        <div class="flex gap-2 mt-3">
+                            <button class="btn btn-accent btn-small" id="quickDeposit">
+                                <i class="fas fa-plus"></i>
+                                Deposit
+                            </button>
+                            <button class="btn btn-outline btn-small" id="quickWithdraw">
+                                <i class="fas fa-pound-sign"></i>
+                                Withdraw
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main class="container">
+            <!-- Overview Section -->
+            <section id="overview-section" class="dashboard-section">
+                <div class="grid grid-cols-2 gap-4 mobile-only">
+                    <div class="col-span-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="mb-2">Asset Allocation</h3>
+                                <p class="text-small">Strategic allocation vs current positioning</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="portfolio-chart">
+                                    <div style="text-align: center; padding: 2rem 0; color: var(--grey-400);">
+                                        <i class="fas fa-chart-pie fa-3x mb-3"></i>
+                                        <p>Portfolio allocation chart</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="asset-breakdown">
+                                    <div class="asset-item">
+                                        <div class="asset-color" style="background: var(--navy-primary);"></div>
+                                        <div class="asset-details">
+                                            <div class="flex justify-between">
+                                                <strong>UK Equities</strong>
+                                                <span class="asset-percentage">45%</span>
+                                            </div>
+                                            <div class="text-small">£5,281,294.38</div>
+                                        </div>
+                                    </div>
+                                    <div class="asset-item">
+                                        <div class="asset-color" style="background: var(--accent-teal);"></div>
+                                        <div class="asset-details">
+                                            <div class="flex justify-between">
+                                                <strong>Global Funds</strong>
+                                                <span class="asset-percentage">30%</span>
+                                            </div>
+                                            <div class="text-small">£854,196.26</div>
+                                        </div>
+                                    </div>
+                                    <div class="asset-item">
+                                        <div class="asset-color" style="background: var(--accent-gold);"></div>
+                                        <div class="asset-details">
+                                            <div class="flex justify-between">
+                                                <strong>Fixed Income</strong>
+                                                <span class="asset-percentage">15%</span>
+                                            </div>
+                                            <div class="text-small">£427,098.13</div>
+                                        </div>
+                                    </div>
+                                    <div class="asset-item">
+                                        <div class="asset-color" style="background: var(--grey-500);"></div>
+                                        <div class="asset-details">
+                                            <div class="flex justify-between">
+                                                <strong>Cash & Liquidity</strong>
+                                                <span class="asset-percentage">10%</span>
+                                            </div>
+                                            <div class="text-small">£284,732.08</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-span-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="mb-2">Recent Activity</h3>
+                                <a href="#transactions" class="text-small" style="color: var(--navy-primary); text-decoration: none;">
+                                    View All <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-container">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Description</th>
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>15 Apr</td>
+                                                <td>FTSE 100 Purchase</td>
+                                                <td class="text-success">+£25,000</td>
+                                            </tr>
+                                            <tr>
+                                                <td>14 Apr</td>
+                                                <td>Monthly Deposit</td>
+                                                <td class="text-success">+£10,000</td>
+                                            </tr>
+                                            <tr>
+                                                <td>10 Apr</td>
+                                                <td>Withdrawal</td>
+                                                <td class="text-error">-£5,000</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="desktop-only">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="mb-2">Asset Allocation</h3>
+                                <p class="text-small">Strategic allocation vs current positioning</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="portfolio-chart">
+                                    <div style="text-align: center; padding: 4rem 0; color: var(--grey-400);">
+                                        <i class="fas fa-chart-pie fa-3x mb-3"></i>
+                                        <p>Portfolio allocation chart</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="asset-breakdown">
+                                    <div class="asset-item">
+                                        <div class="asset-color" style="background: var(--navy-primary);"></div>
+                                        <div class="asset-details">
+                                            <div class="flex justify-between">
+                                                <strong>UK Equities</strong>
+                                                <span class="asset-percentage">45%</span>
+                                            </div>
+                                            <div class="text-small">£5,281,294.38</div>
+                                        </div>
+                                    </div>
+                                    <div class="asset-item">
+                                        <div class="asset-color" style="background: var(--accent-teal);"></div>
+                                        <div class="asset-details">
+                                            <div class="flex justify-between">
+                                                <strong>Global Funds</strong>
+                                                <span class="asset-percentage">30%</span>
+                                            </div>
+                                            <div class="text-small">£854,196.26</div>
+                                        </div>
+                                    </div>
+                                    <div class="asset-item">
+                                        <div class="asset-color" style="background: var(--accent-gold);"></div>
+                                        <div class="asset-details">
+                                            <div class="flex justify-between">
+                                                <strong>Fixed Income</strong>
+                                                <span class="asset-percentage">15%</span>
+                                            </div>
+                                            <div class="text-small">£427,098.13</div>
+                                        </div>
+                                    </div>
+                                    <div class="asset-item">
+                                        <div class="asset-color" style="background: var(--grey-500);"></div>
+                                        <div class="asset-details">
+                                            <div class="flex justify-between">
+                                                <strong>Cash & Liquidity</strong>
+                                                <span class="asset-percentage">10%</span>
+                                            </div>
+                                            <div class="text-small">£284,732.08</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="mb-2">Recent Activity</h3>
+                                <p class="text-small">Latest transactions and portfolio changes</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-container">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Description</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>15 Apr 2023</td>
+                                                <td>FTSE 100 Purchase</td>
+                                                <td class="text-success">+£25,000.00</td>
+                                                <td><span class="badge badge-success">Completed</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>14 Apr 2023</td>
+                                                <td>Monthly Deposit</td>
+                                                <td class="text-success">+£10,000.00</td>
+                                                <td><span class="badge badge-success">Completed</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>10 Apr 2023</td>
+                                                <td>Withdrawal Request</td>
+                                                <td class="text-error">-£5,000.00</td>
+                                                <td><span class="badge badge-info">Processing</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>5 Apr 2023</td>
+                                                <td>Quarterly Dividend</td>
+                                                <td class="text-success">+£2,450.00</td>
+                                                <td><span class="badge badge-success">Completed</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Portfolio Section -->
+            <section id="portfolio-section" class="dashboard-section hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-2">Investment Holdings</h3>
+                        <div class="flex gap-2">
+                            <select class="filter-select mobile-only">
+                                <option>All Assets</option>
+                            </select>
+                            <select class="filter-select desktop-only">
+                                <option>All Asset Classes</option>
+                                <option>Equities</option>
+                                <option>Fixed Income</option>
+                                <option>Cash</option>
+                            </select>
+                            <button class="btn btn-outline btn-small">
+                                <i class="fas fa-download"></i>
+                                <span class="desktop-only">Export</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Asset</th>
+                                        <th class="desktop-only">Holding</th>
+                                        <th>Value (GBP)</th>
+                                        <th class="desktop-only">Allocation</th>
+                                        <th class="desktop-only">YTD Return</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>UK Equities</strong></td>
+                                        <td class="desktop-only">FTSE 100 Index Fund</td>
+                                        <td>£5,281,294.38</td>
+                                        <td class="desktop-only">
+                                            <div class="flex items-center gap-2">
+                                                <div style="width: 45%; height: 4px; background: var(--navy-primary); border-radius: 2px;"></div>
+                                                <span>45%</span>
+                                            </div>
+                                        </td>
+                                        <td class="text-success desktop-only">+7.2%</td>
+                                        <td>
+                                            <button class="btn btn-outline btn-small">
+                                                <i class="fas fa-chart-bar"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Global Funds</strong></td>
+                                        <td class="desktop-only">Global Equity Fund</td>
+                                        <td>£854,196.26</td>
+                                        <td class="desktop-only">
+                                            <div class="flex items-center gap-2">
+                                                <div style="width: 30%; height: 4px; background: var(--accent-teal); border-radius: 2px;"></div>
+                                                <span>30%</span>
+                                            </div>
+                                        </td>
+                                        <td class="text-success desktop-only">+6.8%</td>
+                                        <td>
+                                            <button class="btn btn-outline btn-small">
+                                                <i class="fas fa-chart-bar"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Transactions Section -->
+            <section id="transactions-section" class="dashboard-section hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-2">Transaction History</h3>
+                        <div class="transaction-filters">
+                            <div class="filter-group">
+                                <label class="text-small desktop-only">Period:</label>
+                                <select class="filter-select" id="periodFilter">
+                                    <option value="30">Last 30 days</option>
+                                    <option value="90">Last 90 days</option>
+                                    <option value="180">Last 6 months</option>
+                                    <option value="365">Last year</option>
+                                    <option value="all">All time</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label class="text-small desktop-only">Type:</label>
+                                <select class="filter-select" id="typeFilter">
+                                    <option value="all">All transactions</option>
+                                    <option value="deposit">Deposits</option>
+                                    <option value="withdrawal">Withdrawals</option>
+                                    <option value="investment">Investments</option>
+                                    <option value="dividend">Dividends</option>
+                                    <option value="fee">Fees</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label class="text-small desktop-only">Status:</label>
+                                <select class="filter-select" id="statusFilter">
+                                    <option value="all">All statuses</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="processing">Processing</option>
+                                    <option value="failed">Failed</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-outline btn-small" id="applyFilters">
+                                <i class="fas fa-filter"></i>
+                                <span class="desktop-only">Apply Filters</span>
+                            </button>
+                            <button class="btn btn-outline btn-small" id="exportTransactions">
+                                <i class="fas fa-download"></i>
+                                <span class="desktop-only">Export CSV</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="table" id="transactionsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th class="desktop-only">Reference</th>
+                                        <th>Description</th>
+                                        <th class="desktop-only">Type</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th class="desktop-only">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="transactionsBody">
+                                    <!-- Transactions will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-center mt-4">
+                            <div class="flex items-center justify-center gap-3">
+                                <button class="btn btn-outline btn-small" id="prevPage" disabled>
+                                    <i class="fas fa-chevron-left"></i>
+                                    Previous
+                                </button>
+                                <span class="text-small" id="pageInfo">Page 1 of 5</span>
+                                <button class="btn btn-outline btn-small" id="nextPage">
+                                    Next
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Transfers Section -->
+            <section id="transfers-section" class="dashboard-section hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-2">Fund Transfers</h3>
+                        <p class="text-small">Initiate deposits or withdrawals from your account</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="progress-steps mb-5">
+                            <div class="progress-step">
+                                <div class="step-number active">1</div>
+                                <div class="step-label active">Amount</div>
+                            </div>
+                            <div class="step-connector"></div>
+                            <div class="progress-step">
+                                <div class="step-number">2</div>
+                                <div class="step-label">Details</div>
+                            </div>
+                            <div class="step-connector"></div>
+                            <div class="progress-step">
+                                <div class="step-number">3</div>
+                                <div class="step-label">Confirm</div>
+                            </div>
+                        </div>
+                        
+                        <div class="transfer-step active" id="step1">
+                            <div class="text-center mb-5">
+                                <h3 class="mb-2">Transfer Amount</h3>
+                                <p class="text-small">Available balance: <span id="availableBalance">£284,732.08</span></p>
+                            </div>
+                            
+                            <div class="mb-5">
+                                <input type="text" class="amount-input" id="transferAmount" placeholder="0.00" value="" maxlength="15">
+                                <div class="text-small text-center text-error mt-2 hidden" id="amountError">
+                                    Please enter a valid amount
+                                </div>
+                            </div>
+                            
+                            <div class="amount-presets">
+                                <button type="button" class="amount-preset" data-amount="1000">£1,000</button>
+                                <button type="button" class="amount-preset" data-amount="5000">£5,000</button>
+                                <button type="button" class="amount-preset" data-amount="10000">£10,000</button>
+                                <button type="button" class="amount-preset" data-amount="25000">£25,000</button>
+                                <button type="button" class="amount-preset" data-amount="50000">£50,000</button>
+                            </div>
+                            
+                            <div class="flex gap-3 mt-5">
+                                <button class="btn btn-outline flex-1" id="cancelTransfer">Cancel</button>
+                                <button class="btn btn-primary flex-1" id="nextStep1">Continue</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Details -->
+                        <div class="transfer-step" id="step2">
+                            <h4 class="mb-3">Transfer Details</h4>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Transfer Type</label>
+                                <select class="form-control" id="transferType">
+                                    <option value="withdrawal">Withdrawal to Bank Account</option>
+                                    <option value="deposit">Deposit from Bank Account</option>
+                                    <option value="internal">Internal Transfer</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">From Account</label>
+                                <select class="form-control" id="fromAccount">
+                                    <option value="premium">HeritageInvest Premium (•••• 7284)</option>
+                                    <option value="growth">Growth Portfolio (•••• 7285)</option>
+                                    <option value="income">Income Portfolio (•••• 7286)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Destination Account</label>
+                                <select class="form-control" id="toAccount">
+                                    <option value="lloyds">•••• 1234 - Lloyds Bank (Current)</option>
+                                    <option value="hsbc">•••• 5678 - HSBC (Savings)</option>
+                                    <option value="barclays">•••• 9012 - Barclays (Business)</option>
+                                    <option value="santander">•••• 3456 - Santander (Joint)</option>
+                                    <option value="add">+ Add New Bank Account</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Reference (Optional)</label>
+                                <input type="text" class="form-control" id="transferReference" placeholder="e.g., Monthly withdrawal, School fees, etc.">
+                            </div>
+                            
+                            <div class="flex gap-3 mt-4">
+                                <button class="btn btn-outline flex-1" id="backStep2">Back</button>
+                                <button class="btn btn-primary flex-1" id="nextStep2">Review</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Review -->
+                        <div class="transfer-step" id="step3">
+                            <h4 class="mb-3">Review Transfer</h4>
+                            
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <div class="grid grid-cols-2 gap-3" id="reviewDetails">
+                                        <!-- Will be populated by JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-3">
+                                <button class="btn btn-outline flex-1" id="backStep3">Back</button>
+                                <button class="btn btn-primary flex-1" id="confirmTransfer">Confirm Transfer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Documents Section -->
+            <section id="documents-section" class="dashboard-section hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-2">Document Archive</h3>
+                        <div class="flex gap-2">
+                            <select class="filter-select" id="documentFilter">
+                                <option value="all">All Documents</option>
+                                <option value="statement">Account Statements</option>
+                                <option value="tax">Tax Documents</option>
+                                <option value="contract">Contracts & Agreements</option>
+                                <option value="report">Investment Reports</option>
+                                <option value="compliance">Compliance Documents</option>
+                            </select>
+                            <button class="btn btn-outline btn-small">
+                                <i class="fas fa-upload"></i>
+                                <span class="desktop-only">Upload Document</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="document-grid" id="documentsGrid">
+                            <!-- Documents will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profile-section" class="dashboard-section hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-2">Client Profile</h3>
+                        <button class="btn btn-outline btn-small" id="editProfileBtn">
+                            <i class="fas fa-edit"></i>
+                            <span class="desktop-only">Edit Profile</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="profile-section">
+                            <h4 class="mb-3">Account Information</h4>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="profile-field">
+                                    <div class="field-label">Client ID</div>
+                                    <div class="field-value">HS-7284-PRE</div>
+                                </div>
+                                <div class="profile-field">
+                                    <div class="field-label">Account Type</div>
+                                    <div class="field-value">Premium Investment Account</div>
+                                </div>
+                                <div class="profile-field">
+                                    <div class="field-label">Status</div>
+                                    <div class="field-value">
+                                        <span class="badge badge-success">Active</span>
+                                    </div>
+                                </div>
+                                <div class="profile-field">
+                                    <div class="field-label">Client Since</div>
+                                    <div class="field-value">15 March 2018</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-section mt-5">
+                            <h4 class="mb-3">Contact Information</h4>
+                            <div class="grid grid-cols-2 gap-4 mobile-only">
+                                <div class="col-span-2 profile-field">
+                                    <div class="field-label">Email Address</div>
+                                    <div class="field-value editable">jonathan.sterling@email.com</div>
+                                </div>
+                                <div class="col-span-2 profile-field">
+                                    <div class="field-label">Phone Number</div>
+                                    <div class="field-value editable">+44 20 7123 4567</div>
+                                </div>
+                            </div>
+                            <div class="desktop-only">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="profile-field">
+                                        <div class="field-label">Email Address</div>
+                                        <div class="field-value editable">jonathan.sterling@email.com</div>
+                                    </div>
+                                    <div class="profile-field">
+                                        <div class="field-label">Phone Number</div>
+                                        <div class="field-value editable">+44 20 7123 4567</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-section mt-5">
+                            <h4 class="mb-3">Security & Login Information</h4>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="profile-field">
+                                    <div class="field-label">Last Login</div>
+                                    <div class="field-value" id="profileLastLogin">Loading...</div>
+                                </div>
+                                <div class="profile-field">
+                                    <div class="field-label">Login Location</div>
+                                    <div class="field-value">London, United Kingdom</div>
+                                </div>
+                                <div class="profile-field">
+                                    <div class="field-label">Device Trusted</div>
+                                    <div class="field-value">
+                                        <span class="badge badge-success">Yes</span>
+                                    </div>
+                                </div>
+                                <div class="profile-field">
+                                    <div class="field-label">Two-Factor Auth</div>
+                                    <div class="field-value">
+                                        <span class="badge badge-success">Active</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

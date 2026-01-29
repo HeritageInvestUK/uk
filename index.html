@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeritageInvest | Institutional Wealth Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Inactivity Warning Modal -->
+    <div class="inactivity-warning hidden" id="inactivityWarning">
+        <div class="inactivity-card">
+            <div class="feature-icon mb-4" style="margin: 0 auto; background: linear-gradient(135deg, var(--warning), #996515);">
+                <i class="fas fa-clock"></i>
+            </div>
+            <h3 class="mb-2">Session Timeout Warning</h3>
+            <p class="text-small mb-4">
+                For security reasons, your session will automatically log out due to inactivity.
+            </p>
+            <div class="inactivity-countdown" id="countdown">30</div>
+            <p class="text-micro mb-4">Seconds remaining</p>
+            <button class="btn btn-primary w-100" id="extendSession">
+                <i class="fas fa-sync-alt mr-2"></i>
+                Extend Session
+            </button>
+        </div>
+    </div>
+
+    <!-- Homepage -->
+    <div id="homepage" class="page">
+        <nav class="navbar">
+            <div class="container navbar-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <span>HeritageInvest</span>
+                </a>
+                
+                <button class="mobile-nav-toggle" id="mobileToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <div class="nav-links" id="navLinks">
+                    <a href="#features" class="nav-link">Services</a>
+                    <a href="#accounts" class="nav-link">Accounts</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="login.html" class="nav-link">Client Login</a>
+                    <a href="#contact" class="btn btn-primary btn-small">Request Consultation</a>
+                </div>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="compliance-badges mb-4">
+                        <span class="compliance-badge">
+                            <i class="fas fa-shield-check"></i>
+                            FCA Authorised & Regulated
+                        </span>
+                        <span class="compliance-badge">
+                            <i class="fas fa-lock"></i>
+                            FSCS Protected
+                        </span>
+                        <span class="compliance-badge">
+                            <i class="fas fa-user-tie"></i>
+                            Personal Advisory
+                        </span>
+                    </div>
+                    
+                    <h1 class="mb-3">Institutional-Grade Wealth Management</h1>
+                    <p class="text-lead mb-4">
+                        HeritageInvest provides sophisticated investment management services 
+                        for high-net-worth individuals and family offices. Our institutional approach 
+                        combines rigorous research with personalised strategy implementation.
+                    </p>
+                    
+                    <div class="flex gap-3 mobile-only">
+                        <a href="login.html" class="btn btn-primary flex-1">
+                            <i class="fas fa-lock"></i>
+                            Client Login
+                        </a>
+                        <a href="#contact" class="btn btn-secondary flex-1">
+                            <i class="fas fa-calendar-alt"></i>
+                            Consultation
+                        </a>
+                    </div>
+                    
+                    <div class="desktop-only">
+                        <div class="flex gap-3">
+                            <a href="login.html" class="btn btn-primary">
+                                <i class="fas fa-lock"></i>
+                                Client Portal Access
+                            </a>
+                            <a href="#contact" class="btn btn-secondary">
+                                <i class="fas fa-calendar-alt"></i>
+                                Schedule Consultation
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="hero-features">
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-pound-sign"></i>
+                            </div>
+                            <div>
+                                <h4 class="mb-1">£4.8B+ Assets</h4>
+                                <p class="text-small">Under professional management across all client portfolios</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div>
+                                <h4 class="mb-1">Active Management</h4>
+                                <p class="text-small">Continuous portfolio monitoring and tactical rebalancing</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div>
+                                <h4 class="mb-1">Dedicated Advisory</h4>
+                                <p class="text-small">Personal relationship with senior investment professionals</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="accounts" class="section">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="mb-3">Professional Investment Accounts</h2>
+                    <p class="text-lead">Select account structures designed for sophisticated investors</p>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-4 mobile-only">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="flex items-center gap-3">
+                                <div class="feature-icon">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <div>
+                                    <h3 class="mb-1">Premium Account</h3>
+                                    <span class="badge badge-success">Professional</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-3">For high-net-worth individuals requiring comprehensive wealth management.</p>
+                            <ul class="mb-4" style="list-style: none; padding: 0;">
+                                <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Min: £250,000</li>
+                                <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Dedicated manager</li>
+                                <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Estate planning</li>
+                            </ul>
+                            <a href="#contact" class="btn btn-outline w-100">Request Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="desktop-only">
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="flex items-center gap-3">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-user-tie"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="mb-1">Premium Account</h3>
+                                        <span class="badge badge-success">Professional Investor</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-3">For high-net-worth individuals requiring comprehensive wealth management including estate planning and tax optimisation.</p>
+                                <ul class="mb-4" style="list-style: none; padding: 0;">
+                                    <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Minimum investment: £250,000</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Dedicated relationship manager</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Quarterly performance reviews</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Estate planning services</li>
+                                </ul>
+                                <a href="#contact" class="btn btn-outline w-100">Request Details</a>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="flex items-center gap-3">
+                                    <div class="feature-icon" style="background: linear-gradient(135deg, var(--accent-teal), #006666);">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="mb-1">Growth Portfolio</h3>
+                                        <span class="badge badge-info">Active Strategy</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-3">For investors seeking capital growth through actively managed equity and alternative investment strategies.</p>
+                                <ul class="mb-4" style="list-style: none; padding: 0;">
+                                    <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Minimum investment: £100,000</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Active portfolio management</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Monthly performance reporting</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Tactical asset allocation</li>
+                                </ul>
+                                <a href="#contact" class="btn btn-outline w-100">Request Details</a>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="flex items-center gap-3">
+                                    <div class="feature-icon" style="background: linear-gradient(135deg, var(--accent-gold), #996515);">
+                                        <i class="fas fa-balance-scale"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="mb-1">Income Portfolio</h3>
+                                        <span class="badge badge-warning">Income Focused</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-3">Designed for investors prioritising regular income generation while preserving capital.</p>
+                                <ul class="mb-4" style="list-style: none; padding: 0;">
+                                    <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Minimum investment: £100,000</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Quarterly income distribution</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Capital preservation focus</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success mr-2"></i> Defensive positioning</li>
+                                </ul>
+                                <a href="#contact" class="btn btn-outline w-100">Request Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="section-tight" style="background: var(--navy-dark); color: white;">
+            <div class="container">
+                <div class="grid grid-cols-3 gap-4 mb-5 mobile-only">
+                    <div class="col-span-3">
+                        <h4 class="mb-3" style="color: white;">HeritageInvest</h4>
+                        <p style="color: rgba(255, 255, 255, 0.8);">
+                            25 St James's Square, London SW1Y 4JH<br>
+                            United Kingdom
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="desktop-only">
+                    <div class="grid grid-cols-3 gap-4 mb-5">
+                        <div>
+                            <h4 class="mb-3" style="color: white;">HeritageInvest</h4>
+                            <p style="color: rgba(255, 255, 255, 0.8);">
+                                25 St James's Square, London SW1Y 4JH<br>
+                                United Kingdom
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="mb-3" style="color: white;">Regulatory Information</h4>
+                            <ul style="list-style: none; padding: 0; color: rgba(255, 255, 255, 0.8);">
+                                <li class="mb-2">FCA Firm Reference: 123456</li>
+                                <li class="mb-2">ICO Registration: ZA123456</li>
+                                <li class="mb-2">FSCS Protection: Up to £85,000</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="mb-3" style="color: white;">Contact</h4>
+                            <ul style="list-style: none; padding: 0; color: rgba(255, 255, 255, 0.8);">
+                                <li class="mb-2"><i class="fas fa-phone mr-2"></i> +44 (0)20 7123 4567</li>
+                                <li class="mb-2"><i class="fas fa-envelope mr-2"></i> enquiries@heritageinvest.co.uk</li>
+                                <li class="mb-2"><i class="fas fa-clock mr-2"></i> Mon-Fri 8:30-17:30 GMT</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: var(--space-lg);">
+                    <p style="color: rgba(255, 255, 255, 0.6); font-size: var(--font-size-sm);">
+                        HeritageInvest is a trading name of Heritage Investment Management Limited, 
+                        authorised and regulated by the Financial Conduct Authority (FRN: 123456). 
+                        Registered in England and Wales No: 07896543. Registered Office: 25 St James's Square, London SW1Y 4JH.
+                    </p>
+                    <p class="mt-3" style="color: rgba(255, 255, 255, 0.6); font-size: var(--font-size-sm);">
+                        The value of investments can go down as well as up and you may not get back the full amount invested. 
+                        Past performance is not a reliable indicator of future results.
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

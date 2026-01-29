@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeritageInvest | Client Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles - HeritageInvest Theme */
+        :root {
+            --primary-green: #041036;        /* Rich green - Heritage color */
+            --secondary-green: #09043b;       /* Lighter green */
+            --dark-green: #004d29;           /* Dark green */
+            --accent-gold: #b38e59;          /* Subtle gold accent */
+            --accent-gold-light: #d4b992;    /* Light gold */
+            --charcoal: #1c1c1c;            /* Charcoal for text */
+            --slate: #2d3748;               /* Slate gray */
+            --light-gray: #f7f9fc;          /* Light background */
+            --border-gray: #e2e8f0;         /* Border gray */
+            --warning: #e67e22;             /* Orange warning */
+            --danger: #c0392b;              /* Red danger */
+            --success: #27ae60;             /* Green success */
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--charcoal);
+            background: linear-gradient(135deg, #f7f9fc 0%, #edf2f7 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Login Page */
+        .login-page {
+            width: 100%;
+            max-width: 420px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-gray);
+        }
+
+        .login-card {
+            position: relative;
+        }
+
+        .login-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-green) 0%, var(--accent-gold) 100%);
+        }
+
+        .card-header {
+            padding: 2.5rem 2.5rem 1.5rem;
+            border-bottom: 1px solid var(--border-gray);
+            background: linear-gradient(to bottom, #ffffff 0%, #fafafa 100%);
+        }
+
+        .card-body {
+            padding: 2.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-green);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0, 105, 60, 0.2);
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: var(--charcoal);
+            margin-bottom: 0.5rem;
+        }
+
+        .text-small {
+            font-size: 0.9rem;
+            color: var(--slate);
+        }
+
+        .text-micro {
+            font-size: 0.8rem;
+            color: var(--slate);
+        }
+
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+        .mr-2 { margin-right: 0.5rem; }
+        .w-100 { width: 100%; }
+
+        .text-center { text-align: center; }
+
+        .flex {
+            display: flex;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--charcoal);
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border-gray);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(179, 142, 89, 0.1);
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-decoration: none;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-primary:hover:before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 105, 60, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Security Notice */
+        .security-notice {
+            background: linear-gradient(to right, rgba(0, 105, 60, 0.03) 0%, rgba(179, 142, 89, 0.03) 100%);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 2rem;
+            border-left: 4px solid var(--accent-gold);
+            border-top: 1px solid rgba(0, 105, 60, 0.1);
+        }
+
+        /* Checkbox */
+        input[type="checkbox"] {
+            accent-color: var(--accent-gold);
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* Links */
+        a {
+            color: var(--primary-green);
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        a:hover {
+            color: var(--accent-gold);
+            text-decoration: underline;
+        }
+
+        /* Feature Icon */
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 auto;
+            box-shadow: 0 6px 15px rgba(0, 105, 60, 0.2);
+        }
+
+        /* Inactivity Warning Modal */
+        .inactivity-warning {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .inactivity-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            animation: fadeIn 0.3s ease;
+            border: 1px solid var(--border-gray);
+        }
+
+        .inactivity-countdown {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--danger);
+            margin: 1rem 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Background Pattern */
+        body:before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(0, 105, 60, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(179, 142, 89, 0.03) 0%, transparent 40%);
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Inactivity Warning Modal -->
+    <div class="inactivity-warning hidden" id="inactivityWarning">
+        <div class="inactivity-card">
+            <div class="feature-icon mb-4" style="background: linear-gradient(135deg, var(--warning), #b35400);">
+                <i class="fas fa-clock"></i>
+            </div>
+            <h3 class="mb-2">Session Timeout Warning</h3>
+            <p class="text-small mb-4">
+                For security reasons, your session will automatically log out due to inactivity.
+            </p>
+            <div class="inactivity-countdown" id="countdown">30</div>
+            <p class="text-micro mb-4">Seconds remaining</p>
+            <button class="btn btn-primary w-100" id="extendSession">
+                <i class="fas fa-sync-alt mr-2"></i>
+                Extend Session
+            </button>
+        </div>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login-page" class="page">
+        <div class="login-page">
+            <div class="login-card card">
+                <div class="card-header text-center">
+                    <div class="logo mb-3" style="justify-content: center;">
+                        <div class="logo-icon">
+                            <i class="fas fa-tree"></i>
+                        </div>
+                        <span>HeritageInvest</span>
+                    </div>
+                    <h2 class="mb-1">Secure Client Portal</h2>
+                    <p class="text-small">Access your investment portfolio with confidence</p>
+                </div>
+                
+                <div class="card-body">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label class="form-label" for="clientId">Client ID / Email</label>
+                            <input type="text" id="clientId" class="form-control" placeholder="client@heritageinvest.com" required autocomplete="username">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="password">Password</label>
+                            <input type="password" id="password" class="form-control" placeholder="Enter your secure password" required autocomplete="current-password">
+                        </div>
+                        
+                        <div class="form-group flex items-center">
+                            <input type="checkbox" id="rememberDevice" class="mr-2">
+                            <label for="rememberDevice" class="text-small">Remember this device for 30 days</label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary w-100" id="loginSubmitBtn">
+                                <i class="fas fa-lock mr-2"></i>
+                                <span id="loginText">Secure Login</span>
+                                <div class="loading-spinner" id="loadingSpinner"></div>
+                            </button>
+                        </div>
+                        
+                        <div class="text-center mt-3">
+                            <a href="#forgot-password" class="text-small" style="color: var(--primary-green);">
+                                Forgot your password? Request reset
+                            </a>
+                        </div>
+                    </form>
+                    
+                    <div class="security-notice">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fas fa-shield-alt" style="color: var(--primary-green);"></i>
+                            <strong>Enhanced Security Active</strong>
+                        </div>
+                        <p class="text-small">Your connection is protected by 256-bit TLS encryption. All login attempts are monitored and recorded for security purposes.</p>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <a href="index.html" class="text-small" style="color: var(--primary-green);">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            Return to HeritageInvest Homepage
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const loginForm = document.getElementById('loginForm');
+            const loginSubmitBtn = document.getElementById('loginSubmitBtn');
+            const loginText = document.getElementById('loginText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const inactivityWarning = document.getElementById('inactivityWarning');
+            const countdownElement = document.getElementById('countdown');
+            const extendSessionBtn = document.getElementById('extendSession');
+            
+            // Demo credentials (for testing)
+            const validCredentials = [
+                { username: "client@heritageinvest.com", password: "heritage2025" },
+                { username: "investor@heritageinvest.com", password: "securePortfolio" },
+                { username: "admin", password: "admin@heritage" },
+                { username: "demo", password: "demo123" }
+            ];
+            
+            // Variables for inactivity timeout
+            let inactivityTimer;
+            const inactivityTimeout = 180000; // 3 minutes (180000ms)
+            let countdown = 30;
+            let countdownInterval;
+            
+            // Login form submission with 5-second delay
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const clientId = document.getElementById('clientId').value.trim();
+                const password = document.getElementById('password').value;
+                const rememberDevice = document.getElementById('rememberDevice').checked;
+                
+                // Validate fields
+                if (!clientId || !password) {
+                    showMessage('Please enter both Client ID and Password', 'error');
+                    return;
+                }
+                
+                // Show loading state
+                loginSubmitBtn.disabled = true;
+                loginText.textContent = 'Authenticating...';
+                loadingSpinner.style.display = 'block';
+                
+                // Start 5-second delay (invisible to user)
+                setTimeout(() => {
+                    // After 5 seconds, validate credentials
+                    const isValid = validCredentials.some(cred => 
+                        cred.username === clientId || 
+                        (clientId.includes('@') && cred.username === clientId)
+                    );
+                    
+                    if (isValid) {
+                        // Find matching credential to check password
+                        const matchedCred = validCredentials.find(cred => 
+                            cred.username === clientId || 
+                            (clientId.includes('@') && cred.username === clientId)
+                        );
+                        
+                        if (matchedCred && matchedCred.password === password) {
+                            // Successful login
+                            loginText.textContent = 'Access Granted!';
+                            
+                            // Store remember device preference
+                            if (rememberDevice) {
+                                localStorage.setItem('heritageRememberDevice', 'true');
+                                localStorage.setItem('heritageLastLogin', new Date().toISOString());
+                            } else {
+                                localStorage.removeItem('heritageRememberDevice');
+                            }
+                            
+                            // Show success message
+                            showMessage('Authentication successful. Securely redirecting to your portfolio...', 'success');
+                            
+                            // Redirect to dashboard after brief delay
+                            setTimeout(() => {
+                                window.location.href = 'dashboard.html'; // Change to your actual dashboard URL
+                            }, 1000);
+                            
+                        } else {
+                            // Incorrect password
+                            handleFailedLogin();
+                        }
+                    } else {
+                        // Invalid username
+                        handleFailedLogin();
+                    }
+                }, 5000); // 5-second delay
+                
+                // Safety timeout (10 seconds max)
+                setTimeout(() => {
+                    if (loginSubmitBtn.disabled) {
+                        resetLoginButton();
+                        showMessage('Login attempt timed out. Please try again.', 'error');
+                    }
+                }, 10000);
+            });
+            
+            // Handle failed login
+            function handleFailedLogin() {
+                loginText.textContent = 'Login Failed';
+                showMessage('Invalid credentials. Please check your Client ID and password.', 'error');
+                
+                // Reset form after delay
+                setTimeout(() => {
+                    resetLoginButton();
+                }, 1500);
+            }
+            
+            // Reset login button
+            function resetLoginButton() {
+                loginSubmitBtn.disabled = false;
+                loginText.textContent = 'Secure Login';
+                loadingSpinner.style.display = 'none';
+            }
+            
+            // Show message function
+            function showMessage(message, type) {
+                // Create message element
+                const messageEl = document.createElement('div');
+                messageEl.className = `message ${type}`;
+                messageEl.innerHTML = `
+                    <div style="
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: ${type === 'error' ? '#ffebee' : '#e8f5e9'};
+                        color: ${type === 'error' ? '#c62828' : '#2e7d32'};
+                        padding: 1rem 1.5rem;
+                        border-radius: 8px;
+                        border: 1px solid ${type === 'error' ? '#ffcdd2' : '#c8e6c9'};
+                        box-shadow: var(--shadow-lg);
+                        z-index: 1000;
+                        animation: slideIn 0.3s ease;
+                        max-width: 400px;
+                        font-weight: 500;
+                    ">
+                        <div style="display: flex; align-items: flex-start; gap: 12px;">
+                            <i class="fas ${type === 'error' ? 'fa-exclamation-triangle' : 'fa-check-circle'}" 
+                               style="color: ${type === 'error' ? '#c62828' : '#2e7d32'}; margin-top: 2px;"></i>
+                            <span>${message}</span>
+                        </div>
+                    </div>
+                `;
+                
+                // Add to body
+                document.body.appendChild(messageEl);
+                
+                // Remove after 5 seconds
+                setTimeout(() => {
+                    messageEl.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => {
+                        if (messageEl.parentNode) {
+                            messageEl.parentNode.removeChild(messageEl);
+                        }
+                    }, 300);
+                }, 5000);
+            }
+            
+            // Add CSS for animations
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Forgot password link
+            const forgotPasswordLink = document.querySelector('a[href="#forgot-password"]');
+            if (forgotPasswordLink) {
+                forgotPasswordLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showMessage('Password reset instructions have been sent to your registered email address.', 'success');
+                });
+            }
+            
+            // Check if device should be remembered
+            if (localStorage.getItem('heritageRememberDevice') === 'true') {
+                document.getElementById('rememberDevice').checked = true;
+                
+                // Show welcome back message
+                const lastLogin = localStorage.getItem('heritageLastLogin');
+                if (lastLogin) {
+                    const lastLoginDate = new Date(lastLogin);
+                    const today = new Date();
+                    const diffTime = Math.abs(today - lastLoginDate);
+                    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                    
+                    if (diffDays < 7) {
+                        // Show subtle welcome back indicator
+                        const welcomeEl = document.createElement('div');
+                        welcomeEl.innerHTML = `
+                            <div style="
+                                background: linear-gradient(to right, rgba(0, 105, 60, 0.05) 0%, rgba(179, 142, 89, 0.05) 100%);
+                                border-radius: 8px;
+                                padding: 0.75rem;
+                                margin-bottom: 1.5rem;
+                                border-left: 4px solid var(--accent-gold);
+                                font-size: 0.9rem;
+                                color: var(--primary-green);
+                                display: flex;
+                                align-items: center;
+                                gap: 10px;
+                                border: 1px solid rgba(0, 105, 60, 0.1);
+                            ">
+                                <i class="fas fa-history" style="color: var(--accent-gold);"></i>
+                                <span>Welcome back! Last login: ${formatDate(lastLoginDate)}</span>
+                            </div>
+                        `;
+                        const form = document.getElementById('loginForm');
+                        form.parentNode.insertBefore(welcomeEl, form);
+                    }
+                }
+            }
+            
+            // Format date helper
+            function formatDate(date) {
+                return date.toLocaleDateString('en-GB', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+            
+            // Inactivity timeout functions
+            function resetInactivityTimer() {
+                clearTimeout(inactivityTimer);
+                clearInterval(countdownInterval);
+                inactivityWarning.classList.add('hidden');
+                
+                inactivityTimer = setTimeout(showInactivityWarning, inactivityTimeout);
+            }
+            
+            function showInactivityWarning() {
+                inactivityWarning.classList.remove('hidden');
+                countdown = 30;
+                countdownElement.textContent = countdown;
+                
+                countdownInterval = setInterval(() => {
+                    countdown--;
+                    countdownElement.textContent = countdown;
+                    
+                    if (countdown <= 0) {
+                        clearInterval(countdownInterval);
+                        performLogout();
+                    }
+                }, 1000);
+            }
+            
+            function performLogout() {
+                showMessage('Session expired due to inactivity. Please login again.', 'error');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            }
+            
+            // Extend session button
+            extendSessionBtn.addEventListener('click', resetInactivityTimer);
+            
+            // Activity listeners
+            const activityEvents = ['mousedown', 'mousemove', 'keydown', 'scroll', 'click', 'touchstart'];
+            activityEvents.forEach(event => {
+                document.addEventListener(event, resetInactivityTimer);
+            });
+            
+            // Start inactivity timer
+            resetInactivityTimer();
+            
+            // Set focus on first input
+            document.getElementById('clientId').focus();
+            
+            // Add subtle animation to form inputs on focus
+            document.querySelectorAll('.form-control').forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'translateY(-2px)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
