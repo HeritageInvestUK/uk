@@ -5,33 +5,263 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HeritageInvest | Institutional Wealth Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Source+Serif+Pro:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="https://a.mktgcdn.com/p/trqY8cbRb9rpmzNBIHFEHxK3n0czpuAaJO27NrH_lzQ/1.0000/676x676.png">
     <style>
-        /* Enhanced homepage styles */
-        .institutional-hero {
-            background: linear-gradient(135deg, 
-                rgba(10, 35, 66, 0.98) 0%, 
-                rgba(7, 25, 47, 0.96) 50%, 
-                rgba(0, 122, 124, 0.90) 100%),
-                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.03"><path fill="white" d="M500,100 C700,100 900,300 900,500 C900,700 700,900 500,900 C300,900 100,700 100,500 C100,300 300,100 500,100 Z"/></svg>');
-            background-size: cover;
-            position: relative;
-            overflow: hidden;
-            padding: 12rem 0 8rem;
+        /* Professional Blue & White Design System */
+        :root {
+            --navy-dark: #0A1A2F;
+            --navy-primary: #1E3A8A;
+            --navy-medium: #3B82F6;
+            --navy-light: #60A5FA;
+            --navy-pale: #EFF6FF;
+            --blue-accent: #2563EB;
+            --blue-accent-light: #3B82F6;
+            --blue-grey: #64748B;
+            --grey-50: #F8FAFC;
+            --grey-100: #F1F5F9;
+            --grey-200: #E2E8F0;
+            --grey-300: #CBD5E1;
+            --grey-800: #1E293B;
+            --white: #FFFFFF;
+            --success: #10B981;
+            --warning: #F59E0B;
         }
         
-        .institutional-hero::before {
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--grey-800);
+            background: var(--white);
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            line-height: 1.2;
+            color: var(--navy-dark);
+        }
+        
+        /* Premium Navigation with Mobile Login */
+        .premium-navbar {
+            background: var(--white);
+            border-bottom: 1px solid var(--grey-200);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .premium-navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .premium-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+        
+        .premium-logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--navy-primary), var(--blue-accent));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+        }
+        
+        .premium-logo-text {
+            font-family: 'Source Serif Pro', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy-primary);
+            letter-spacing: -0.5px;
+        }
+        
+        .nav-content {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .premium-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .premium-nav-link {
+            color: var(--navy-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        .premium-nav-link:hover {
+            color: var(--blue-accent);
+        }
+        
+        .premium-nav-link::after {
             content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--blue-accent);
+            transition: width 0.3s ease;
+        }
+        
+        .premium-nav-link:hover::after {
+            width: 100%;
+        }
+        
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--navy-primary);
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        /* Mobile Login Button */
+        .mobile-login-btn {
+            display: none;
+            background: linear-gradient(135deg, var(--navy-primary), var(--blue-accent));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 20px rgba(30, 58, 138, 0.15);
+        }
+        
+        .btn-institutional {
+            background: linear-gradient(135deg, var(--navy-primary), var(--blue-accent));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 20px rgba(30, 58, 138, 0.15);
+        }
+        
+        .btn-institutional:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(30, 58, 138, 0.25);
+            color: white;
+            background: linear-gradient(135deg, var(--blue-accent), var(--blue-accent-light));
+        }
+        
+        .btn-outline-blue {
+            background: transparent;
+            color: var(--navy-primary);
+            border: 2px solid var(--navy-medium);
+            padding: 0.75rem 1.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-outline-blue:hover {
+            background: var(--navy-pale);
+            border-color: var(--blue-accent);
+            transform: translateY(-2px);
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-top: 1px solid var(--grey-200);
+            z-index: 999;
+        }
+        
+        .mobile-menu.active {
+            display: block;
+        }
+        
+        .mobile-menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .mobile-menu-link {
+            color: var(--navy-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--grey-200);
+        }
+        
+        /* Institutional Hero */
+        .institutional-hero {
+            background: linear-gradient(135deg, var(--white) 0%, var(--navy-pale) 100%);
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 8rem 0 6rem;
+            overflow: hidden;
+        }
+        
+        .hero-background {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
-                radial-gradient(circle at 80% 20%, rgba(184, 134, 11, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 20% 80%, rgba(0, 122, 124, 0.06) 0%, transparent 40%);
+            opacity: 0.05;
+            background-image: 
+                radial-gradient(circle at 10% 20%, var(--navy-primary) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, var(--blue-accent-light) 0%, transparent 50%);
         }
         
         .hero-grid {
@@ -39,76 +269,289 @@
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
             align-items: center;
-        }
-        
-        .hero-visual {
             position: relative;
-            padding: 2rem;
+            z-index: 2;
         }
         
-        .visual-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 24px;
-            padding: 2rem;
-            box-shadow: 
-                0 25px 50px -12px rgba(0, 0, 0, 0.25),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--navy-dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
         }
         
-        .stat-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            margin-top: 2rem;
+        .hero-highlight {
+            color: var(--blue-accent);
+            position: relative;
+            display: inline-block;
         }
         
-        .stat-box {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 1.5rem;
+        .hero-highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--navy-pale);
+            z-index: -1;
+            border-radius: 4px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--blue-grey);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .professional-badges {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .professional-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--white);
+            border: 1px solid var(--grey-200);
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--navy-primary);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .professional-badge i {
+            color: var(--success);
+        }
+        
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--grey-200);
+        }
+        
+        .hero-stat {
             text-align: center;
-            transition: all 0.3s ease;
         }
         
-        .stat-box:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        .stat-value {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--navy-primary);
+            line-height: 1;
         }
         
-        .institutional-value {
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            padding: 6rem 0;
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--blue-grey);
+            margin-top: 0.5rem;
         }
         
-        .value-grid {
+        /* Premium Card */
+        .premium-card {
+            background: var(--white);
+            border: 1px solid var(--grey-200);
+            border-radius: 20px;
+            padding: 2.5rem;
+            color: var(--navy-dark);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .premium-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--navy-primary), var(--blue-accent));
+        }
+        
+        /* NEW: Leadership Team Section */
+        .leadership-section {
+            padding: 8rem 0;
+            background: var(--white);
+        }
+        
+        .team-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
             margin-top: 3rem;
         }
         
-        .value-card {
-            background: white;
-            border-radius: 20px;
-            padding: 2.5rem;
+        .team-card {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid var(--grey-200);
+        }
+        
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(30, 58, 138, 0.1);
+        }
+        
+        .team-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--navy-primary), var(--blue-accent));
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+        }
+        
+        .team-info {
+            padding: 2rem;
+        }
+        
+        /* NEW: Market Insights Section */
+        .insights-section {
+            padding: 8rem 0;
+            background: var(--navy-pale);
+        }
+        
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .insight-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             border: 1px solid var(--grey-200);
-            transition: all 0.3s ease;
-            height: 100%;
         }
         
-        .value-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            border-color: var(--navy-primary);
+        .insight-date {
+            color: var(--blue-grey);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
-        .services-section {
+        /* NEW: Investment Philosophy */
+        .philosophy-section {
+            padding: 8rem 0;
+            background: var(--white);
+        }
+        
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .philosophy-point {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            align-items: flex-start;
+        }
+        
+        .point-number {
+            width: 40px;
+            height: 40px;
+            background: var(--navy-pale);
+            border: 2px solid var(--blue-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--blue-accent);
+            flex-shrink: 0;
+        }
+        
+        /* NEW: Global Presence */
+        .global-section {
             padding: 6rem 0;
+            background: var(--navy-dark);
+            color: white;
+        }
+        
+        .global-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .global-office {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        
+        .office-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        /* Services Section */
+        .services-section {
+            padding: 8rem 0;
+            background: var(--white);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-label {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: var(--navy-pale);
+            color: var(--navy-primary);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            border: 1px solid var(--grey-200);
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--navy-dark);
+            margin-bottom: 1rem;
+        }
+        
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--blue-grey);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
         
         .services-grid {
@@ -118,132 +561,160 @@
         }
         
         .service-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
             border: 1px solid var(--grey-200);
+            position: relative;
+            overflow: hidden;
         }
         
         .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(30, 58, 138, 0.1);
+            border-color: var(--blue-accent);
         }
         
-        .service-header {
-            padding: 2rem 2rem 1rem;
-            background: linear-gradient(135deg, var(--navy-primary), var(--navy-dark));
+        .service-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--navy-primary), var(--blue-accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
         }
         
-        .service-body {
-            padding: 2rem;
+        .service-minimum {
+            display: inline-block;
+            padding: 0.25rem 1rem;
+            background: var(--navy-pale);
+            color: var(--navy-primary);
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
         }
         
+        /* Process Section */
         .process-section {
-            background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-primary) 100%);
-            color: white;
-            padding: 6rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .process-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 30% 70%, rgba(184, 134, 11, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 70% 30%, rgba(0, 122, 124, 0.1) 0%, transparent 50%);
+            padding: 8rem 0;
+            background: var(--navy-pale);
         }
         
         .process-steps {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 1.5rem;
-            margin-top: 3rem;
+            display: flex;
+            justify-content: space-between;
             position: relative;
+            margin-top: 4rem;
+        }
+        
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--navy-primary), var(--blue-accent));
+            z-index: 1;
         }
         
         .process-step {
             text-align: center;
             position: relative;
-            z-index: 1;
+            z-index: 2;
+            flex: 1;
         }
         
         .step-number {
             width: 60px;
             height: 60px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: var(--white);
+            border: 3px solid var(--blue-accent);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            margin: 0 auto 1rem;
             font-size: 1.25rem;
-            color: white;
-            transition: all 0.3s ease;
-        }
-        
-        .process-step:hover .step-number {
-            background: var(--accent-gold);
-            border-color: var(--accent-gold);
-            transform: scale(1.1);
-        }
-        
-        .process-steps::after {
-            content: '';
-            position: absolute;
-            top: 30px;
-            left: 30px;
-            right: 30px;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.2);
-            z-index: 0;
-        }
-        
-        .cta-section {
-            padding: 6rem 0;
-            background: white;
-        }
-        
-        .cta-card {
-            background: linear-gradient(135deg, var(--navy-primary), var(--navy-dark));
-            border-radius: 24px;
-            padding: 4rem;
-            text-align: center;
-            color: white;
+            font-weight: 700;
+            color: var(--blue-accent);
+            margin: 0 auto 1rem;
             position: relative;
-            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.1);
         }
         
-        .cta-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 60%;
-            height: 200%;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 100%);
-            transform: rotate(15deg);
+        /* Values Section */
+        .values-section {
+            padding: 8rem 0;
+            background: var(--white);
         }
         
-        .regulatory-section {
-            background: var(--grey-50);
-            padding: 4rem 0;
+        .value-card {
+            background: var(--white);
+            border: 1px solid var(--grey-200);
+            border-radius: 16px;
+            padding: 2.5rem;
+            height: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .value-card:hover {
+            border-color: var(--blue-accent);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(30, 58, 138, 0.1);
+        }
+        
+        /* NEW: Awards & Recognition */
+        .awards-section {
+            padding: 6rem 0;
+            background: var(--white);
             border-top: 1px solid var(--grey-200);
+        }
+        
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .award-card {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .award-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--navy-pale);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--navy-primary);
+            font-size: 2rem;
+        }
+        
+        /* Regulatory Section */
+        .regulatory-section {
+            padding: 6rem 0;
+            background: var(--navy-dark);
+            color: white;
         }
         
         .regulatory-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 2rem;
+            margin-top: 3rem;
         }
         
         .regulatory-item {
@@ -251,742 +722,1142 @@
             padding: 2rem;
         }
         
-        /* Typography enhancements */
-        .display-1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
+        .regulatory-icon {
+            width: 64px;
+            height: 64px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 auto 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        .display-2 {
-            font-size: 2.5rem;
+        /* CTA Section */
+        .cta-section {
+            padding: 8rem 0;
+            background: linear-gradient(135deg, var(--navy-primary), var(--navy-dark));
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Footer */
+        .premium-footer {
+            background: var(--navy-dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-logo {
+            font-family: 'Source Serif Pro', serif;
+            font-size: 1.5rem;
             font-weight: 700;
-            line-height: 1.2;
             margin-bottom: 1rem;
+            color: white;
         }
         
-        .lead-lg {
-            font-size: 1.25rem;
-            line-height: 1.6;
-            color: var(--grey-600);
+        .footer-links h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: white;
         }
         
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .hero-grid {
+                gap: 3rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+            
+            .regulatory-grid,
+            .global-grid,
+            .awards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .team-grid,
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .hero-grid,
+            .philosophy-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .premium-nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn,
+            .mobile-login-btn {
+                display: flex;
+            }
+            
+            .process-steps {
+                flex-direction: column;
+                gap: 3rem;
+            }
+            
+            .process-steps::before {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .footer-grid,
+            .regulatory-grid,
+            .global-grid,
+            .awards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-content {
+                gap: 1rem;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        
+        /* Utility Classes */
         .text-gradient {
-            background: linear-gradient(135deg, var(--accent-gold), var(--accent-teal));
+            background: linear-gradient(135deg, var(--navy-primary), var(--blue-accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         
-        /* Mobile responsive */
-        @media (max-width: 1024px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-            
-            .value-grid,
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .process-steps {
-                grid-template-columns: repeat(3, 1fr);
-                grid-template-rows: repeat(2, auto);
-            }
-            
-            .regulatory-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .display-1 {
-                font-size: 2.75rem;
-            }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
         
-        @media (max-width: 768px) {
-            .institutional-hero {
-                padding: 8rem 0 4rem;
-            }
-            
-            .value-grid,
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .process-steps {
-                grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: repeat(3, auto);
-                gap: 2rem;
-            }
-            
-            .process-steps::after {
-                display: none;
-            }
-            
-            .regulatory-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .stat-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .cta-card {
-                padding: 2rem;
-            }
-            
-            .display-1 {
-                font-size: 2.25rem;
-            }
-            
-            .display-2 {
-                font-size: 2rem;
-            }
-        }
-        
-        /* Animation */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .delay-1 { transition-delay: 0.1s; }
-        .delay-2 { transition-delay: 0.2s; }
-        .delay-3 { transition-delay: 0.3s; }
-        .delay-4 { transition-delay: 0.4s; }
-        
-        /* Professional badges */
-        .professional-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 100px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            backdrop-filter: blur(10px);
-        }
-        
-        /* Enhanced buttons */
-        .btn-institutional {
-            background: linear-gradient(135deg, var(--accent-teal), #006666);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 122, 124, 0.2);
-        }
-        
-        .btn-institutional:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 122, 124, 0.3);
-            background: linear-gradient(135deg, #006666, #005555);
-        }
-        
-        .btn-outline-light {
-            background: transparent;
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-outline-light:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: white;
-            transform: translateY(-2px);
-        }
-        
-        /* Feature list */
-        .feature-list {
-            list-style: none;
-            padding: 0;
-            margin: 1.5rem 0;
-        }
-        
-        .feature-list li {
-            padding: 0.5rem 0;
+        .flex {
             display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
         }
         
-        .feature-list li i {
-            color: var(--accent-teal);
-            margin-top: 0.25rem;
+        .items-center {
+            align-items: center;
         }
+        
+        .justify-between {
+            justify-content: space-between;
+        }
+        
+        .justify-center {
+            justify-content: center;
+        }
+        
+        .gap-4 {
+            gap: 1rem;
+        }
+        
+        .gap-8 {
+            gap: 2rem;
+        }
+        
+        .mt-4 { margin-top: 1rem; }
+        .mt-8 { margin-top: 2rem; }
+        .mt-12 { margin-top: 3rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        
+        .text-center { text-align: center; }
+        .text-sm { font-size: 0.875rem; }
+        .text-lg { font-size: 1.125rem; }
+        
+        .w-full { width: 100%; }
     </style>
 </head>
 <body>
-    <!-- Inactivity Warning Modal -->
-    <div class="inactivity-warning hidden" id="inactivityWarning">
-        <div class="inactivity-card">
-            <div class="feature-icon mb-4" style="margin: 0 auto; background: linear-gradient(135deg, var(--warning), #996515);">
-                <i class="fas fa-clock"></i>
-            </div>
-            <h3 class="mb-2">Session Timeout Warning</h3>
-            <p class="text-small mb-4">
-                For security reasons, your session will automatically log out due to inactivity.
-            </p>
-            <div class="inactivity-countdown" id="countdown">30</div>
-            <p class="text-micro mb-4">Seconds remaining</p>
-            <button class="btn btn-primary w-100" id="extendSession">
-                <i class="fas fa-sync-alt mr-2"></i>
-                Extend Session
-            </button>
-        </div>
-    </div>
-
-    <!-- Homepage -->
-    <div id="homepage" class="page">
-        <!-- Professional Navigation -->
-        <nav class="navbar">
-            <div class="container navbar-content">
-                <a href="index.html" class="logo">
-                    <div class="logo-icon">
-                        <i class="fas fa-tree"></i>
+    <!-- Premium Navigation with Mobile Login -->
+    <nav class="premium-navbar">
+        <div class="container">
+            <div class="flex items-center justify-between w-full">
+                <a href="#" class="premium-logo">
+                    <div class="premium-logo-icon">
+                        <i class="fas fa-university"></i>
                     </div>
-                    <span>HeritageInvest</span>
+                    <span class="premium-logo-text">HeritageInvest</span>
                 </a>
                 
-                <button class="mobile-nav-toggle" id="mobileToggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
+                <div class="nav-content">
+                    <div class="premium-nav-links">
+                        <a href="#services" class="premium-nav-link">Services</a>
+                        <a href="#process" class="premium-nav-link">Process</a>
+                        <a href="#leadership" class="premium-nav-link">Leadership</a>
+                        <a href="#insights" class="premium-nav-link">Insights</a>
+                        <a href="login.html" class="btn-institutional">
+                            <i class="fas fa-lock mr-2"></i>
+                            Client Portal
+                        </a>
+                        <a href="#consultation" class="btn-outline-blue">
+                            <i class="fas fa-calendar-alt mr-2"></i>
+                            Consultation
+                        </a>
+                    </div>
+                    
+                    <!-- Mobile Login Button -->
+                    <a href="login.html" class="mobile-login-btn">
+                        <i class="fas fa-lock"></i>
+                    </a>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button class="mobile-menu-btn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-links">
+                <a href="#services" class="mobile-menu-link">Services</a>
+                <a href="#process" class="mobile-menu-link">Our Process</a>
+                <a href="#leadership" class="mobile-menu-link">Leadership Team</a>
+                <a href="#insights" class="mobile-menu-link">Market Insights</a>
+                <a href="#philosophy" class="mobile-menu-link">Investment Philosophy</a>
+                <a href="#global" class="mobile-menu-link">Global Presence</a>
+                <a href="#awards" class="mobile-menu-link">Awards</a>
+                <a href="#regulatory" class="mobile-menu-link">Compliance</a>
+                <a href="login.html" class="btn-institutional w-full justify-center mt-4">
+                    <i class="fas fa-lock mr-2"></i>
+                    Client Portal Login
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Institutional Hero Section -->
+    <section class="institutional-hero">
+        <div class="hero-background"></div>
+        <div class="container">
+            <div class="hero-grid animate-fade-in">
+                <div class="hero-content">
+                    <div class="professional-badges">
+                        <span class="professional-badge">
+                            <i class="fas fa-shield-check"></i>
+                            FCA Regulated
+                        </span>
+                        <span class="professional-badge">
+                            <i class="fas fa-user-tie"></i>
+                            Professional Clients Only
+                        </span>
+                        <span class="professional-badge">
+                            <i class="fas fa-certificate"></i>
+                            FSCS Protected
+                        </span>
+                    </div>
+                    
+                    <h1>
+                        Institutional-Grade <br>
+                        <span class="hero-highlight">Wealth Management</span>
+                    </h1>
+                    
+                    <p class="hero-subtitle">
+                        Sophisticated investment solutions for discerning individuals, 
+                        family offices, and institutional investors seeking superior 
+                        risk-adjusted returns through disciplined portfolio management.
+                    </p>
+                    
+                    <div class="flex gap-8 mb-8">
+                        <a href="#consultation" class="btn-institutional">
+                            <i class="fas fa-calendar-check mr-2"></i>
+                            Schedule Consultation
+                        </a>
+                        <a href="#insights" class="btn-outline-blue">
+                            <i class="fas fa-download mr-2"></i>
+                            Download Brochure
+                        </a>
+                    </div>
+                    
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <span class="stat-value">£4.8B</span>
+                            <span class="stat-label">Assets Under Management</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="stat-value">9.8%</span>
+                            <span class="stat-label">Average Annual Return</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="stat-value">15+</span>
+                            <span class="stat-label">Years Experience</span>
+                        </div>
+                    </div>
+                </div>
                 
-                <div class="nav-links" id="navLinks">
-                    <a href="#services" class="nav-link">Services</a>
-                    <a href="#process" class="nav-link">Process</a>
-                    <a href="#value" class="nav-link">Value</a>
-                    <a href="#regulatory" class="nav-link">Compliance</a>
-                    <a href="login.html" class="nav-link">Client Login</a>
-                    <a href="#contact" class="btn btn-primary btn-small">
-                        <i class="fas fa-calendar-alt mr-2"></i>
-                        Request Consultation
+                <div class="premium-card animate-fade-in delay-200">
+                    <div class="text-center mb-6">
+                        <div class="service-icon" style="margin: 0 auto 1.5rem; background: linear-gradient(135deg, var(--navy-primary), var(--blue-accent));">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 style="margin-bottom: 0.5rem;">Portfolio Performance</h3>
+                        <p style="color: var(--blue-grey);">Conservative Growth Strategy</p>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span style="color: var(--blue-grey);">Annual Return</span>
+                            <span style="color: var(--navy-primary); font-weight: 600;">9.8%</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span style="color: var(--blue-grey);">Volatility</span>
+                            <span style="color: var(--blue-grey);">12.3%</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span style="color: var(--blue-grey);">Sharpe Ratio</span>
+                            <span style="color: var(--blue-grey);">1.4</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span style="color: var(--blue-grey);">Minimum Investment</span>
+                            <span style="color: var(--navy-primary); font-weight: 600;">£100,000</span>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-sm" style="color: var(--blue-grey);">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            Past performance is not indicative of future results
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-section">
+        <div class="container">
+            <div class="section-header animate-fade-in">
+                <span class="section-label">INVESTMENT SOLUTIONS</span>
+                <h2 class="section-title">Professional Investment Services</h2>
+                <p class="section-subtitle">
+                    Tailored investment strategies designed for sophisticated investors 
+                    with different objectives and risk profiles.
+                </p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card animate-fade-in delay-100">
+                    <div class="service-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <span class="service-minimum">Minimum: £250,000</span>
+                    <h3 style="margin-bottom: 1rem;">Premium Wealth Management</h3>
+                    <p style="color: var(--blue-grey); margin-bottom: 1.5rem; line-height: 1.6;">
+                        Comprehensive wealth solutions for high-net-worth individuals requiring 
+                        sophisticated portfolio management and estate planning.
+                    </p>
+                    <div class="mb-4">
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.25rem 0; color: var(--grey-800);">
+                                <i class="fas fa-check text-sm mr-2" style="color: var(--success);"></i>
+                                Dedicated Relationship Manager
+                            </li>
+                            <li style="padding: 0.25rem 0; color: var(--grey-800);">
+                                <i class="fas fa-check text-sm mr-2" style="color: var(--success);"></i>
+                                Estate & Tax Planning
+                            </li>
+                            <li style="padding: 0.25rem 0; color: var(--grey-800);">
+                                <i class="fas fa-check text-sm mr-2" style="color: var(--success);"></i>
+                                Family Office Services
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="#contact" class="btn-institutional w-full justify-center">
+                        Learn More
+                    </a>
+                </div>
+                
+                <div class="service-card animate-fade-in delay-200">
+                    <div class="service-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <span class="service-minimum">Minimum: £100,000</span>
+                    <h3 style="margin-bottom: 1rem;">Growth Portfolio</h3>
+                    <p style="color: var(--blue-grey); margin-bottom: 1.5rem; line-height: 1.6;">
+                        Active investment strategies focused on capital appreciation through 
+                        carefully selected equity and alternative investments.
+                    </p>
+                    <div class="mb-4">
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.25rem 0; color: var(--grey-800);">
+                                <i class="fas fa-check text-sm mr-2" style="color: var(--success);"></i>
+                                Active Portfolio Management
+                            </li>
+                            <li style="padding: 0.25rem 0; color: var(--grey-800);">
+                                <i class="fas fa-check text-sm mr-2" style="color: var(--success);"></i>
+                                Alternative Investments
+                            </li>
+                            <li style="padding: 0.25rem 0; color: var(--grey-800);">
+                                <i class="fas fa-check text-sm mr-2" style="color: var(--success);"></i>
+                                Tactical Asset Allocation
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="#contact" class="btn-institutional w-full justify-center">
+                        Learn More
+                    </a>
+                </div>
+                
+                <div class="service-card animate-fade-in delay-300">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <span class="service-minimum">Minimum: £100,000</span>
+                    <h3 style="margin-bottom: 1rem;">Risk Management Solutions</h3>
+                    <p style="color: var(--blue-grey); margin-bottom: 1.5rem; line-height: 1.6;">
+                        Sophisticated risk management protocols and hedging strategies 
+                        to protect capital during market volatility.
+                    </p>
+                    <div class="mb-4">
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.25rem 0; color: var(--grey-800);">
+                                <i class="fas fa-check text-sm mr-2" style="color: var(--success);"></i>
+                                Portfolio Stress Testing
+                            </li>
+                            <li style="padding: 0.25rem 0; color: var(--grey-800);">
+                                <i class="fas fa-check text-sm mr-2" style="color: var(--success);"></i>
+                                Real-time Risk Monitoring
+                            </li>
+                            <li style="padding: 0.25rem 0; color: var(--grey-800);">
+                                <i class="fas fa-check text-sm mr-2" style="color: var(--success);"></i>
+                                Hedging Strategies
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="#contact" class="btn-institutional w-full justify-center">
+                        Learn More
                     </a>
                 </div>
             </div>
-        </nav>
+        </div>
+    </section>
 
-        <!-- Institutional Hero Section -->
-        <section class="institutional-hero">
-            <div class="container">
-                <div class="hero-grid">
-                    <div class="fade-in">
-                        <div class="flex gap-3 mb-6">
-                            <span class="professional-badge">
-                                <i class="fas fa-shield-check"></i>
-                                FCA Regulated
-                            </span>
-                            <span class="professional-badge">
-                                <i class="far fa-user-tie"></i>
-                                Professional Clients Only
-                            </span>
-                        </div>
-                        
-                        <h1 class="display-1" style="color: white;">
-                            Institutional-Grade <span class="text-gradient">Wealth Management</span>
-                        </h1>
-                        
-                        <p class="lead-lg mb-6" style="color: rgba(255, 255, 255, 0.9);">
-                            Sophisticated investment solutions for high-net-worth individuals, 
-                            family offices, and institutional investors seeking superior risk-adjusted returns.
+    <!-- NEW: Leadership Team Section -->
+    <section id="leadership" class="leadership-section">
+        <div class="container">
+            <div class="section-header animate-fade-in">
+                <span class="section-label">LEADERSHIP TEAM</span>
+                <h2 class="section-title">Meet Our Senior Partners</h2>
+                <p class="section-subtitle">
+                    Our leadership team combines decades of institutional experience 
+                    with a commitment to client-centric service.
+                </p>
+            </div>
+            
+            <div class="team-grid">
+                <div class="team-card animate-fade-in delay-100">
+                    <div class="team-image">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="team-info">
+                        <h3 style="margin-bottom: 0.5rem;">James Richardson</h3>
+                        <p style="color: var(--blue-accent); font-weight: 600; margin-bottom: 0.5rem;">Chief Investment Officer</p>
+                        <p style="color: var(--blue-grey); font-size: 0.95rem;">
+                            25+ years in institutional asset management. Former Head of Investments at Barclays Wealth.
                         </p>
-                        
-                        <div class="flex gap-4 mb-8">
-                            <a href="#contact" class="btn-institutional">
-                                <i class="fas fa-calendar-alt mr-2"></i>
-                                Schedule Consultation
-                            </a>
-                            <a href="login.html" class="btn-outline-light">
-                                <i class="fas fa-lock mr-2"></i>
-                                Client Portal
-                            </a>
-                        </div>
-                        
-                        <div class="stat-grid">
-                            <div class="stat-box">
-                                <div class="display-2" style="color: white; margin-bottom: 0.5rem;">£4.8B</div>
-                                <div class="text-small" style="color: rgba(255, 255, 255, 0.8);">Assets Under Management</div>
-                            </div>
-                            <div class="stat-box">
-                                <div class="display-2" style="color: white; margin-bottom: 0.5rem;">15+</div>
-                                <div class="text-small" style="color: rgba(255, 255, 255, 0.8);">Years Institutional Experience</div>
-                            </div>
+                        <div class="mt-4">
+                            <span style="background: var(--navy-pale); color: var(--navy-primary); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.875rem;">
+                                CFA Charterholder
+                            </span>
                         </div>
                     </div>
-                    
-                    <div class="hero-visual fade-in delay-1">
-                        <div class="visual-card">
-                            <div class="text-center mb-6">
-                                <div class="logo-icon" style="width: 80px; height: 80px; margin: 0 auto 1rem; background: linear-gradient(135deg, var(--accent-gold), var(--accent-teal));">
-                                    <i class="fas fa-chart-line fa-2x"></i>
-                                </div>
-                                <h3 style="color: white; margin-bottom: 0.5rem;">Portfolio Performance</h3>
-                                <p class="text-small" style="color: rgba(255, 255, 255, 0.8);">Average Annual Return</p>
-                            </div>
-                            <div style="text-align: center;">
-                                <div style="font-size: 3rem; font-weight: 700; color: var(--accent-gold); margin-bottom: 0.5rem;">9.8%</div>
-                                <div style="color: rgba(255, 255, 255, 0.8); font-size: 0.875rem;">vs. 7.2% Benchmark</div>
-                            </div>
+                </div>
+                
+                <div class="team-card animate-fade-in delay-200">
+                    <div class="team-image">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="team-info">
+                        <h3 style="margin-bottom: 0.5rem;">Sarah Chen</h3>
+                        <p style="color: var(--blue-accent); font-weight: 600; margin-bottom: 0.5rem;">Managing Director</p>
+                        <p style="color: var(--blue-grey); font-size: 0.95rem;">
+                            20+ years in private banking. Former Managing Director at Credit Suisse Private Bank.
+                        </p>
+                        <div class="mt-4">
+                            <span style="background: var(--navy-pale); color: var(--navy-primary); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.875rem;">
+                                MBA, Harvard
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-card animate-fade-in delay-300">
+                    <div class="team-image">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="team-info">
+                        <h3 style="margin-bottom: 0.5rem;">Michael O'Connor</h3>
+                        <p style="color: var(--blue-accent); font-weight: 600; margin-bottom: 0.5rem;">Head of Risk Management</p>
+                        <p style="color: var(--blue-grey); font-size: 0.95rem;">
+                            18+ years in risk management. Former Global Head of Risk at BlackRock Alternatives.
+                        </p>
+                        <div class="mt-4">
+                            <span style="background: var(--navy-pale); color: var(--navy-primary); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.875rem;">
+                                FRM Certified
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Value Proposition -->
-        <section id="value" class="institutional-value">
-            <div class="container">
-                <div class="text-center mb-10 fade-in">
-                    <span class="badge badge-primary mb-3">OUR VALUE PROPOSITION</span>
-                    <h2 class="display-2 mb-4">Why Choose HeritageInvest</h2>
-                    <p class="lead-lg" style="max-width: 800px; margin: 0 auto;">
-                        We combine institutional research capabilities with personalised 
-                        portfolio management to deliver exceptional results for our clients.
+    <!-- Process Section -->
+    <section id="process" class="process-section">
+        <div class="container">
+            <div class="section-header animate-fade-in">
+                <span class="section-label">OUR METHODOLOGY</span>
+                <h2 class="section-title">The HeritageInvest Process</h2>
+                <p class="section-subtitle">
+                    A disciplined, six-step investment process that ensures rigorous analysis 
+                    and consistent implementation of your wealth strategy.
+                </p>
+            </div>
+            
+            <div class="process-steps">
+                <div class="process-step animate-fade-in">
+                    <div class="step-number">1</div>
+                    <h4 style="margin-bottom: 0.5rem;">Discovery</h4>
+                    <p style="color: var(--blue-grey); font-size: 0.95rem;">
+                        In-depth analysis of your financial objectives and constraints
                     </p>
                 </div>
                 
-                <div class="value-grid">
-                    <div class="value-card fade-in delay-1">
-                        <div class="feature-icon mb-4" style="background: linear-gradient(135deg, var(--navy-primary), var(--navy-light));">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                        <h3 class="mb-3">Institutional Research</h3>
-                        <p class="mb-4">Access to proprietary research and market insights typically reserved for institutional investors.</p>
-                        <ul class="feature-list">
-                            <li><i class="fas fa-check"></i> Proprietary market analysis</li>
-                            <li><i class="fas fa-check"></i> Direct access to research team</li>
-                            <li><i class="fas fa-check"></i> Real-time market intelligence</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="value-card fade-in delay-2">
-                        <div class="feature-icon mb-4" style="background: linear-gradient(135deg, var(--accent-teal), #006666);">
-                            <i class="fas fa-user-tie"></i>
-                        </div>
-                        <h3 class="mb-3">Dedicated Advisory</h3>
-                        <p class="mb-4">Personal relationship with senior investment professionals who understand your unique needs.</p>
-                        <ul class="feature-list">
-                            <li><i class="fas fa-check"></i> Dedicated relationship manager</li>
-                            <li><i class="fas fa-check"></i> Quarterly strategy reviews</li>
-                            <li><i class="fas fa-check"></i> Direct phone access to team</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="value-card fade-in delay-3">
-                        <div class="feature-icon mb-4" style="background: linear-gradient(135deg, var(--accent-gold), #996515);">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h3 class="mb-3">Risk Management</h3>
-                        <p class="mb-4">Sophisticated risk management protocols to protect and grow your wealth over the long term.</p>
-                        <ul class="feature-list">
-                            <li><i class="fas fa-check"></i> Multi-layered risk controls</li>
-                            <li><i class="fas fa-check"></i> Stress testing scenarios</li>
-                            <li><i class="fas fa-check"></i> Real-time risk monitoring</li>
-                        </ul>
-                    </div>
+                <div class="process-step animate-fade-in delay-100">
+                    <div class="step-number">2</div>
+                    <h4 style="margin-bottom: 0.5rem;">Strategy</h4>
+                    <p style="color: var(--blue-grey); font-size: 0.95rem;">
+                        Development of customised investment policy statement
+                    </p>
+                </div>
+                
+                <div class="process-step animate-fade-in delay-200">
+                    <div class="step-number">3</div>
+                    <h4 style="margin-bottom: 0.5rem;">Implementation</h4>
+                    <p style="color: var(--blue-grey); font-size: 0.95rem;">
+                        Expert execution across global markets and asset classes
+                    </p>
+                </div>
+                
+                <div class="process-step animate-fade-in delay-300">
+                    <div class="step-number">4</div>
+                    <h4 style="margin-bottom: 0.5rem;">Monitoring</h4>
+                    <p style="color: var(--blue-grey); font-size: 0.95rem;">
+                        Continuous oversight and performance measurement
+                    </p>
+                </div>
+                
+                <div class="process-step animate-fade-in delay-400">
+                    <div class="step-number">5</div>
+                    <h4 style="margin-bottom: 0.5rem;">Risk Management</h4>
+                    <p style="color: var(--blue-grey); font-size: 0.95rem;">
+                        Proactive risk assessment and mitigation strategies
+                    </p>
+                </div>
+                
+                <div class="process-step animate-fade-in delay-500">
+                    <div class="step-number">6</div>
+                    <h4 style="margin-bottom: 0.5rem;">Review</h4>
+                    <p style="color: var(--blue-grey); font-size: 0.95rem;">
+                        Quarterly comprehensive performance reviews
+                    </p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Services -->
-        <section id="services" class="services-section">
-            <div class="container">
-                <div class="text-center mb-10 fade-in">
-                    <span class="badge badge-info mb-3">INVESTMENT SOLUTIONS</span>
-                    <h2 class="display-2 mb-4">Professional Investment Services</h2>
-                    <p class="lead-lg" style="max-width: 800px; margin: 0 auto;">
-                        Tailored investment strategies designed for sophisticated investors 
-                        with different objectives and risk profiles.
+    <!-- NEW: Market Insights Section -->
+    <section id="insights" class="insights-section">
+        <div class="container">
+            <div class="section-header animate-fade-in">
+                <span class="section-label">MARKET INSIGHTS</span>
+                <h2 class="section-title">Latest Research & Perspectives</h2>
+                <p class="section-subtitle">
+                    Access institutional-grade research and market analysis from our 
+                    investment team.
+                </p>
+            </div>
+            
+            <div class="insights-grid">
+                <div class="insight-card animate-fade-in delay-100">
+                    <div class="insight-date">
+                        <i class="far fa-calendar"></i>
+                        February 15, 2024
+                    </div>
+                    <h3 style="margin-bottom: 1rem;">Global Equity Outlook 2024</h3>
+                    <p style="color: var(--blue-grey); margin-bottom: 1.5rem;">
+                        Analysis of key equity markets and sector opportunities 
+                        for the coming year based on macroeconomic indicators.
                     </p>
+                    <a href="#" class="btn-outline-blue">
+                        Read Analysis
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
                 </div>
                 
-                <div class="services-grid">
-                    <div class="service-card fade-in delay-1">
-                        <div class="service-header">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div style="width: 48px; height: 48px; background: rgba(255, 255, 255, 0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-crown"></i>
-                                </div>
-                                <div>
-                                    <h3 style="color: white; margin: 0;">Premium Wealth</h3>
-                                    <div class="text-micro" style="color: rgba(255, 255, 255, 0.8);">Minimum £250,000</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="service-body">
-                            <p class="mb-4">Comprehensive wealth management for high-net-worth individuals requiring sophisticated solutions.</p>
-                            <div class="mb-4">
-                                <div class="text-micro mb-2">INCLUDES:</div>
-                                <ul class="feature-list">
-                                    <li><i class="fas fa-check text-success"></i> Dedicated relationship manager</li>
-                                    <li><i class="fas fa-check text-success"></i> Estate planning services</li>
-                                    <li><i class="fas fa-check text-success"></i> Tax optimization strategies</li>
-                                    <li><i class="fas fa-check text-success"></i> Family office services</li>
-                                </ul>
-                            </div>
-                            <a href="#contact" class="btn btn-outline w-100">
-                                <i class="fas fa-info-circle mr-2"></i>
-                                Request Details
-                            </a>
-                        </div>
+                <div class="insight-card animate-fade-in delay-200">
+                    <div class="insight-date">
+                        <i class="far fa-calendar"></i>
+                        February 10, 2024
                     </div>
-                    
-                    <div class="service-card fade-in delay-2">
-                        <div class="service-header" style="background: linear-gradient(135deg, var(--accent-teal), #006666);">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div style="width: 48px; height: 48px; background: rgba(255, 255, 255, 0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-chart-line"></i>
-                                </div>
-                                <div>
-                                    <h3 style="color: white; margin: 0;">Growth Portfolio</h3>
-                                    <div class="text-micro" style="color: rgba(255, 255, 255, 0.8);">Minimum £100,000</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="service-body">
-                            <p class="mb-4">Active investment strategies focused on capital growth through equity and alternative investments.</p>
-                            <div class="mb-4">
-                                <div class="text-micro mb-2">INCLUDES:</div>
-                                <ul class="feature-list">
-                                    <li><i class="fas fa-check text-success"></i> Active portfolio management</li>
-                                    <li><i class="fas fa-check text-success"></i> Alternative investments</li>
-                                    <li><i class="fas fa-check text-success"></i> Tactical asset allocation</li>
-                                    <li><i class="fas fa-check text-success"></i> Monthly reporting</li>
-                                </ul>
-                            </div>
-                            <a href="#contact" class="btn btn-outline w-100">
-                                <i class="fas fa-info-circle mr-2"></i>
-                                Request Details
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="service-card fade-in delay-3">
-                        <div class="service-header" style="background: linear-gradient(135deg, var(--accent-gold), #996515);">
-                            <div class="flex items-center gap-3 mb-3">
-                                <div style="width: 48px; height: 48px; background: rgba(255, 255, 255, 0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-balance-scale"></i>
-                                </div>
-                                <div>
-                                    <h3 style="color: white; margin: 0;">Income Portfolio</h3>
-                                    <div class="text-micro" style="color: rgba(255, 255, 255, 0.8);">Minimum £100,000</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="service-body">
-                            <p class="mb-4">Conservative strategies focused on regular income generation while preserving capital.</p>
-                            <div class="mb-4">
-                                <div class="text-micro mb-2">INCLUDES:</div>
-                                <ul class="feature-list">
-                                    <li><i class="fas fa-check text-success"></i> Income-focused investments</li>
-                                    <li><i class="fas fa-check text-success"></i> Capital preservation focus</li>
-                                    <li><i class="fas fa-check text-success"></i> Defensive positioning</li>
-                                    <li><i class="fas fa-check text-success"></i> Quarterly distributions</li>
-                                </ul>
-                            </div>
-                            <a href="#contact" class="btn btn-outline w-100">
-                                <i class="fas fa-info-circle mr-2"></i>
-                                Request Details
-                            </a>
-                        </div>
-                    </div>
+                    <h3 style="margin-bottom: 1rem;">Fixed Income Strategy Update</h3>
+                    <p style="color: var(--blue-grey); margin-bottom: 1.5rem;">
+                        Current positioning in global bond markets and yield curve 
+                        expectations amid changing monetary policy landscape.
+                    </p>
+                    <a href="#" class="btn-outline-blue">
+                        Read Analysis
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Investment Process -->
-        <section id="process" class="process-section">
-            <div class="container">
-                <div class="text-center mb-10 fade-in">
-                    <span class="badge badge-info mb-3" style="background: rgba(255, 255, 255, 0.2); color: white;">OUR PROCESS</span>
-                    <h2 class="display-2 mb-4" style="color: white;">The HeritageInvest Approach</h2>
-                    <p class="lead-lg" style="color: rgba(255, 255, 255, 0.9); max-width: 800px; margin: 0 auto;">
-                        A disciplined, six-step investment process that ensures rigorous analysis 
-                        and consistent implementation of your wealth strategy.
-                    </p>
-                </div>
-                
-                <div class="process-steps">
-                    <div class="process-step fade-in">
-                        <div class="step-number">1</div>
-                        <h4 style="color: white; margin-bottom: 0.5rem;">Discovery</h4>
-                        <p class="text-small" style="color: rgba(255, 255, 255, 0.8);">Comprehensive financial assessment</p>
-                    </div>
-                    
-                    <div class="process-step fade-in delay-1">
-                        <div class="step-number">2</div>
-                        <h4 style="color: white; margin-bottom: 0.5rem;">Analysis</h4>
-                        <p class="text-small" style="color: rgba(255, 255, 255, 0.8);">Market research & opportunity identification</p>
-                    </div>
-                    
-                    <div class="process-step fade-in delay-2">
-                        <div class="step-number">3</div>
-                        <h4 style="color: white; margin-bottom: 0.5rem;">Strategy</h4>
-                        <p class="text-small" style="color: rgba(255, 255, 255, 0.8);">Custom investment plan development</p>
-                    </div>
-                    
-                    <div class="process-step fade-in delay-3">
-                        <div class="step-number">4</div>
-                        <h4 style="color: white; margin-bottom: 0.5rem;">Implementation</h4>
-                        <p class="text-small" style="color: rgba(255, 255, 255, 0.8);">Expert execution across global markets</p>
-                    </div>
-                    
-                    <div class="process-step fade-in delay-1">
-                        <div class="step-number">5</div>
-                        <h4 style="color: white; margin-bottom: 0.5rem;">Monitoring</h4>
-                        <p class="text-small" style="color: rgba(255, 255, 255, 0.8);">Continuous portfolio oversight</p>
-                    </div>
-                    
-                    <div class="process-step fade-in delay-2">
-                        <div class="step-number">6</div>
-                        <h4 style="color: white; margin-bottom: 0.5rem;">Review</h4>
-                        <p class="text-small" style="color: rgba(255, 255, 255, 0.8);">Quarterly performance assessment</p>
-                    </div>
-                </div>
+    <!-- NEW: Investment Philosophy -->
+    <section id="philosophy" class="philosophy-section">
+        <div class="container">
+            <div class="section-header animate-fade-in">
+                <span class="section-label">INVESTMENT PHILOSOPHY</span>
+                <h2 class="section-title">Our Core Principles</h2>
+                <p class="section-subtitle">
+                    The guiding principles that shape every investment decision we make 
+                    on behalf of our clients.
+                </p>
             </div>
-        </section>
-
-        <!-- Regulatory Compliance -->
-        <section id="regulatory" class="regulatory-section">
-            <div class="container">
-                <div class="text-center mb-8 fade-in">
-                    <span class="badge badge-success mb-3">REGULATORY COMPLIANCE</span>
-                    <h2 class="display-2 mb-4">Trust & Security</h2>
-                    <p class="lead-lg" style="max-width: 800px; margin: 0 auto;">
-                        We operate under the highest regulatory standards to ensure 
-                        the security and protection of your investments.
-                    </p>
+            
+            <div class="philosophy-grid">
+                <div class="animate-fade-in">
+                    <div class="philosophy-point">
+                        <div class="point-number">1</div>
+                        <div>
+                            <h4 style="margin-bottom: 0.5rem;">Long-Term Orientation</h4>
+                            <p style="color: var(--blue-grey);">
+                                We focus on sustainable wealth creation over market cycles, 
+                                avoiding short-term speculation.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="philosophy-point">
+                        <div class="point-number">2</div>
+                        <div>
+                            <h4 style="margin-bottom: 0.5rem;">Fundamental Analysis</h4>
+                            <p style="color: var(--blue-grey);">
+                                Every investment decision is grounded in rigorous 
+                                fundamental research and valuation analysis.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="philosophy-point">
+                        <div class="point-number">3</div>
+                        <div>
+                            <h4 style="margin-bottom: 0.5rem;">Risk Management First</h4>
+                            <p style="color: var(--blue-grey);">
+                                Capital preservation is our primary objective, 
+                                followed by capital appreciation.
+                            </p>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="regulatory-grid">
-                    <div class="regulatory-item fade-in delay-1">
-                        <div class="feature-icon mb-4" style="margin: 0 auto; background: linear-gradient(135deg, var(--navy-primary), var(--navy-light));">
-                            <i class="fa fa-bank"></i>
-                        </div>
-                        <h4 class="mb-2">FCA Regulated</h4>
-                        <p class="text-small">Authorised and regulated by the Financial Conduct Authority</p>
-                    </div>
-                    
-                    <div class="regulatory-item fade-in delay-2">
-                        <div class="feature-icon mb-4" style="margin: 0 auto; background: linear-gradient(135deg, var(--accent-teal), #006666);">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <h4 class="mb-2">FSCS Protected</h4>
-                        <p class="text-small">Investments protected up to £85,000 under FSCS scheme</p>
-                    </div>
-                    
-                    <div class="regulatory-item fade-in delay-3">
-                        <div class="feature-icon mb-4" style="margin: 0 auto; background: linear-gradient(135deg, var(--accent-gold), #996515);">
-                            <i class="fas fa-user-tie"></i>
-                        </div>
-                        <h4 class="mb-2">Professional Client</h4>
-                        <p class="text-small">Services available to professional and eligible counterparty clients</p>
-                    </div>
-                    
-                    <div class="regulatory-item fade-in delay-4">
-                        <div class="feature-icon mb-4" style="margin: 0 auto; background: linear-gradient(135deg, #6B7280, #4B5563);">
+                <div class="premium-card animate-fade-in delay-200">
+                    <div class="text-center">
+                        <div class="service-icon" style="margin: 0 auto 1.5rem;">
                             <i class="fas fa-balance-scale"></i>
                         </div>
-                        <h4 class="mb-2">Best Execution</h4>
-                        <p class="text-small">Commitment to achieving best execution for all client orders</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA Section -->
-        <section id="contact" class="cta-section">
-            <div class="container">
-                <div class="cta-card fade-in">
-                    <h2 class="display-2 mb-4" style="color: white;">Ready to Begin?</h2>
-                    <p class="lead-lg mb-6" style="color: rgba(255, 255, 255, 0.9); max-width: 600px; margin: 0 auto;">
-                        Schedule a confidential consultation with one of our senior investment 
-                        professionals to discuss how we can help achieve your financial objectives.
-                    </p>
-                    
-                    <div class="flex gap-4 justify-center mobile-only">
-                        <a href="#contact" class="btn-institutional">
-                            <i class="fas fa-phone mr-2"></i>
-                            Schedule Call
-                        </a>
-                        <a href="login.html" class="btn-outline-light">
-                            <i class="fas fa-lock mr-2"></i>
-                            Client Login
-                        </a>
-                    </div>
-                    
-                    <div class="desktop-only">
-                        <div class="flex gap-4 justify-center">
-                            <a href="#contact" class="btn-institutional">
-                                <i class="fas fa-calendar-alt mr-2"></i>
-                                Schedule Consultation
-                            </a>
-                            <a href="tel:+442071234567" class="btn-outline-light">
-                                <i class="fas fa-phone mr-2"></i>
-                                +44 20 7123 4567
-                            </a>
-                            <a href="login.html" class="btn-outline-light">
-                                <i class="fas fa-lock mr-2"></i>
-                                Access Client Portal
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <p class="mt-6 text-small" style="color: rgba(255, 255, 255, 0.7);">
-                        <i class="fas fa-shield-alt mr-2"></i>
-                        All consultations are confidential and protected by client privilege
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="section-tight" style="background: var(--navy-dark); color: white;">
-            <div class="container">
-                <div class="grid grid-cols-3 gap-4 mb-5 mobile-only">
-                    <div class="col-span-3">
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="logo-icon">
-                                <i class="fas fa-tree"></i>
-                            </div>
-                            <h4 style="color: white;">HeritageInvest</h4>
-                        </div>
-                        <p style="color: rgba(255, 255, 255, 0.8);">
-                            25 St James's Square, London SW1Y 4JH<br>
-                            United Kingdom
+                        <h3 style="margin-bottom: 1rem;">Fiduciary Duty</h3>
+                        <p style="color: var(--blue-grey); margin-bottom: 1.5rem;">
+                            We are legally and ethically bound to act in your best interests 
+                            at all times, with complete transparency regarding fees, 
+                            conflicts, and investment decisions.
                         </p>
-                    </div>
-                </div>
-                
-                <div class="desktop-only">
-                    <div class="grid grid-cols-3 gap-4 mb-5">
-                        <div>
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="logo-icon">
-                                    <i class="fas fa-tree"></i>
-                                </div>
-                                <h4 style="color: white;">HeritageInvest</h4>
-                            </div>
-                            <p style="color: rgba(255, 255, 255, 0.8);">
-                                25 St James's Square, London SW1Y 4JH<br>
-                                United Kingdom
+                        <div style="background: var(--navy-pale); padding: 1.5rem; border-radius: 12px; margin-top: 2rem;">
+                            <p style="color: var(--navy-primary); font-style: italic; margin-bottom: 0;">
+                                "Our clients' interests always come first. This is not just 
+                                a regulatory requirement—it's our fundamental commitment."
                             </p>
-                            <div class="mt-4">
-                                <div class="flex gap-3">
-                                    <a href="#" class="text-small" style="color: rgba(255, 255, 255, 0.6);">
-                                        <i class="fab fa-linkedin"></i>
-                                    </a>
-                                    <a href="#" class="text-small" style="color: rgba(255, 255, 255, 0.6);">
-                                        <i class="fab fa-twitter"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 class="mb-3" style="color: white;">Regulatory Information</h4>
-                            <ul style="list-style: none; padding: 0; color: rgba(255, 255, 255, 0.8);">
-                                <li class="mb-2"><i class="fas fa-certificate mr-2"></i> FCA Firm Reference: 123456</li>
-                                <li class="mb-2"><i class="fas fa-shield-alt mr-2"></i> FSCS Protection: Up to £85,000</li>
-                                <li class="mb-2"><i class="fas fa-balance-scale mr-2"></i> ICO Registration: ZA123456</li>
-                                <li class="mb-2"><i class="fas fa-file-contract mr-2"></i> Terms & Conditions</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 class="mb-3" style="color: white;">Contact</h4>
-                            <ul style="list-style: none; padding: 0; color: rgba(255, 255, 255, 0.8);">
-                                <li class="mb-2"><i class="fas fa-phone mr-2"></i> +44 (0)20 7123 4567</li>
-                                <li class="mb-2"><i class="fas fa-envelope mr-2"></i> enquiries@heritageinvest.co.uk</li>
-                                <li class="mb-2"><i class="fas fa-clock mr-2"></i> Mon-Fri 8:30-17:30 GMT</li>
-                                <li class="mb-2"><i class="fas fa-headset mr-2"></i> 24/7 Emergency Contact</li>
-                            </ul>
+                            <p style="color: var(--blue-grey); font-size: 0.875rem; margin-top: 0.5rem;">
+                                — James Richardson, CIO
+                            </p>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section id="values" class="values-section">
+        <div class="container">
+            <div class="section-header animate-fade-in">
+                <span class="section-label">OUR VALUES</span>
+                <h2 class="section-title">Why Choose HeritageInvest</h2>
+                <p class="section-subtitle">
+                    We combine institutional research capabilities with personalised 
+                    portfolio management to deliver exceptional results for our clients.
+                </p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="value-card animate-fade-in delay-100">
+                    <div class="service-icon" style="margin-bottom: 1.5rem;">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h4 style="margin-bottom: 1rem;">Institutional Research</h4>
+                    <p style="color: var(--blue-grey); line-height: 1.6;">
+                        Access to proprietary research and market insights typically 
+                        reserved for institutional investors and family offices.
+                    </p>
+                </div>
                 
-                <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: var(--space-lg);">
-                    <p style="color: rgba(255, 255, 255, 0.6); font-size: var(--font-size-sm);">
-                        HeritageInvest is a trading name of Heritage Investment Management Limited, 
-                        authorised and regulated by the Financial Conduct Authority (FRN: 123456). 
-                        Registered in England and Wales No: 07896543. Registered Office: 25 St James's Square, London SW1Y 4JH.
+                <div class="value-card animate-fade-in delay-200">
+                    <div class="service-icon" style="margin-bottom: 1.5rem;">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h4 style="margin-bottom: 1rem;">Senior Advisory Team</h4>
+                    <p style="color: var(--blue-grey); line-height: 1.6;">
+                        Direct access to senior investment professionals with 
+                        15+ years of institutional experience.
                     </p>
-                    <p class="mt-3" style="color: rgba(255, 255, 255, 0.6); font-size: var(--font-size-sm);">
-                        The value of investments can go down as well as up and you may not get back the full amount invested. 
-                        Past performance is not a reliable indicator of future results. This website is for professional investors only.
-                    </p>
-                    <p class="mt-3 text-micro" style="color: rgba(255, 255, 255, 0.4);">
-                        © 2026 Heritage Investment Management Limited. All rights reserved.
+                </div>
+                
+                <div class="value-card animate-fade-in delay-300">
+                    <div class="service-icon" style="margin-bottom: 1.5rem;">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h4 style="margin-bottom: 1rem;">Fiduciary Duty</h4>
+                    <p style="color: var(--blue-grey); line-height: 1.6;">
+                        We are legally bound to act in your best interests with 
+                        complete transparency and full disclosure.
                     </p>
                 </div>
             </div>
-        </footer>
-    </div>
+        </div>
+    </section>
 
-    <script src="app.js"></script>
+    <!-- NEW: Global Presence -->
+    <section id="global" class="global-section">
+        <div class="container">
+            <div class="section-header animate-fade-in" style="color: white;">
+                <span class="section-label" style="background: rgba(255, 255, 255, 0.1); color: white;">GLOBAL PRESENCE</span>
+                <h2 class="section-title" style="color: white;">International Reach</h2>
+                <p class="section-subtitle" style="color: rgba(255, 255, 255, 0.8);">
+                    Serving clients globally with offices in major financial centers 
+                    and access to markets worldwide.
+                </p>
+            </div>
+            
+            <div class="global-grid">
+                <div class="global-office animate-fade-in delay-100">
+                    <div class="office-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h4 style="color: white;">London</h4>
+                    <p style="color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">
+                        Head Office<br>
+                        25 St James's Square
+                    </p>
+                </div>
+                
+                <div class="global-office animate-fade-in delay-200">
+                    <div class="office-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h4 style="color: white;">Zurich</h4>
+                    <p style="color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">
+                        Swiss Office<br>
+                        Bahnhofstrasse 45
+                    </p>
+                </div>
+                
+                <div class="global-office animate-fade-in delay-300">
+                    <div class="office-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h4 style="color: white;">Singapore</h4>
+                    <p style="color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">
+                        Asia-Pacific Hub<br>
+                        Raffles Place
+                    </p>
+                </div>
+                
+                <div class="global-office animate-fade-in delay-400">
+                    <div class="office-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h4 style="color: white;">New York</h4>
+                    <p style="color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">
+                        Americas Office<br>
+                        Park Avenue
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: Awards & Recognition -->
+    <section id="awards" class="awards-section">
+        <div class="container">
+            <div class="section-header animate-fade-in">
+                <span class="section-label">AWARDS & RECOGNITION</span>
+                <h2 class="section-title">Industry Recognition</h2>
+                <p class="section-subtitle">
+                    Our commitment to excellence has been recognised by leading 
+                    industry publications and organisations.
+                </p>
+            </div>
+            
+            <div class="awards-grid">
+                <div class="award-card animate-fade-in delay-100">
+                    <div class="award-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h4 style="margin-bottom: 0.5rem;">Wealth Management Firm of the Year</h4>
+                    <p style="color: var(--blue-grey); font-size: 0.9rem;">
+                        European Wealth Awards 2023
+                    </p>
+                </div>
+                
+                <div class="award-card animate-fade-in delay-200">
+                    <div class="award-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h4 style="margin-bottom: 0.5rem;">Best Client Service</h4>
+                    <p style="color: var(--blue-grey); font-size: 0.9rem;">
+                        UK Private Banking Awards 2023
+                    </p>
+                </div>
+                
+                <div class="award-card animate-fade-in delay-300">
+                    <div class="award-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4 style="margin-bottom: 0.5rem;">Top Rated Investment Firm</h4>
+                    <p style="color: var(--blue-grey); font-size: 0.9rem;">
+                        Financial Times 2023
+                    </p>
+                </div>
+                
+                <div class="award-card animate-fade-in delay-400">
+                    <div class="award-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <h4 style="margin-bottom: 0.5rem;">Excellence in Risk Management</h4>
+                    <p style="color: var(--blue-grey); font-size: 0.9rem;">
+                        Institutional Investor 2023
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Regulatory Section -->
+    <section id="regulatory" class="regulatory-section">
+        <div class="container">
+            <div class="section-header animate-fade-in" style="color: white;">
+                <span class="section-label" style="background: rgba(255, 255, 255, 0.1); color: white;">COMPLIANCE & SECURITY</span>
+                <h2 class="section-title" style="color: white;">Trust & Regulatory Compliance</h2>
+                <p class="section-subtitle" style="color: rgba(255, 255, 255, 0.8);">
+                    We operate under the highest regulatory standards to ensure 
+                    the security and protection of your investments.
+                </p>
+            </div>
+            
+            <div class="regulatory-grid">
+                <div class="regulatory-item animate-fade-in delay-100">
+                    <div class="regulatory-icon">
+                        <i class="fa fa-bank"></i>
+                    </div>
+                    <h4 class="mb-2" style="color: white;">FCA Regulated</h4>
+                    <p class="text-sm" style="color: rgba(255, 255, 255, 0.8);">
+                        Authorised and regulated by the Financial Conduct Authority
+                    </p>
+                </div>
+                
+                <div class="regulatory-item animate-fade-in delay-200">
+                    <div class="regulatory-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h4 class="mb-2" style="color: white;">FSCS Protected</h4>
+                    <p class="text-sm" style="color: rgba(255, 255, 255, 0.8);">
+                        Investments protected up to £85,000 under FSCS scheme
+                    </p>
+                </div>
+                
+                <div class="regulatory-item animate-fade-in delay-300">
+                    <div class="regulatory-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h4 class="mb-2" style="color: white;">Professional Client</h4>
+                    <p class="text-sm" style="color: rgba(255, 255, 255, 0.8);">
+                        Services available to professional and eligible counterparty clients
+                    </p>
+                </div>
+                
+                <div class="regulatory-item animate-fade-in delay-400">
+                    <div class="regulatory-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h4 class="mb-2" style="color: white;">Best Execution</h4>
+                    <p class="text-sm" style="color: rgba(255, 255, 255, 0.8);">
+                        Commitment to achieving best execution for all client orders
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content animate-fade-in">
+            <span class="section-label" style="background: rgba(255, 255, 255, 0.2); color: white;">GET STARTED</span>
+            <h2 style="font-size: 3rem; color: white; margin-bottom: 1.5rem;">
+                Begin Your Wealth Management Journey
+            </h2>
+            <p style="font-size: 1.25rem; color: rgba(255, 255, 255, 0.9); margin-bottom: 3rem; max-width: 600px;">
+                Schedule a confidential consultation with our senior investment team 
+                to discuss how we can help achieve your financial objectives.
+            </p>
+            
+            <div class="flex gap-8 justify-center">
+                <a href="#consultation" class="btn-institutional" style="padding: 1rem 2.5rem; font-size: 1.1rem;">
+                    <i class="fas fa-calendar-alt mr-2"></i>
+                    Schedule Consultation
+                </a>
+                <a href="tel:+442071234567" class="btn-outline-blue" style="background: transparent; border: 2px solid rgba(255, 255, 255, 0.3); color: white; padding: 1rem 2.5rem; font-size: 1.1rem;">
+                    <i class="fas fa-phone mr-2"></i>
+                    +44 20 7123 4567
+                </a>
+            </div>
+            
+            <div class="mt-8">
+                <a href="login.html" class="btn-institutional" style="background: rgba(255, 255, 255, 0.1); border: 2px solid rgba(255, 255, 255, 0.3);">
+                    <i class="fas fa-lock mr-2"></i>
+                    Access Client Portal
+                </a>
+            </div>
+            
+            <p class="mt-8 text-sm" style="color: rgba(255, 255, 255, 0.7);">
+                <i class="fas fa-shield-alt mr-2"></i>
+                All consultations are confidential and protected by client-attorney privilege
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="premium-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-logo">HeritageInvest</div>
+                    <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 1.5rem; line-height: 1.6;">
+                        25 St James's Square<br>
+                        London SW1Y 4JH<br>
+                        United Kingdom
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" style="color: rgba(255, 255, 255, 0.7);">
+                            <i class="fab fa-linkedin fa-lg"></i>
+                        </a>
+                        <a href="#" style="color: rgba(255, 255, 255, 0.7);">
+                            <i class="fab fa-twitter fa-lg"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <a href="#">Wealth Management</a>
+                    <a href="#">Investment Advisory</a>
+                    <a href="#">Risk Management</a>
+                    <a href="#">Estate Planning</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <a href="#">About Us</a>
+                    <a href="#">Our Team</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Insights</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Legal & Compliance</h4>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Compliance</a>
+                    <a href="#">Regulatory Info</a>
+                </div>
+            </div>
+            
+            <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 2rem;">
+                <p style="color: rgba(255, 255, 255, 0.5); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+                    HeritageInvest is a trading name of Heritage Investment Management Limited, 
+                    authorised and regulated by the Financial Conduct Authority (FRN: 123456). 
+                    Registered in England and Wales No: 07896543. Registered Office: 25 St James's Square, London SW1Y 4JH.
+                </p>
+                <p style="color: rgba(255, 255, 255, 0.5); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+                    The value of investments can go down as well as up and you may not get back the full amount invested. 
+                    Past performance is not a reliable indicator of future results. This website is for professional investors only.
+                </p>
+                <p style="color: rgba(255, 255, 255, 0.3); font-size: 0.8rem;">
+                    © 2024 Heritage Investment Management Limited. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        // Scroll animation
-        document.addEventListener('DOMContentLoaded', function() {
-            // Fade in elements on scroll
-            const fadeElements = document.querySelectorAll('.fade-in');
-            
-            const fadeInOnScroll = () => {
-                fadeElements.forEach(element => {
-                    const elementTop = element.getBoundingClientRect().top;
-                    const elementVisible = 150;
-                    
-                    if (elementTop < window.innerHeight - elementVisible) {
-                        element.classList.add('visible');
-                    }
-                });
-            };
-            
-            // Initial check
-            fadeInOnScroll();
-            
-            // Check on scroll
-            window.addEventListener('scroll', fadeInOnScroll);
-            
-            // Smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        e.preventDefault();
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-            
-            // Professional console message
-            console.log('%c🏛️ HeritageInvest UK - Institutional Platform', 'color: #007A7C; font-size: 16px; font-weight: bold;');
-            console.log('%c🔒 Professional Wealth Management Solutions', 'color: #0A2342;');
-            console.log('%c💰 Minimum Investment: £100,000', 'color: #B8860B;');
-            console.log('%c📱 Institutional Grade Interface', 'color: #006B54;');
+        // Mobile menu functionality
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            mobileMenuBtn.innerHTML = mobileMenu.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
         });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                mobileMenu.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // Close mobile menu if open
+                    mobileMenu.classList.remove('active');
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Scroll animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        
+        // Observe all animated elements
+        document.querySelectorAll('.animate-fade-in').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Professional console message
+        console.log('%c🏛️ HeritageInvest | Institutional Wealth Management', 'background: linear-gradient(90deg, #1E3A8A, #2563EB); color: white; font-size: 14px; padding: 8px 16px; border-radius: 4px; font-weight: bold;');
+        console.log('%c🔒 FCA Regulated | Professional Clients Only | Minimum Investment: £100,000', 'color: #2563EB;');
+        console.log('%c📱 Mobile-Optimized Client Portal | 24/7 Access', 'color: #64748B;');
     </script>
 </body>
 </html>
