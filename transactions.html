@@ -649,10 +649,43 @@
             }
         }
     });
+
+         // PROTECTION SCRIPT - PASTE AT TOP OF EACH PROTECTED PAGE
+(function() {
+    // Check authentication
+    const auth = sessionStorage.getItem('nexusbank_auth');
+    const expiry = sessionStorage.getItem('nexusbank_expiry');
+    
+    if (auth !== 'authenticated' || !expiry || Date.now() > parseInt(expiry)) {
+        // Clear any stale data
+        sessionStorage.clear();
+        window.location.replace('login.html');
+        return;
+    }
+    
+    // Refresh expiry
+    sessionStorage.setItem('nexusbank_expiry', Date.now() + 3600000);
+    
+    // Inactivity logout
+    let timer;
+    function resetTimer() {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            sessionStorage.clear();
+            window.location.replace('login.html');
+        }, 900000); // 15 minutes
+    }
+    
+    ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(e => {
+        document.addEventListener(e, resetTimer);
+    });
+    resetTimer();
+})();
     </script>
     <!-- Add this before closing body tag in dashboard.html, transfer.html, transactions.html, cards.html, settings.html, etc. -->
 <script src="auto-logout.js"></script>
 </body>
 
 </html>
+
 
