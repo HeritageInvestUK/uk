@@ -8,8 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/png" href="https://a.mktgcdn.com/p/trqY8cbRb9rpmzNBIHFEHxK3n0czpuAaJO27NrH_lzQ/1.0000/676x676.png">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <!-- Premium Loading Screen -->
@@ -251,7 +250,7 @@
                                 <label>Email Address</label>
                                 <div class="input-wrapper">
                                     <i class="fas fa-envelope"></i>
-                                    <input type="email" value="john.doe@gmail.com" id="email">
+                                    <input type="email" value="john.doe@example.com" id="email">
                                 </div>
                             </div>
 
@@ -259,7 +258,7 @@
                                 <label>Phone Number</label>
                                 <div class="input-wrapper">
                                     <i class="fas fa-phone"></i>
-                                    <input type="tel" value="+44 08 8455-8842" id="phone">
+                                    <input type="tel" value="(555) 123-4567" id="phone">
                                 </div>
                             </div>
 
@@ -856,17 +855,17 @@
 
         // Upload photo
         function uploadPhoto() {
-            showSuccess('Photo upload feature (demo)');
+            showSuccess('Photo upload feature');
         }
 
         // Remove photo
         function removePhoto() {
-            showSuccess('Photo removed (demo)');
+            showSuccess('Photo removed');
         }
 
         // Show all devices
         function showAllDevices() {
-            showSuccess('All devices view (demo)');
+            showSuccess('All devices view');
         }
 
         // Save notifications
@@ -980,7 +979,7 @@
         }
     });
 
-         // PROTECTION SCRIPT - PASTE AT TOP OF EACH PROTECTED PAGE
+    // PROTECTION SCRIPT - PASTE AT TOP OF EACH PROTECTED PAGE
 (function() {
     // Check authentication
     const auth = sessionStorage.getItem('nexusbank_auth');
@@ -1013,10 +1012,6 @@
 })();
     </script>
     <!-- Add this before closing body tag in dashboard.html, transfer.html, transactions.html, cards.html, settings.html, etc. -->
-<script src="auto-logout.js"></script>
+<script src="js/auto-logout.js"></script>
 </body>
-
 </html>
-
-
-
