@@ -2,329 +2,461 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Savings Account · HarvestBank Professional</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Savings Account · NexusBank</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="https://a.mktgcdn.com/p/trqY8cbRb9rpmzNBIHFEHxK3n0czpuAaJO27NrH_lzQ/1.0000/676x676.png">
+    <style>
+        :root {
+            --ink: #10201B;
+            --ink-soft: #1B2F27;
+            --parchment: #F3EFE4;
+            --parchment-deep: #EAE3D2;
+            --bone: #FBF9F3;
+            --brass: #B98A2E;
+            --brass-bright: #D7A83F;
+            --ledger-green: #2F6B4F;
+            --ledger-red: #A24632;
+            --charcoal: #23302B;
+            --stone: #6B7A72;
+            --hair: rgba(35,48,43,0.14);
+            --hair-dark: rgba(243,239,228,0.16);
+            --shadow-card: 0 1px 2px rgba(16,32,27,0.06), 0 8px 24px rgba(16,32,27,0.06);
+            --shadow-lift: 0 20px 45px rgba(16,32,27,0.16);
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--charcoal);
+            background: var(--parchment);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        h1,h2,h3,h4 { font-family: 'Source Serif 4', serif; font-weight:600; letter-spacing:-0.01em; }
+        .mono { font-family: 'IBM Plex Mono', monospace; }
+        a { color: inherit; text-decoration: none; }
+        ::selection { background: var(--brass); color: var(--ink); }
+        :focus-visible { outline: 2px solid var(--brass); outline-offset:2px; }
+
+        /* Loader */
+        .premium-loader {
+            position: fixed; inset:0; background: var(--ink); z-index:9999;
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.6s var(--ease), visibility 0.6s var(--ease);
+        }
+        .premium-loader.fade-out { opacity:0; visibility:hidden; }
+        .loader-content { text-align: center; }
+        .loader-logo {
+            font-family: 'Source Serif 4', serif; font-size:1.9rem; font-weight:600;
+            color: var(--bone); margin-bottom:1.25rem;
+        }
+        .loader-logo .mark { color: var(--brass-bright); font-family:'IBM Plex Mono',monospace; font-size:1.1rem; margin-right:0.6rem; }
+        .loader-rule {
+            width:160px; height:1px; background: var(--hair-dark);
+            position:relative; margin:0 auto; overflow:hidden;
+        }
+        .loader-rule::after {
+            content:''; position:absolute; top:0; left:-40%; width:40%; height:100%;
+            background: var(--brass-bright); animation: loading 1.1s infinite;
+        }
+        @keyframes loading { 0%{left:-40%;} 100%{left:100%;} }
+
+        /* Layout */
+        .dashboard-premium { display:flex; min-height:100vh; }
+        .sidebar-premium {
+            background: var(--ink); color: var(--bone); width:280px; flex-shrink:0;
+            display: flex; flex-direction: column; border-right:1px solid var(--hair-dark);
+            transition: left 0.3s var(--ease); z-index:1000;
+        }
+        .sidebar-brand {
+            padding:2rem 1.5rem 1.5rem; border-bottom:1px solid var(--hair-dark);
+            display: flex; align-items: center; gap:0.6rem;
+        }
+        .brand-logo .mark {
+            width:38px; height:38px; border:1.5px solid var(--brass);
+            display:flex; align-items: center; justify-content: center;
+            font-family: 'IBM Plex Mono',monospace; font-size:0.95rem; font-weight:600;
+            color: var(--brass);
+        }
+        .brand-logo span {
+            font-family: 'Source Serif 4',serif; font-size:1.35rem; font-weight:600; color: var(--bone);
+            margin-left:0.6rem;
+        }
+        .brand-tag { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; color: var(--stone); margin-top:0.3rem; }
+
+        .sidebar-nav-premium { flex:1; padding:1.5rem 0; overflow-y:auto; }
+        .nav-section { margin-bottom:1.5rem; }
+        .nav-section-title {
+            font-family:'IBM Plex Mono',monospace; font-size:0.7rem; text-transform:uppercase;
+            letter-spacing:0.06em; color: var(--brass); padding:0 1.5rem; margin-bottom:0.5rem;
+        }
+        .nav-section ul { list-style:none; }
+        .nav-section li a {
+            display:flex; align-items:center; gap:0.75rem; padding:0.8rem 1.5rem;
+            color: rgba(251,249,243,0.7); font-weight:500; font-size:0.9rem;
+            transition: background 0.2s var(--ease), color 0.2s var(--ease);
+        }
+        .nav-section li a:hover, .nav-section li.active a { background: var(--ink-soft); color: var(--bone); }
+        .nav-section li a i { width:20px; text-align:center; font-size:0.95rem; }
+        .nav-badge {
+            background: var(--brass); color: var(--ink); font-family:'IBM Plex Mono',monospace;
+            font-size:0.65rem; padding:0.15rem 0.5rem; border-radius:20px; margin-left:auto;
+        }
+        .nav-amount {
+            font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color: var(--stone);
+            margin-left:auto;
+        }
+
+        .sidebar-footer-premium {
+            padding:1.5rem; border-top:1px solid var(--hair-dark);
+            display:flex; align-items:center; gap:0.75rem;
+        }
+        .user-avatar img { width:38px; height:38px; border-radius:50%; object-fit:cover; }
+        .user-details .user-name { font-weight:600; font-size:0.9rem; }
+        .user-details .user-role { color: var(--stone); font-size:0.75rem; }
+        .user-actions { display:flex; gap:0.5rem; margin-left:auto; }
+        .icon-btn {
+            background:none; border:1px solid var(--hair-dark); color: var(--bone);
+            width:34px; height:34px; display:flex; align-items:center; justify-content:center;
+            cursor:pointer; transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+        }
+        .icon-btn:hover { border-color: var(--brass); color: var(--brass); }
+
+        .sidebar-overlay {
+            display:none; position:fixed; inset:0; background: rgba(0,0,0,0.4);
+            z-index:999; opacity:0; transition: opacity 0.3s var(--ease);
+        }
+        .sidebar-overlay.active { display:block; opacity:1; }
+        .menu-toggle { display:none; background:none; border:1px solid var(--hair); color: var(--ink); width:42px; height:42px; align-items:center; justify-content:center; font-size:1.2rem; cursor:pointer; }
+
+        .main-content-premium {
+            flex:1; background: var(--parchment); padding:1.5rem 2rem 2rem;
+            overflow-y:auto; min-height:100vh;
+        }
+
+        .top-nav-premium {
+            display:flex; align-items:center; justify-content:space-between;
+            padding:1rem 0; border-bottom:1px solid var(--hair); margin-bottom:2rem;
+            flex-wrap:wrap; gap:1rem;
+        }
+        .nav-left { display:flex; align-items:center; gap:1rem; }
+        .page-title h1 { font-size:1.8rem; font-weight:600; color: var(--ink); }
+        .page-title p { color: var(--stone); font-size:0.95rem; }
+        .nav-right { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
+        .search-bar {
+            display:flex; align-items:center; background: var(--bone); border:1px solid var(--hair);
+            padding:0.5rem 1rem; border-radius:8px; gap:0.5rem; min-width:200px;
+        }
+        .search-bar i { color: var(--stone); font-size:0.9rem; }
+        .search-bar input {
+            border:none; background:transparent; font-family:'Inter',sans-serif; font-size:0.9rem;
+            outline:none; color: var(--charcoal); width:100%;
+        }
+        .notification-btn, .support-btn {
+            background: var(--bone); border:1px solid var(--hair); width:42px; height:42px;
+            display:flex; align-items:center; justify-content:center; position:relative;
+            cursor:pointer; transition: border-color 0.2s var(--ease);
+        }
+        .notification-btn:hover, .support-btn:hover { border-color: var(--ink); }
+        .notification-dot {
+            position:absolute; top:8px; right:8px; width:8px; height:8px;
+            background: var(--ledger-red); border-radius:50%;
+        }
+        .support-btn { gap:0.4rem; width:auto; padding:0 1rem; font-weight:500; font-size:0.9rem; }
+        .support-btn i { font-size:1rem; }
+
+        /* Hero */
+        .account-hero {
+            background: var(--bone); border:1px solid var(--hair); padding:2rem;
+            display:flex; justify-content:space-between; align-items:flex-start;
+            margin-bottom:2rem; flex-wrap:wrap; gap:1.5rem;
+        }
+        .account-hero.savings { border-top:3px solid var(--brass); }
+        .account-hero-content { flex:1; min-width:250px; }
+        .account-badge { display:inline-block; background: var(--parchment-deep); color: var(--ink); font-size:0.75rem; font-weight:600; padding:0.3rem 0.8rem; margin-bottom:0.8rem; }
+        .account-type { display:flex; align-items:center; gap:0.5rem; font-size:1.1rem; font-weight:600; margin-bottom:1rem; color: var(--charcoal); }
+        .account-type i { color: var(--brass); }
+        .account-balance-large { display:flex; align-items:baseline; gap:0.3rem; margin-bottom:0.5rem; }
+        .account-balance-large .currency { font-size:1.8rem; color: var(--ink); }
+        .account-balance-large .amount { font-family:'IBM Plex Mono',monospace; font-size:2.5rem; font-weight:600; color: var(--ink); }
+        .interest-rate { display:flex; align-items:center; gap:0.5rem; color: var(--ledger-green); font-weight:600; font-size:1rem; margin-top:0.5rem; }
+        .account-hero-actions { display:flex; gap:0.75rem; flex-wrap:wrap; }
+        .action-btn-large {
+            padding:0.7rem 1.3rem; background: var(--ink); color: var(--bone); border:1px solid var(--ink);
+            font-weight:600; cursor:pointer; display:flex; align-items:center; gap:0.5rem;
+            transition: background 0.2s var(--ease); white-space:nowrap;
+        }
+        .action-btn-large.primary { background: var(--brass); color: var(--ink); border-color: var(--brass); }
+        .action-btn-large.primary:hover { background: var(--brass-bright); }
+        .action-btn-large:hover { background: var(--ink-soft); }
+
+        /* Stats */
+        .savings-stats { display:flex; gap:1rem; margin-bottom:2rem; flex-wrap:wrap; }
+        .stat-card {
+            background: var(--bone); border:1px solid var(--hair); padding:1.5rem;
+            flex:1; min-width:200px; display:flex; align-items:center; gap:1rem;
+        }
+        .stat-card.highlight { border-left:3px solid var(--brass); }
+        .stat-icon {
+            width:48px; height:48px; border-radius:50%; background: var(--parchment);
+            display:flex; align-items:center; justify-content:center; color: var(--brass); font-size:1.2rem;
+        }
+        .stat-details { display:flex; flex-direction:column; }
+        .stat-label { font-size:0.8rem; color: var(--stone); margin-bottom:0.3rem; }
+        .stat-value { font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:1.2rem; }
+        .stat-value.positive { color: var(--ledger-green); }
+
+        /* Goals */
+        .savings-goals { margin-bottom:2rem; }
+        .section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem; }
+        .section-header h2 { font-size:1.5rem; color: var(--ink); }
+        .btn-outline-small {
+            padding:0.5rem 1rem; background: var(--bone); border:1px solid var(--hair);
+            font-weight:500; font-size:0.85rem; cursor:pointer; display:flex; align-items:center; gap:0.4rem;
+            transition: border-color 0.2s var(--ease); color: var(--charcoal);
+        }
+        .btn-outline-small:hover { border-color: var(--ink); }
+        .goals-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap:1.5rem; }
+        .goal-card {
+            background: var(--bone); border:1px solid var(--hair); padding:1.5rem;
+            transition: box-shadow 0.2s var(--ease);
+        }
+        .goal-card:hover { box-shadow: var(--shadow-lift); }
+        .goal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
+        .goal-header h3 { font-size:1.1rem; }
+        .goal-category { font-size:0.7rem; background: var(--parchment-deep); padding:0.2rem 0.6rem; }
+        .goal-progress { display:flex; align-items:center; gap:1.5rem; margin-bottom:1rem; }
+        .progress-circle { position:relative; width:80px; height:80px; flex-shrink:0; }
+        .progress-circle svg { width:80px; height:80px; transform: rotate(-90deg); }
+        .progress-circle .bg { fill:none; stroke: var(--parchment-deep); stroke-width:8; }
+        .progress-circle .progress { fill:none; stroke: var(--brass); stroke-width:8; stroke-linecap:round; }
+        .progress-text { position:absolute; top:50%; left:50%; transform: translate(-50%,-50%); font-weight:700; font-size:1rem; color: var(--ink); }
+        .goal-details { text-align:center; }
+        .goal-current { font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:1.2rem; color: var(--ink); }
+        .goal-target { font-size:0.85rem; color: var(--stone); }
+        .goal-footer { display:flex; justify-content:space-between; align-items:center; margin-top:1rem; padding-top:1rem; border-top:1px solid var(--hair); }
+        .goal-date { font-size:0.85rem; color: var(--stone); }
+        .goal-action { background: none; border:1px solid var(--hair); width:34px; height:34px; display:flex; align-items:center; justify-content:center; cursor:pointer; color: var(--ink); transition: border-color 0.2s var(--ease); }
+        .goal-action:hover { border-color: var(--brass); }
+
+        /* Interest Calculator */
+        .interest-calculator {
+            background: var(--bone); border:1px solid var(--hair); padding:2rem; margin-bottom:2rem;
+        }
+        .interest-calculator h3 { font-size:1.3rem; margin-bottom:1.5rem; color: var(--ink); }
+        .calculator-grid { display:flex; gap:2rem; flex-wrap:wrap; }
+        .calculator-inputs { flex:1; min-width:250px; display:flex; flex-direction:column; gap:1rem; }
+        .input-group label { display:block; font-family:'IBM Plex Mono',monospace; font-size:0.7rem; text-transform:uppercase; color: var(--stone); margin-bottom:0.3rem; }
+        .input-wrapper { display:flex; align-items:center; border:1px solid var(--hair); background: #fff; }
+        .input-wrapper .currency { padding:0.7rem 0.5rem 0.7rem 0.9rem; font-weight:600; color: var(--stone); }
+        .input-wrapper input { border:none; padding:0.7rem; flex:1; font-family:'Inter',sans-serif; font-size:0.95rem; outline:none; }
+        .calculator-results { flex:1; min-width:250px; display:flex; flex-direction:column; gap:1rem; }
+        .result-item { display:flex; justify-content:space-between; align-items:baseline; padding:0.8rem 0; border-bottom:1px solid var(--hair); }
+        .result-item .result-value { font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:1.1rem; }
+        .result-value.positive { color: var(--ledger-green); }
+
+        /* Recent Activity */
+        .account-transactions { background: var(--bone); border:1px solid var(--hair); padding:1.5rem; }
+        .transactions-list-compact { margin-top:1rem; }
+        .transaction-row {
+            display:flex; align-items:center; justify-content:space-between;
+            padding:0.8rem 0; border-bottom:1px solid var(--hair); gap:1rem; flex-wrap:wrap;
+        }
+        .transaction-row:last-child { border-bottom:none; }
+        .transaction-icon {
+            width:40px; height:40px; border-radius:50%; background: var(--parchment);
+            display:flex; align-items:center; justify-content:center; font-size:0.9rem; color: var(--ink);
+        }
+        .transaction-info { flex:1; min-width:180px; }
+        .transaction-title { font-weight:600; font-size:0.95rem; }
+        .transaction-date { font-size:0.8rem; color: var(--stone); }
+        .transaction-amount { font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:1rem; }
+        .transaction-amount.positive { color: var(--ledger-green); }
+        .transaction-amount.negative { color: var(--ledger-red); }
+
+        /* Responsive */
+        @media (max-width:1024px) {
+            .sidebar-premium {
+                position:fixed; left:-280px; top:0; bottom:0; height:100vh;
+            }
+            .sidebar-premium.active { left:0; }
+            .sidebar-overlay { display:block; }
+            .menu-toggle { display:flex; }
+            .main-content-premium { margin-left:0; padding:1rem; }
+            .top-nav-premium { flex-direction:column; align-items:flex-start; }
+            .nav-right { width:100%; justify-content:space-between; }
+            .account-hero { flex-direction:column; }
+            .account-hero-actions { width:100%; }
+            .action-btn-large { flex:1; justify-content:center; }
+            .savings-stats { flex-direction:column; }
+            .goals-grid { grid-template-columns:1fr; }
+            .calculator-grid { flex-direction:column; }
+        }
+        @media (max-width:480px) {
+            .account-balance-large .amount { font-size:2rem; }
+            .progress-circle { width:60px; height:60px; }
+            .progress-circle svg { width:60px; height:60px; }
+            .progress-text { font-size:0.85rem; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Premium Loading Screen -->
     <div class="premium-loader">
         <div class="loader-content">
-            <div class="loader-logo">
-                <i class="fas fa-landmark"></i>
-                <span>HarvestBank</span>
-            </div>
-            <div class="loader-bar"></div>
+            <div class="loader-logo"><span class="mark">N·B</span>NexusBank</div>
+            <div class="loader-rule"></div>
         </div>
     </div>
 
-    <!-- Main Dashboard Container -->
     <div class="dashboard-premium">
-        <!-- Sidebar Navigation -->
         <aside class="sidebar-premium">
             <div class="sidebar-brand">
                 <div class="brand-logo">
-                    <i class="fas fa-landmark"></i>
-                    <span>HarvestBank</span>
+                    <span class="mark">N·B</span>
+                    <span>NexusBank</span>
                 </div>
                 <div class="brand-tag">Private Banking</div>
             </div>
-
             <nav class="sidebar-nav-premium">
                 <div class="nav-section">
                     <div class="nav-section-title">MAIN</div>
                     <ul>
-                        <li>
-                            <a href="dashboard.html">
-                                <i class="fas fa-chart-pie"></i>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="transactions.html">
-                                <i class="fas fa-arrow-right-arrow-left"></i>
-                                <span>Transactions</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="transfer.html">
-                                <i class="fas fa-paper-plane"></i>
-                                <span>Transfers</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="statements.html">
-                                <i class="fas fa-file-invoice"></i>
-                                <span>Statements</span>
-                            </a>
-                        </li>
+                        <li><a href="dashboard.html"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a></li>
+                        <li><a href="transactions.html"><i class="fas fa-arrow-right-arrow-left"></i><span>Transactions</span></a></li>
+                        <li><a href="transfer.html"><i class="fas fa-paper-plane"></i><span>Transfers</span></a></li>
+                        <li><a href="statements.html"><i class="fas fa-file-invoice"></i><span>Statements</span></a></li>
                     </ul>
                 </div>
-
                 <div class="nav-section">
                     <div class="nav-section-title">ACCOUNTS</div>
                     <ul>
-                        <li>
-                            <a href="checking.html">
-                                <i class="fas fa-wallet"></i>
-                                <span>Checking</span>
-                                <span class="nav-amount">£645,432</span>
-                            </a>
-                        </li>
-                        <li class="active">
-                            <a href="savings.html">
-                                <i class="fas fa-piggy-bank"></i>
-                                <span>Savings</span>
-                                <span class="nav-amount">£215,678</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="investments.html">
-                                <i class="fas fa-chart-line"></i>
-                                <span>Investments</span>
-                                <span class="nav-amount">£3,456,789</span>
-                            </a>
-                        </li>
+                        <li><a href="checking.html"><i class="fas fa-wallet"></i><span>Checking</span><span class="nav-amount">£645,432</span></a></li>
+                        <li class="active"><a href="savings.html"><i class="fas fa-piggy-bank"></i><span>Savings</span><span class="nav-amount">£215,678</span></a></li>
+                        <li><a href="investments.html"><i class="fas fa-chart-line"></i><span>Investments</span><span class="nav-amount">£3,456,789</span></a></li>
                     </ul>
                 </div>
-
                 <div class="nav-section">
                     <div class="nav-section-title">SERVICES</div>
                     <ul>
-                        <li>
-                            <a href="cards.html">
-                                <i class="fas fa-credit-card"></i>
-                                <span>Cards</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="paybills.html">
-                                <i class="fas fa-file-invoice-dollar"></i>
-                                <span>Pay Bills</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="settings.html">
-                                <i class="fas fa-gear"></i>
-                                <span>Settings</span>
-                            </a>
-                        </li>
+                        <li><a href="cards.html"><i class="fas fa-credit-card"></i><span>Cards</span></a></li>
+                        <li><a href="paybills.html"><i class="fas fa-file-invoice-dollar"></i><span>Pay Bills</span></a></li>
+                        <li><a href="settings.html"><i class="fas fa-gear"></i><span>Settings</span></a></li>
                     </ul>
                 </div>
             </nav>
-
             <div class="sidebar-footer-premium">
-                <div class="user-info">
-                    <div class="user-avatar">
-                        <img src="https://pbs.twimg.com/media/HBYhBrhXIAAjTtl?format=jpg&name=medium" alt="John Shanji">
-                    </div>
-                    <div class="user-details">
-                        <div class="user-name">John Shanji</div>
-                        <div class="user-role">Premium Member</div>
-                    </div>
+                <div class="user-avatar"><img src="https://pbs.twimg.com/media/HBYhBrhXIAAjTtl?format=jpg&name=medium" alt="John Shanji"></div>
+                <div class="user-details">
+                    <div class="user-name">John Shanji</div>
+                    <div class="user-role">Premium Member</div>
                 </div>
                 <div class="user-actions">
-                    <button class="icon-btn" title="Settings" onclick="location.href='settings.html'">
-                        <i class="fas fa-sliders-h"></i>
-                    </button>
-                    <button class="icon-btn" title="Logout" onclick="location.href='index.html'">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </button>
+                    <button class="icon-btn" title="Settings" onclick="location.href='settings.html'"><i class="fas fa-sliders-h"></i></button>
+                    <button class="icon-btn" title="Logout" onclick="location.href='index.html'"><i class="fas fa-sign-out-alt"></i></button>
                 </div>
             </div>
         </aside>
 
-        <!-- Sidebar Overlay (for mobile) -->
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-        <!-- Main Content Area -->
         <main class="main-content-premium">
-            <!-- Top Navigation -->
             <header class="top-nav-premium">
                 <div class="nav-left">
-                    <button class="menu-toggle" id="menuToggle">
-                        <i class="fas fa-bars"></i>
-                    </button>
+                    <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
                     <div class="page-title">
                         <h1>Savings Account</h1>
                         <p>Grow your money with competitive interest rates</p>
                     </div>
                 </div>
-
                 <div class="nav-right">
                     <div class="search-bar">
                         <i class="fas fa-search"></i>
                         <input type="text" placeholder="Search...">
                     </div>
-
-                    <button class="notification-btn">
-                        <i class="far fa-bell"></i>
-                        <span class="notification-dot"></span>
-                    </button>
-
-                    <button class="support-btn">
-                        <i class="far fa-question-circle"></i>
-                        <span>Help</span>
-                    </button>
+                    <button class="notification-btn"><i class="far fa-bell"></i><span class="notification-dot"></span></button>
+                    <button class="support-btn"><i class="far fa-question-circle"></i><span>Help</span></button>
                 </div>
             </header>
 
-            <!-- Account Hero Section -->
+            <!-- Hero -->
             <div class="account-hero savings">
                 <div class="account-hero-content">
-                    <div class="account-badge">High-Yield Savings</div>
-                    <div class="account-type">
-                        <i class="fas fa-piggy-bank"></i>
-                        <span>Premium Savings</span>
-                    </div>
-                    <div class="account-balance-large">
-                        <span class="currency">£</span>
-                        <span class="amount">215,678.90</span>
-                    </div>
-                    <div class="interest-rate">
-                        <i class="fas fa-percent"></i>
-                        <span>2.50% APY</span>
-                    </div>
+                    <div class="account-badge">High‑Yield Savings</div>
+                    <div class="account-type"><i class="fas fa-piggy-bank"></i><span>Premium Savings</span></div>
+                    <div class="account-balance-large"><span class="currency">£</span><span class="amount">215,678.90</span></div>
+                    <div class="interest-rate"><i class="fas fa-percent"></i><span>2.50% APY</span></div>
                 </div>
                 <div class="account-hero-actions">
-                    <button class="action-btn-large primary" onclick="location.href='transfer.html'">
-                        <i class="fas fa-paper-plane"></i>
-                        Transfer to Savings
-                    </button>
-                    <button class="action-btn-large" onclick="showWithdrawModal()">
-                        <i class="fas fa-upload"></i>
-                        Withdraw
-                    </button>
-                    <button class="action-btn-large" onclick="showInterestModal()">
-                        <i class="fas fa-calculator"></i>
-                        Calculate Interest
-                    </button>
+                    <button class="action-btn-large primary" onclick="location.href='transfer.html'"><i class="fas fa-paper-plane"></i>Transfer to Savings</button>
+                    <button class="action-btn-large" onclick="showWithdrawModal()"><i class="fas fa-upload"></i>Withdraw</button>
+                    <button class="action-btn-large" onclick="showInterestModal()"><i class="fas fa-calculator"></i>Calculate Interest</button>
                 </div>
             </div>
 
-            <!-- Savings Stats -->
+            <!-- Stats -->
             <div class="savings-stats">
                 <div class="stat-card highlight">
-                    <div class="stat-icon">
-                        <i class="fas fa-coins"></i>
-                    </div>
-                    <div class="stat-details">
-                        <span class="stat-label">Interest Earned (YTD)</span>
-                        <span class="stat-value positive">+£7384.72</span>
-                    </div>
+                    <div class="stat-icon"><i class="fas fa-coins"></i></div>
+                    <div class="stat-details"><span class="stat-label">Interest Earned (YTD)</span><span class="stat-value positive">+£7,384.72</span></div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <div class="stat-details">
-                        <span class="stat-label">Monthly Interest</span>
-                        <span class="stat-value">£32.15</span>
-                    </div>
+                    <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="stat-details"><span class="stat-label">Monthly Interest</span><span class="stat-value">£32.15</span></div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                    <div class="stat-details">
-                        <span class="stat-label">Next Interest Payment</span>
-                        <span class="stat-value">Apr 1, 2024</span>
-                    </div>
+                    <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="stat-details"><span class="stat-label">Next Interest Payment</span><span class="stat-value">Apr 1, 2024</span></div>
                 </div>
             </div>
 
-            <!-- Savings Goals -->
+            <!-- Goals -->
             <div class="savings-goals">
                 <div class="section-header">
                     <h2>Savings Goals</h2>
-                    <button class="btn-outline-small" onclick="showAddGoalModal()">
-                        <i class="fas fa-plus"></i>
-                        Add Goal
-                    </button>
+                    <button class="btn-outline-small" onclick="showAddGoalModal()"><i class="fas fa-plus"></i>Add Goal</button>
                 </div>
-
                 <div class="goals-grid">
                     <div class="goal-card">
-                        <div class="goal-header">
-                            <h3>Emergency Fund</h3>
-                            <span class="goal-category">Essential</span>
-                        </div>
+                        <div class="goal-header"><h3>Emergency Fund</h3><span class="goal-category">Essential</span></div>
                         <div class="goal-progress">
                             <div class="progress-circle" data-progress="75">
-                                <svg width="100" height="100">
-                                    <circle class="bg" cx="50" cy="50" r="45"></circle>
-                                    <circle class="progress" cx="50" cy="50" r="45" style="stroke-dasharray: 283; stroke-dashoffset: 71;"></circle>
-                                </svg>
+                                <svg width="100" height="100"><circle class="bg" cx="50" cy="50" r="45"></circle><circle class="progress" cx="50" cy="50" r="45" style="stroke-dasharray:283; stroke-dashoffset:71;"></circle></svg>
                                 <span class="progress-text">75%</span>
                             </div>
-                            <div class="goal-details">
-                                <div class="goal-current">£61,000</div>
-                                <div class="goal-target">of £80,000</div>
-                            </div>
+                            <div class="goal-details"><div class="goal-current">£61,000</div><div class="goal-target">of £80,000</div></div>
                         </div>
-                        <div class="goal-footer">
-                            <span class="goal-date">Target: Dec 2024</span>
-                            <button class="goal-action" onclick="showContributeModal()">
-                                <i class="fas fa-plus-circle"></i>
-                            </button>
-                        </div>
+                        <div class="goal-footer"><span class="goal-date">Target: Dec 2024</span><button class="goal-action" onclick="showContributeModal()"><i class="fas fa-plus-circle"></i></button></div>
                     </div>
-
                     <div class="goal-card">
-                        <div class="goal-header">
-                            <h3>Vacation Fund</h3>
-                            <span class="goal-category">Travel</span>
-                        </div>
+                        <div class="goal-header"><h3>Vacation Fund</h3><span class="goal-category">Travel</span></div>
                         <div class="goal-progress">
                             <div class="progress-circle" data-progress="45">
-                                <svg width="100" height="100">
-                                    <circle class="bg" cx="50" cy="50" r="45"></circle>
-                                    <circle class="progress" cx="50" cy="50" r="45" style="stroke-dasharray: 283; stroke-dashoffset: 156;"></circle>
-                                </svg>
+                                <svg width="100" height="100"><circle class="bg" cx="50" cy="50" r="45"></circle><circle class="progress" cx="50" cy="50" r="45" style="stroke-dasharray:283; stroke-dashoffset:156;"></circle></svg>
                                 <span class="progress-text">45%</span>
                             </div>
-                            <div class="goal-details">
-                                <div class="goal-current">£21,250</div>
-                                <div class="goal-target">of £65,000</div>
-                            </div>
+                            <div class="goal-details"><div class="goal-current">£21,250</div><div class="goal-target">of £65,000</div></div>
                         </div>
-                        <div class="goal-footer">
-                            <span class="goal-date">Target: Aug 2026</span>
-                            <button class="goal-action" onclick="showContributeModal()">
-                                <i class="fas fa-plus-circle"></i>
-                            </button>
-                        </div>
+                        <div class="goal-footer"><span class="goal-date">Target: Aug 2026</span><button class="goal-action" onclick="showContributeModal()"><i class="fas fa-plus-circle"></i></button></div>
                     </div>
-
                     <div class="goal-card">
-                        <div class="goal-header">
-                            <h3>Down Payment</h3>
-                            <span class="goal-category">Housing</span>
-                        </div>
+                        <div class="goal-header"><h3>Down Payment</h3><span class="goal-category">Housing</span></div>
                         <div class="goal-progress">
                             <div class="progress-circle" data-progress="70">
-                                <svg width="100" height="100">
-                                    <circle class="bg" cx="50" cy="50" r="45"></circle>
-                                    <circle class="progress" cx="50" cy="50" r="45" style="stroke-dasharray: 283; stroke-dashoffset: 198;"></circle>
-                                </svg>
+                                <svg width="100" height="100"><circle class="bg" cx="50" cy="50" r="45"></circle><circle class="progress" cx="50" cy="50" r="45" style="stroke-dasharray:283; stroke-dashoffset:198;"></circle></svg>
                                 <span class="progress-text">70%</span>
                             </div>
-                            <div class="goal-details">
-                                <div class="goal-current">£31,000</div>
-                                <div class="goal-target">of £50,000</div>
-                            </div>
+                            <div class="goal-details"><div class="goal-current">£31,000</div><div class="goal-target">of £50,000</div></div>
                         </div>
-                        <div class="goal-footer">
-                            <span class="goal-date">Target: Jun 2026</span>
-                            <button class="goal-action" onclick="showContributeModal()">
-                                <i class="fas fa-plus-circle"></i>
-                            </button>
-                        </div>
+                        <div class="goal-footer"><span class="goal-date">Target: Jun 2026</span><button class="goal-action" onclick="showContributeModal()"><i class="fas fa-plus-circle"></i></button></div>
                     </div>
                 </div>
             </div>
@@ -336,80 +468,45 @@
                     <div class="calculator-inputs">
                         <div class="input-group">
                             <label>Current Balance</label>
-                            <div class="input-wrapper">
-                                <span class="currency">£</span>
-                                <input type="number" value="215678.90" id="calcBalance">
-                            </div>
+                            <div class="input-wrapper"><span class="currency">£</span><input type="number" value="215678.90" id="calcBalance"></div>
                         </div>
                         <div class="input-group">
                             <label>Monthly Deposit</label>
-                            <div class="input-wrapper">
-                                <span class="currency">£</span>
-                                <input type="number" value="500" id="calcDeposit">
-                            </div>
+                            <div class="input-wrapper"><span class="currency">£</span><input type="number" value="500" id="calcDeposit"></div>
                         </div>
                         <div class="input-group">
                             <label>Time Period (Years)</label>
-                            <input type="number" value="5" id="calcYears" min="1" max="30">
+                            <input type="number" value="5" id="calcYears" min="1" max="30" style="width:100%; padding:0.7rem; border:1px solid var(--hair); font-family:'Inter',sans-serif; font-size:0.95rem; outline:none;">
                         </div>
                     </div>
                     <div class="calculator-results">
-                        <div class="result-item">
-                            <span>Future Balance</span>
-                            <span class="result-value" id="futureValue">£223,456.78</span>
-                        </div>
-                        <div class="result-item">
-                            <span>Total Interest Earned</span>
-                            <span class="result-value positive" id="totalInterest">£87,777.88</span>
-                        </div>
-                        <div class="result-item">
-                            <span>Effective APY</span>
-                            <span class="result-value">2.53%</span>
-                        </div>
+                        <div class="result-item"><span>Future Balance</span><span class="result-value" id="futureValue">£223,456.78</span></div>
+                        <div class="result-item"><span>Total Interest Earned</span><span class="result-value positive" id="totalInterest">£87,777.88</span></div>
+                        <div class="result-item"><span>Effective APY</span><span class="result-value">2.53%</span></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Recent Savings Activity -->
+            <!-- Recent Activity -->
             <div class="account-transactions">
                 <div class="section-header">
                     <h2>Recent Activity</h2>
-                    <a href="transactions.html" class="view-all-link">
-                        View All <i class="fas fa-arrow-right"></i>
-                    </a>
+                    <a href="transactions.html" class="view-all-link" style="color:var(--stone); display:flex; align-items:center; gap:0.3rem;">View All <i class="fas fa-arrow-right"></i></a>
                 </div>
-
                 <div class="transactions-list-compact">
                     <div class="transaction-row">
-                        <div class="transaction-icon deposit">
-                            <i class="fas fa-arrow-down"></i>
-                        </div>
-                        <div class="transaction-info">
-                            <div class="transaction-title">Interest Payment</div>
-                            <div class="transaction-date">Mar 1, 2024</div>
-                        </div>
+                        <div class="transaction-icon deposit"><i class="fas fa-arrow-down"></i></div>
+                        <div class="transaction-info"><div class="transaction-title">Interest Payment</div><div class="transaction-date">Mar 1, 2024</div></div>
                         <div class="transaction-amount positive">+£32.15</div>
                     </div>
-
                     <div class="transaction-row">
-                        <div class="transaction-icon transfer">
-                            <i class="fas fa-arrow-right"></i>
-                        </div>
-                        <div class="transaction-info">
-                            <div class="transaction-title">Transfer to Emergency Fund</div>
-                            <div class="transaction-date">Feb 28, 2024</div>
-                        </div>
+                        <div class="transaction-icon transfer"><i class="fas fa-arrow-right"></i></div>
+                        <div class="transaction-info"><div class="transaction-title">Transfer to Emergency Fund</div><div class="transaction-date">Feb 28, 2024</div></div>
                         <div class="transaction-amount positive">+£500.00</div>
                     </div>
-
                     <div class="transaction-row">
-                        <div class="transaction-icon transfer">
-                            <i class="fas fa-arrow-left"></i>
-                        </div>
-                        <div class="transaction-info">
-                            <div class="transaction-title">Withdrawal to Checking</div>
-                            <div class="transaction-date">Feb 15, 2024</div>
-                        </div>
+                        <div class="transaction-icon transfer"><i class="fas fa-arrow-left"></i></div>
+                        <div class="transaction-info"><div class="transaction-title">Withdrawal to Checking</div><div class="transaction-date">Feb 15, 2024</div></div>
                         <div class="transaction-amount negative">-£1,000.00</div>
                     </div>
                 </div>
@@ -418,188 +515,76 @@
     </div>
 
     <script>
-        // Mobile menu toggle
-        document.getElementById('menuToggle').addEventListener('click', function() {
-            document.querySelector('.sidebar-premium').classList.toggle('active');
-        });
+        // Mobile menu (consolidated)
+        (function(){
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.querySelector('.sidebar-premium');
+            let overlay = document.getElementById('sidebarOverlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.id = 'sidebarOverlay';
+                overlay.className = 'sidebar-overlay';
+                document.body.appendChild(overlay);
+            }
+            function toggleMenu(show) {
+                if (show === undefined) show = !sidebar.classList.contains('active');
+                sidebar.classList.toggle('active', show);
+                overlay.classList.toggle('active', show);
+                document.body.style.overflow = show ? 'hidden' : '';
+            }
+            menuToggle?.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
+            overlay.addEventListener('click', () => toggleMenu(false));
+            sidebar?.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A' || e.target.closest('a')) {
+                    setTimeout(() => toggleMenu(false), 150);
+                }
+                e.stopPropagation();
+            });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && sidebar.classList.contains('active')) toggleMenu(false); });
+            window.addEventListener('resize', () => { if (window.innerWidth >= 1024) toggleMenu(false); });
+        })();
 
-        // Loading screen
-        setTimeout(() => {
-            document.querySelector('.premium-loader').classList.add('fade-out');
-        }, 800);
+        setTimeout(() => document.querySelector('.premium-loader').classList.add('fade-out'), 700);
 
-        // Modal functions
-        function showWithdrawModal() {
-            alert('You would be able to withdraw funds via ATM, teller, or transfer to external account.');
-        }
+        function showWithdrawModal() { alert('You would be able to withdraw funds via ATM, teller, or transfer to external account.'); }
+        function showInterestModal() { alert('Interest calculator allows you to see how your savings will grow over time with regular contributions and compounding interest.'); }
+        function showAddGoalModal() { alert('Add savings goal'); }
+        function showContributeModal() { alert('Contribute to goal'); }
 
-        function showInterestModal() {
-            alert('Interest calculator allows you to see how your savings will grow over time with regular contributions and compounding interest.');
-        }
-
-        function showAddGoalModal() {
-            alert('Add savings goal )');
-        }
-
-        function showContributeModal() {
-            alert('Contribute to goal');
-        }
-
-        // Simple interest calculator
         function calculateInterest() {
             const balance = parseFloat(document.getElementById('calcBalance').value) || 0;
             const deposit = parseFloat(document.getElementById('calcDeposit').value) || 0;
             const years = parseFloat(document.getElementById('calcYears').value) || 1;
-            const rate = 0.025; // 2.5% APY
-
-            // Simple compound interest calculation (for demo)
+            const rate = 0.025;
             let futureValue = balance * Math.pow(1 + rate, years);
-            // Add monthly deposits (simplified)
             futureValue += deposit * 12 * years * (1 + rate/2);
-
             const totalInterest = futureValue - (balance + deposit * 12 * years);
-
             document.getElementById('futureValue').textContent = '£' + futureValue.toFixed(2);
             document.getElementById('totalInterest').textContent = '£' + totalInterest.toFixed(2);
         }
-
-        // Add event listeners for calculator
         document.getElementById('calcBalance').addEventListener('input', calculateInterest);
         document.getElementById('calcDeposit').addEventListener('input', calculateInterest);
         document.getElementById('calcYears').addEventListener('input', calculateInterest);
-
-        // Initial calculation
         calculateInterest();
 
-        // Mobile menu functionality
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.querySelector('.sidebar-premium');
-        
-        // Create overlay if it doesn't exist
-        let overlay = document.getElementById('sidebarOverlay');
-        if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.id = 'sidebarOverlay';
-            overlay.className = 'sidebar-overlay';
-            document.body.appendChild(overlay);
-        }
-
-        // Toggle menu function
-        function toggleMenu(show) {
-            if (show) {
-                sidebar.classList.add('active');
-                overlay.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Prevent background scrolling
-            } else {
-                sidebar.classList.remove('active');
-                overlay.classList.remove('active');
-                document.body.style.overflow = ''; // Restore scrolling
+        // Auth protection
+        (function() {
+            const auth = sessionStorage.getItem('nexusbank_auth');
+            const expiry = sessionStorage.getItem('nexusbank_expiry');
+            if (auth !== 'authenticated' || !expiry || Date.now() > parseInt(expiry)) {
+                sessionStorage.clear();
+                window.location.replace('login.html');
+                return;
             }
-        }
-
-        // Open menu when toggle button is clicked
-        if (menuToggle) {
-            menuToggle.addEventListener('click', function(e) {
-                e.stopPropagation(); // Prevent event bubbling
-                toggleMenu(true);
-            });
-        }
-
-        // Close menu when clicking on overlay (empty space)
-        overlay.addEventListener('click', function() {
-            toggleMenu(false);
-        });
-
-        // Close menu when clicking on any link inside sidebar
-        if (sidebar) {
-            sidebar.addEventListener('click', function(e) {
-                // Check if clicked element is a link
-                if (e.target.tagName === 'A' || e.target.closest('a')) {
-                    // Small delay to allow navigation before closing
-                    setTimeout(() => {
-                        toggleMenu(false);
-                    }, 150);
-                }
-            });
-
-            // Prevent clicks inside sidebar from closing when clicking on non-link elements
-            sidebar.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
-        }
-
-        // Close menu on escape key press
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && sidebar.classList.contains('active')) {
-                toggleMenu(false);
+            sessionStorage.setItem('nexusbank_expiry', Date.now() + 3600000);
+            let inactivityTimer;
+            function resetInactivity() {
+                clearTimeout(inactivityTimer);
+                inactivityTimer = setTimeout(() => { sessionStorage.clear(); window.location.replace('login.html'); }, 900000);
             }
-        });
-
-        // Close menu when window is resized to desktop size
-        window.addEventListener('resize', function() {
-            if (window.innerWidth >= 1024) {
-                toggleMenu(false);
-            }
-        });
-
-        // Optional: Close menu when swiping left on mobile
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        document.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].screenX;
-        }, false);
-
-        document.addEventListener('touchend', function(e) {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, false);
-
-        function handleSwipe() {
-            const swipeThreshold = 100; // Minimum swipe distance
-            if (sidebar.classList.contains('active') && (touchStartX - touchEndX) > swipeThreshold) {
-                // Swiped left while menu is open - close it
-                toggleMenu(false);
-            }
-        }
-    });
-
-    // PROTECTION SCRIPT - PASTE AT TOP OF EACH PROTECTED PAGE
-(function() {
-    // Check authentication
-    const auth = sessionStorage.getItem('nexusbank_auth');
-    const expiry = sessionStorage.getItem('nexusbank_expiry');
-    
-    if (auth !== 'authenticated' || !expiry || Date.now() > parseInt(expiry)) {
-        // Clear any stale data
-        sessionStorage.clear();
-        window.location.replace('login.html');
-        return;
-    }
-    
-    // Refresh expiry
-    sessionStorage.setItem('nexusbank_expiry', Date.now() + 3600000);
-    
-    // Inactivity logout
-    let timer;
-    function resetTimer() {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            sessionStorage.clear();
-            window.location.replace('login.html');
-        }, 900000); // 15 minutes
-    }
-    
-    ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(e => {
-        document.addEventListener(e, resetTimer);
-    });
-    resetTimer();
-})();
+            ['mousedown','mousemove','keydown','scroll','touchstart'].forEach(e => document.addEventListener(e, resetInactivity));
+            resetInactivity();
+        })();
     </script>
-    <!-- Add this before closing body tag in dashboard.html, transfer.html, transactions.html, cards.html, settings.html, etc. -->
-<script src="js/auto-logout.js"></script>
 </body>
 </html>
-
-
