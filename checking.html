@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Checking Account · NexusBank</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <title>Checking Account · HeritageInvest</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="https://a.mktgcdn.com/p/trqY8cbRb9rpmzNBIHFEHxK3n0czpuAaJO27NrH_lzQ/1.0000/676x676.png">
+    <link rel="icon" type="image/png"
+        href="https://a.mktgcdn.com/p/trqY8cbRb9rpmzNBIHFEHxK3n0czpuAaJO27NrH_lzQ/1.0000/676x676.png">
     <style>
         :root {
             --ink: #10201B;
@@ -24,15 +27,23 @@
             --ledger-red: #A24632;
             --charcoal: #23302B;
             --stone: #6B7A72;
-            --hair: rgba(35,48,43,0.14);
-            --hair-dark: rgba(243,239,228,0.16);
-            --shadow-card: 0 1px 2px rgba(16,32,27,0.06), 0 8px 24px rgba(16,32,27,0.06);
-            --shadow-lift: 0 20px 45px rgba(16,32,27,0.16);
+            --hair: rgba(35, 48, 43, 0.14);
+            --hair-dark: rgba(243, 239, 228, 0.16);
+            --shadow-card: 0 1px 2px rgba(16, 32, 27, 0.06), 0 8px 24px rgba(16, 32, 27, 0.06);
+            --shadow-lift: 0 20px 45px rgba(16, 32, 27, 0.16);
             --ease: cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        * { margin:0; padding:0; box-sizing:border-box; }
-        html { scroll-behavior: smooth; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             color: var(--charcoal);
@@ -40,366 +51,1055 @@
             line-height: 1.6;
             overflow-x: hidden;
             min-height: 100vh;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
         }
-        h1,h2,h3,h4 { font-family: 'Source Serif 4', serif; font-weight:600; letter-spacing:-0.01em; }
-        .mono { font-family: 'IBM Plex Mono', monospace; }
-        a { color: inherit; text-decoration: none; }
-        ::selection { background: var(--brass); color: var(--ink); }
-        :focus-visible { outline: 2px solid var(--brass); outline-offset:2px; }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Source Serif 4', serif;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .mono {
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        ::selection {
+            background: var(--brass);
+            color: var(--ink);
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--brass);
+            outline-offset: 2px;
+        }
 
         /* Loader */
         .premium-loader {
-            position: fixed; inset:0; background: var(--ink); z-index:9999;
-            display: flex; align-items: center; justify-content: center;
+            position: fixed;
+            inset: 0;
+            background: var(--ink);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: opacity 0.6s var(--ease), visibility 0.6s var(--ease);
+            pointer-events: all;
         }
-        .premium-loader.fade-out { opacity:0; visibility:hidden; }
-        .loader-content { text-align: center; }
+
+        .premium-loader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
         .loader-logo {
-            font-family: 'Source Serif 4', serif; font-size:1.9rem; font-weight:600;
-            color: var(--bone); margin-bottom:1.25rem;
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.9rem;
+            font-weight: 600;
+            color: var(--bone);
+            margin-bottom: 1.25rem;
         }
-        .loader-logo .mark { color: var(--brass-bright); font-family:'IBM Plex Mono',monospace; font-size:1.1rem; margin-right:0.6rem; }
+
+        .loader-logo .mark {
+            color: var(--brass-bright);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.1rem;
+            margin-right: 0.6rem;
+        }
+
         .loader-rule {
-            width:160px; height:1px; background: var(--hair-dark);
-            position:relative; margin:0 auto; overflow:hidden;
+            width: 160px;
+            height: 1px;
+            background: var(--hair-dark);
+            position: relative;
+            margin: 0 auto;
+            overflow: hidden;
         }
+
         .loader-rule::after {
-            content:''; position:absolute; top:0; left:-40%; width:40%; height:100%;
-            background: var(--brass-bright); animation: loading 1.1s infinite;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -40%;
+            width: 40%;
+            height: 100%;
+            background: var(--brass-bright);
+            animation: loading 1.1s infinite;
         }
-        @keyframes loading { 0%{left:-40%;} 100%{left:100%;} }
+
+        @keyframes loading {
+            0% {
+                left: -40%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
 
         /* Layout */
-        .dashboard-premium { display:flex; min-height:100vh; }
+        .dashboard-premium {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
         .sidebar-premium {
-            background: var(--ink); color: var(--bone); width:280px; flex-shrink:0;
-            display: flex; flex-direction: column; border-right:1px solid var(--hair-dark);
-            transition: left 0.3s var(--ease); z-index:1000;
+            background: var(--ink);
+            color: var(--bone);
+            width: 280px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--hair-dark);
+            transition: left 0.35s var(--ease);
+            z-index: 1000;
         }
+
         .sidebar-brand {
-            padding:2rem 1.5rem 1.5rem; border-bottom:1px solid var(--hair-dark);
-            display: flex; align-items: center; gap:0.6rem;
+            padding: 2rem 1.5rem 1.5rem;
+            border-bottom: 1px solid var(--hair-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
         }
+
         .brand-logo .mark {
-            width:38px; height:38px; border:1.5px solid var(--brass);
-            display:flex; align-items: center; justify-content: center;
-            font-family: 'IBM Plex Mono',monospace; font-size:0.95rem; font-weight:600;
+            width: 38px;
+            height: 38px;
+            border: 1.5px solid var(--brass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.95rem;
+            font-weight: 600;
             color: var(--brass);
         }
-        .brand-logo span {
-            font-family: 'Source Serif 4',serif; font-size:1.35rem; font-weight:600; color: var(--bone);
-            margin-left:0.6rem;
-        }
-        .brand-tag { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; color: var(--stone); margin-top:0.3rem; }
 
-        .sidebar-nav-premium { flex:1; padding:1.5rem 0; overflow-y:auto; }
-        .nav-section { margin-bottom:1.5rem; }
+        .brand-logo span {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--bone);
+            margin-left: 0.6rem;
+        }
+
+        .brand-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--stone);
+            margin-top: 0.3rem;
+        }
+
+        .sidebar-nav-premium {
+            flex: 1;
+            padding: 1.5rem 0;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+
         .nav-section-title {
-            font-family:'IBM Plex Mono',monospace; font-size:0.7rem; text-transform:uppercase;
-            letter-spacing:0.06em; color: var(--brass); padding:0 1.5rem; margin-bottom:0.5rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--brass);
+            padding: 0 1.5rem;
+            margin-bottom: 0.5rem;
         }
-        .nav-section ul { list-style:none; }
+
+        .nav-section ul {
+            list-style: none;
+        }
+
         .nav-section li a {
-            display:flex; align-items:center; gap:0.75rem; padding:0.8rem 1.5rem;
-            color: rgba(251,249,243,0.7); font-weight:500; font-size:0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.8rem 1.5rem;
+            color: rgba(251, 249, 243, 0.7);
+            font-weight: 500;
+            font-size: 0.9rem;
             transition: background 0.2s var(--ease), color 0.2s var(--ease);
+            -webkit-tap-highlight-color: rgba(185, 138, 46, 0.15);
+            cursor: pointer;
         }
-        .nav-section li a:hover, .nav-section li.active a { background: var(--ink-soft); color: var(--bone); }
-        .nav-section li a i { width:20px; text-align:center; font-size:0.95rem; }
+
+        .nav-section li a:hover,
+        .nav-section li.active a {
+            background: var(--ink-soft);
+            color: var(--bone);
+        }
+
+        .nav-section li a i {
+            width: 20px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
         .nav-amount {
-            font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color: var(--stone);
-            margin-left:auto;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--stone);
+            margin-left: auto;
         }
 
         .sidebar-footer-premium {
-            padding:1.5rem; border-top:1px solid var(--hair-dark);
-            display:flex; align-items:center; gap:0.75rem;
+            padding: 1.5rem;
+            border-top: 1px solid var(--hair-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
-        .user-avatar img { width:38px; height:38px; border-radius:50%; object-fit:cover; }
-        .user-details .user-name { font-weight:600; font-size:0.9rem; }
-        .user-details .user-role { color: var(--stone); font-size:0.75rem; }
-        .user-actions { display:flex; gap:0.5rem; margin-left:auto; }
-        .icon-btn {
-            background:none; border:1px solid var(--hair-dark); color: var(--bone);
-            width:34px; height:34px; display:flex; align-items:center; justify-content:center;
-            cursor:pointer; transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
-        }
-        .icon-btn:hover { border-color: var(--brass); color: var(--brass); }
 
-        .sidebar-overlay {
-            display:none; position:fixed; inset:0; background: rgba(0,0,0,0.4);
-            z-index:999; opacity:0; transition: opacity 0.3s var(--ease);
+        .user-avatar img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
         }
-        .sidebar-overlay.active { display:block; opacity:1; }
-        .menu-toggle { display:none; background:none; border:1px solid var(--hair); color: var(--ink); width:42px; height:42px; align-items:center; justify-content:center; font-size:1.2rem; cursor:pointer; }
+
+        .user-details .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-details .user-role {
+            color: var(--stone);
+            font-size: 0.75rem;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-left: auto;
+        }
+
+        .icon-btn {
+            background: none;
+            border: 1px solid var(--hair-dark);
+            color: var(--bone);
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+            -webkit-tap-highlight-color: rgba(185, 138, 46, 0.2);
+        }
+
+        .icon-btn:hover {
+            border-color: var(--brass);
+            color: var(--brass);
+        }
+
+        /* Overlay */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.35s var(--ease);
+            pointer-events: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Menu Toggle Button */
+        .menu-toggle {
+            display: none;
+            background: var(--bone);
+            border: 1.5px solid var(--hair);
+            color: var(--ink);
+            width: 44px;
+            height: 44px;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            border-radius: 8px;
+            flex-shrink: 0;
+            transition: background 0.2s var(--ease), border-color 0.2s var(--ease), transform 0.15s var(--ease);
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            position: relative;
+            z-index: 10;
+        }
+
+        .menu-toggle:active {
+            background: var(--parchment-deep);
+            border-color: var(--ink);
+            transform: scale(0.95);
+        }
+
+        .menu-toggle:hover {
+            border-color: var(--ink);
+            background: var(--parchment);
+        }
 
         .main-content-premium {
-            flex:1; background: var(--parchment); padding:1.5rem 2rem 2rem;
-            overflow-y:auto; min-height:100vh;
+            flex: 1;
+            background: var(--parchment);
+            padding: 1.5rem 2rem 2rem;
+            overflow-y: auto;
+            min-height: 100vh;
+            -webkit-overflow-scrolling: touch;
         }
 
         .top-nav-premium {
-            display:flex; align-items:center; justify-content:space-between;
-            padding:1rem 0; border-bottom:1px solid var(--hair); margin-bottom:2rem;
-            flex-wrap:wrap; gap:1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--hair);
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
-        .nav-left { display:flex; align-items:center; gap:1rem; }
-        .page-title h1 { font-size:1.8rem; font-weight:600; color: var(--ink); }
-        .page-title p { color: var(--stone); font-size:0.95rem; }
-        .nav-right { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .page-title h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .page-title p {
+            color: var(--stone);
+            font-size: 0.95rem;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
         .search-bar {
-            display:flex; align-items:center; background: var(--bone); border:1px solid var(--hair);
-            padding:0.5rem 1rem; border-radius:8px; gap:0.5rem; min-width:200px;
+            display: flex;
+            align-items: center;
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            gap: 0.5rem;
+            min-width: 200px;
         }
-        .search-bar i { color: var(--stone); font-size:0.9rem; }
+
+        .search-bar i {
+            color: var(--stone);
+            font-size: 0.9rem;
+        }
+
         .search-bar input {
-            border:none; background:transparent; font-family:'Inter',sans-serif; font-size:0.9rem;
-            outline:none; color: var(--charcoal); width:100%;
+            border: none;
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            color: var(--charcoal);
+            width: 100%;
         }
-        .notification-btn, .support-btn {
-            background: var(--bone); border:1px solid var(--hair); width:42px; height:42px;
-            display:flex; align-items:center; justify-content:center; position:relative;
-            cursor:pointer; transition: border-color 0.2s var(--ease);
+
+        .notification-btn,
+        .support-btn {
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            transition: border-color 0.2s var(--ease);
+            border-radius: 8px;
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
         }
-        .notification-btn:hover, .support-btn:hover { border-color: var(--ink); }
+
+        .notification-btn:hover,
+        .support-btn:hover {
+            border-color: var(--ink);
+        }
+
         .notification-dot {
-            position:absolute; top:8px; right:8px; width:8px; height:8px;
-            background: var(--ledger-red); border-radius:50%;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--ledger-red);
+            border-radius: 50%;
         }
-        .support-btn { gap:0.4rem; width:auto; padding:0 1rem; font-weight:500; font-size:0.9rem; }
-        .support-btn i { font-size:1rem; }
+
+        .support-btn {
+            gap: 0.4rem;
+            width: auto;
+            padding: 0 1rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .support-btn i {
+            font-size: 1rem;
+        }
 
         /* Hero */
         .account-hero {
-            background: var(--bone); border:1px solid var(--hair); padding:2rem;
-            display:flex; justify-content:space-between; align-items:flex-start;
-            margin-bottom:2rem; flex-wrap:wrap; gap:1.5rem;
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            border-radius: 4px;
         }
-        .account-hero .account-hero-content { flex:1; min-width:250px; }
-        .account-badge { display:inline-block; background: var(--parchment-deep); color: var(--ink); font-size:0.75rem; font-weight:600; padding:0.3rem 0.8rem; margin-bottom:0.8rem; }
-        .account-type { display:flex; align-items:center; gap:0.5rem; font-size:1.1rem; font-weight:600; margin-bottom:1rem; color: var(--charcoal); }
-        .account-type i { color: var(--brass); }
-        .account-balance-large { display:flex; align-items:baseline; gap:0.3rem; margin-bottom:0.5rem; }
-        .account-balance-large .currency { font-size:1.8rem; color: var(--ink); }
-        .account-balance-large .amount { font-family:'IBM Plex Mono',monospace; font-size:2.5rem; font-weight:600; color: var(--ink); }
-        .account-number { font-size:0.9rem; color: var(--stone); display:flex; align-items:center; gap:0.5rem; margin-top:0.5rem; }
-        .copy-btn { background:none; border:none; color: var(--stone); cursor:pointer; font-size:0.9rem; }
-        .copy-btn:hover { color: var(--ink); }
-        .account-hero-actions { display:flex; gap:0.75rem; flex-wrap:wrap; }
+
+        .account-hero .account-hero-content {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .account-badge {
+            display: inline-block;
+            background: var(--parchment-deep);
+            color: var(--ink);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.3rem 0.8rem;
+            margin-bottom: 0.8rem;
+            border-radius: 4px;
+        }
+
+        .account-type {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--charcoal);
+        }
+
+        .account-type i {
+            color: var(--brass);
+        }
+
+        .account-balance-large {
+            display: flex;
+            align-items: baseline;
+            gap: 0.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .account-balance-large .currency {
+            font-size: 1.8rem;
+            color: var(--ink);
+        }
+
+        .account-balance-large .amount {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .account-number {
+            font-size: 0.9rem;
+            color: var(--stone);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            color: var(--stone);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn:hover {
+            color: var(--ink);
+        }
+
+        .account-hero-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
         .action-btn-large {
-            padding:0.7rem 1.3rem; background: var(--ink); color: var(--bone); border:1px solid var(--ink);
-            font-weight:600; cursor:pointer; display:flex; align-items:center; gap:0.5rem;
-            transition: background 0.2s var(--ease); white-space:nowrap;
+            padding: 0.7rem 1.3rem;
+            background: var(--ink);
+            color: var(--bone);
+            border: 1px solid var(--ink);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.2s var(--ease);
+            white-space: nowrap;
+            border-radius: 4px;
+            -webkit-tap-highlight-color: rgba(185, 138, 46, 0.2);
         }
-        .action-btn-large.primary { background: var(--brass); color: var(--ink); border-color: var(--brass); }
-        .action-btn-large.primary:hover { background: var(--brass-bright); }
-        .action-btn-large:hover { background: var(--ink-soft); }
+
+        .action-btn-large.primary {
+            background: var(--brass);
+            color: var(--ink);
+            border-color: var(--brass);
+        }
+
+        .action-btn-large.primary:hover {
+            background: var(--brass-bright);
+        }
+
+        .action-btn-large:hover {
+            background: var(--ink-soft);
+        }
 
         /* Stats Grid */
-        .account-stats-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:1rem; margin-bottom:2rem; }
+        .account-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
         .stat-card {
-            background: var(--bone); border:1px solid var(--hair); padding:1.2rem;
-            display:flex; align-items:center; gap:1rem;
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-radius: 4px;
         }
+
         .stat-icon {
-            width:48px; height:48px; border-radius:50%; background: var(--parchment);
-            display:flex; align-items:center; justify-content:center; color: var(--brass); font-size:1.2rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--parchment);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--brass);
+            font-size: 1.2rem;
         }
-        .stat-details { display:flex; flex-direction:column; }
-        .stat-label { font-size:0.8rem; color: var(--stone); margin-bottom:0.3rem; }
-        .stat-value { font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:1.2rem; }
+
+        .stat-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--stone);
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-value {
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
 
         /* Quick Actions */
-        .quick-actions-row { display:flex; gap:0.75rem; margin-bottom:2rem; flex-wrap:wrap; }
-        .quick-action-item {
-            padding:0.7rem 1.2rem; background: var(--bone); border:1px solid var(--hair);
-            font-weight:500; cursor:pointer; display:flex; align-items:center; gap:0.5rem;
-            transition: border-color 0.2s var(--ease); color: var(--charcoal);
+        .quick-actions-row {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
         }
-        .quick-action-item:hover { border-color: var(--ink); }
+
+        .quick-action-item {
+            padding: 0.7rem 1.2rem;
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: border-color 0.2s var(--ease);
+            color: var(--charcoal);
+            border-radius: 4px;
+        }
+
+        .quick-action-item:hover {
+            border-color: var(--ink);
+        }
 
         /* Recent Transactions */
         .account-transactions {
-            background: var(--bone); border:1px solid var(--hair); padding:1.5rem; margin-bottom:2rem;
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
         }
-        .section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; }
-        .section-header h2 { font-size:1.5rem; color: var(--ink); }
-        .view-all-link { color: var(--stone); display:flex; align-items:center; gap:0.3rem; font-size:0.9rem; }
-        .transactions-list-compact { margin-top:1rem; }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            color: var(--ink);
+        }
+
+        .view-all-link {
+            color: var(--stone);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.9rem;
+        }
+
+        .transactions-list-compact {
+            margin-top: 1rem;
+        }
+
         .transaction-row {
-            display:flex; align-items:center; justify-content:space-between;
-            padding:0.8rem 0; border-bottom:1px solid var(--hair); gap:1rem; flex-wrap:wrap;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--hair);
+            gap: 1rem;
+            flex-wrap: wrap;
         }
-        .transaction-row:last-child { border-bottom:none; }
+
+        .transaction-row:last-child {
+            border-bottom: none;
+        }
+
         .transaction-icon {
-            width:40px; height:40px; border-radius:50%; background: var(--parchment);
-            display:flex; align-items:center; justify-content:center; font-size:0.9rem; color: var(--ink);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--parchment);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: var(--ink);
         }
-        .transaction-info { flex:1; min-width:180px; }
-        .transaction-title { font-weight:600; font-size:0.95rem; }
-        .transaction-date { font-size:0.8rem; color: var(--stone); }
-        .transaction-amount { font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:1rem; }
-        .transaction-amount.positive { color: var(--ledger-green); }
-        .transaction-amount.negative { color: var(--ledger-red); }
-        .transaction-amount.pending { color: var(--brass); }
+
+        .transaction-info {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .transaction-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .transaction-date {
+            font-size: 0.8rem;
+            color: var(--stone);
+        }
+
+        .transaction-amount {
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .transaction-amount.positive {
+            color: var(--ledger-green);
+        }
+
+        .transaction-amount.negative {
+            color: var(--ledger-red);
+        }
+
+        .transaction-amount.pending {
+            color: var(--brass);
+        }
 
         /* Details Grid */
-        .details-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap:1.5rem; margin-bottom:2rem; }
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
         .details-card {
-            background: var(--bone); border:1px solid var(--hair); padding:1.5rem;
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 1.5rem;
+            border-radius: 4px;
         }
-        .details-card h3 { font-size:1.2rem; margin-bottom:1rem; color: var(--ink); }
+
+        .details-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--ink);
+        }
+
         .detail-item {
-            display:flex; justify-content:space-between; padding:0.6rem 0; border-bottom:1px solid var(--hair);
+            display: flex;
+            justify-content: space-between;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--hair);
         }
-        .detail-label { color: var(--stone); font-size:0.9rem; }
-        .detail-value { font-weight:600; }
-        .linked-cards { display:flex; flex-direction:column; gap:0.5rem; }
+
+        .detail-label {
+            color: var(--stone);
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            font-weight: 600;
+        }
+
+        .linked-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
         .linked-card {
-            display:flex; align-items:center; gap:0.75rem; padding:0.5rem;
-            border:1px solid var(--hair); transition: border-color 0.2s var(--ease);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
+            border: 1px solid var(--hair);
+            transition: border-color 0.2s var(--ease);
+            border-radius: 4px;
         }
-        .linked-card:hover { border-color: var(--brass); }
-        .linked-card i { color: var(--brass); font-size:1.2rem; }
-        .card-name { font-weight:600; font-size:0.95rem; }
-        .card-number { font-size:0.85rem; color: var(--stone); }
-        .card-action { margin-left:auto; background:none; border:none; color: var(--stone); cursor:pointer; }
+
+        .linked-card:hover {
+            border-color: var(--brass);
+        }
+
+        .linked-card i {
+            color: var(--brass);
+            font-size: 1.2rem;
+        }
+
+        .card-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .card-number {
+            font-size: 0.85rem;
+            color: var(--stone);
+        }
+
+        .card-action {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: var(--stone);
+            cursor: pointer;
+        }
 
         /* Modals */
         .modal-premium {
-            display:none; position:fixed; inset:0; background: rgba(0,0,0,0.5); z-index:2000;
-            align-items:center; justify-content:center;
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
         }
-        .modal-premium.show { display:flex; }
+
+        .modal-premium.show {
+            display: flex;
+        }
+
         .modal-content {
-            background: var(--bone); padding:2rem; max-width:450px; width:90%;
-            border-top:3px solid var(--brass); box-shadow: var(--shadow-lift);
+            background: var(--bone);
+            padding: 2rem;
+            max-width: 450px;
+            width: 100%;
+            border-top: 3px solid var(--brass);
+            box-shadow: var(--shadow-lift);
+            border-radius: 4px;
         }
-        .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; }
-        .modal-header h2 { font-size:1.4rem; }
-        .modal-close { background:none; border:none; color: var(--stone); font-size:1.2rem; cursor:pointer; }
-        .modal-body { margin-bottom:1.5rem; color: var(--charcoal); }
-        .modal-footer { display:flex; justify-content:flex-end; }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.4rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--stone);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+            color: var(--charcoal);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+        }
+
         .btn-primary {
-            padding:0.7rem 1.5rem; background: var(--ink); color: var(--bone); border:1px solid var(--ink);
-            font-weight:600; cursor:pointer;
+            padding: 0.7rem 1.5rem;
+            background: var(--ink);
+            color: var(--bone);
+            border: 1px solid var(--ink);
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 4px;
         }
 
         /* Responsive */
         @media (max-width:1024px) {
             .sidebar-premium {
-                position:fixed; left:-280px; top:0; bottom:0; height:100vh;
+                position: fixed;
+                left: -290px;
+                top: 0;
+                bottom: 0;
+                height: 100vh;
+                height: 100dvh;
+                width: 280px;
+                box-shadow: 4px 0 30px rgba(0, 0, 0, 0.3);
             }
-            .sidebar-premium.active { left:0; }
-            .sidebar-overlay { display:block; }
-            .menu-toggle { display:flex; }
-            .main-content-premium { margin-left:0; padding:1rem; }
-            .top-nav-premium { flex-direction:column; align-items:flex-start; }
-            .nav-right { width:100%; justify-content:space-between; }
-            .account-hero { flex-direction:column; }
-            .account-hero-actions { width:100%; }
-            .action-btn-large { flex:1; justify-content:center; }
-            .account-stats-grid { grid-template-columns:1fr 1fr; }
-            .quick-actions-row { flex-wrap:wrap; }
-            .details-grid { grid-template-columns:1fr; }
+
+            .sidebar-premium.active {
+                left: 0;
+            }
+
+            .sidebar-overlay {
+                display: block;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .main-content-premium {
+                margin-left: 0;
+                padding: 1rem;
+                width: 100%;
+            }
+
+            .top-nav-premium {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-left {
+                width: 100%;
+            }
+
+            .nav-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .account-hero {
+                flex-direction: column;
+            }
+
+            .account-hero-actions {
+                width: 100%;
+            }
+
+            .action-btn-large {
+                flex: 1;
+                justify-content: center;
+            }
+
+            .account-stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .quick-actions-row {
+                flex-wrap: wrap;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
         }
-        @media (max-width:480px) {
-            .account-balance-large .amount { font-size:2rem; }
-            .account-stats-grid { grid-template-columns:1fr; }
+
+        @media (max-width:600px) {
+            .main-content-premium {
+                padding: 0.75rem;
+            }
+
+            .page-title h1 {
+                font-size: 1.4rem;
+            }
+
+            .search-bar {
+                min-width: 120px;
+            }
+
+            .account-balance-large .amount {
+                font-size: 2rem;
+            }
+
+            .account-stats-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
+
 <body>
     <!-- Loading Screen -->
-    <div class="premium-loader">
+    <div class="premium-loader" id="premiumLoader">
         <div class="loader-content">
-            <div class="loader-logo"><span class="mark">N·B</span>NexusBank</div>
+            <div class="loader-logo"><span class="mark">H·I</span>HeritageInvest</div>
             <div class="loader-rule"></div>
         </div>
     </div>
 
     <!-- Main Dashboard Container -->
     <div class="dashboard-premium">
-        <!-- Sidebar Navigation (same structure as others) -->
-        <aside class="sidebar-premium">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar-premium" id="sidebarPremium">
             <div class="sidebar-brand">
                 <div class="brand-logo">
-                    <span class="mark">N·B</span>
-                    <span>NexusBank</span>
+                    <span class="mark">H·I</span>
+                    <span>HeritageInvest</span>
                 </div>
                 <div class="brand-tag">Private Banking</div>
             </div>
-
             <nav class="sidebar-nav-premium">
                 <div class="nav-section">
                     <div class="nav-section-title">MAIN</div>
                     <ul>
                         <li><a href="dashboard.html"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a></li>
-                        <li><a href="transactions.html"><i class="fas fa-arrow-right-arrow-left"></i><span>Transactions</span></a></li>
+                        <li><a href="transactions.html"><i
+                                    class="fas fa-arrow-right-arrow-left"></i><span>Transactions</span></a></li>
                         <li><a href="transfer.html"><i class="fas fa-paper-plane"></i><span>Transfers</span></a></li>
-                        <li><a href="statements.html"><i class="fas fa-file-invoice"></i><span>Statements</span></a></li>
+                        <li><a href="statements.html"><i class="fas fa-file-invoice"></i><span>Statements</span></a>
+                        </li>
                     </ul>
                 </div>
-
                 <div class="nav-section">
                     <div class="nav-section-title">ACCOUNTS</div>
                     <ul>
-                        <li class="active"><a href="checking.html"><i class="fas fa-wallet"></i><span>Checking</span><span class="nav-amount">£645,432</span></a></li>
-                        <li><a href="savings.html"><i class="fas fa-piggy-bank"></i><span>Savings</span><span class="nav-amount">£215,678</span></a></li>
-                        <li><a href="investments.html"><i class="fas fa-chart-line"></i><span>Investments</span><span class="nav-amount">£3,456,789</span></a></li>
+                        <li class="active"><a href="checking.html"><i
+                                    class="fas fa-wallet"></i><span>Checking</span><span
+                                    class="nav-amount">£645,432</span></a></li>
+                        <li><a href="savings.html"><i class="fas fa-piggy-bank"></i><span>Savings</span><span
+                                    class="nav-amount">£215,678</span></a></li>
+                        <li><a href="investments.html"><i class="fas fa-chart-line"></i><span>Investments</span><span
+                                    class="nav-amount">£3,456,789</span></a></li>
                     </ul>
                 </div>
-
                 <div class="nav-section">
                     <div class="nav-section-title">SERVICES</div>
                     <ul>
                         <li><a href="cards.html"><i class="fas fa-credit-card"></i><span>Cards</span></a></li>
-                        <li><a href="paybills.html"><i class="fas fa-file-invoice-dollar"></i><span>Pay Bills</span></a></li>
+                        <li><a href="paybills.html"><i class="fas fa-file-invoice-dollar"></i><span>Pay Bills</span></a>
+                        </li>
                         <li><a href="settings.html"><i class="fas fa-gear"></i><span>Settings</span></a></li>
                     </ul>
                 </div>
             </nav>
-
             <div class="sidebar-footer-premium">
-                <div class="user-info">
-                    <div class="user-avatar">
-                        <img src="https://pbs.twimg.com/media/HBYhBrhXIAAjTtl?format=jpg&name=medium" alt="John Shanji">
-                    </div>
-                    <div class="user-details">
-                        <div class="user-name">John Shanji</div>
-                        <div class="user-role">Premium Member</div>
-                    </div>
+                <div class="user-avatar"><img src="https://pbs.twimg.com/media/HBYhBrhXIAAjTtl?format=jpg&name=medium"
+                        alt="John Doe"></div>
+                <div class="user-details">
+                    <div class="user-name">John Doe</div>
+                    <div class="user-role">Premium Member</div>
                 </div>
                 <div class="user-actions">
-                    <button class="icon-btn" title="Settings" onclick="location.href='settings.html'"><i class="fas fa-sliders-h"></i></button>
-                    <button class="icon-btn" title="Logout" onclick="location.href='index.html'"><i class="fas fa-sign-out-alt"></i></button>
+                    <button class="icon-btn" title="Settings" onclick="location.href='settings.html'"><i
+                            class="fas fa-sliders-h"></i></button>
+                    <button class="icon-btn" title="Logout" onclick="location.href='index.html'"><i
+                            class="fas fa-sign-out-alt"></i></button>
                 </div>
             </div>
         </aside>
 
-        <!-- Sidebar Overlay (for mobile) -->
-        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
 
         <!-- Main Content Area -->
-        <main class="main-content-premium">
-            <!-- Top Navigation -->
+        <main class="main-content-premium" id="mainContent">
             <header class="top-nav-premium">
                 <div class="nav-left">
-                    <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+                    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle navigation menu"
+                        aria-expanded="false">
+                        <i class="fas fa-bars"></i>
+                    </button>
                     <div class="page-title">
                         <h1>Checking Account</h1>
                         <p>Manage your everyday spending account</p>
                     </div>
                 </div>
-
                 <div class="nav-right">
                     <div class="search-bar">
                         <i class="fas fa-search"></i>
                         <input type="text" placeholder="Search transactions...">
                     </div>
-                    <button class="notification-btn"><i class="far fa-bell"></i><span class="notification-dot"></span></button>
-                    <button class="support-btn"><i class="far fa-question-circle"></i><span>Help</span></button>
+                    <button class="notification-btn" type="button"><i class="far fa-bell"></i><span
+                            class="notification-dot"></span></button>
+                    <button class="support-btn" type="button"><i
+                            class="far fa-question-circle"></i><span>Help</span></button>
                 </div>
             </header>
 
@@ -407,31 +1107,21 @@
             <div class="account-hero">
                 <div class="account-hero-content">
                     <div class="account-badge">Primary Account</div>
-                    <div class="account-type">
-                        <i class="fas fa-wallet"></i>
-                        <span>Premium Checking</span>
-                    </div>
-                    <div class="account-balance-large">
-                        <span class="currency">£</span>
-                        <span class="amount">645,432.10</span>
-                    </div>
+                    <div class="account-type"><i class="fas fa-wallet"></i><span>Premium Checking</span></div>
+                    <div class="account-balance-large"><span class="currency">£</span><span
+                            class="amount">645,432.10</span></div>
                     <div class="account-number">
                         Account Number: **** **** **** 7657
-                        <button class="copy-btn" onclick="copyAccountNumber()">
-                            <i class="far fa-copy"></i>
-                        </button>
+                        <button class="copy-btn" onclick="copyAccountNumber()"><i class="far fa-copy"></i></button>
                     </div>
                 </div>
                 <div class="account-hero-actions">
-                    <button class="action-btn-large primary" onclick="location.href='transfer.html'">
-                        <i class="fas fa-paper-plane"></i> Send Money
-                    </button>
-                    <button class="action-btn-large" onclick="showDepositModal()">
-                        <i class="fas fa-download"></i> Deposit
-                    </button>
-                    <button class="action-btn-large" onclick="showWithdrawModal()">
-                        <i class="fas fa-upload"></i> Withdraw
-                    </button>
+                    <button class="action-btn-large primary" onclick="location.href='transfer.html'"><i
+                            class="fas fa-paper-plane"></i> Send Money</button>
+                    <button class="action-btn-large" onclick="showDepositModal()"><i class="fas fa-download"></i>
+                        Deposit</button>
+                    <button class="action-btn-large" onclick="showWithdrawModal()"><i class="fas fa-upload"></i>
+                        Withdraw</button>
                 </div>
             </div>
 
@@ -439,40 +1129,36 @@
             <div class="account-stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
-                    <div class="stat-details">
-                        <span class="stat-label">Available Balance</span>
-                        <span class="stat-value">£645,432.10</span>
-                    </div>
+                    <div class="stat-details"><span class="stat-label">Available Balance</span><span
+                            class="stat-value">£645,432.10</span></div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon"><i class="fas fa-lock"></i></div>
-                    <div class="stat-details">
-                        <span class="stat-label">Pending Transactions</span>
-                        <span class="stat-value">£145.67</span>
-                    </div>
+                    <div class="stat-details"><span class="stat-label">Pending Transactions</span><span
+                            class="stat-value">£145.67</span></div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
-                    <div class="stat-details">
-                        <span class="stat-label">Monthly Spending</span>
-                        <span class="stat-value">£2,345.00</span>
-                    </div>
+                    <div class="stat-details"><span class="stat-label">Monthly Spending</span><span
+                            class="stat-value">£2,345.00</span></div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon"><i class="fas fa-percent"></i></div>
-                    <div class="stat-details">
-                        <span class="stat-label">Interest Rate</span>
-                        <span class="stat-value">0.01%</span>
-                    </div>
+                    <div class="stat-details"><span class="stat-label">Interest Rate</span><span
+                            class="stat-value">0.01%</span></div>
                 </div>
             </div>
 
             <!-- Quick Actions Row -->
             <div class="quick-actions-row">
-                <button class="quick-action-item" onclick="location.href='transfer.html'"><i class="fas fa-exchange-alt"></i><span>Transfer</span></button>
-                <button class="quick-action-item" onclick="showScheduleModal()"><i class="fas fa-clock"></i><span>Schedule</span></button>
-                <button class="quick-action-item" onclick="showStatementsModal()"><i class="fas fa-file-pdf"></i><span>Statements</span></button>
-                <button class="quick-action-item" onclick="showSettingsModal()"><i class="fas fa-cog"></i><span>Settings</span></button>
+                <button class="quick-action-item" onclick="location.href='transfer.html'"><i
+                        class="fas fa-exchange-alt"></i><span>Transfer</span></button>
+                <button class="quick-action-item" onclick="showScheduleModal()"><i
+                        class="fas fa-clock"></i><span>Schedule</span></button>
+                <button class="quick-action-item" onclick="showStatementsModal()"><i
+                        class="fas fa-file-pdf"></i><span>Statements</span></button>
+                <button class="quick-action-item" onclick="showSettingsModal()"><i
+                        class="fas fa-cog"></i><span>Settings</span></button>
             </div>
 
             <!-- Recent Transactions -->
@@ -481,7 +1167,6 @@
                     <h2>Recent Activity</h2>
                     <a href="transactions.html" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
                 </div>
-
                 <div class="transactions-list-compact">
                     <div class="transaction-row">
                         <div class="transaction-icon payment"><i class="fas fa-shopping-cart"></i></div>
@@ -491,7 +1176,6 @@
                         </div>
                         <div class="transaction-amount negative">-£89.99</div>
                     </div>
-
                     <div class="transaction-row">
                         <div class="transaction-icon transfer"><i class="fas fa-arrow-right"></i></div>
                         <div class="transaction-info">
@@ -500,7 +1184,6 @@
                         </div>
                         <div class="transaction-amount negative">-£250.00</div>
                     </div>
-
                     <div class="transaction-row">
                         <div class="transaction-icon deposit"><i class="fas fa-arrow-down"></i></div>
                         <div class="transaction-info">
@@ -509,7 +1192,6 @@
                         </div>
                         <div class="transaction-amount positive">+£3,500.00</div>
                     </div>
-
                     <div class="transaction-row">
                         <div class="transaction-icon bill"><i class="fas fa-bolt"></i></div>
                         <div class="transaction-info">
@@ -526,47 +1208,29 @@
                 <div class="details-card">
                     <h3>Account Details</h3>
                     <div class="details-list">
-                        <div class="detail-item">
-                            <span class="detail-label">Account Type</span>
-                            <span class="detail-value">Premium Checking</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Account Number</span>
-                            <span class="detail-value">****6541</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">US Routing Number</span>
-                            <span class="detail-value">0800 783 5263</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Opened On</span>
-                            <span class="detail-value">January 15, 2009</span>
-                        </div>
+                        <div class="detail-item"><span class="detail-label">Account Type</span><span
+                                class="detail-value">Premium Checking</span></div>
+                        <div class="detail-item"><span class="detail-label">Account Number</span><span
+                                class="detail-value">****6541</span></div>
+                        <div class="detail-item"><span class="detail-label">US Routing Number</span><span
+                                class="detail-value">0800 783 5263</span></div>
+                        <div class="detail-item"><span class="detail-label">Opened On</span><span
+                                class="detail-value">January 15, 2009</span></div>
                     </div>
                 </div>
-
                 <div class="details-card">
                     <h3>Limits & Features</h3>
                     <div class="details-list">
-                        <div class="detail-item">
-                            <span class="detail-label">Daily Withdrawal Limit</span>
-                            <span class="detail-value">£2,000</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Daily Transfer Limit</span>
-                            <span class="detail-value">£5,000</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Overdraft Protection</span>
-                            <span class="detail-value">Active</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Monthly Fee</span>
-                            <span class="detail-value">£0</span>
-                        </div>
+                        <div class="detail-item"><span class="detail-label">Daily Withdrawal Limit</span><span
+                                class="detail-value">£2,000</span></div>
+                        <div class="detail-item"><span class="detail-label">Daily Transfer Limit</span><span
+                                class="detail-value">£5,000</span></div>
+                        <div class="detail-item"><span class="detail-label">Overdraft Protection</span><span
+                                class="detail-value">Active</span></div>
+                        <div class="detail-item"><span class="detail-label">Monthly Fee</span><span
+                                class="detail-value">£0</span></div>
                     </div>
                 </div>
-
                 <div class="details-card">
                     <h3>Linked Cards</h3>
                     <div class="linked-cards">
@@ -576,7 +1240,8 @@
                                 <div class="card-name">Visa Debit Card</div>
                                 <div class="card-number">**** 1476</div>
                             </div>
-                            <button class="card-action" onclick="location.href='cards.html'"><i class="fas fa-chevron-right"></i></button>
+                            <button class="card-action" onclick="location.href='cards.html'"><i
+                                    class="fas fa-chevron-right"></i></button>
                         </div>
                         <div class="linked-card">
                             <i class="fas fa-credit-card"></i>
@@ -584,7 +1249,8 @@
                                 <div class="card-name">Premium Rewards Card</div>
                                 <div class="card-number">**** 7235</div>
                             </div>
-                            <button class="card-action" onclick="location.href='cards.html'"><i class="fas fa-chevron-right"></i></button>
+                            <button class="card-action" onclick="location.href='cards.html'"><i
+                                    class="fas fa-chevron-right"></i></button>
                         </div>
                     </div>
                 </div>
@@ -624,36 +1290,86 @@
     </div>
 
     <script>
-        // Mobile menu (consolidated)
-        (function(){
+        (function () {
+            // =========================================================================
+            // RELIABLE MOBILE MENU TOGGLE – works on all phones & tablets
+            // =========================================================================
             const menuToggle = document.getElementById('menuToggle');
-            const sidebar = document.querySelector('.sidebar-premium');
-            let overlay = document.getElementById('sidebarOverlay');
-            if (!overlay) {
-                overlay = document.createElement('div');
-                overlay.id = 'sidebarOverlay';
-                overlay.className = 'sidebar-overlay';
-                document.body.appendChild(overlay);
-            }
+            const sidebar = document.getElementById('sidebarPremium');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            if (!menuToggle || !sidebar || !overlay) return;
+
+            let isMenuOpen = false;
+
             function toggleMenu(show) {
-                if (show === undefined) show = !sidebar.classList.contains('active');
+                if (typeof show !== 'boolean') show = !isMenuOpen;
+                isMenuOpen = show;
                 sidebar.classList.toggle('active', show);
                 overlay.classList.toggle('active', show);
+                menuToggle.setAttribute('aria-expanded', show ? 'true' : 'false');
+                overlay.setAttribute('aria-hidden', show ? 'false' : 'true');
                 document.body.style.overflow = show ? 'hidden' : '';
             }
-            menuToggle?.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
-            overlay.addEventListener('click', () => toggleMenu(false));
-            sidebar?.addEventListener('click', (e) => {
-                if (e.target.tagName === 'A' || e.target.closest('a')) {
-                    setTimeout(() => toggleMenu(false), 150);
-                }
+
+            function handleToggleInteraction(e) {
+                e.preventDefault();
                 e.stopPropagation();
+                toggleMenu();
+            }
+
+            menuToggle.addEventListener('pointerdown', handleToggleInteraction, { passive: false });
+            menuToggle.addEventListener('click', function (e) {
+                if (e.pointerType === 'touch' || e.pointerType === 'pen') return;
+                handleToggleInteraction(e);
             });
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && sidebar.classList.contains('active')) toggleMenu(false); });
-            window.addEventListener('resize', () => { if (window.innerWidth >= 1024) toggleMenu(false); });
+            menuToggle.addEventListener('touchstart', function (e) {
+                if (window.PointerEvent) return;
+                handleToggleInteraction(e);
+            }, { passive: false });
+
+            overlay.addEventListener('pointerdown', function (e) {
+                if (isMenuOpen) { e.preventDefault(); toggleMenu(false); }
+            });
+            overlay.addEventListener('click', function (e) {
+                if (isMenuOpen && (e.pointerType === 'mouse' || !window.PointerEvent)) toggleMenu(false);
+            });
+
+            sidebar.addEventListener('click', function (e) {
+                const link = e.target.closest('a');
+                if (link && isMenuOpen) {
+                    e.preventDefault();
+                    const href = link.getAttribute('href');
+                    toggleMenu(false);
+                    setTimeout(() => { if (href && href !== '#') window.location.href = href; }, 350);
+                }
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && isMenuOpen) { toggleMenu(false); menuToggle.focus(); }
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth >= 1024 && isMenuOpen) toggleMenu(false);
+            });
+
+            let touchStartX = 0, touchStartY = 0;
+            sidebar.addEventListener('touchstart', function (e) {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+            sidebar.addEventListener('touchend', function (e) {
+                if (!isMenuOpen) return;
+                const deltaX = touchStartX - e.changedTouches[0].screenX;
+                if (deltaX > 60 && deltaX > Math.abs(touchStartY - e.changedTouches[0].screenY)) toggleMenu(false);
+            });
         })();
 
-        setTimeout(() => document.querySelector('.premium-loader').classList.add('fade-out'), 700);
+        // Loader
+        setTimeout(() => {
+            const loader = document.getElementById('premiumLoader');
+            if (loader) { loader.classList.add('fade-out'); setTimeout(() => loader.remove(), 700); }
+        }, 700);
 
         // Modal functions
         function showDepositModal() { document.getElementById('depositModal').classList.add('show'); }
@@ -671,12 +1387,12 @@
             setTimeout(() => { copyBtn.innerHTML = '<i class="far fa-copy"></i>'; }, 1500);
         }
 
-        window.addEventListener('click', function(event) {
+        window.addEventListener('click', function (event) {
             if (event.target.classList.contains('modal-premium')) event.target.classList.remove('show');
         });
 
         // Auth protection
-        (function() {
+        (function () {
             const auth = sessionStorage.getItem('nexusbank_auth');
             const expiry = sessionStorage.getItem('nexusbank_expiry');
             if (auth !== 'authenticated' || !expiry || Date.now() > parseInt(expiry)) {
@@ -690,9 +1406,10 @@
                 clearTimeout(inactivityTimer);
                 inactivityTimer = setTimeout(() => { sessionStorage.clear(); window.location.replace('login.html'); }, 900000);
             }
-            ['mousedown','mousemove','keydown','scroll','touchstart'].forEach(e => document.addEventListener(e, resetInactivity));
+            ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart', 'pointerdown'].forEach(e => document.addEventListener(e, resetInactivity, { passive: true }));
             resetInactivity();
         })();
     </script>
 </body>
+
 </html>
