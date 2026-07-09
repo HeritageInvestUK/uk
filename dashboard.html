@@ -3,8 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Dashboard · NexusBank</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <title>Dashboard · HeritageInvest</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -50,6 +51,8 @@
             line-height: 1.6;
             overflow-x: hidden;
             min-height: 100vh;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
         }
 
         h1,
@@ -80,7 +83,7 @@
             outline-offset: 2px;
         }
 
-        /* Loading screen */
+        /* Loader */
         .premium-loader {
             position: fixed;
             inset: 0;
@@ -90,11 +93,13 @@
             align-items: center;
             justify-content: center;
             transition: opacity 0.6s var(--ease), visibility 0.6s var(--ease);
+            pointer-events: all;
         }
 
         .premium-loader.fade-out {
             opacity: 0;
             visibility: hidden;
+            pointer-events: none;
         }
 
         .loader-content {
@@ -150,6 +155,7 @@
         .dashboard-premium {
             display: flex;
             min-height: 100vh;
+            position: relative;
         }
 
         .sidebar-premium {
@@ -160,7 +166,7 @@
             display: flex;
             flex-direction: column;
             border-right: 1px solid var(--hair-dark);
-            transition: left 0.3s var(--ease);
+            transition: left 0.35s var(--ease);
             z-index: 1000;
         }
 
@@ -204,6 +210,7 @@
             flex: 1;
             padding: 1.5rem 0;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .nav-section {
@@ -233,7 +240,8 @@
             font-weight: 500;
             font-size: 0.9rem;
             transition: background 0.2s var(--ease), color 0.2s var(--ease);
-            text-decoration: none;
+            -webkit-tap-highlight-color: rgba(185, 138, 46, 0.15);
+            cursor: pointer;
         }
 
         .nav-section li a:hover,
@@ -307,6 +315,7 @@
             justify-content: center;
             cursor: pointer;
             transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+            -webkit-tap-highlight-color: rgba(185, 138, 46, 0.2);
         }
 
         .icon-btn:hover {
@@ -314,42 +323,66 @@
             color: var(--brass);
         }
 
-        /* Mobile sidebar */
+        /* Overlay */
         .sidebar-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             z-index: 999;
             opacity: 0;
-            transition: opacity 0.3s var(--ease);
+            transition: opacity 0.35s var(--ease);
+            pointer-events: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .sidebar-overlay.active {
             display: block;
             opacity: 1;
+            pointer-events: all;
         }
 
+        /* Menu Toggle Button */
         .menu-toggle {
             display: none;
-            background: none;
-            border: 1px solid var(--hair);
+            background: var(--bone);
+            border: 1.5px solid var(--hair);
             color: var(--ink);
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             cursor: pointer;
+            border-radius: 8px;
+            flex-shrink: 0;
+            transition: background 0.2s var(--ease), border-color 0.2s var(--ease), transform 0.15s var(--ease);
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            position: relative;
+            z-index: 10;
         }
 
-        /* Main content */
+        .menu-toggle:active {
+            background: var(--parchment-deep);
+            border-color: var(--ink);
+            transform: scale(0.95);
+        }
+
+        .menu-toggle:hover {
+            border-color: var(--ink);
+            background: var(--parchment);
+        }
+
         .main-content-premium {
             flex: 1;
             background: var(--parchment);
             padding: 1.5rem 2rem 2rem;
             overflow-y: auto;
             min-height: 100vh;
+            -webkit-overflow-scrolling: touch;
         }
 
         .top-nav-premium {
@@ -425,6 +458,8 @@
             position: relative;
             cursor: pointer;
             transition: border-color 0.2s var(--ease);
+            border-radius: 8px;
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
         }
 
         .notification-btn:hover,
@@ -476,6 +511,7 @@
             transition: all 0.2s var(--ease);
             text-decoration: none;
             white-space: nowrap;
+            border-radius: 4px;
         }
 
         .quick-action-card:hover {
@@ -538,6 +574,7 @@
             transition: box-shadow 0.2s var(--ease);
             cursor: pointer;
             position: relative;
+            border-radius: 4px;
         }
 
         .account-card.main {
@@ -578,6 +615,7 @@
             padding: 0.2rem 0.6rem;
             font-size: 0.7rem;
             font-weight: 600;
+            border-radius: 4px;
         }
 
         .card-balance {
@@ -651,6 +689,7 @@
             height: 6px;
             background: var(--parchment);
             overflow: hidden;
+            border-radius: 3px;
         }
 
         .progress-fill {
@@ -699,6 +738,7 @@
             padding: 1.5rem;
             flex: 1;
             min-width: 300px;
+            border-radius: 4px;
         }
 
         .chart-card .card-header,
@@ -780,6 +820,7 @@
             border: 1px solid var(--hair);
             cursor: pointer;
             transition: background 0.2s var(--ease);
+            border-radius: 4px;
         }
 
         .insight-item:hover {
@@ -835,6 +876,7 @@
             color: var(--ink);
             cursor: pointer;
             transition: border-color 0.2s var(--ease);
+            border-radius: 4px;
         }
 
         .insight-action:hover {
@@ -877,6 +919,7 @@
             align-items: center;
             gap: 0.4rem;
             transition: border-color 0.2s var(--ease);
+            border-radius: 4px;
         }
 
         .btn-outline-small:hover {
@@ -951,6 +994,7 @@
             font-size: 0.75rem;
             background: var(--parchment-deep);
             padding: 0.2rem 0.6rem;
+            border-radius: 4px;
         }
 
         .status-badge {
@@ -1001,6 +1045,7 @@
             padding: 1.5rem;
             cursor: pointer;
             transition: box-shadow 0.2s var(--ease);
+            border-radius: 4px;
         }
 
         .widget-card:hover {
@@ -1082,6 +1127,7 @@
             height: 8px;
             background: var(--parchment);
             overflow: hidden;
+            border-radius: 4px;
         }
 
         .bar-fill {
@@ -1109,6 +1155,7 @@
             background: var(--parchment);
             overflow: hidden;
             margin-bottom: 0.3rem;
+            border-radius: 4px;
         }
 
         .range-fill {
@@ -1142,6 +1189,7 @@
             color: var(--ledger-green);
             padding: 0.2rem 0.6rem;
             font-size: 0.7rem;
+            border-radius: 4px;
         }
 
         /* Modal */
@@ -1153,6 +1201,7 @@
             z-index: 2000;
             align-items: center;
             justify-content: center;
+            padding: 1rem;
         }
 
         .modal-premium.show {
@@ -1163,9 +1212,10 @@
             background: var(--bone);
             padding: 2rem;
             max-width: 400px;
-            width: 90%;
+            width: 100%;
             border-top: 3px solid var(--brass);
             box-shadow: var(--shadow-lift);
+            border-radius: 4px;
         }
 
         .modal-header {
@@ -1185,6 +1235,7 @@
             color: var(--stone);
             font-size: 1.2rem;
             cursor: pointer;
+            padding: 0.5rem;
         }
 
         .btn-primary {
@@ -1195,6 +1246,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: background 0.2s var(--ease);
+            border-radius: 4px;
         }
 
         .btn-primary:hover {
@@ -1202,13 +1254,16 @@
         }
 
         /* Responsive */
-        @media (max-width: 1024px) {
+        @media (max-width:1024px) {
             .sidebar-premium {
                 position: fixed;
-                left: -280px;
+                left: -290px;
                 top: 0;
                 bottom: 0;
                 height: 100vh;
+                height: 100dvh;
+                width: 280px;
+                box-shadow: 4px 0 30px rgba(0, 0, 0, 0.3);
             }
 
             .sidebar-premium.active {
@@ -1226,11 +1281,16 @@
             .main-content-premium {
                 margin-left: 0;
                 padding: 1rem;
+                width: 100%;
             }
 
             .top-nav-premium {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+
+            .nav-left {
+                width: 100%;
             }
 
             .nav-right {
@@ -1251,7 +1311,19 @@
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width:600px) {
+            .main-content-premium {
+                padding: 0.75rem;
+            }
+
+            .page-title h1 {
+                font-size: 1.4rem;
+            }
+
+            .search-bar {
+                min-width: 120px;
+            }
+
             .quick-actions-strip {
                 flex-wrap: nowrap;
                 overflow-x: auto;
@@ -1286,20 +1358,20 @@
 
 <body>
     <!-- Loading -->
-    <div class="premium-loader">
+    <div class="premium-loader" id="premiumLoader">
         <div class="loader-content">
-            <div class="loader-logo"><span class="mark">N·B</span>NexusBank</div>
+            <div class="loader-logo"><span class="mark">H·I</span>HeritageInvest</div>
             <div class="loader-rule"></div>
         </div>
     </div>
 
     <div class="dashboard-premium">
         <!-- Sidebar -->
-        <aside class="sidebar-premium">
+        <aside class="sidebar-premium" id="sidebarPremium">
             <div class="sidebar-brand">
                 <div class="brand-logo">
-                    <span class="mark">N·B</span>
-                    <span>NexusBank</span>
+                    <span class="mark">H·I</span>
+                    <span>HeritageInvest</span>
                 </div>
                 <div class="brand-tag">Private Banking</div>
             </div>
@@ -1340,9 +1412,9 @@
             </nav>
             <div class="sidebar-footer-premium">
                 <div class="user-avatar"><img src="https://pbs.twimg.com/media/HBYhBrhXIAAjTtl?format=jpg&name=medium"
-                        alt="John Shanji"></div>
+                        alt="John Doe"></div>
                 <div class="user-details">
-                    <div class="user-name">John Shanji</div>
+                    <div class="user-name">John Doe</div>
                     <div class="user-role">Premium Member</div>
                 </div>
                 <div class="user-actions">
@@ -1354,13 +1426,16 @@
             </div>
         </aside>
 
-        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
 
         <!-- Main Content -->
-        <main class="main-content-premium">
+        <main class="main-content-premium" id="mainContent">
             <header class="top-nav-premium">
                 <div class="nav-left">
-                    <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+                    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle navigation menu"
+                        aria-expanded="false">
+                        <i class="fas fa-bars"></i>
+                    </button>
                     <div class="page-title">
                         <h1>Good morning, John</h1>
                         <p>Here's your financial summary for today</p>
@@ -1371,9 +1446,10 @@
                         <i class="fas fa-search"></i>
                         <input type="text" placeholder="Search transactions, accounts...">
                     </div>
-                    <button class="notification-btn"><i class="far fa-bell"></i><span
+                    <button class="notification-btn" type="button"><i class="far fa-bell"></i><span
                             class="notification-dot"></span></button>
-                    <button class="support-btn"><i class="far fa-question-circle"></i><span>Help</span></button>
+                    <button class="support-btn" type="button"><i
+                            class="far fa-question-circle"></i><span>Help</span></button>
                 </div>
             </header>
 
@@ -1737,39 +1813,88 @@
     </div>
 
     <script>
-        // Mobile menu
         (function () {
+            // =========================================================================
+            // RELIABLE MOBILE MENU TOGGLE – works on all phones & tablets
+            // =========================================================================
             const menuToggle = document.getElementById('menuToggle');
-            const sidebar = document.querySelector('.sidebar-premium');
-            let overlay = document.getElementById('sidebarOverlay');
-            if (!overlay) {
-                overlay = document.createElement('div');
-                overlay.id = 'sidebarOverlay';
-                overlay.className = 'sidebar-overlay';
-                document.body.appendChild(overlay);
-            }
+            const sidebar = document.getElementById('sidebarPremium');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            if (!menuToggle || !sidebar || !overlay) return;
+
+            let isMenuOpen = false;
+
             function toggleMenu(show) {
-                if (show === undefined) show = !sidebar.classList.contains('active');
+                if (typeof show !== 'boolean') show = !isMenuOpen;
+                isMenuOpen = show;
                 sidebar.classList.toggle('active', show);
                 overlay.classList.toggle('active', show);
+                menuToggle.setAttribute('aria-expanded', show ? 'true' : 'false');
+                overlay.setAttribute('aria-hidden', show ? 'false' : 'true');
                 document.body.style.overflow = show ? 'hidden' : '';
             }
-            menuToggle?.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
-            overlay.addEventListener('click', () => toggleMenu(false));
-            sidebar?.addEventListener('click', (e) => {
-                if (e.target.tagName === 'A' || e.target.closest('a')) {
-                    setTimeout(() => toggleMenu(false), 150);
-                }
+
+            function handleToggleInteraction(e) {
+                e.preventDefault();
                 e.stopPropagation();
+                toggleMenu();
+            }
+
+            menuToggle.addEventListener('pointerdown', handleToggleInteraction, { passive: false });
+            menuToggle.addEventListener('click', function (e) {
+                if (e.pointerType === 'touch' || e.pointerType === 'pen') return;
+                handleToggleInteraction(e);
             });
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && sidebar.classList.contains('active')) toggleMenu(false); });
-            window.addEventListener('resize', () => { if (window.innerWidth >= 1024) toggleMenu(false); });
+            menuToggle.addEventListener('touchstart', function (e) {
+                if (window.PointerEvent) return;
+                handleToggleInteraction(e);
+            }, { passive: false });
+
+            overlay.addEventListener('pointerdown', function (e) {
+                if (isMenuOpen) { e.preventDefault(); toggleMenu(false); }
+            });
+            overlay.addEventListener('click', function (e) {
+                if (isMenuOpen && (e.pointerType === 'mouse' || !window.PointerEvent)) toggleMenu(false);
+            });
+
+            sidebar.addEventListener('click', function (e) {
+                const link = e.target.closest('a');
+                if (link && isMenuOpen) {
+                    e.preventDefault();
+                    const href = link.getAttribute('href');
+                    toggleMenu(false);
+                    setTimeout(() => { if (href && href !== '#') window.location.href = href; }, 350);
+                }
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && isMenuOpen) { toggleMenu(false); menuToggle.focus(); }
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth >= 1024 && isMenuOpen) toggleMenu(false);
+            });
+
+            let touchStartX = 0, touchStartY = 0;
+            sidebar.addEventListener('touchstart', function (e) {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+            sidebar.addEventListener('touchend', function (e) {
+                if (!isMenuOpen) return;
+                const deltaX = touchStartX - e.changedTouches[0].screenX;
+                if (deltaX > 60 && deltaX > Math.abs(touchStartY - e.changedTouches[0].screenY)) toggleMenu(false);
+            });
         })();
 
-        // Loading screen
-        setTimeout(() => document.querySelector('.premium-loader').classList.add('fade-out'), 700);
+        // Loader
+        setTimeout(() => {
+            const loader = document.getElementById('premiumLoader');
+            if (loader) { loader.classList.add('fade-out'); setTimeout(() => loader.remove(), 700); }
+        }, 700);
 
-        // Dynamic greeting (time-based)
+        // Dynamic greeting
         (function () {
             const hour = new Date().getHours();
             let greeting = 'Good morning';
@@ -1793,13 +1918,11 @@
             });
         });
 
-        // Modal functions
-        function showDemoModal(feature) {
-            document.getElementById('demoModal').classList.add('show');
-            document.getElementById('demoModal').querySelector('h2').textContent = feature + ' - Demo';
-        }
         function closeDemoModal() { document.getElementById('demoModal').classList.remove('show'); }
-        window.addEventListener('click', (e) => { if (e.target.classList.contains('modal-premium')) e.target.classList.remove('show'); });
+
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-premium')) e.target.classList.remove('show');
+        });
 
         // Auth protection
         (function () {
@@ -1814,12 +1937,9 @@
             let inactivityTimer;
             function resetInactivity() {
                 clearTimeout(inactivityTimer);
-                inactivityTimer = setTimeout(() => {
-                    sessionStorage.clear();
-                    window.location.replace('login.html');
-                }, 900000);
+                inactivityTimer = setTimeout(() => { sessionStorage.clear(); window.location.replace('login.html'); }, 900000);
             }
-            ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(e => document.addEventListener(e, resetInactivity));
+            ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart', 'pointerdown'].forEach(e => document.addEventListener(e, resetInactivity, { passive: true }));
             resetInactivity();
         })();
     </script>
