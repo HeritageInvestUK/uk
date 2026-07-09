@@ -3,8 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Transfer Money · NexusBank</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <title>Transfer Money · HeritageInvest</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -50,6 +51,8 @@
             line-height: 1.6;
             overflow-x: hidden;
             min-height: 100vh;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
         }
 
         h1,
@@ -90,11 +93,13 @@
             align-items: center;
             justify-content: center;
             transition: opacity 0.6s var(--ease), visibility 0.6s var(--ease);
+            pointer-events: all;
         }
 
         .premium-loader.fade-out {
             opacity: 0;
             visibility: hidden;
+            pointer-events: none;
         }
 
         .loader-content {
@@ -150,6 +155,7 @@
         .dashboard-premium {
             display: flex;
             min-height: 100vh;
+            position: relative;
         }
 
         .sidebar-premium {
@@ -160,7 +166,7 @@
             display: flex;
             flex-direction: column;
             border-right: 1px solid var(--hair-dark);
-            transition: left 0.3s var(--ease);
+            transition: left 0.35s var(--ease);
             z-index: 1000;
         }
 
@@ -204,6 +210,7 @@
             flex: 1;
             padding: 1.5rem 0;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .nav-section {
@@ -233,6 +240,8 @@
             font-weight: 500;
             font-size: 0.9rem;
             transition: background 0.2s var(--ease), color 0.2s var(--ease);
+            -webkit-tap-highlight-color: rgba(185, 138, 46, 0.15);
+            cursor: pointer;
         }
 
         .nav-section li a:hover,
@@ -296,6 +305,7 @@
             justify-content: center;
             cursor: pointer;
             transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+            -webkit-tap-highlight-color: rgba(185, 138, 46, 0.2);
         }
 
         .icon-btn:hover {
@@ -303,32 +313,57 @@
             color: var(--brass);
         }
 
+        /* Overlay */
         .sidebar-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             z-index: 999;
             opacity: 0;
-            transition: opacity 0.3s var(--ease);
+            transition: opacity 0.35s var(--ease);
+            pointer-events: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .sidebar-overlay.active {
             display: block;
             opacity: 1;
+            pointer-events: all;
         }
 
+        /* Menu Toggle Button */
         .menu-toggle {
             display: none;
-            background: none;
-            border: 1px solid var(--hair);
+            background: var(--bone);
+            border: 1.5px solid var(--hair);
             color: var(--ink);
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             cursor: pointer;
+            border-radius: 8px;
+            flex-shrink: 0;
+            transition: background 0.2s var(--ease), border-color 0.2s var(--ease), transform 0.15s var(--ease);
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            position: relative;
+            z-index: 10;
+        }
+
+        .menu-toggle:active {
+            background: var(--parchment-deep);
+            border-color: var(--ink);
+            transform: scale(0.95);
+        }
+
+        .menu-toggle:hover {
+            border-color: var(--ink);
+            background: var(--parchment);
         }
 
         .main-content-premium {
@@ -337,6 +372,7 @@
             padding: 1.5rem 2rem 2rem;
             overflow-y: auto;
             min-height: 100vh;
+            -webkit-overflow-scrolling: touch;
         }
 
         .top-nav-premium {
@@ -412,6 +448,8 @@
             position: relative;
             cursor: pointer;
             transition: border-color 0.2s var(--ease);
+            border-radius: 8px;
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
         }
 
         .notification-btn:hover,
@@ -451,6 +489,7 @@
             background: var(--bone);
             border: 1px solid var(--hair);
             padding: 1rem 1.5rem;
+            border-radius: 4px;
         }
 
         .selector-label {
@@ -476,6 +515,7 @@
             transition: border-color 0.2s var(--ease);
             background: white;
             font-size: 0.9rem;
+            border-radius: 4px;
         }
 
         .account-pill.active {
@@ -501,6 +541,7 @@
             background: var(--parchment-deep);
             font-size: 0.7rem;
             padding: 0.15rem 0.5rem;
+            border-radius: 4px;
         }
 
         /* Transfer grid */
@@ -515,6 +556,7 @@
             border: 1px solid var(--hair);
             padding: 2rem;
             border-top: 3px solid var(--brass);
+            border-radius: 4px;
         }
 
         .form-header {
@@ -533,6 +575,7 @@
             font-size: 0.75rem;
             background: var(--parchment-deep);
             padding: 0.2rem 0.6rem;
+            border-radius: 4px;
         }
 
         .bank-type-selector {
@@ -559,6 +602,7 @@
             align-items: center;
             justify-content: center;
             gap: 0.4rem;
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
         }
 
         .bank-type-btn.active {
@@ -617,6 +661,7 @@
             left: 14px;
             color: var(--stone);
             font-size: 1rem;
+            z-index: 1;
         }
 
         .form-group input,
@@ -628,6 +673,7 @@
             font-size: 0.95rem;
             background: white;
             transition: border-color 0.2s var(--ease);
+            border-radius: 4px;
         }
 
         .form-group input:focus {
@@ -652,6 +698,8 @@
             font-weight: 600;
             cursor: pointer;
             transition: background 0.2s var(--ease);
+            border-radius: 4px;
+            z-index: 2;
         }
 
         .lookup-btn:hover {
@@ -675,6 +723,7 @@
             background: white;
             border: 1px solid var(--hair);
             display: none;
+            border-radius: 4px;
         }
 
         .bank-info-display.show {
@@ -698,6 +747,7 @@
             justify-content: center;
             color: var(--brass);
             font-size: 1.2rem;
+            border-radius: 4px;
         }
 
         .bank-info h4 {
@@ -732,6 +782,7 @@
             align-items: center;
             border: 1px solid var(--hair);
             background: white;
+            border-radius: 4px;
         }
 
         .amount-input-wrapper .currency-symbol {
@@ -799,6 +850,7 @@
             align-items: center;
             gap: 0.5rem;
             transition: background 0.2s var(--ease);
+            border-radius: 4px;
         }
 
         .btn-primary:hover {
@@ -813,6 +865,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: border-color 0.2s var(--ease);
+            border-radius: 4px;
         }
 
         .btn-secondary:hover {
@@ -830,6 +883,7 @@
             background: var(--bone);
             border: 1px solid var(--hair);
             padding: 1.5rem;
+            border-radius: 4px;
         }
 
         .widget-header {
@@ -892,6 +946,7 @@
             cursor: pointer;
             color: var(--ink);
             transition: border-color 0.2s var(--ease);
+            border-radius: 4px;
         }
 
         .recipient-action:hover {
@@ -931,6 +986,7 @@
             background: var(--parchment-deep);
             overflow: hidden;
             margin-top: 4px;
+            border-radius: 3px;
         }
 
         .progress-fill {
@@ -946,6 +1002,7 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            border-radius: 4px;
         }
 
         .security-notice-widget i {
@@ -962,6 +1019,7 @@
             z-index: 2000;
             align-items: center;
             justify-content: center;
+            padding: 1rem;
         }
 
         .modal-premium.show {
@@ -972,9 +1030,12 @@
             background: var(--bone);
             padding: 2rem;
             max-width: 500px;
-            width: 90%;
+            width: 100%;
             border-top: 3px solid var(--brass);
             box-shadow: var(--shadow-lift);
+            border-radius: 4px;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-header {
@@ -994,6 +1055,8 @@
             color: var(--stone);
             font-size: 1.2rem;
             cursor: pointer;
+            padding: 0.5rem;
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
         }
 
         .modal-body {
@@ -1082,6 +1145,7 @@
             border-left: 3px solid var(--ledger-red);
             text-align: left;
             margin: 1rem 0;
+            border-radius: 4px;
         }
 
         .reason-header {
@@ -1109,7 +1173,6 @@
             margin-top: 1rem;
         }
 
-        /* Loading modal */
         .loading-modal {
             text-align: center;
         }
@@ -1122,10 +1185,13 @@
         @media (max-width:1024px) {
             .sidebar-premium {
                 position: fixed;
-                left: -280px;
+                left: -290px;
                 top: 0;
                 bottom: 0;
                 height: 100vh;
+                height: 100dvh;
+                width: 280px;
+                box-shadow: 4px 0 30px rgba(0, 0, 0, 0.3);
             }
 
             .sidebar-premium.active {
@@ -1143,11 +1209,16 @@
             .main-content-premium {
                 margin-left: 0;
                 padding: 1rem;
+                width: 100%;
             }
 
             .top-nav-premium {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+
+            .nav-left {
+                width: 100%;
             }
 
             .nav-right {
@@ -1178,7 +1249,19 @@
             }
         }
 
-        @media (max-width:480px) {
+        @media (max-width:600px) {
+            .main-content-premium {
+                padding: 0.75rem;
+            }
+
+            .page-title h1 {
+                font-size: 1.4rem;
+            }
+
+            .search-bar {
+                min-width: 120px;
+            }
+
             .bank-type-btn {
                 font-size: 0.7rem;
                 padding: 0.6rem 0.3rem;
@@ -1198,9 +1281,9 @@
 
 <body>
     <!-- Loading Screen -->
-    <div class="premium-loader">
+    <div class="premium-loader" id="premiumLoader">
         <div class="loader-content">
-            <div class="loader-logo"><span class="mark">N·B</span>NexusBank</div>
+            <div class="loader-logo"><span class="mark">H·I</span>HeritageInvest</div>
             <div class="loader-rule"></div>
         </div>
     </div>
@@ -1208,11 +1291,11 @@
     <!-- Main Dashboard Container -->
     <div class="dashboard-premium">
         <!-- Sidebar Navigation -->
-        <aside class="sidebar-premium">
+        <aside class="sidebar-premium" id="sidebarPremium">
             <div class="sidebar-brand">
                 <div class="brand-logo">
-                    <span class="mark">N·B</span>
-                    <span>NexusBank</span>
+                    <span class="mark">H·I</span>
+                    <span>HeritageInvest</span>
                 </div>
                 <div class="brand-tag">Private Banking</div>
             </div>
@@ -1252,9 +1335,9 @@
             </nav>
             <div class="sidebar-footer-premium">
                 <div class="user-avatar"><img src="https://pbs.twimg.com/media/HBYhBrhXIAAjTtl?format=jpg&name=medium"
-                        alt="John Shanji"></div>
+                        alt="John Doe"></div>
                 <div class="user-details">
-                    <div class="user-name">John Shanji</div>
+                    <div class="user-name">John Doe</div>
                     <div class="user-role">Premium Member</div>
                 </div>
                 <div class="user-actions">
@@ -1266,13 +1349,16 @@
             </div>
         </aside>
 
-        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
 
         <!-- Main Content Area -->
-        <main class="main-content-premium">
+        <main class="main-content-premium" id="mainContent">
             <header class="top-nav-premium">
                 <div class="nav-left">
-                    <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+                    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle navigation menu"
+                        aria-expanded="false">
+                        <i class="fas fa-bars"></i>
+                    </button>
                     <div class="page-title">
                         <h1>Transfer Money</h1>
                         <p>Securely send money to any account</p>
@@ -1283,9 +1369,10 @@
                         <i class="fas fa-search"></i>
                         <input type="text" placeholder="Search...">
                     </div>
-                    <button class="notification-btn"><i class="far fa-bell"></i><span
+                    <button class="notification-btn" type="button"><i class="far fa-bell"></i><span
                             class="notification-dot"></span></button>
-                    <button class="support-btn"><i class="far fa-question-circle"></i><span>Help</span></button>
+                    <button class="support-btn" type="button"><i
+                            class="far fa-question-circle"></i><span>Help</span></button>
                 </div>
             </header>
 
@@ -1687,7 +1774,82 @@
 
     <script>
         // =========================================================================
-        // COMPLETE US BANK DATABASE (unchanged)
+        // RELIABLE MOBILE MENU TOGGLE – works on all phones & tablets
+        // =========================================================================
+        (function () {
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebarPremium');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            if (!menuToggle || !sidebar || !overlay) return;
+
+            let isMenuOpen = false;
+
+            function toggleMenu(show) {
+                if (typeof show !== 'boolean') show = !isMenuOpen;
+                isMenuOpen = show;
+                sidebar.classList.toggle('active', show);
+                overlay.classList.toggle('active', show);
+                menuToggle.setAttribute('aria-expanded', show ? 'true' : 'false');
+                overlay.setAttribute('aria-hidden', show ? 'false' : 'true');
+                document.body.style.overflow = show ? 'hidden' : '';
+            }
+
+            function handleToggleInteraction(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleMenu();
+            }
+
+            menuToggle.addEventListener('pointerdown', handleToggleInteraction, { passive: false });
+            menuToggle.addEventListener('click', function (e) {
+                if (e.pointerType === 'touch' || e.pointerType === 'pen') return;
+                handleToggleInteraction(e);
+            });
+            menuToggle.addEventListener('touchstart', function (e) {
+                if (window.PointerEvent) return;
+                handleToggleInteraction(e);
+            }, { passive: false });
+
+            overlay.addEventListener('pointerdown', function (e) {
+                if (isMenuOpen) { e.preventDefault(); toggleMenu(false); }
+            });
+            overlay.addEventListener('click', function (e) {
+                if (isMenuOpen && (e.pointerType === 'mouse' || !window.PointerEvent)) toggleMenu(false);
+            });
+
+            sidebar.addEventListener('click', function (e) {
+                const link = e.target.closest('a');
+                if (link && isMenuOpen) {
+                    e.preventDefault();
+                    const href = link.getAttribute('href');
+                    toggleMenu(false);
+                    setTimeout(() => { if (href && href !== '#') window.location.href = href; }, 350);
+                }
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && isMenuOpen) { toggleMenu(false); menuToggle.focus(); }
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth >= 1024 && isMenuOpen) toggleMenu(false);
+            });
+
+            let touchStartX = 0, touchStartY = 0;
+            sidebar.addEventListener('touchstart', function (e) {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+            sidebar.addEventListener('touchend', function (e) {
+                if (!isMenuOpen) return;
+                const deltaX = touchStartX - e.changedTouches[0].screenX;
+                if (deltaX > 60 && deltaX > Math.abs(touchStartY - e.changedTouches[0].screenY)) toggleMenu(false);
+            });
+        })();
+
+        // =========================================================================
+        // COMPLETE US BANK DATABASE
         // =========================================================================
         const usBanks = {
             '021000021': { name: 'JPMorgan Chase Bank, N.A.', address: '270 Park Avenue, New York, NY 10017', swift: 'CHASUS33', phone: '1-800-935-9935', established: '1799', type: 'Commercial Bank', category: 'National', website: 'chase.com', fedwire: '021000021', ach: true, realtime: true },
@@ -1781,44 +1943,6 @@
         ];
 
         let currentBankType = 'us';
-
-        // =========================================================================
-        // MOBILE MENU TOGGLE (consolidated)
-        // =========================================================================
-        (function () {
-            const menuToggle = document.getElementById('menuToggle');
-            const sidebar = document.querySelector('.sidebar-premium');
-            let overlay = document.getElementById('sidebarOverlay');
-            if (!overlay) {
-                overlay = document.createElement('div');
-                overlay.id = 'sidebarOverlay';
-                overlay.className = 'sidebar-overlay';
-                document.body.appendChild(overlay);
-            }
-            function toggleMenu(show) {
-                if (show === undefined) show = !sidebar.classList.contains('active');
-                sidebar.classList.toggle('active', show);
-                overlay.classList.toggle('active', show);
-                document.body.style.overflow = show ? 'hidden' : '';
-            }
-            menuToggle?.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
-            overlay.addEventListener('click', () => toggleMenu(false));
-            sidebar?.addEventListener('click', (e) => {
-                if (e.target.tagName === 'A' || e.target.closest('a')) {
-                    setTimeout(() => toggleMenu(false), 150);
-                }
-                e.stopPropagation();
-            });
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && sidebar.classList.contains('active')) toggleMenu(false); });
-            window.addEventListener('resize', () => { if (window.innerWidth >= 1024) toggleMenu(false); });
-
-            let touchStartX = 0;
-            document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
-            document.addEventListener('touchend', (e) => {
-                const touchEndX = e.changedTouches[0].screenX;
-                if (sidebar.classList.contains('active') && (touchStartX - touchEndX) > 100) toggleMenu(false);
-            });
-        })();
 
         // =========================================================================
         // AMOUNT INPUT FILTER (cross‑platform)
@@ -2087,17 +2211,11 @@
         }
 
         function showErrorDetails(details) { alert('Additional Error Details:\n\n' + details); }
-        function contactSupport() {
-            alert('Demo: Support team notified.');
-            closeModal('failureModal');
-        }
-
+        function contactSupport() { alert('Demo: Support team notified.'); closeModal('failureModal'); }
         function closeModal(modalId) { document.getElementById(modalId).classList.remove('show'); }
 
         window.addEventListener('click', function (event) {
-            if (event.target.classList.contains('modal-premium')) {
-                event.target.classList.remove('show');
-            }
+            if (event.target.classList.contains('modal-premium')) event.target.classList.remove('show');
         });
 
         // Account pill selection
@@ -2140,7 +2258,10 @@
         document.getElementById('sortCode')?.addEventListener('keypress', function (e) { if (e.key === 'Enter') { e.preventDefault(); autoLookupUKBank(); } });
 
         // Loading screen
-        setTimeout(() => { document.querySelector('.premium-loader').classList.add('fade-out'); }, 800);
+        setTimeout(() => {
+            const loader = document.getElementById('premiumLoader');
+            if (loader) { loader.classList.add('fade-out'); setTimeout(() => loader.remove(), 700); }
+        }, 700);
     </script>
 </body>
 
