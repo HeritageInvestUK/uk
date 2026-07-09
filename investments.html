@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Investments · NexusBank</title>
+    <title>Investments · HeritageInvest</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -899,7 +899,7 @@
 <body>
     <div class="premium-loader">
         <div class="loader-content">
-            <div class="loader-logo"><span class="mark">N·B</span>NexusBank</div>
+            <div class="loader-logo"><span class="mark">H·I</span>HeritageInvest</div>
             <div class="loader-rule"></div>
         </div>
     </div>
@@ -908,8 +908,8 @@
         <aside class="sidebar-premium">
             <div class="sidebar-brand">
                 <div class="brand-logo">
-                    <span class="mark">N·B</span>
-                    <span>NexusBank</span>
+                    <span class="mark">H·I</span>
+                    <span>HeritageInvest</span>
                 </div>
                 <div class="brand-tag">Private Banking</div>
             </div>
@@ -949,9 +949,9 @@
             </nav>
             <div class="sidebar-footer-premium">
                 <div class="user-avatar"><img src="https://pbs.twimg.com/media/HBYhBrhXIAAjTtl?format=jpg&name=medium"
-                        alt="John Shanji"></div>
+                        alt="John Doe"></div>
                 <div class="user-details">
-                    <div class="user-name">John Shanji</div>
+                    <div class="user-name">John Doe</div>
                     <div class="user-role">Premium Member</div>
                 </div>
                 <div class="user-actions">
@@ -1178,7 +1178,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Mobile menu (consolidated)
+        // =========================================================================
+        // RELIABLE MOBILE MENU (works on all touch devices)
+        // =========================================================================
         (function () {
             const menuToggle = document.getElementById('menuToggle');
             const sidebar = document.querySelector('.sidebar-premium');
@@ -1189,22 +1191,55 @@
                 overlay.className = 'sidebar-overlay';
                 document.body.appendChild(overlay);
             }
+
             function toggleMenu(show) {
                 if (show === undefined) show = !sidebar.classList.contains('active');
                 sidebar.classList.toggle('active', show);
                 overlay.classList.toggle('active', show);
                 document.body.style.overflow = show ? 'hidden' : '';
             }
-            menuToggle?.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
+
+            menuToggle?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleMenu();
+            });
+
             overlay.addEventListener('click', () => toggleMenu(false));
+
+            // Sidebar link navigation – close menu then go
             sidebar?.addEventListener('click', (e) => {
-                if (e.target.tagName === 'A' || e.target.closest('a')) {
-                    setTimeout(() => toggleMenu(false), 150);
+                const link = e.target.closest('a');
+                if (link) {
+                    e.preventDefault();
+                    const href = link.getAttribute('href');
+                    toggleMenu(false);
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 200);
                 }
                 e.stopPropagation();
             });
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && sidebar.classList.contains('active')) toggleMenu(false); });
-            window.addEventListener('resize', () => { if (window.innerWidth >= 1024) toggleMenu(false); });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && sidebar.classList.contains('active')) toggleMenu(false);
+            });
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 1024) toggleMenu(false);
+            });
+
+            let touchStartX = 0;
+            document.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            document.addEventListener('touchend', (e) => {
+                const touchEndX = e.changedTouches[0].screenX;
+                const threshold = 100;
+                if (sidebar.classList.contains('active') && (touchStartX - touchEndX) > threshold) {
+                    toggleMenu(false);
+                }
+            });
         })();
 
         // Loading screen
