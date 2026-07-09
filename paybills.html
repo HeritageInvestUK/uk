@@ -1,153 +1,1105 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pay Bills · HarvestBank Professional</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <title>Pay Bills · HeritageInvest</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/png" href="https://a.mktgcdn.com/p/trqY8cbRb9rpmzNBIHFEHxK3n0czpuAaJO27NrH_lzQ/1.0000/676x676.png">
+    <link rel="icon" type="image/png"
+        href="https://a.mktgcdn.com/p/trqY8cbRb9rpmzNBIHFEHxK3n0czpuAaJO27NrH_lzQ/1.0000/676x676.png">
+    <style>
+        :root {
+            --ink: #10201B;
+            --ink-soft: #1B2F27;
+            --parchment: #F3EFE4;
+            --parchment-deep: #EAE3D2;
+            --bone: #FBF9F3;
+            --brass: #B98A2E;
+            --brass-bright: #D7A83F;
+            --ledger-green: #2F6B4F;
+            --ledger-red: #A24632;
+            --charcoal: #23302B;
+            --stone: #6B7A72;
+            --hair: rgba(35, 48, 43, 0.14);
+            --hair-dark: rgba(243, 239, 228, 0.16);
+            --shadow-card: 0 1px 2px rgba(16, 32, 27, 0.06), 0 8px 24px rgba(16, 32, 27, 0.06);
+            --shadow-lift: 0 20px 45px rgba(16, 32, 27, 0.16);
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--charcoal);
+            background: var(--parchment);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Source Serif 4', serif;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .mono {
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        ::selection {
+            background: var(--brass);
+            color: var(--ink);
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--brass);
+            outline-offset: 2px;
+        }
+
+        /* Loader */
+        .premium-loader {
+            position: fixed;
+            inset: 0;
+            background: var(--ink);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s var(--ease), visibility 0.6s var(--ease);
+            pointer-events: all;
+        }
+
+        .premium-loader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-logo {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.9rem;
+            font-weight: 600;
+            color: var(--bone);
+            margin-bottom: 1.25rem;
+        }
+
+        .loader-logo .mark {
+            color: var(--brass-bright);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.1rem;
+            margin-right: 0.6rem;
+        }
+
+        .loader-rule {
+            width: 160px;
+            height: 1px;
+            background: var(--hair-dark);
+            position: relative;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .loader-rule::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -40%;
+            width: 40%;
+            height: 100%;
+            background: var(--brass-bright);
+            animation: loading 1.1s infinite;
+        }
+
+        @keyframes loading {
+            0% {
+                left: -40%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* Layout */
+        .dashboard-premium {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .sidebar-premium {
+            background: var(--ink);
+            color: var(--bone);
+            width: 280px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--hair-dark);
+            transition: left 0.35s var(--ease);
+            z-index: 1000;
+        }
+
+        .sidebar-brand {
+            padding: 2rem 1.5rem 1.5rem;
+            border-bottom: 1px solid var(--hair-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .brand-logo .mark {
+            width: 38px;
+            height: 38px;
+            border: 1.5px solid var(--brass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--brass);
+        }
+
+        .brand-logo span {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--bone);
+            margin-left: 0.6rem;
+        }
+
+        .brand-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--stone);
+            margin-top: 0.3rem;
+        }
+
+        .sidebar-nav-premium {
+            flex: 1;
+            padding: 1.5rem 0;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-section-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--brass);
+            padding: 0 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-section ul {
+            list-style: none;
+        }
+
+        .nav-section li a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.8rem 1.5rem;
+            color: rgba(251, 249, 243, 0.7);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: background 0.2s var(--ease), color 0.2s var(--ease);
+            -webkit-tap-highlight-color: rgba(185, 138, 46, 0.15);
+            cursor: pointer;
+        }
+
+        .nav-section li a:hover,
+        .nav-section li.active a {
+            background: var(--ink-soft);
+            color: var(--bone);
+        }
+
+        .nav-section li a i {
+            width: 20px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .nav-badge {
+            background: var(--brass);
+            color: var(--ink);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.65rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 20px;
+            margin-left: auto;
+        }
+
+        .nav-amount {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--stone);
+            margin-left: auto;
+        }
+
+        .sidebar-footer-premium {
+            padding: 1.5rem;
+            border-top: 1px solid var(--hair-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-avatar img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-details .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-details .user-role {
+            color: var(--stone);
+            font-size: 0.75rem;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-left: auto;
+        }
+
+        .icon-btn {
+            background: none;
+            border: 1px solid var(--hair-dark);
+            color: var(--bone);
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+            -webkit-tap-highlight-color: rgba(185, 138, 46, 0.2);
+        }
+
+        .icon-btn:hover {
+            border-color: var(--brass);
+            color: var(--brass);
+        }
+
+        /* Overlay */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.35s var(--ease);
+            pointer-events: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Menu Toggle Button */
+        .menu-toggle {
+            display: none;
+            background: var(--bone);
+            border: 1.5px solid var(--hair);
+            color: var(--ink);
+            width: 44px;
+            height: 44px;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            border-radius: 8px;
+            flex-shrink: 0;
+            transition: background 0.2s var(--ease), border-color 0.2s var(--ease), transform 0.15s var(--ease);
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            position: relative;
+            z-index: 10;
+        }
+
+        .menu-toggle:active {
+            background: var(--parchment-deep);
+            border-color: var(--ink);
+            transform: scale(0.95);
+        }
+
+        .menu-toggle:hover {
+            border-color: var(--ink);
+            background: var(--parchment);
+        }
+
+        .main-content-premium {
+            flex: 1;
+            background: var(--parchment);
+            padding: 1.5rem 2rem 2rem;
+            overflow-y: auto;
+            min-height: 100vh;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .top-nav-premium {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--hair);
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .page-title h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .page-title p {
+            color: var(--stone);
+            font-size: 0.95rem;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            gap: 0.5rem;
+            min-width: 200px;
+        }
+
+        .search-bar i {
+            color: var(--stone);
+            font-size: 0.9rem;
+        }
+
+        .search-bar input {
+            border: none;
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            color: var(--charcoal);
+            width: 100%;
+        }
+
+        .notification-btn,
+        .support-btn {
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            transition: border-color 0.2s var(--ease);
+            border-radius: 8px;
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
+        }
+
+        .notification-btn:hover,
+        .support-btn:hover {
+            border-color: var(--ink);
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--ledger-red);
+            border-radius: 50%;
+        }
+
+        .support-btn {
+            gap: 0.4rem;
+            width: auto;
+            padding: 0 1rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .support-btn i {
+            font-size: 1rem;
+        }
+
+        /* Bill Tabs */
+        .bill-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--hair);
+            padding-bottom: 0.5rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .bill-tab {
+            background: transparent;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--stone);
+            cursor: pointer;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+            -webkit-tap-highlight-color: rgba(185, 138, 46, 0.1);
+        }
+
+        .bill-tab.active {
+            color: var(--ink);
+            border-bottom-color: var(--brass);
+            font-weight: 600;
+        }
+
+        /* Pay Bill Form */
+        .pay-bill-form {
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+
+        .pay-bill-form h3 {
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
+            color: var(--ink);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1.2rem;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--stone);
+            margin-bottom: 0.3rem;
+        }
+
+        .bill-select,
+        .bill-date,
+        .form-group input[type="text"],
+        .form-group input[type="number"] {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid var(--hair);
+            background: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            border-radius: 4px;
+            transition: border-color 0.2s var(--ease);
+        }
+
+        .bill-select:focus,
+        .bill-date:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--brass);
+        }
+
+        .input-wrapper.amount {
+            position: relative;
+        }
+
+        .currency-symbol {
+            position: absolute;
+            left: 0.6rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--stone);
+            font-weight: 500;
+        }
+
+        .input-wrapper.amount input {
+            padding-left: 1.8rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 0.7rem 1.5rem;
+            background: var(--ink);
+            color: var(--bone);
+            border: 1px solid var(--ink);
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            border-radius: 4px;
+            transition: background 0.2s var(--ease);
+            -webkit-tap-highlight-color: rgba(185, 138, 46, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: var(--ink-soft);
+        }
+
+        .btn-secondary {
+            padding: 0.7rem 1.5rem;
+            background: transparent;
+            border: 1px solid var(--hair);
+            color: var(--charcoal);
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: border-color 0.2s var(--ease);
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--ink);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .total-due {
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 600;
+            color: var(--ink);
+            background: var(--parchment-deep);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        /* Bills List */
+        .bills-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .bill-item {
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border-radius: 4px;
+            transition: box-shadow 0.2s var(--ease);
+        }
+
+        .bill-item:hover {
+            box-shadow: var(--shadow-card);
+        }
+
+        .bill-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .bill-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--parchment);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: var(--ink);
+            font-size: 1.1rem;
+            border: 1px solid var(--hair);
+        }
+
+        .bill-name {
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .bill-date {
+            font-size: 0.8rem;
+            color: var(--stone);
+        }
+
+        .bill-amount {
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .pay-now-btn {
+            background: var(--ink);
+            color: var(--bone);
+            border: none;
+            padding: 0.5rem 1.2rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.2s var(--ease);
+            -webkit-tap-highlight-color: rgba(185, 138, 46, 0.2);
+        }
+
+        .pay-now-btn:hover {
+            background: var(--ink-soft);
+        }
+
+        .bill-status {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            background: var(--parchment-deep);
+            color: var(--ink);
+        }
+
+        .bill-status.recurring {
+            background: #e8f0eb;
+            color: var(--ledger-green);
+        }
+
+        /* Payees Grid */
+        .payees-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .payee-card {
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-radius: 4px;
+            transition: box-shadow 0.2s var(--ease);
+        }
+
+        .payee-card:hover {
+            box-shadow: var(--shadow-lift);
+        }
+
+        .payee-icon {
+            width: 42px;
+            height: 42px;
+            background: var(--parchment);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: var(--ink);
+            font-size: 1.1rem;
+            border: 1px solid var(--hair);
+        }
+
+        .payee-info {
+            flex: 1;
+        }
+
+        .payee-name {
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .payee-account {
+            font-size: 0.8rem;
+            color: var(--stone);
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .payee-action {
+            background: none;
+            border: 1px solid var(--hair);
+            color: var(--stone);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+        }
+
+        .payee-action:hover {
+            border-color: var(--ink);
+            color: var(--ink);
+        }
+
+        .add-payee-btn {
+            background: transparent;
+            border: 1px solid var(--hair);
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: border-color 0.2s var(--ease);
+            color: var(--charcoal);
+        }
+
+        .add-payee-btn:hover {
+            border-color: var(--ink);
+        }
+
+        /* Modals */
+        .modal-premium {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-premium.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bone);
+            padding: 2rem;
+            max-width: 450px;
+            width: 100%;
+            border-top: 3px solid var(--brass);
+            box-shadow: var(--shadow-lift);
+            border-radius: 4px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.4rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--stone);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+
+        .payment-summary .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--hair);
+            font-size: 0.9rem;
+        }
+
+        .summary-value {
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .success-icon {
+            font-size: 2.5rem;
+            color: var(--ledger-red);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .payment-reference {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            background: var(--parchment);
+            padding: 0.5rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width:1024px) {
+            .sidebar-premium {
+                position: fixed;
+                left: -290px;
+                top: 0;
+                bottom: 0;
+                height: 100vh;
+                height: 100dvh;
+                width: 280px;
+                box-shadow: 4px 0 30px rgba(0, 0, 0, 0.3);
+            }
+
+            .sidebar-premium.active {
+                left: 0;
+            }
+
+            .sidebar-overlay {
+                display: block;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .main-content-premium {
+                margin-left: 0;
+                padding: 1rem;
+                width: 100%;
+            }
+
+            .top-nav-premium {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-left {
+                width: 100%;
+            }
+
+            .nav-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .search-bar {
+                min-width: 140px;
+                flex: 1;
+            }
+        }
+
+        @media (max-width:600px) {
+            .main-content-premium {
+                padding: 0.75rem;
+            }
+
+            .page-title h1 {
+                font-size: 1.4rem;
+            }
+
+            .bill-tabs {
+                gap: 0.3rem;
+            }
+
+            .bill-tab {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .pay-bill-form {
+                padding: 1.2rem;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+
+            .payees-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .form-actions button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .bill-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .pay-now-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <!-- Premium Loading Screen -->
-    <div class="premium-loader">
+    <div class="premium-loader" id="premiumLoader">
         <div class="loader-content">
-            <div class="loader-logo">
-                <i class="fas fa-landmark"></i>
-                <span>HarvestBank</span>
-            </div>
-            <div class="loader-bar"></div>
+            <div class="loader-logo"><span class="mark">H·I</span>HeritageInvest</div>
+            <div class="loader-rule"></div>
         </div>
     </div>
 
-    <!-- Main Dashboard Container -->
     <div class="dashboard-premium">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar-premium">
+        <aside class="sidebar-premium" id="sidebarPremium">
             <div class="sidebar-brand">
                 <div class="brand-logo">
-                    <i class="fas fa-landmark"></i>
-                    <span>HarvestBank</span>
+                    <span class="mark">H·I</span>
+                    <span>HeritageInvest</span>
                 </div>
                 <div class="brand-tag">Private Banking</div>
             </div>
-
             <nav class="sidebar-nav-premium">
                 <div class="nav-section">
                     <div class="nav-section-title">MAIN</div>
                     <ul>
-                        <li>
-                            <a href="dashboard.html">
-                                <i class="fas fa-chart-pie"></i>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="transactions.html">
-                                <i class="fas fa-arrow-right-arrow-left"></i>
-                                <span>Transactions</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="transfer.html">
-                                <i class="fas fa-paper-plane"></i>
-                                <span>Transfers</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="statements.html">
-                                <i class="fas fa-file-invoice"></i>
-                                <span>Statements</span>
-                            </a>
+                        <li><a href="dashboard.html"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a></li>
+                        <li><a href="transactions.html"><i
+                                    class="fas fa-arrow-right-arrow-left"></i><span>Transactions</span></a></li>
+                        <li><a href="transfer.html"><i class="fas fa-paper-plane"></i><span>Transfers</span></a></li>
+                        <li><a href="statements.html"><i class="fas fa-file-invoice"></i><span>Statements</span></a>
                         </li>
                     </ul>
                 </div>
-
                 <div class="nav-section">
                     <div class="nav-section-title">ACCOUNTS</div>
                     <ul>
-                        <li>
-                            <a href="checking.html">
-                                <i class="fas fa-wallet"></i>
-                                <span>Checking</span>
-                                <span class="nav-amount">£645,432</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="savings.html">
-                                <i class="fas fa-piggy-bank"></i>
-                                <span>Savings</span>
-                                <span class="nav-amount">£215,678</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="investments.html">
-                                <i class="fas fa-chart-line"></i>
-                                <span>Investments</span>
-                                <span class="nav-amount">£3,456,789</span>
-                            </a>
-                        </li>
+                        <li><a href="checking.html"><i class="fas fa-wallet"></i><span>Checking</span><span
+                                    class="nav-amount">£645,432</span></a></li>
+                        <li><a href="savings.html"><i class="fas fa-piggy-bank"></i><span>Savings</span><span
+                                    class="nav-amount">£215,678</span></a></li>
+                        <li><a href="investments.html"><i class="fas fa-chart-line"></i><span>Investments</span><span
+                                    class="nav-amount">£3,456,789</span></a></li>
                     </ul>
                 </div>
-
                 <div class="nav-section">
                     <div class="nav-section-title">SERVICES</div>
                     <ul>
-                        <li>
-                            <a href="cards.html">
-                                <i class="fas fa-credit-card"></i>
-                                <span>Cards</span>
-                            </a>
-                        </li>
-                        <li class="active">
-                            <a href="paybills.html">
-                                <i class="fas fa-file-invoice-dollar"></i>
-                                <span>Pay Bills</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="settings.html">
-                                <i class="fas fa-gear"></i>
-                                <span>Settings</span>
-                            </a>
-                        </li>
+                        <li><a href="cards.html"><i class="fas fa-credit-card"></i><span>Cards</span></a></li>
+                        <li class="active"><a href="paybills.html"><i class="fas fa-file-invoice-dollar"></i><span>Pay
+                                    Bills</span></a></li>
+                        <li><a href="settings.html"><i class="fas fa-gear"></i><span>Settings</span></a></li>
                     </ul>
                 </div>
             </nav>
-
             <div class="sidebar-footer-premium">
-                <div class="user-info">
-                    <div class="user-avatar">
-                        <img src="https://pbs.twimg.com/media/HBYhBrhXIAAjTtl?format=jpg&name=medium" alt="John Shanji">
-                    </div>
-                    <div class="user-details">
-                        <div class="user-name">John Shanji</div>
-                        <div class="user-role">Premium Member</div>
-                    </div>
+                <div class="user-avatar"><img src="https://pbs.twimg.com/media/HBYhBrhXIAAjTtl?format=jpg&name=medium"
+                        alt="John Doe"></div>
+                <div class="user-details">
+                    <div class="user-name">John Doe</div>
+                    <div class="user-role">Premium Member</div>
                 </div>
                 <div class="user-actions">
-                    <button class="icon-btn" title="Settings" onclick="location.href='settings.html'">
-                        <i class="fas fa-sliders-h"></i>
-                    </button>
-                    <button class="icon-btn" title="Logout" onclick="location.href='index.html'">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </button>
+                    <button class="icon-btn" title="Settings" onclick="location.href='settings.html'"><i
+                            class="fas fa-sliders-h"></i></button>
+                    <button class="icon-btn" title="Logout" onclick="location.href='index.html'"><i
+                            class="fas fa-sign-out-alt"></i></button>
                 </div>
             </div>
         </aside>
 
-        <!-- Sidebar Overlay (for mobile) -->
-        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
 
-        <!-- Main Content Area -->
-        <main class="main-content-premium">
-            <!-- Top Navigation -->
+        <main class="main-content-premium" id="mainContent">
             <header class="top-nav-premium">
                 <div class="nav-left">
-                    <button class="menu-toggle" id="menuToggle">
+                    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle navigation menu"
+                        aria-expanded="false">
                         <i class="fas fa-bars"></i>
                     </button>
                     <div class="page-title">
@@ -155,26 +1107,18 @@
                         <p>Schedule and manage your bill payments</p>
                     </div>
                 </div>
-
                 <div class="nav-right">
                     <div class="search-bar">
                         <i class="fas fa-search"></i>
                         <input type="text" placeholder="Search bills...">
                     </div>
-
-                    <button class="notification-btn">
-                        <i class="far fa-bell"></i>
-                        <span class="notification-dot"></span>
-                    </button>
-
-                    <button class="support-btn">
-                        <i class="far fa-question-circle"></i>
-                        <span>Help</span>
-                    </button>
+                    <button class="notification-btn" type="button"><i class="far fa-bell"></i><span
+                            class="notification-dot"></span></button>
+                    <button class="support-btn" type="button"><i
+                            class="far fa-question-circle"></i><span>Help</span></button>
                 </div>
             </header>
 
-            <!-- Pay Bill Tabs -->
             <div class="bill-tabs">
                 <button class="bill-tab active" onclick="switchBillTab('upcoming')">Upcoming Bills</button>
                 <button class="bill-tab" onclick="switchBillTab('scheduled')">Scheduled</button>
@@ -182,19 +1126,16 @@
                 <button class="bill-tab" onclick="switchBillTab('payees')">Manage Payees</button>
             </div>
 
-            <!-- Pay Bill Form -->
             <div class="pay-bill-form">
                 <h3>Make a Payment</h3>
-                
                 <div class="form-row">
                     <div class="form-group">
                         <label>Pay From</label>
                         <select class="bill-select">
-                            <option>Checking Account (****1234) - £5,432.10</option>
+                            <option>Checking Account (****7708) - £5,432.10</option>
                             <option>Savings Account (****5678) - £15,678.90</option>
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label>Pay To</label>
                         <select class="bill-select" id="payeeSelect">
@@ -206,7 +1147,6 @@
                         </select>
                     </div>
                 </div>
-
                 <div class="form-row">
                     <div class="form-group">
                         <label>Amount</label>
@@ -215,19 +1155,16 @@
                             <input type="number" value="145.67" step="0.01" id="billAmount">
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label>Payment Date</label>
                         <input type="date" class="bill-date" value="2024-03-20">
                     </div>
                 </div>
-
                 <div class="form-row">
                     <div class="form-group">
                         <label>Account Number (for payee)</label>
                         <input type="text" value="123456789" placeholder="Enter account number">
                     </div>
-
                     <div class="form-group">
                         <label>Frequency</label>
                         <select class="bill-select">
@@ -238,86 +1175,62 @@
                         </select>
                     </div>
                 </div>
-
                 <div class="form-actions">
                     <button class="btn-secondary" onclick="scheduleBill()">Schedule Later</button>
-                    <button class="btn-primary" onclick="payBill()">
-                        <i class="fas fa-check-circle"></i>
-                        Pay Now
-                    </button>
+                    <button class="btn-primary" onclick="payBill()"><i class="fas fa-check-circle"></i> Pay Now</button>
                 </div>
             </div>
 
-            <!-- Upcoming Bills List -->
-            <div class="upcoming-bills" id="upcomingBills">
+            <div id="upcomingBills">
                 <div class="section-header">
                     <h3>Upcoming Bills</h3>
                     <span class="total-due">Total Due: £300.66</span>
                 </div>
-
                 <div class="bills-list">
-                    <div class="bill-item due-soon">
+                    <div class="bill-item">
                         <div class="bill-info">
-                            <div class="bill-icon">
-                                <i class="fas fa-bolt"></i>
-                            </div>
+                            <div class="bill-icon"><i class="fas fa-bolt"></i></div>
                             <div>
                                 <div class="bill-name">Electric Company</div>
                                 <div class="bill-date">Due in 3 days · Mar 19, 2024</div>
                             </div>
                         </div>
                         <div class="bill-amount">£145.67</div>
-                        <button class="pay-now-btn" onclick="quickPay('Electric Company', 145.67)">
-                            Pay Now
-                        </button>
+                        <button class="pay-now-btn" onclick="quickPay('Electric Company', 145.67)">Pay Now</button>
                     </div>
-
                     <div class="bill-item">
                         <div class="bill-info">
-                            <div class="bill-icon">
-                                <i class="fas fa-wifi"></i>
-                            </div>
+                            <div class="bill-icon"><i class="fas fa-wifi"></i></div>
                             <div>
                                 <div class="bill-name">Internet Service</div>
                                 <div class="bill-date">Due in 5 days · Mar 21, 2024</div>
                             </div>
                         </div>
                         <div class="bill-amount">£89.99</div>
-                        <button class="pay-now-btn" onclick="quickPay('Internet Service', 89.99)">
-                            Pay Now
-                        </button>
+                        <button class="pay-now-btn" onclick="quickPay('Internet Service', 89.99)">Pay Now</button>
                     </div>
-
                     <div class="bill-item">
                         <div class="bill-info">
-                            <div class="bill-icon">
-                                <i class="fas fa-mobile-alt"></i>
-                            </div>
+                            <div class="bill-icon"><i class="fas fa-mobile-alt"></i></div>
                             <div>
                                 <div class="bill-name">Phone Company</div>
                                 <div class="bill-date">Due in 7 days · Mar 23, 2024</div>
                             </div>
                         </div>
                         <div class="bill-amount">£65.00</div>
-                        <button class="pay-now-btn" onclick="quickPay('Phone Company', 65.00)">
-                            Pay Now
-                        </button>
+                        <button class="pay-now-btn" onclick="quickPay('Phone Company', 65.00)">Pay Now</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Scheduled Bills -->
-            <div class="scheduled-bills" id="scheduledBills" style="display: none;">
+            <div id="scheduledBills" style="display: none;">
                 <div class="section-header">
                     <h3>Scheduled Payments</h3>
                 </div>
-
                 <div class="bills-list">
-                    <div class="bill-item scheduled">
+                    <div class="bill-item">
                         <div class="bill-info">
-                            <div class="bill-icon">
-                                <i class="fas fa-water"></i>
-                            </div>
+                            <div class="bill-icon"><i class="fas fa-water"></i></div>
                             <div>
                                 <div class="bill-name">Water Utility</div>
                                 <div class="bill-date">Scheduled for Apr 1, 2024</div>
@@ -326,12 +1239,9 @@
                         <div class="bill-amount">£45.00</div>
                         <div class="bill-status recurring">Monthly</div>
                     </div>
-
-                    <div class="bill-item scheduled">
+                    <div class="bill-item">
                         <div class="bill-info">
-                            <div class="bill-icon">
-                                <i class="fas fa-credit-card"></i>
-                            </div>
+                            <div class="bill-icon"><i class="fas fa-credit-card"></i></div>
                             <div>
                                 <div class="bill-name">Credit Card Payment</div>
                                 <div class="bill-date">Scheduled for Apr 5, 2024</div>
@@ -343,101 +1253,66 @@
                 </div>
             </div>
 
-            <!-- Payees List -->
-            <div class="payees-list" id="payeesList" style="display: none;">
+            <div id="payeesList" style="display: none;">
                 <div class="section-header">
                     <h3>Saved Payees</h3>
-                    <button class="add-payee-btn" onclick="addPayee()">
-                        <i class="fas fa-plus"></i>
-                        Add Payee
-                    </button>
+                    <button class="add-payee-btn" onclick="addPayee()"><i class="fas fa-plus"></i> Add Payee</button>
                 </div>
-
                 <div class="payees-grid">
                     <div class="payee-card">
-                        <div class="payee-icon">
-                            <i class="fas fa-bolt"></i>
-                        </div>
+                        <div class="payee-icon"><i class="fas fa-bolt"></i></div>
                         <div class="payee-info">
                             <div class="payee-name">Electric Company</div>
                             <div class="payee-account">Account: 123456789</div>
                         </div>
-                        <button class="payee-action" onclick="editPayee('Electric Company')">
-                            <i class="fas fa-edit"></i>
-                        </button>
+                        <button class="payee-action" onclick="editPayee('Electric Company')"><i
+                                class="fas fa-edit"></i></button>
                     </div>
-
                     <div class="payee-card">
-                        <div class="payee-icon">
-                            <i class="fas fa-wifi"></i>
-                        </div>
+                        <div class="payee-icon"><i class="fas fa-wifi"></i></div>
                         <div class="payee-info">
                             <div class="payee-name">Internet Service</div>
                             <div class="payee-account">Account: 987654321</div>
                         </div>
-                        <button class="payee-action" onclick="editPayee('Internet Service')">
-                            <i class="fas fa-edit"></i>
-                        </button>
+                        <button class="payee-action" onclick="editPayee('Internet Service')"><i
+                                class="fas fa-edit"></i></button>
                     </div>
-
                     <div class="payee-card">
-                        <div class="payee-icon">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
+                        <div class="payee-icon"><i class="fas fa-mobile-alt"></i></div>
                         <div class="payee-info">
                             <div class="payee-name">Phone Company</div>
                             <div class="payee-account">Account: 555123456</div>
                         </div>
-                        <button class="payee-action" onclick="editPayee('Phone Company')">
-                            <i class="fas fa-edit"></i>
-                        </button>
+                        <button class="payee-action" onclick="editPayee('Phone Company')"><i
+                                class="fas fa-edit"></i></button>
                     </div>
-
                     <div class="payee-card">
-                        <div class="payee-icon">
-                            <i class="fas fa-water"></i>
-                        </div>
+                        <div class="payee-icon"><i class="fas fa-water"></i></div>
                         <div class="payee-info">
                             <div class="payee-name">Water Utility</div>
                             <div class="payee-account">Account: 777888999</div>
                         </div>
-                        <button class="payee-action" onclick="editPayee('Water Utility')">
-                            <i class="fas fa-edit"></i>
-                        </button>
+                        <button class="payee-action" onclick="editPayee('Water Utility')"><i
+                                class="fas fa-edit"></i></button>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- Payment Confirmation Modal -->
     <div class="modal-premium" id="paymentModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Confirm Payment</h2>
-                <button class="modal-close" onclick="closeModal('paymentModal')">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button class="modal-close" onclick="closeModal('paymentModal')"><i class="fas fa-times"></i></button>
             </div>
-            <div class="modal-body">
-                <div class="payment-summary">
-                    <div class="summary-row">
-                        <span>Pay To:</span>
-                        <span class="summary-value" id="confirmPayee">Electric Company</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Amount:</span>
-                        <span class="summary-value" id="confirmAmount">£145.67</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>From:</span>
-                        <span class="summary-value">Checking Account</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Date:</span>
-                        <span class="summary-value">March 20, 2024</span>
-                    </div>
-                </div>
+            <div class="payment-summary">
+                <div class="summary-row"><span>Pay To:</span><span class="summary-value" id="confirmPayee">Electric
+                        Company</span></div>
+                <div class="summary-row"><span>Amount:</span><span class="summary-value"
+                        id="confirmAmount">£145.67</span></div>
+                <div class="summary-row"><span>From:</span><span class="summary-value">Checking Account</span></div>
+                <div class="summary-row"><span>Date:</span><span class="summary-value">March 20, 2024</span></div>
             </div>
             <div class="modal-footer">
                 <button class="btn-secondary" onclick="closeModal('paymentModal')">Cancel</button>
@@ -446,24 +1321,15 @@
         </div>
     </div>
 
-    <!-- Success Modal -->
     <div class="modal-premium" id="successModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Payment Successful</h2>
-                <button class="modal-close" onclick="closeModal('successModal')">
-                    <i class="fas fa-times"></i>
-                </button>
+                <h2>Payment Declined</h2>
+                <button class="modal-close" onclick="closeModal('successModal')"><i class="fas fa-times"></i></button>
             </div>
-            <div class="modal-body">
-                <div class="success-icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <p>Your payment has been processed successfully.</p>
-                <div class="payment-reference">
-                    Reference: BILL-20240316-001
-                </div>
-            </div>
+            <div class="success-icon"><i class="fas fa-times-circle"></i></div>
+            <p style="text-align:center;">Your payment has been declined.</p>
+            <div class="payment-reference">Reference: BILL-20240316-001</div>
             <div class="modal-footer">
                 <button class="btn-primary" onclick="closeModal('successModal')">Done</button>
             </div>
@@ -471,223 +1337,145 @@
     </div>
 
     <script>
-        // Mobile menu toggle
-        document.getElementById('menuToggle').addEventListener('click', function() {
-            document.querySelector('.sidebar-premium').classList.toggle('active');
-        });
+        (function () {
+            // =========================================================================
+            // RELIABLE MOBILE MENU TOGGLE – works on all phones & tablets
+            // =========================================================================
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebarPremium');
+            const overlay = document.getElementById('sidebarOverlay');
 
-        // Loading screen
+            if (!menuToggle || !sidebar || !overlay) return;
+
+            let isMenuOpen = false;
+
+            function toggleMenu(show) {
+                if (typeof show !== 'boolean') show = !isMenuOpen;
+                isMenuOpen = show;
+                sidebar.classList.toggle('active', show);
+                overlay.classList.toggle('active', show);
+                menuToggle.setAttribute('aria-expanded', show ? 'true' : 'false');
+                overlay.setAttribute('aria-hidden', show ? 'false' : 'true');
+                document.body.style.overflow = show ? 'hidden' : '';
+            }
+
+            function handleToggleInteraction(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleMenu();
+            }
+
+            menuToggle.addEventListener('pointerdown', handleToggleInteraction, { passive: false });
+            menuToggle.addEventListener('click', function (e) {
+                if (e.pointerType === 'touch' || e.pointerType === 'pen') return;
+                handleToggleInteraction(e);
+            });
+            menuToggle.addEventListener('touchstart', function (e) {
+                if (window.PointerEvent) return;
+                handleToggleInteraction(e);
+            }, { passive: false });
+
+            overlay.addEventListener('pointerdown', function (e) {
+                if (isMenuOpen) { e.preventDefault(); toggleMenu(false); }
+            });
+            overlay.addEventListener('click', function (e) {
+                if (isMenuOpen && (e.pointerType === 'mouse' || !window.PointerEvent)) toggleMenu(false);
+            });
+
+            sidebar.addEventListener('click', function (e) {
+                const link = e.target.closest('a');
+                if (link && isMenuOpen) {
+                    e.preventDefault();
+                    const href = link.getAttribute('href');
+                    toggleMenu(false);
+                    setTimeout(() => { if (href && href !== '#') window.location.href = href; }, 350);
+                }
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && isMenuOpen) { toggleMenu(false); menuToggle.focus(); }
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth >= 1024 && isMenuOpen) toggleMenu(false);
+            });
+
+            let touchStartX = 0, touchStartY = 0;
+            sidebar.addEventListener('touchstart', function (e) {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+            sidebar.addEventListener('touchend', function (e) {
+                if (!isMenuOpen) return;
+                const deltaX = touchStartX - e.changedTouches[0].screenX;
+                if (deltaX > 60 && deltaX > Math.abs(touchStartY - e.changedTouches[0].screenY)) toggleMenu(false);
+            });
+        })();
+
+        // Loader
         setTimeout(() => {
-            document.querySelector('.premium-loader').classList.add('fade-out');
-        }, 800);
+            const loader = document.getElementById('premiumLoader');
+            if (loader) { loader.classList.add('fade-out'); setTimeout(() => loader.remove(), 700); }
+        }, 700);
 
-        // Switch between bill tabs
+        // Bill tabs
         function switchBillTab(tab) {
             document.querySelectorAll('.bill-tab').forEach(t => t.classList.remove('active'));
             event.target.classList.add('active');
-
-            // Hide all sections
             document.getElementById('upcomingBills').style.display = 'none';
             document.getElementById('scheduledBills').style.display = 'none';
             document.getElementById('payeesList').style.display = 'none';
-
-            // Show selected section
-            if (tab === 'upcoming') {
-                document.getElementById('upcomingBills').style.display = 'block';
-            } else if (tab === 'scheduled') {
-                document.getElementById('scheduledBills').style.display = 'block';
-            } else if (tab === 'payees') {
-                document.getElementById('payeesList').style.display = 'block';
-            }
+            if (tab === 'upcoming') document.getElementById('upcomingBills').style.display = 'block';
+            else if (tab === 'scheduled') document.getElementById('scheduledBills').style.display = 'block';
+            else if (tab === 'payees') document.getElementById('payeesList').style.display = 'block';
         }
 
-        // Quick pay
         function quickPay(payee, amount) {
             document.getElementById('confirmPayee').textContent = payee;
             document.getElementById('confirmAmount').textContent = '£' + amount;
             document.getElementById('billAmount').value = amount;
-            
-            // Set the payee in select
             const select = document.getElementById('payeeSelect');
             for (let i = 0; i < select.options.length; i++) {
-                if (select.options[i].text.includes(payee)) {
-                    select.selectedIndex = i;
-                    break;
-                }
+                if (select.options[i].text.includes(payee)) { select.selectedIndex = i; break; }
             }
-
             document.getElementById('paymentModal').classList.add('show');
         }
 
-        // Pay bill
         function payBill() {
             const payee = document.getElementById('payeeSelect').selectedOptions[0].text;
             const amount = document.getElementById('billAmount').value;
             quickPay(payee, amount);
         }
 
-        // Schedule bill
-        function scheduleBill() {
-            alert('Bill scheduled for later');
-        }
+        function scheduleBill() { alert('Bill scheduled for later (demo)'); }
+        function confirmPayment() { closeModal('paymentModal'); document.getElementById('successModal').classList.add('show'); }
+        function addPayee() { alert('Add new payee (demo)'); }
+        function editPayee(payee) { alert('Edit ' + payee + ' (demo)'); }
+        function closeModal(modalId) { document.getElementById(modalId).classList.remove('show'); }
 
-        // Confirm payment
-        function confirmPayment() {
-            closeModal('paymentModal');
-            document.getElementById('successModal').classList.add('show');
-        }
-
-        // Add payee
-        function addPayee() {
-            alert('Add new payee');
-        }
-
-        // Edit payee
-        function editPayee(payee) {
-            alert('Edit ' + payee + '');
-        }
-
-        // Close modal
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('show');
-        }
-
-        // Close modals when clicking outside
-        window.addEventListener('click', function(event) {
-            if (event.target.classList.contains('modal-premium')) {
-                event.target.classList.remove('show');
-            }
+        window.addEventListener('click', function (event) {
+            if (event.target.classList.contains('modal-premium')) event.target.classList.remove('show');
         });
 
-        // Mobile menu functionality
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.querySelector('.sidebar-premium');
-        
-        // Create overlay if it doesn't exist
-        let overlay = document.getElementById('sidebarOverlay');
-        if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.id = 'sidebarOverlay';
-            overlay.className = 'sidebar-overlay';
-            document.body.appendChild(overlay);
-        }
-
-        // Toggle menu function
-        function toggleMenu(show) {
-            if (show) {
-                sidebar.classList.add('active');
-                overlay.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Prevent background scrolling
-            } else {
-                sidebar.classList.remove('active');
-                overlay.classList.remove('active');
-                document.body.style.overflow = ''; // Restore scrolling
+        // Auth protection (matching investments page)
+        (function () {
+            const auth = sessionStorage.getItem('nexusbank_auth');
+            const expiry = sessionStorage.getItem('nexusbank_expiry');
+            if (auth !== 'authenticated' || !expiry || Date.now() > parseInt(expiry)) {
+                sessionStorage.clear();
+                window.location.replace('login.html');
+                return;
             }
-        }
-
-        // Open menu when toggle button is clicked
-        if (menuToggle) {
-            menuToggle.addEventListener('click', function(e) {
-                e.stopPropagation(); // Prevent event bubbling
-                toggleMenu(true);
-            });
-        }
-
-        // Close menu when clicking on overlay (empty space)
-        overlay.addEventListener('click', function() {
-            toggleMenu(false);
-        });
-
-        // Close menu when clicking on any link inside sidebar
-        if (sidebar) {
-            sidebar.addEventListener('click', function(e) {
-                // Check if clicked element is a link
-                if (e.target.tagName === 'A' || e.target.closest('a')) {
-                    // Small delay to allow navigation before closing
-                    setTimeout(() => {
-                        toggleMenu(false);
-                    }, 150);
-                }
-            });
-
-            // Prevent clicks inside sidebar from closing when clicking on non-link elements
-            sidebar.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
-        }
-
-        // Close menu on escape key press
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && sidebar.classList.contains('active')) {
-                toggleMenu(false);
+            sessionStorage.setItem('nexusbank_expiry', Date.now() + 3600000);
+            let inactivityTimer;
+            function resetInactivity() {
+                clearTimeout(inactivityTimer);
+                inactivityTimer = setTimeout(() => { sessionStorage.clear(); window.location.replace('login.html'); }, 900000);
             }
-        });
-
-        // Close menu when window is resized to desktop size
-        window.addEventListener('resize', function() {
-            if (window.innerWidth >= 1024) {
-                toggleMenu(false);
-            }
-        });
-
-        // Optional: Close menu when swiping left on mobile
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        document.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].screenX;
-        }, false);
-
-        document.addEventListener('touchend', function(e) {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, false);
-
-        function handleSwipe() {
-            const swipeThreshold = 100; // Minimum swipe distance
-            if (sidebar.classList.contains('active') && (touchStartX - touchEndX) > swipeThreshold) {
-                // Swiped left while menu is open - close it
-                toggleMenu(false);
-            }
-        }
-    });
-
-    // PROTECTION SCRIPT - PASTE AT TOP OF EACH PROTECTED PAGE
-(function() {
-    // Check authentication
-    const auth = sessionStorage.getItem('nexusbank_auth');
-    const expiry = sessionStorage.getItem('nexusbank_expiry');
-    
-    if (auth !== 'authenticated' || !expiry || Date.now() > parseInt(expiry)) {
-        // Clear any stale data
-        sessionStorage.clear();
-        window.location.replace('login.html');
-        return;
-    }
-    
-    // Refresh expiry
-    sessionStorage.setItem('nexusbank_expiry', Date.now() + 3600000);
-    
-    // Inactivity logout
-    let timer;
-    function resetTimer() {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            sessionStorage.clear();
-            window.location.replace('login.html');
-        }, 900000); // 15 minutes
-    }
-    
-    ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(e => {
-        document.addEventListener(e, resetTimer);
-    });
-    resetTimer();
-})();
+            ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart', 'pointerdown'].forEach(e => document.addEventListener(e, resetInactivity, { passive: true }));
+            resetInactivity();
+        })();
     </script>
-    <!-- Add this before closing body tag in dashboard.html, transfer.html, transactions.html, cards.html, settings.html, etc. -->
-<script src="js/auto-logout.js"></script>
 </body>
+
 </html>
-
-
