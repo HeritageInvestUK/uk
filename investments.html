@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <title>Investments · HeritageInvest</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,6 +51,8 @@
             line-height: 1.6;
             overflow-x: hidden;
             min-height: 100vh;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
         }
 
         h1,
@@ -90,11 +93,13 @@
             align-items: center;
             justify-content: center;
             transition: opacity 0.6s var(--ease), visibility 0.6s var(--ease);
+            pointer-events: all;
         }
 
         .premium-loader.fade-out {
             opacity: 0;
             visibility: hidden;
+            pointer-events: none;
         }
 
         .loader-content {
@@ -150,6 +155,7 @@
         .dashboard-premium {
             display: flex;
             min-height: 100vh;
+            position: relative;
         }
 
         .sidebar-premium {
@@ -160,7 +166,7 @@
             display: flex;
             flex-direction: column;
             border-right: 1px solid var(--hair-dark);
-            transition: left 0.3s var(--ease);
+            transition: left 0.35s var(--ease);
             z-index: 1000;
         }
 
@@ -204,6 +210,7 @@
             flex: 1;
             padding: 1.5rem 0;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .nav-section {
@@ -233,6 +240,8 @@
             font-weight: 500;
             font-size: 0.9rem;
             transition: background 0.2s var(--ease), color 0.2s var(--ease);
+            -webkit-tap-highlight-color: rgba(185, 138, 46, 0.15);
+            cursor: pointer;
         }
 
         .nav-section li a:hover,
@@ -306,6 +315,7 @@
             justify-content: center;
             cursor: pointer;
             transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+            -webkit-tap-highlight-color: rgba(185, 138, 46, 0.2);
         }
 
         .icon-btn:hover {
@@ -313,32 +323,57 @@
             color: var(--brass);
         }
 
+        /* Overlay */
         .sidebar-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             z-index: 999;
             opacity: 0;
-            transition: opacity 0.3s var(--ease);
+            transition: opacity 0.35s var(--ease);
+            pointer-events: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .sidebar-overlay.active {
             display: block;
             opacity: 1;
+            pointer-events: all;
         }
 
+        /* Menu Toggle Button */
         .menu-toggle {
             display: none;
-            background: none;
-            border: 1px solid var(--hair);
+            background: var(--bone);
+            border: 1.5px solid var(--hair);
             color: var(--ink);
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             cursor: pointer;
+            border-radius: 8px;
+            flex-shrink: 0;
+            transition: background 0.2s var(--ease), border-color 0.2s var(--ease), transform 0.15s var(--ease);
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            position: relative;
+            z-index: 10;
+        }
+
+        .menu-toggle:active {
+            background: var(--parchment-deep);
+            border-color: var(--ink);
+            transform: scale(0.95);
+        }
+
+        .menu-toggle:hover {
+            border-color: var(--ink);
+            background: var(--parchment);
         }
 
         .main-content-premium {
@@ -347,6 +382,7 @@
             padding: 1.5rem 2rem 2rem;
             overflow-y: auto;
             min-height: 100vh;
+            -webkit-overflow-scrolling: touch;
         }
 
         .top-nav-premium {
@@ -422,6 +458,8 @@
             position: relative;
             cursor: pointer;
             transition: border-color 0.2s var(--ease);
+            border-radius: 8px;
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
         }
 
         .notification-btn:hover,
@@ -466,6 +504,7 @@
             padding: 1.5rem;
             flex: 1;
             min-width: 300px;
+            border-radius: 4px;
         }
 
         .portfolio-chart-card h3,
@@ -547,6 +586,7 @@
             gap: 0.4rem;
             transition: border-color 0.2s var(--ease);
             color: var(--charcoal);
+            border-radius: 4px;
         }
 
         .btn-outline-small:hover {
@@ -602,6 +642,7 @@
             cursor: pointer;
             transition: border-color 0.2s var(--ease);
             color: var(--ink);
+            border-radius: 4px;
         }
 
         .trade-btn:hover {
@@ -614,6 +655,7 @@
             border: 1px solid var(--hair);
             padding: 1.5rem;
             margin-bottom: 2rem;
+            border-radius: 4px;
         }
 
         .performance-section h3 {
@@ -645,6 +687,7 @@
             justify-content: space-between;
             align-items: center;
             transition: box-shadow 0.2s var(--ease);
+            border-radius: 4px;
         }
 
         .watchlist-item:hover {
@@ -693,6 +736,7 @@
             z-index: 2000;
             align-items: center;
             justify-content: center;
+            padding: 1rem;
         }
 
         .modal-premium.show {
@@ -703,9 +747,10 @@
             background: var(--bone);
             padding: 2rem;
             max-width: 450px;
-            width: 90%;
+            width: 100%;
             border-top: 3px solid var(--brass);
             box-shadow: var(--shadow-lift);
+            border-radius: 4px;
         }
 
         .modal-header {
@@ -725,6 +770,8 @@
             color: var(--stone);
             font-size: 1.2rem;
             cursor: pointer;
+            padding: 0.5rem;
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
         }
 
         .btn-primary {
@@ -735,6 +782,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: background 0.2s var(--ease);
+            border-radius: 4px;
         }
 
         .btn-primary:hover {
@@ -749,6 +797,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: border-color 0.2s var(--ease);
+            border-radius: 4px;
         }
 
         .btn-secondary:hover {
@@ -787,6 +836,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+            border-radius: 4px;
         }
 
         .trade-action.active {
@@ -803,6 +853,7 @@
             font-family: 'Inter', sans-serif;
             background: white;
             transition: border-color 0.2s var(--ease);
+            border-radius: 4px;
         }
 
         .trade-select:focus,
@@ -817,6 +868,7 @@
             border: 1px solid var(--hair);
             font-family: 'IBM Plex Mono', monospace;
             font-weight: 600;
+            border-radius: 4px;
         }
 
         .trade-total {
@@ -835,10 +887,13 @@
         @media (max-width:1024px) {
             .sidebar-premium {
                 position: fixed;
-                left: -280px;
+                left: -290px;
                 top: 0;
                 bottom: 0;
                 height: 100vh;
+                height: 100dvh;
+                width: 280px;
+                box-shadow: 4px 0 30px rgba(0, 0, 0, 0.3);
             }
 
             .sidebar-premium.active {
@@ -856,11 +911,16 @@
             .main-content-premium {
                 margin-left: 0;
                 padding: 1rem;
+                width: 100%;
             }
 
             .top-nav-premium {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+
+            .nav-left {
+                width: 100%;
             }
 
             .nav-right {
@@ -877,7 +937,18 @@
             }
         }
 
-        @media (max-width:480px) {
+        @media (max-width:600px) {
+            .main-content-premium {
+                padding: 0.75rem;
+            }
+
+            .page-title h1 {
+                font-size: 1.4rem;
+            }
+
+            .search-bar {
+                min-width: 120px;
+            }
 
             .holdings-table th,
             .holdings-table td {
@@ -897,7 +968,7 @@
 </head>
 
 <body>
-    <div class="premium-loader">
+    <div class="premium-loader" id="premiumLoader">
         <div class="loader-content">
             <div class="loader-logo"><span class="mark">H·I</span>HeritageInvest</div>
             <div class="loader-rule"></div>
@@ -905,7 +976,7 @@
     </div>
 
     <div class="dashboard-premium">
-        <aside class="sidebar-premium">
+        <aside class="sidebar-premium" id="sidebarPremium">
             <div class="sidebar-brand">
                 <div class="brand-logo">
                     <span class="mark">H·I</span>
@@ -963,12 +1034,15 @@
             </div>
         </aside>
 
-        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
 
-        <main class="main-content-premium">
+        <main class="main-content-premium" id="mainContent">
             <header class="top-nav-premium">
                 <div class="nav-left">
-                    <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+                    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle navigation menu"
+                        aria-expanded="false">
+                        <i class="fas fa-bars"></i>
+                    </button>
                     <div class="page-title">
                         <h1>Investment Portfolio</h1>
                         <p>Track and manage your investments</p>
@@ -979,9 +1053,10 @@
                         <i class="fas fa-search"></i>
                         <input type="text" placeholder="Search investments...">
                     </div>
-                    <button class="notification-btn"><i class="far fa-bell"></i><span
+                    <button class="notification-btn" type="button"><i class="far fa-bell"></i><span
                             class="notification-dot"></span></button>
-                    <button class="support-btn"><i class="far fa-question-circle"></i><span>Help</span></button>
+                    <button class="support-btn" type="button"><i
+                            class="far fa-question-circle"></i><span>Help</span></button>
                 </div>
             </header>
 
@@ -1038,8 +1113,8 @@
                             <tr>
                                 <td><span class="symbol">AAPL</span></td>
                                 <td>Apple Inc.</td>
-                                <td>5</td>
-                                <td>£175.34</td>
+                                <td>6,388</td>
+                                <td>£234.80</td>
                                 <td>£1,500,000.25</td>
                                 <td class="positive">+1.2%</td>
                                 <td class="positive">+£18,000.00 (9.6%)</td>
@@ -1048,8 +1123,8 @@
                             <tr>
                                 <td><span class="symbol">MSFT</span></td>
                                 <td>Microsoft Corp</td>
-                                <td>3</td>
-                                <td>£420.45</td>
+                                <td>3,080</td>
+                                <td>£291.45</td>
                                 <td>£1,200,000.25</td>
                                 <td class="positive">+0.8%</td>
                                 <td class="positive">+£9,600.00 (5.1%)</td>
@@ -1058,8 +1133,8 @@
                             <tr>
                                 <td><span class="symbol">VTI</span></td>
                                 <td>Vanguard Total Stock Market ETF</td>
-                                <td>8</td>
-                                <td>£258.23</td>
+                                <td>2,037</td>
+                                <td>£278.23</td>
                                 <td>£756,788.50</td>
                                 <td class="positive">+0.3%</td>
                                 <td class="positive">+£2,270.37 (1.7%)</td>
@@ -1178,126 +1253,144 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // =========================================================================
-        // RELIABLE MOBILE MENU (works on all touch devices)
-        // =========================================================================
         (function () {
+            // =========================================================================
+            // RELIABLE MOBILE MENU TOGGLE – works on all phones & tablets
+            // =========================================================================
             const menuToggle = document.getElementById('menuToggle');
-            const sidebar = document.querySelector('.sidebar-premium');
-            let overlay = document.getElementById('sidebarOverlay');
-            if (!overlay) {
-                overlay = document.createElement('div');
-                overlay.id = 'sidebarOverlay';
-                overlay.className = 'sidebar-overlay';
-                document.body.appendChild(overlay);
-            }
+            const sidebar = document.getElementById('sidebarPremium');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            if (!menuToggle || !sidebar || !overlay) return;
+
+            let isMenuOpen = false;
 
             function toggleMenu(show) {
-                if (show === undefined) show = !sidebar.classList.contains('active');
+                if (typeof show !== 'boolean') show = !isMenuOpen;
+                isMenuOpen = show;
                 sidebar.classList.toggle('active', show);
                 overlay.classList.toggle('active', show);
+                menuToggle.setAttribute('aria-expanded', show ? 'true' : 'false');
+                overlay.setAttribute('aria-hidden', show ? 'false' : 'true');
                 document.body.style.overflow = show ? 'hidden' : '';
             }
 
-            menuToggle?.addEventListener('click', (e) => {
+            function handleToggleInteraction(e) {
+                e.preventDefault();
                 e.stopPropagation();
                 toggleMenu();
+            }
+
+            menuToggle.addEventListener('pointerdown', handleToggleInteraction, { passive: false });
+            menuToggle.addEventListener('click', function (e) {
+                if (e.pointerType === 'touch' || e.pointerType === 'pen') return;
+                handleToggleInteraction(e);
+            });
+            menuToggle.addEventListener('touchstart', function (e) {
+                if (window.PointerEvent) return;
+                handleToggleInteraction(e);
+            }, { passive: false });
+
+            overlay.addEventListener('pointerdown', function (e) {
+                if (isMenuOpen) { e.preventDefault(); toggleMenu(false); }
+            });
+            overlay.addEventListener('click', function (e) {
+                if (isMenuOpen && (e.pointerType === 'mouse' || !window.PointerEvent)) toggleMenu(false);
             });
 
-            overlay.addEventListener('click', () => toggleMenu(false));
-
-            // Sidebar link navigation – close menu then go
-            sidebar?.addEventListener('click', (e) => {
+            sidebar.addEventListener('click', function (e) {
                 const link = e.target.closest('a');
-                if (link) {
+                if (link && isMenuOpen) {
                     e.preventDefault();
                     const href = link.getAttribute('href');
                     toggleMenu(false);
-                    setTimeout(() => {
-                        window.location.href = href;
-                    }, 200);
+                    setTimeout(() => { if (href && href !== '#') window.location.href = href; }, 350);
                 }
-                e.stopPropagation();
             });
 
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && sidebar.classList.contains('active')) toggleMenu(false);
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && isMenuOpen) { toggleMenu(false); menuToggle.focus(); }
             });
 
-            window.addEventListener('resize', () => {
-                if (window.innerWidth >= 1024) toggleMenu(false);
+            window.addEventListener('resize', function () {
+                if (window.innerWidth >= 1024 && isMenuOpen) toggleMenu(false);
             });
 
-            let touchStartX = 0;
-            document.addEventListener('touchstart', (e) => {
+            let touchStartX = 0, touchStartY = 0;
+            sidebar.addEventListener('touchstart', function (e) {
                 touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
             }, { passive: true });
-
-            document.addEventListener('touchend', (e) => {
-                const touchEndX = e.changedTouches[0].screenX;
-                const threshold = 100;
-                if (sidebar.classList.contains('active') && (touchStartX - touchEndX) > threshold) {
-                    toggleMenu(false);
-                }
+            sidebar.addEventListener('touchend', function (e) {
+                if (!isMenuOpen) return;
+                const deltaX = touchStartX - e.changedTouches[0].screenX;
+                if (deltaX > 60 && deltaX > Math.abs(touchStartY - e.changedTouches[0].screenY)) toggleMenu(false);
             });
         })();
 
-        // Loading screen
-        setTimeout(() => document.querySelector('.premium-loader').classList.add('fade-out'), 700);
+        // Loader
+        setTimeout(() => {
+            const loader = document.getElementById('premiumLoader');
+            if (loader) { loader.classList.add('fade-out'); setTimeout(() => loader.remove(), 700); }
+        }, 700);
 
         // Allocation Chart
-        const ctx = document.getElementById('allocationChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Stocks', 'ETFs', 'Bonds', 'Cash'],
-                datasets: [{
-                    data: [2138.05, 2065.84, 345.69, 456.89],
-                    backgroundColor: ['#10201B', '#B98A2E', '#2F6B4F', '#EAE3D2'],
-                    borderColor: '#FBF9F3',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                cutout: '70%',
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: { font: { family: 'Inter' }, color: '#6B7A72' }
+        const ctx = document.getElementById('allocationChart')?.getContext('2d');
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Stocks', 'ETFs', 'Bonds', 'Cash'],
+                    datasets: [{
+                        data: [2138.05, 2065.84, 345.69, 456.89],
+                        backgroundColor: ['#10201B', '#B98A2E', '#2F6B4F', '#EAE3D2'],
+                        borderColor: '#FBF9F3',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { font: { family: 'Inter' }, color: '#6B7A72' }
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
 
         // Performance Chart
-        const perfCtx = document.getElementById('performanceChart').getContext('2d');
-        new Chart(perfCtx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Portfolio Value',
-                    data: [3200, 3350, 3420, 3380, 3450, 3456.89],
-                    borderColor: '#10201B',
-                    backgroundColor: 'rgba(16,32,27,0.05)',
-                    tension: 0.4,
-                    fill: true,
-                    pointRadius: 3,
-                    pointBackgroundColor: '#B98A2E'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false }
+        const perfCtx = document.getElementById('performanceChart')?.getContext('2d');
+        if (perfCtx) {
+            new Chart(perfCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Portfolio Value',
+                        data: [3200, 3350, 3420, 3380, 3450, 3456.89],
+                        borderColor: '#10201B',
+                        backgroundColor: 'rgba(16,32,27,0.05)',
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 3,
+                        pointBackgroundColor: '#B98A2E'
+                    }]
                 },
-                scales: {
-                    x: { ticks: { font: { family: 'Inter' }, color: '#6B7A72' } },
-                    y: { ticks: { font: { family: 'IBM Plex Mono' }, color: '#6B7A72', callback: v => '£' + v } }
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { ticks: { font: { family: 'Inter' }, color: '#6B7A72' } },
+                        y: { ticks: { font: { family: 'IBM Plex Mono' }, color: '#6B7A72', callback: v => '£' + v } }
+                    }
                 }
-            }
-        });
+            });
+        }
 
         // Trade functions
         let currentTradeAction = 'buy';
@@ -1352,7 +1445,7 @@
                     window.location.replace('login.html');
                 }, 900000);
             }
-            ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(e => document.addEventListener(e, resetInactivity));
+            ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart', 'pointerdown'].forEach(e => document.addEventListener(e, resetInactivity, { passive: true }));
             resetInactivity();
         })();
     </script>
