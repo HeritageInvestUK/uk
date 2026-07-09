@@ -1,426 +1,1542 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard · HarvestBank Professional</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Dashboard · NexusBank</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/png" href="https://a.mktgcdn.com/p/trqY8cbRb9rpmzNBIHFEHxK3n0czpuAaJO27NrH_lzQ/1.0000/676x676.png">
+    <link rel="icon" type="image/png"
+        href="https://a.mktgcdn.com/p/trqY8cbRb9rpmzNBIHFEHxK3n0czpuAaJO27NrH_lzQ/1.0000/676x676.png">
+    <style>
+        :root {
+            --ink: #10201B;
+            --ink-soft: #1B2F27;
+            --parchment: #F3EFE4;
+            --parchment-deep: #EAE3D2;
+            --bone: #FBF9F3;
+            --brass: #B98A2E;
+            --brass-bright: #D7A83F;
+            --ledger-green: #2F6B4F;
+            --ledger-red: #A24632;
+            --charcoal: #23302B;
+            --stone: #6B7A72;
+            --hair: rgba(35, 48, 43, 0.14);
+            --hair-dark: rgba(243, 239, 228, 0.16);
+            --shadow-card: 0 1px 2px rgba(16, 32, 27, 0.06), 0 8px 24px rgba(16, 32, 27, 0.06);
+            --shadow-lift: 0 20px 45px rgba(16, 32, 27, 0.16);
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--charcoal);
+            background: var(--parchment);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Source Serif 4', serif;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .mono {
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        ::selection {
+            background: var(--brass);
+            color: var(--ink);
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--brass);
+            outline-offset: 2px;
+        }
+
+        /* Loading screen */
+        .premium-loader {
+            position: fixed;
+            inset: 0;
+            background: var(--ink);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s var(--ease), visibility 0.6s var(--ease);
+        }
+
+        .premium-loader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-logo {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.9rem;
+            font-weight: 600;
+            color: var(--bone);
+            margin-bottom: 1.25rem;
+        }
+
+        .loader-logo .mark {
+            color: var(--brass-bright);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.1rem;
+            margin-right: 0.6rem;
+        }
+
+        .loader-rule {
+            width: 160px;
+            height: 1px;
+            background: var(--hair-dark);
+            position: relative;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .loader-rule::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -40%;
+            width: 40%;
+            height: 100%;
+            background: var(--brass-bright);
+            animation: loading 1.1s infinite;
+        }
+
+        @keyframes loading {
+            0% {
+                left: -40%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* Layout */
+        .dashboard-premium {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar-premium {
+            background: var(--ink);
+            color: var(--bone);
+            width: 280px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--hair-dark);
+            transition: left 0.3s var(--ease);
+            z-index: 1000;
+        }
+
+        .sidebar-brand {
+            padding: 2rem 1.5rem 1.5rem;
+            border-bottom: 1px solid var(--hair-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .brand-logo .mark {
+            width: 38px;
+            height: 38px;
+            border: 1.5px solid var(--brass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--brass);
+        }
+
+        .brand-logo span {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--bone);
+            margin-left: 0.6rem;
+        }
+
+        .brand-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--stone);
+            margin-top: 0.3rem;
+        }
+
+        .sidebar-nav-premium {
+            flex: 1;
+            padding: 1.5rem 0;
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-section-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--brass);
+            padding: 0 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-section ul {
+            list-style: none;
+        }
+
+        .nav-section li a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.8rem 1.5rem;
+            color: rgba(251, 249, 243, 0.7);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: background 0.2s var(--ease), color 0.2s var(--ease);
+            text-decoration: none;
+        }
+
+        .nav-section li a:hover,
+        .nav-section li.active a {
+            background: var(--ink-soft);
+            color: var(--bone);
+        }
+
+        .nav-section li a i {
+            width: 20px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .nav-badge {
+            background: var(--brass);
+            color: var(--ink);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.65rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 20px;
+            margin-left: auto;
+        }
+
+        .nav-amount {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--stone);
+            margin-left: auto;
+        }
+
+        .sidebar-footer-premium {
+            padding: 1.5rem;
+            border-top: 1px solid var(--hair-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-avatar img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-details .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-details .user-role {
+            color: var(--stone);
+            font-size: 0.75rem;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-left: auto;
+        }
+
+        .icon-btn {
+            background: none;
+            border: 1px solid var(--hair-dark);
+            color: var(--bone);
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+        }
+
+        .icon-btn:hover {
+            border-color: var(--brass);
+            color: var(--brass);
+        }
+
+        /* Mobile sidebar */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s var(--ease);
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: 1px solid var(--hair);
+            color: var(--ink);
+            width: 42px;
+            height: 42px;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        /* Main content */
+        .main-content-premium {
+            flex: 1;
+            background: var(--parchment);
+            padding: 1.5rem 2rem 2rem;
+            overflow-y: auto;
+            min-height: 100vh;
+        }
+
+        .top-nav-premium {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--hair);
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .page-title h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .page-title p {
+            color: var(--stone);
+            font-size: 0.95rem;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            gap: 0.5rem;
+            min-width: 200px;
+        }
+
+        .search-bar i {
+            color: var(--stone);
+            font-size: 0.9rem;
+        }
+
+        .search-bar input {
+            border: none;
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            color: var(--charcoal);
+            width: 100%;
+        }
+
+        .notification-btn,
+        .support-btn {
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            transition: border-color 0.2s var(--ease);
+        }
+
+        .notification-btn:hover,
+        .support-btn:hover {
+            border-color: var(--ink);
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--ledger-red);
+            border-radius: 50%;
+        }
+
+        .support-btn {
+            gap: 0.4rem;
+            width: auto;
+            padding: 0 1rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .support-btn i {
+            font-size: 1rem;
+        }
+
+        /* Quick actions */
+        .quick-actions-strip {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-action-card {
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--charcoal);
+            cursor: pointer;
+            transition: all 0.2s var(--ease);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .quick-action-card:hover {
+            border-color: var(--ink);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .quick-action-card.primary {
+            background: var(--ink);
+            color: var(--bone);
+            border-color: var(--ink);
+        }
+
+        .quick-action-card.primary:hover {
+            background: var(--ink-soft);
+        }
+
+        /* Account overview */
+        .account-overview {
+            margin-bottom: 2rem;
+        }
+
+        .overview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .overview-header h2 {
+            font-size: 1.6rem;
+            color: var(--ink);
+        }
+
+        .view-all-link {
+            color: var(--stone);
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .view-all-link:hover {
+            color: var(--ink);
+        }
+
+        .account-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .account-card {
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 1.5rem;
+            transition: box-shadow 0.2s var(--ease);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .account-card.main {
+            border-top: 3px solid var(--brass);
+        }
+
+        .account-card:hover {
+            box-shadow: var(--shadow-lift);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--stone);
+        }
+
+        .card-title i {
+            color: var(--brass);
+        }
+
+        .card-actions i {
+            color: var(--stone);
+            cursor: pointer;
+        }
+
+        .card-badge {
+            background: var(--parchment-deep);
+            padding: 0.2rem 0.6rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .card-balance {
+            display: flex;
+            align-items: baseline;
+            gap: 0.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-balance .currency {
+            font-size: 1.5rem;
+            color: var(--ink);
+        }
+
+        .card-balance .amount {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .card-balance.small .amount {
+            font-size: 1.5rem;
+        }
+
+        .card-change {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-change.positive {
+            color: var(--ledger-green);
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--stone);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--hair);
+        }
+
+        .card-account-number {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--stone);
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+
+        .card-progress {
+            margin-top: 1rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--stone);
+            margin-bottom: 0.3rem;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--parchment);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--brass);
+            width: 0;
+        }
+
+        .card-interest {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--ledger-green);
+            margin-top: 0.5rem;
+        }
+
+        .card-investment-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        .card-investment-details .detail {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-investment-details .positive {
+            color: var(--ledger-green);
+        }
+
+        /* Analytics row */
+        .analytics-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .chart-card,
+        .insights-card {
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 1.5rem;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .chart-card .card-header,
+        .insights-card .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            color: var(--stone);
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .chart-container {
+            margin-top: 1rem;
+        }
+
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 1.5rem;
+            height: 200px;
+            justify-content: center;
+        }
+
+        .bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .bar {
+            width: 24px;
+            border-radius: 4px 4px 0 0;
+            transition: height 0.3s var(--ease);
+        }
+
+        .bar.current {
+            background: var(--ink);
+        }
+
+        .bar.previous {
+            background: var(--parchment-deep);
+            margin-left: -8px;
+        }
+
+        .bar-label {
+            font-size: 0.7rem;
+            color: var(--stone);
+        }
+
+        .insights-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .insight-item {
+            display: flex;
+            gap: 1rem;
+            padding: 0.75rem;
+            border: 1px solid var(--hair);
+            cursor: pointer;
+            transition: background 0.2s var(--ease);
+        }
+
+        .insight-item:hover {
+            background: var(--parchment-deep);
+        }
+
+        .insight-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .insight-icon.success {
+            background: rgba(47, 107, 79, 0.1);
+            color: var(--ledger-green);
+        }
+
+        .insight-icon.warning {
+            background: rgba(185, 138, 46, 0.1);
+            color: var(--brass);
+        }
+
+        .insight-icon.info {
+            background: rgba(10, 36, 114, 0.1);
+            color: var(--ink);
+        }
+
+        .insight-content h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.2rem;
+            color: var(--ink);
+        }
+
+        .insight-content p {
+            font-size: 0.85rem;
+            color: var(--stone);
+        }
+
+        .insight-action {
+            display: block;
+            width: 100%;
+            margin-top: 1.5rem;
+            padding: 0.8rem;
+            background: transparent;
+            border: 1px solid var(--hair);
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--ink);
+            cursor: pointer;
+            transition: border-color 0.2s var(--ease);
+        }
+
+        .insight-action:hover {
+            border-color: var(--ink);
+        }
+
+        /* Recent transactions */
+        .transactions-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-outline-small {
+            padding: 0.5rem 1rem;
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            font-weight: 500;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: border-color 0.2s var(--ease);
+        }
+
+        .btn-outline-small:hover {
+            border-color: var(--ink);
+        }
+
+        .transactions-table-container {
+            overflow-x: auto;
+        }
+
+        .transactions-table-premium {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .transactions-table-premium th {
+            text-align: left;
+            padding: 0.8rem;
+            color: var(--stone);
+            font-weight: 500;
+            border-bottom: 2px solid var(--hair);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        .transactions-table-premium td {
+            padding: 0.8rem;
+            border-bottom: 1px solid var(--hair);
+        }
+
+        .transaction-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .transaction-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            background: var(--parchment);
+        }
+
+        .transaction-icon.transfer {
+            color: var(--ink);
+        }
+
+        .transaction-icon.deposit {
+            color: var(--ledger-green);
+        }
+
+        .transaction-icon.payment {
+            color: var(--stone);
+        }
+
+        .transaction-name {
+            font-weight: 500;
+        }
+
+        .transaction-meta {
+            font-size: 0.8rem;
+            color: var(--stone);
+        }
+
+        .category-badge {
+            font-size: 0.75rem;
+            background: var(--parchment-deep);
+            padding: 0.2rem 0.6rem;
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+        }
+
+        .status-badge.completed {
+            background: rgba(47, 107, 79, 0.1);
+            color: var(--ledger-green);
+        }
+
+        .status-badge.pending {
+            background: rgba(185, 138, 46, 0.1);
+            color: var(--brass);
+        }
+
+        .negative {
+            color: var(--ledger-red);
+        }
+
+        .positive {
+            color: var(--ledger-green);
+        }
+
+        .row-action {
+            background: none;
+            border: none;
+            color: var(--stone);
+            cursor: pointer;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        /* Bottom widgets */
+        .bottom-widgets {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .widget-card {
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: box-shadow 0.2s var(--ease);
+        }
+
+        .widget-card:hover {
+            box-shadow: var(--shadow-lift);
+        }
+
+        .widget-card.highlight {
+            border-top: 3px solid var(--brass);
+        }
+
+        .widget-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .widget-header h3 {
+            font-size: 1.1rem;
+        }
+
+        .widget-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .item-info i {
+            color: var(--brass);
+            width: 20px;
+        }
+
+        .item-title {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .item-date {
+            font-size: 0.8rem;
+            color: var(--stone);
+        }
+
+        .item-amount {
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 600;
+        }
+
+        .spending-categories {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .category-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+        }
+
+        .category-bar {
+            height: 8px;
+            background: var(--parchment);
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+        }
+
+        .credit-score-display {
+            text-align: center;
+        }
+
+        .score-number {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin: 1rem 0;
+        }
+
+        .score-range {
+            margin-top: 0.5rem;
+        }
+
+        .range-bar {
+            height: 8px;
+            background: var(--parchment);
+            overflow: hidden;
+            margin-bottom: 0.3rem;
+        }
+
+        .range-fill {
+            height: 100%;
+            background: var(--brass);
+            width: 78%;
+        }
+
+        .range-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--stone);
+        }
+
+        .score-change {
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+            margin-top: 0.5rem;
+        }
+
+        .score-change.positive {
+            color: var(--ledger-green);
+        }
+
+        .score-badge {
+            background: rgba(47, 107, 79, 0.1);
+            color: var(--ledger-green);
+            padding: 0.2rem 0.6rem;
+            font-size: 0.7rem;
+        }
+
+        /* Modal */
+        .modal-premium {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-premium.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bone);
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            border-top: 3px solid var(--brass);
+            box-shadow: var(--shadow-lift);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.4rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--stone);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            padding: 0.7rem 1.5rem;
+            background: var(--ink);
+            color: var(--bone);
+            border: 1px solid var(--ink);
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s var(--ease);
+        }
+
+        .btn-primary:hover {
+            background: var(--ink-soft);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar-premium {
+                position: fixed;
+                left: -280px;
+                top: 0;
+                bottom: 0;
+                height: 100vh;
+            }
+
+            .sidebar-premium.active {
+                left: 0;
+            }
+
+            .sidebar-overlay {
+                display: block;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .main-content-premium {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .top-nav-premium {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .account-cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .analytics-row {
+                flex-direction: column;
+            }
+
+            .bottom-widgets {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .quick-actions-strip {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                gap: 0.5rem;
+            }
+
+            .quick-action-card {
+                padding: 0.8rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .card-balance .amount {
+                font-size: 1.6rem;
+            }
+
+            .chart-bars {
+                height: 150px;
+                gap: 1rem;
+            }
+
+            .bar {
+                width: 16px;
+            }
+
+            .transactions-table-premium th,
+            .transactions-table-premium td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <!-- Premium Loading Screen -->
+    <!-- Loading -->
     <div class="premium-loader">
         <div class="loader-content">
-            <div class="loader-logo">
-                <i class="fas fa-landmark"></i>
-                <span>HarvestBank</span>
-            </div>
-            <div class="loader-bar"></div>
+            <div class="loader-logo"><span class="mark">N·B</span>NexusBank</div>
+            <div class="loader-rule"></div>
         </div>
     </div>
 
-    <!-- Main Dashboard Container -->
     <div class="dashboard-premium">
-        <!-- Sidebar Navigation -->
+        <!-- Sidebar -->
         <aside class="sidebar-premium">
             <div class="sidebar-brand">
                 <div class="brand-logo">
-                    <i class="fas fa-landmark"></i>
-                    <span>HarvestBank</span>
+                    <span class="mark">N·B</span>
+                    <span>NexusBank</span>
                 </div>
                 <div class="brand-tag">Private Banking</div>
             </div>
-
             <nav class="sidebar-nav-premium">
                 <div class="nav-section">
                     <div class="nav-section-title">MAIN</div>
                     <ul>
-                        <li class="active">
-                            <a href="dashboard.html">
-                                <i class="fas fa-chart-pie"></i>
-                                <span>Dashboard</span>
-                                <span class="nav-badge">9</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="transactions.html">
-                                <i class="fas fa-arrow-right-arrow-left"></i>
-                                <span>Transactions</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="transfer.html">
-                                <i class="fas fa-paper-plane"></i>
-                                <span>Transfers</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="statements.html">
-                                <i class="fas fa-file-invoice"></i>
-                                <span>Statements</span>
-                            </a>
+                        <li class="active"><a href="dashboard.html"><i
+                                    class="fas fa-chart-pie"></i><span>Dashboard</span><span
+                                    class="nav-badge">9</span></a></li>
+                        <li><a href="transactions.html"><i
+                                    class="fas fa-arrow-right-arrow-left"></i><span>Transactions</span></a></li>
+                        <li><a href="transfer.html"><i class="fas fa-paper-plane"></i><span>Transfers</span></a></li>
+                        <li><a href="statements.html"><i class="fas fa-file-invoice"></i><span>Statements</span></a>
                         </li>
                     </ul>
                 </div>
-
                 <div class="nav-section">
                     <div class="nav-section-title">ACCOUNTS</div>
                     <ul>
-                        <li>
-                            <a href="checking.html">
-                                <i class="fas fa-wallet"></i>
-                                <span>Checking</span>
-                                <span class="nav-amount">£645,432</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="savings.html">
-                                <i class="fas fa-piggy-bank"></i>
-                                <span>Savings</span>
-                                <span class="nav-amount">£215,678</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="investments.html">
-                                <i class="fas fa-chart-line"></i>
-                                <span>Investments</span>
-                                <span class="nav-amount">£3,456,789</span>
-                            </a>
-                        </li>
+                        <li><a href="checking.html"><i class="fas fa-wallet"></i><span>Checking</span><span
+                                    class="nav-amount">£645,432</span></a></li>
+                        <li><a href="savings.html"><i class="fas fa-piggy-bank"></i><span>Savings</span><span
+                                    class="nav-amount">£215,678</span></a></li>
+                        <li><a href="investments.html"><i class="fas fa-chart-line"></i><span>Investments</span><span
+                                    class="nav-amount">£3,456,789</span></a></li>
                     </ul>
                 </div>
-
                 <div class="nav-section">
                     <div class="nav-section-title">SERVICES</div>
                     <ul>
-                        <li>
-                            <a href="cards.html">
-                                <i class="fas fa-credit-card"></i>
-                                <span>Cards</span>
-                            </a>
+                        <li><a href="cards.html"><i class="fas fa-credit-card"></i><span>Cards</span></a></li>
+                        <li><a href="paybills.html"><i class="fas fa-file-invoice-dollar"></i><span>Pay Bills</span></a>
                         </li>
-                        <li>
-                            <a href="paybills.html">
-                                <i class="fas fa-file-invoice-dollar"></i>
-                                <span>Pay Bills</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="settings.html">
-                                <i class="fas fa-gear"></i>
-                                <span>Settings</span>
-                            </a>
-                        </li>
+                        <li><a href="settings.html"><i class="fas fa-gear"></i><span>Settings</span></a></li>
                     </ul>
                 </div>
             </nav>
-
             <div class="sidebar-footer-premium">
-                <div class="user-info">
-                    <div class="user-avatar">
-                        <img src="https://pbs.twimg.com/media/HBYhBrhXIAAjTtl?format=jpg&name=medium" alt="John Shanji">
-                    </div>
-                    <div class="user-details">
-                        <div class="user-name">John Shanji</div>
-                        <div class="user-role">Premium Member</div>
-                    </div>
+                <div class="user-avatar"><img src="https://pbs.twimg.com/media/HBYhBrhXIAAjTtl?format=jpg&name=medium"
+                        alt="John Shanji"></div>
+                <div class="user-details">
+                    <div class="user-name">John Shanji</div>
+                    <div class="user-role">Premium Member</div>
                 </div>
                 <div class="user-actions">
-                    <button class="icon-btn" title="Settings" onclick="location.href='settings.html'">
-                        <i class="fas fa-sliders-h"></i>
-                    </button>
-                    <button class="icon-btn" title="Logout" onclick="location.href='index.html'">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </button>
+                    <button class="icon-btn" title="Settings" onclick="location.href='settings.html'"><i
+                            class="fas fa-sliders-h"></i></button>
+                    <button class="icon-btn" title="Logout" onclick="location.href='index.html'"><i
+                            class="fas fa-sign-out-alt"></i></button>
                 </div>
             </div>
         </aside>
 
-        <!-- Sidebar Overlay (for mobile) -->
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-        <!-- Main Content Area -->
+        <!-- Main Content -->
         <main class="main-content-premium">
-            <!-- Top Navigation -->
             <header class="top-nav-premium">
                 <div class="nav-left">
-                    <button class="menu-toggle" id="menuToggle">
-                        <i class="fas fa-bars"></i>
-                    </button>
+                    <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
                     <div class="page-title">
                         <h1>Good morning, John</h1>
                         <p>Here's your financial summary for today</p>
                     </div>
                 </div>
-
                 <div class="nav-right">
                     <div class="search-bar">
                         <i class="fas fa-search"></i>
                         <input type="text" placeholder="Search transactions, accounts...">
                     </div>
-
-                    <button class="notification-btn">
-                        <i class="far fa-bell"></i>
-                        <span class="notification-dot"></span>
-                    </button>
-
-                    <button class="support-btn">
-                        <i class="far fa-question-circle"></i>
-                        <span>Help</span>
-                    </button>
+                    <button class="notification-btn"><i class="far fa-bell"></i><span
+                            class="notification-dot"></span></button>
+                    <button class="support-btn"><i class="far fa-question-circle"></i><span>Help</span></button>
                 </div>
             </header>
 
-            <!-- Quick Actions Strip -->
+            <!-- Quick Actions -->
             <div class="quick-actions-strip">
-                <button class="quick-action-card primary" onclick="location.href='transfer.html'">
-                    <i class="fas fa-arrow-right-arrow-left"></i>
-                    <span>Transfer</span>
-                </button>
-                <button class="quick-action-card" onclick="location.href='checking.html'">
-                    <i class="fas fa-wallet"></i>
-                    <span>Accounts</span>
-                </button>
-                <button class="quick-action-card" onclick="location.href='paybills.html'">
-                    <i class="fas fa-file-invoice"></i>
-                    <span>Pay Bills</span>
-                </button>
-                <button class="quick-action-card" onclick="location.href='cards.html'">
-                    <i class="fas fa-credit-card"></i>
-                    <span>Cards</span>
-                </button>
-                <button class="quick-action-card" onclick="location.href='statements.html'">
-                    <i class="fas fa-file-pdf"></i>
-                    <span>Statements</span>
-                </button>
-                <button class="quick-action-card" onclick="location.href='investments.html'">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Investments</span>
-                </button>
+                <button class="quick-action-card primary" onclick="location.href='transfer.html'"><i
+                        class="fas fa-arrow-right-arrow-left"></i><span>Transfer</span></button>
+                <button class="quick-action-card" onclick="location.href='checking.html'"><i
+                        class="fas fa-wallet"></i><span>Accounts</span></button>
+                <button class="quick-action-card" onclick="location.href='paybills.html'"><i
+                        class="fas fa-file-invoice"></i><span>Pay Bills</span></button>
+                <button class="quick-action-card" onclick="location.href='cards.html'"><i
+                        class="fas fa-credit-card"></i><span>Cards</span></button>
+                <button class="quick-action-card" onclick="location.href='statements.html'"><i
+                        class="fas fa-file-pdf"></i><span>Statements</span></button>
+                <button class="quick-action-card" onclick="location.href='investments.html'"><i
+                        class="fas fa-chart-line"></i><span>Investments</span></button>
             </div>
 
-            <!-- Account Overview Cards -->
+            <!-- Account Overview -->
             <div class="account-overview">
                 <div class="overview-header">
                     <h2>Account Overview</h2>
-                    <a href="checking.html" class="view-all-link">
-                        View All <i class="fas fa-arrow-right"></i>
-                    </a>
+                    <a href="checking.html" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
                 </div>
-
                 <div class="account-cards-grid">
-                    <!-- Main Account Card -->
-                    <div class="account-card main" onclick="location.href='checking.html'" style="cursor: pointer;">
+                    <div class="account-card main" onclick="location.href='checking.html'">
                         <div class="card-header">
-                            <div class="card-title">
-                                <i class="fas fa-wallet"></i>
-                                <span>Total Balance</span>
-                            </div>
-                            <div class="card-actions">
-                                <i class="fas fa-ellipsis-h"></i>
-                            </div>
+                            <div class="card-title"><i class="fas fa-wallet"></i><span>Total Balance</span></div>
+                            <div class="card-actions"><i class="fas fa-ellipsis-h"></i></div>
                         </div>
-                        <div class="card-balance">
-                            <span class="currency">£</span>
-                            <span class="amount">4,317,899.89</span>
-                        </div>
-                        <div class="card-change positive">
-                            <i class="fas fa-arrow-up"></i>
-                            <span>+2.3% from last month</span>
-                        </div>
+                        <div class="card-balance"><span class="currency">£</span><span
+                                class="amount">4,317,899.89</span></div>
+                        <div class="card-change positive"><i class="fas fa-arrow-up"></i><span>+2.3% from last
+                                month</span></div>
                         <div class="card-footer">
-                            <div class="footer-item">
-                                <span class="label">Available</span>
-                                <span class="value">£4,317,899.89</span>
-                            </div>
-                            <div class="footer-item">
-                                <span class="label">Hold</span>
-                                <span class="value">£0.00</span>
+                            <div class="footer-item"><span class="label">Available</span><span
+                                    class="value">£4,317,899.89</span></div>
+                            <div class="footer-item"><span class="label">Hold</span><span class="value">£0.00</span>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Checking Account -->
-                    <div class="account-card" onclick="location.href='checking.html'" style="cursor: pointer;">
+                    <div class="account-card" onclick="location.href='checking.html'">
                         <div class="card-header">
-                            <div class="card-title">
-                                <i class="fas fa-credit-card"></i>
-                                <span>Checking</span>
-                            </div>
+                            <div class="card-title"><i class="fas fa-credit-card"></i><span>Checking</span></div>
                             <span class="card-badge">Main</span>
                         </div>
-                        <div class="card-balance small">
-                            <span class="currency">£</span>
-                            <span class="amount">645,432.10</span>
-                        </div>
-                        <div class="card-account-number" onclick="event.stopPropagation();">
-                            <i class="far fa-copy"></i>
-                            <span>**** 4756</span>
-                        </div>
+                        <div class="card-balance small"><span class="currency">£</span><span
+                                class="amount">645,432.10</span></div>
+                        <div class="card-account-number" onclick="event.stopPropagation();"><i
+                                class="far fa-copy"></i><span>**** 4756</span></div>
                         <div class="card-progress">
-                            <div class="progress-label">
-                                <span>Monthly limit</span>
-                                <span>45%</span>
-                            </div>
+                            <div class="progress-label"><span>Monthly limit</span><span>45%</span></div>
                             <div class="progress-bar">
-                                <div class="progress-fill" style="width: 45%"></div>
+                                <div class="progress-fill" style="width:45%"></div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Savings Account -->
-                    <div class="account-card highlight" onclick="location.href='savings.html'" style="cursor: pointer;">
+                    <div class="account-card highlight" onclick="location.href='savings.html'">
                         <div class="card-header">
-                            <div class="card-title">
-                                <i class="fas fa-piggy-bank"></i>
-                                <span>Savings</span>
-                            </div>
+                            <div class="card-title"><i class="fas fa-piggy-bank"></i><span>Savings</span></div>
                             <span class="card-badge">2.5% APY</span>
                         </div>
-                        <div class="card-balance small">
-                            <span class="currency">£</span>
-                            <span class="amount">215,678.90</span>
-                        </div>
-                        <div class="card-account-number" onclick="event.stopPropagation();">
-                            <i class="far fa-copy"></i>
-                            <span>**** 9904</span>
-                        </div>
-                        <div class="card-interest">
-                            <i class="fas fa-leaf"></i>
-                            <span>Earned £32.15 this month</span>
+                        <div class="card-balance small"><span class="currency">£</span><span
+                                class="amount">215,678.90</span></div>
+                        <div class="card-account-number" onclick="event.stopPropagation();"><i
+                                class="far fa-copy"></i><span>**** 9904</span></div>
+                        <div class="card-interest"><i class="fas fa-leaf"></i><span>Earned £32.15 this month</span>
                         </div>
                     </div>
-
-                    <!-- Investment Account -->
-                    <div class="account-card" onclick="location.href='investments.html'" style="cursor: pointer;">
+                    <div class="account-card" onclick="location.href='investments.html'">
                         <div class="card-header">
-                            <div class="card-title">
-                                <i class="fas fa-chart-line"></i>
-                                <span>Investments</span>
-                            </div>
+                            <div class="card-title"><i class="fas fa-chart-line"></i><span>Investments</span></div>
                             <span class="card-change small positive">+5.2%</span>
                         </div>
-                        <div class="card-balance small">
-                            <span class="currency">£</span>
-                            <span class="amount">3,456,789.89</span>
-                        </div>
+                        <div class="card-balance small"><span class="currency">£</span><span
+                                class="amount">3,456,789.89</span></div>
                         <div class="card-investment-details">
-                            <div class="detail">
-                                <span>Stocks</span>
-                                <span class="positive">£2,700,000.5</span>
-                            </div>
-                            <div class="detail">
-                                <span>ETF</span>
-                                <span>£759,058.87</span>
-                            </div>
+                            <div class="detail"><span>Stocks</span><span class="positive">£2,700,000.5</span></div>
+                            <div class="detail"><span>ETF</span><span>£759,058.87</span></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Charts & Analytics Row -->
+            <!-- Analytics Row -->
             <div class="analytics-row">
                 <div class="chart-card">
                     <div class="card-header">
                         <div>
                             <h3>Spending Analysis</h3>
-                            <p class="subtitle">Last 30 days vs previous period</p>
+                            <p class="subtitle" style="color:var(--stone); font-size:0.85rem;">Last 30 days vs previous
+                                period</p>
                         </div>
                         <div class="chart-legend">
-                            <span class="legend-item">
-                                <span class="dot" style="background: #0A2472"></span>
-                                This month
-                            </span>
-                            <span class="legend-item">
-                                <span class="dot" style="background: #E5E7EB"></span>
-                                Last month
-                            </span>
+                            <span class="legend-item"><span class="dot" style="background: var(--ink)"></span>This
+                                month</span>
+                            <span class="legend-item"><span class="dot"
+                                    style="background: var(--parchment-deep)"></span>Last month</span>
                         </div>
                     </div>
                     <div class="chart-container">
-                        <!-- Chart bars (demo) -->
                         <div class="chart-bars">
                             <div class="bar-group">
-                                <div class="bar current" style="height: 120px"></div>
-                                <div class="bar previous" style="height: 100px"></div>
-                                <span class="bar-label">Mon</span>
+                                <div class="bar current" style="height:120px"></div>
+                                <div class="bar previous" style="height:100px"></div><span class="bar-label">Mon</span>
                             </div>
                             <div class="bar-group">
-                                <div class="bar current" style="height: 80px"></div>
-                                <div class="bar previous" style="height: 90px"></div>
-                                <span class="bar-label">Tue</span>
+                                <div class="bar current" style="height:80px"></div>
+                                <div class="bar previous" style="height:90px"></div><span class="bar-label">Tue</span>
                             </div>
                             <div class="bar-group">
-                                <div class="bar current" style="height: 150px"></div>
-                                <div class="bar previous" style="height: 110px"></div>
-                                <span class="bar-label">Wed</span>
+                                <div class="bar current" style="height:150px"></div>
+                                <div class="bar previous" style="height:110px"></div><span class="bar-label">Wed</span>
                             </div>
                             <div class="bar-group">
-                                <div class="bar current" style="height: 100px"></div>
-                                <div class="bar previous" style="height: 80px"></div>
-                                <span class="bar-label">Thu</span>
+                                <div class="bar current" style="height:100px"></div>
+                                <div class="bar previous" style="height:80px"></div><span class="bar-label">Thu</span>
                             </div>
                             <div class="bar-group">
-                                <div class="bar current" style="height: 130px"></div>
-                                <div class="bar previous" style="height: 120px"></div>
-                                <span class="bar-label">Fri</span>
+                                <div class="bar current" style="height:130px"></div>
+                                <div class="bar previous" style="height:120px"></div><span class="bar-label">Fri</span>
                             </div>
                             <div class="bar-group">
-                                <div class="bar current" style="height: 70px"></div>
-                                <div class="bar previous" style="height: 60px"></div>
-                                <span class="bar-label">Sat</span>
+                                <div class="bar current" style="height:70px"></div>
+                                <div class="bar previous" style="height:60px"></div><span class="bar-label">Sat</span>
                             </div>
                             <div class="bar-group">
-                                <div class="bar current" style="height: 60px"></div>
-                                <div class="bar previous" style="height: 50px"></div>
-                                <span class="bar-label">Sun</span>
+                                <div class="bar current" style="height:60px"></div>
+                                <div class="bar previous" style="height:50px"></div><span class="bar-label">Sun</span>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <div class="insights-card">
                     <div class="card-header">
-                        <h3>Financial Insights</h3>
-                        <i class="fas fa-robot"></i>
+                        <h3>Financial Insights</h3><i class="fas fa-robot" style="color:var(--brass)"></i>
                     </div>
                     <div class="insights-list">
-                        <div class="insight-item" onclick="location.href='savings.html'" style="cursor: pointer;">
-                            <div class="insight-icon success">
-                                <i class="fas fa-chart-pie"></i>
-                            </div>
+                        <div class="insight-item" onclick="location.href='savings.html'">
+                            <div class="insight-icon success"><i class="fas fa-chart-pie"></i></div>
                             <div class="insight-content">
                                 <h4>Spending decreased by 12%</h4>
                                 <p>Compared to last month, you've saved £245 more</p>
                             </div>
                         </div>
-                        <div class="insight-item" onclick="location.href='paybills.html'" style="cursor: pointer;">
-                            <div class="insight-icon warning">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
+                        <div class="insight-item" onclick="location.href='paybills.html'">
+                            <div class="insight-icon warning"><i class="fas fa-exclamation-triangle"></i></div>
                             <div class="insight-content">
                                 <h4>Upcoming bill due in 3 days</h4>
                                 <p>Electricity bill of £145.67</p>
                             </div>
                         </div>
-                        <div class="insight-item" onclick="location.href='savings.html'" style="cursor: pointer;">
-                            <div class="insight-icon info">
-                                <i class="fas fa-bullseye"></i>
-                            </div>
+                        <div class="insight-item" onclick="location.href='savings.html'">
+                            <div class="insight-icon info"><i class="fas fa-bullseye"></i></div>
                             <div class="insight-content">
                                 <h4>Savings goal 75% complete</h4>
                                 <p>Emergency fund: £15,000 of £20,000</p>
                             </div>
                         </div>
                     </div>
-                    <button class="insight-action" onclick="location.href='transactions.html'">
-                        View All Insights
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
+                    <button class="insight-action" onclick="location.href='transactions.html'">View All Insights <i
+                            class="fas fa-arrow-right"></i></button>
                 </div>
             </div>
 
@@ -429,23 +1545,17 @@
                 <div class="section-header">
                     <div>
                         <h2>Recent Transactions</h2>
-                        <p class="subtitle">Your latest 10 transactions</p>
+                        <p style="color:var(--stone); font-size:0.85rem;">Your latest 10 transactions</p>
                     </div>
                     <div class="header-actions">
-                        <button class="btn-outline-small" onclick="location.href='statements.html'">
-                            <i class="fas fa-download"></i>
-                            Export
-                        </button>
-                        <button class="btn-outline-small" onclick="location.href='transactions.html'">
-                            <i class="fas fa-filter"></i>
-                            Filter
-                        </button>
-                        <a href="transactions.html" class="view-all-link">
-                            View All <i class="fas fa-arrow-right"></i>
-                        </a>
+                        <button class="btn-outline-small" onclick="location.href='statements.html'"><i
+                                class="fas fa-download"></i>Export</button>
+                        <button class="btn-outline-small" onclick="location.href='transactions.html'"><i
+                                class="fas fa-filter"></i>Filter</button>
+                        <a href="transactions.html" class="view-all-link">View All <i
+                                class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
-
                 <div class="transactions-table-container">
                     <table class="transactions-table-premium">
                         <thead>
@@ -459,12 +1569,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr onclick="location.href='transactions.html'" style="cursor: pointer;">
+                            <tr onclick="location.href='transactions.html'">
                                 <td>
                                     <div class="transaction-info">
-                                        <div class="transaction-icon transfer">
-                                            <i class="fas fa-arrow-right"></i>
-                                        </div>
+                                        <div class="transaction-icon transfer"><i class="fas fa-arrow-right"></i></div>
                                         <div>
                                             <div class="transaction-name">Transfer to Sarah Johnson</div>
                                             <div class="transaction-meta">To: **** 4567</div>
@@ -475,14 +1583,13 @@
                                 <td><span class="category-badge">Transfer</span></td>
                                 <td><span class="status-badge completed">Completed</span></td>
                                 <td class="text-right negative">-£250.00</td>
-                                <td><button class="row-action" onclick="event.stopPropagation(); location.href='transactions.html'"><i class="fas fa-ellipsis-v"></i></button></td>
+                                <td><button class="row-action" onclick="event.stopPropagation();"><i
+                                            class="fas fa-ellipsis-v"></i></button></td>
                             </tr>
-                            <tr onclick="location.href='transactions.html'" style="cursor: pointer;">
+                            <tr onclick="location.href='transactions.html'">
                                 <td>
                                     <div class="transaction-info">
-                                        <div class="transaction-icon deposit">
-                                            <i class="fas fa-arrow-down"></i>
-                                        </div>
+                                        <div class="transaction-icon deposit"><i class="fas fa-arrow-down"></i></div>
                                         <div>
                                             <div class="transaction-name">Salary Deposit - ABC Corp</div>
                                             <div class="transaction-meta">Monthly payroll</div>
@@ -493,14 +1600,13 @@
                                 <td><span class="category-badge income">Income</span></td>
                                 <td><span class="status-badge completed">Completed</span></td>
                                 <td class="text-right positive">+£3,500.00</td>
-                                <td><button class="row-action" onclick="event.stopPropagation(); location.href='transactions.html'"><i class="fas fa-ellipsis-v"></i></button></td>
+                                <td><button class="row-action" onclick="event.stopPropagation();"><i
+                                            class="fas fa-ellipsis-v"></i></button></td>
                             </tr>
-                            <tr onclick="location.href='transactions.html'" style="cursor: pointer;">
+                            <tr onclick="location.href='transactions.html'">
                                 <td>
                                     <div class="transaction-info">
-                                        <div class="transaction-icon payment">
-                                            <i class="fas fa-shopping-cart"></i>
-                                        </div>
+                                        <div class="transaction-icon payment"><i class="fas fa-shopping-cart"></i></div>
                                         <div>
                                             <div class="transaction-name">Amazon.com</div>
                                             <div class="transaction-meta">Online purchase</div>
@@ -511,7 +1617,8 @@
                                 <td><span class="category-badge shopping">Shopping</span></td>
                                 <td><span class="status-badge completed">Completed</span></td>
                                 <td class="text-right negative">-£89.99</td>
-                                <td><button class="row-action" onclick="event.stopPropagation(); location.href='transactions.html'"><i class="fas fa-ellipsis-v"></i></button></td>
+                                <td><button class="row-action" onclick="event.stopPropagation();"><i
+                                            class="fas fa-ellipsis-v"></i></button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -520,15 +1627,14 @@
 
             <!-- Bottom Widgets -->
             <div class="bottom-widgets">
-                <div class="widget-card" onclick="location.href='paybills.html'" style="cursor: pointer;">
+                <div class="widget-card" onclick="location.href='paybills.html'">
                     <div class="widget-header">
-                        <h3>Upcoming Bills</h3>
-                        <a href="paybills.html" onclick="event.stopPropagation();">View all</a>
+                        <h3>Upcoming Bills</h3><a href="paybills.html" onclick="event.stopPropagation();"
+                            style="color:var(--stone);">View all</a>
                     </div>
                     <div class="widget-list">
                         <div class="list-item">
-                            <div class="item-info">
-                                <i class="fas fa-bolt"></i>
+                            <div class="item-info"><i class="fas fa-bolt"></i>
                                 <div>
                                     <div class="item-title">Electricity</div>
                                     <div class="item-date">Due in 3 days</div>
@@ -537,8 +1643,7 @@
                             <div class="item-amount">£145.67</div>
                         </div>
                         <div class="list-item">
-                            <div class="item-info">
-                                <i class="fas fa-wifi"></i>
+                            <div class="item-info"><i class="fas fa-wifi"></i>
                                 <div>
                                     <div class="item-title">Internet</div>
                                     <div class="item-date">Due in 5 days</div>
@@ -547,8 +1652,7 @@
                             <div class="item-amount">£89.99</div>
                         </div>
                         <div class="list-item">
-                            <div class="item-info">
-                                <i class="fas fa-mobile-alt"></i>
+                            <div class="item-info"><i class="fas fa-mobile-alt"></i>
                                 <div>
                                     <div class="item-title">Phone</div>
                                     <div class="item-date">Due in 7 days</div>
@@ -558,602 +1662,167 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="widget-card" onclick="location.href='investments.html'" style="cursor: pointer;">
+                <div class="widget-card" onclick="location.href='investments.html'">
                     <div class="widget-header">
-                        <h3>Spending Categories</h3>
-                        <a href="investments.html" onclick="event.stopPropagation();">Details</a>
+                        <h3>Spending Categories</h3><a href="investments.html" onclick="event.stopPropagation();"
+                            style="color:var(--stone);">Details</a>
                     </div>
                     <div class="spending-categories">
                         <div class="category-item">
-                            <div class="category-label">
-                                <span>Shopping</span>
-                                <span>35%</span>
-                            </div>
+                            <div class="category-label"><span>Shopping</span><span>35%</span></div>
                             <div class="category-bar">
-                                <div class="bar-fill" style="width: 35%; background: #0A2472"></div>
+                                <div class="bar-fill" style="width:35%; background:var(--ink)"></div>
                             </div>
                         </div>
                         <div class="category-item">
-                            <div class="category-label">
-                                <span>Food & Dining</span>
-                                <span>28%</span>
-                            </div>
+                            <div class="category-label"><span>Food & Dining</span><span>28%</span></div>
                             <div class="category-bar">
-                                <div class="bar-fill" style="width: 28%; background: #2563EB"></div>
+                                <div class="bar-fill" style="width:28%; background:var(--ink-soft)"></div>
                             </div>
                         </div>
                         <div class="category-item">
-                            <div class="category-label">
-                                <span>Transport</span>
-                                <span>18%</span>
-                            </div>
+                            <div class="category-label"><span>Transport</span><span>18%</span></div>
                             <div class="category-bar">
-                                <div class="bar-fill" style="width: 18%; background: #7C3AED"></div>
+                                <div class="bar-fill" style="width:18%; background:var(--brass)"></div>
                             </div>
                         </div>
                         <div class="category-item">
-                            <div class="category-label">
-                                <span>Entertainment</span>
-                                <span>12%</span>
-                            </div>
+                            <div class="category-label"><span>Entertainment</span><span>12%</span></div>
                             <div class="category-bar">
-                                <div class="bar-fill" style="width: 12%; background: #DB2777"></div>
+                                <div class="bar-fill" style="width:12%; background:var(--stone)"></div>
                             </div>
                         </div>
                         <div class="category-item">
-                            <div class="category-label">
-                                <span>Other</span>
-                                <span>7%</span>
-                            </div>
+                            <div class="category-label"><span>Other</span><span>7%</span></div>
                             <div class="category-bar">
-                                <div class="bar-fill" style="width: 7%; background: #9CA3AF"></div>
+                                <div class="bar-fill" style="width:7%; background:var(--parchment-deep)"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="widget-card highlight" onclick="location.href='cards.html'" style="cursor: pointer;">
+                <div class="widget-card highlight" onclick="location.href='cards.html'">
                     <div class="widget-header">
-                        <h3>Credit Score</h3>
-                        <span class="score-badge">Excellent</span>
+                        <h3>Credit Score</h3><span class="score-badge">Excellent</span>
                     </div>
                     <div class="credit-score-display">
                         <div class="score-number">782</div>
                         <div class="score-range">
                             <div class="range-bar">
-                                <div class="range-fill" style="width: 78%"></div>
+                                <div class="range-fill" style="width:78%"></div>
                             </div>
-                            <div class="range-labels">
-                                <span>300</span>
-                                <span>850</span>
-                            </div>
+                            <div class="range-labels"><span>300</span><span>850</span></div>
                         </div>
-                        <div class="score-change positive">
-                            <i class="fas fa-arrow-up"></i>
-                            <span>+12 points from last month</span>
-                        </div>
+                        <div class="score-change positive"><i class="fas fa-arrow-up"></i><span>+12 points from last
+                                month</span></div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- Demo Modal (kept for any demo features) -->
+    <!-- Demo Modal -->
     <div class="modal-premium" id="demoModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Demo Feature</h2>
-                <button class="modal-close" onclick="closeDemoModal()">
-                    <i class="fas fa-times"></i>
-                </button>
+                <h2>Demo Feature</h2><button class="modal-close" onclick="closeDemoModal()"><i
+                        class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
-                <p style="text-align: center; color: #64748B; padding: 20px;">
-                    This is a demonstration feature. In a production environment, this would perform the requested action.
-                </p>
+                <p style="text-align:center; color:var(--stone); padding:20px;">This is a demonstration feature. In a
+                    production environment, this would perform the requested action.</p>
             </div>
-            <div class="modal-footer" style="justify-content: center;">
-                <button class="btn-primary" onclick="closeDemoModal()">Close</button>
-            </div>
+            <div class="modal-footer" style="text-align:center; margin-top:1rem;"><button class="btn-primary"
+                    onclick="closeDemoModal()">Close</button></div>
         </div>
     </div>
 
     <script>
-        // Mobile menu toggle
-        document.getElementById('menuToggle').addEventListener('click', function() {
-            document.querySelector('.sidebar-premium').classList.toggle('active');
-        });
-
-        // Show demo modal (kept for any remaining demo features)
-        function showDemoModal(feature) {
-            const modal = document.getElementById('demoModal');
-            modal.querySelector('h2').textContent = feature + ' - Demo';
-            modal.classList.add('show');
-        }
-
-        // Close demo modal
-        function closeDemoModal() {
-            document.getElementById('demoModal').classList.remove('show');
-        }
+        // Mobile menu
+        (function () {
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.querySelector('.sidebar-premium');
+            let overlay = document.getElementById('sidebarOverlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.id = 'sidebarOverlay';
+                overlay.className = 'sidebar-overlay';
+                document.body.appendChild(overlay);
+            }
+            function toggleMenu(show) {
+                if (show === undefined) show = !sidebar.classList.contains('active');
+                sidebar.classList.toggle('active', show);
+                overlay.classList.toggle('active', show);
+                document.body.style.overflow = show ? 'hidden' : '';
+            }
+            menuToggle?.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
+            overlay.addEventListener('click', () => toggleMenu(false));
+            sidebar?.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A' || e.target.closest('a')) {
+                    setTimeout(() => toggleMenu(false), 150);
+                }
+                e.stopPropagation();
+            });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && sidebar.classList.contains('active')) toggleMenu(false); });
+            window.addEventListener('resize', () => { if (window.innerWidth >= 1024) toggleMenu(false); });
+        })();
 
         // Loading screen
-        setTimeout(() => {
-            document.querySelector('.premium-loader').classList.add('fade-out');
-        }, 1000);
+        setTimeout(() => document.querySelector('.premium-loader').classList.add('fade-out'), 700);
 
-        // Close modal when clicking outside
-        window.addEventListener('click', function(event) {
-            const modal = document.getElementById('demoModal');
-            if (event.target === modal) {
-                modal.classList.remove('show');
-            }
-        });
+        // Dynamic greeting (time-based)
+        (function () {
+            const hour = new Date().getHours();
+            let greeting = 'Good morning';
+            if (hour >= 12 && hour < 17) greeting = 'Good afternoon';
+            else if (hour >= 17 && hour < 21) greeting = 'Good evening';
+            else if (hour >= 21 || hour < 5) greeting = 'Good night';
+            document.querySelector('.page-title h1').textContent = greeting + ', John';
+            const today = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            document.querySelector('.page-title p').textContent = today + ' · Your financial summary';
+        })();
 
         // Copy account number
         document.querySelectorAll('.card-account-number').forEach(item => {
-            item.addEventListener('click', function(e) {
+            item.addEventListener('click', function (e) {
                 e.stopPropagation();
                 const text = this.querySelector('span').textContent;
                 navigator.clipboard.writeText(text);
-                
-                // Show tooltip
-                const originalHTML = this.innerHTML;
+                const original = this.innerHTML;
                 this.innerHTML = '<i class="fas fa-check"></i><span>Copied!</span>';
-                setTimeout(() => {
-                    this.innerHTML = originalHTML;
-                }, 1500);
+                setTimeout(() => this.innerHTML = original, 1500);
             });
         });
 
-        // Mobile menu functionality
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.querySelector('.sidebar-premium');
-        
-        // Create overlay if it doesn't exist
-        let overlay = document.getElementById('sidebarOverlay');
-        if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.id = 'sidebarOverlay';
-            overlay.className = 'sidebar-overlay';
-            document.body.appendChild(overlay);
+        // Modal functions
+        function showDemoModal(feature) {
+            document.getElementById('demoModal').classList.add('show');
+            document.getElementById('demoModal').querySelector('h2').textContent = feature + ' - Demo';
         }
+        function closeDemoModal() { document.getElementById('demoModal').classList.remove('show'); }
+        window.addEventListener('click', (e) => { if (e.target.classList.contains('modal-premium')) e.target.classList.remove('show'); });
 
-        // Toggle menu function
-        function toggleMenu(show) {
-            if (show) {
-                sidebar.classList.add('active');
-                overlay.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Prevent background scrolling
-            } else {
-                sidebar.classList.remove('active');
-                overlay.classList.remove('active');
-                document.body.style.overflow = ''; // Restore scrolling
+        // Auth protection
+        (function () {
+            const auth = sessionStorage.getItem('nexusbank_auth');
+            const expiry = sessionStorage.getItem('nexusbank_expiry');
+            if (auth !== 'authenticated' || !expiry || Date.now() > parseInt(expiry)) {
+                sessionStorage.clear();
+                window.location.replace('login.html');
+                return;
             }
-        }
-
-        // Open menu when toggle button is clicked
-        if (menuToggle) {
-            menuToggle.addEventListener('click', function(e) {
-                e.stopPropagation(); // Prevent event bubbling
-                toggleMenu(true);
-            });
-        }
-
-        // Close menu when clicking on overlay (empty space)
-        overlay.addEventListener('click', function() {
-            toggleMenu(false);
-        });
-
-        // Close menu when clicking on any link inside sidebar
-        if (sidebar) {
-            sidebar.addEventListener('click', function(e) {
-                // Check if clicked element is a link
-                if (e.target.tagName === 'A' || e.target.closest('a')) {
-                    // Small delay to allow navigation before closing
-                    setTimeout(() => {
-                        toggleMenu(false);
-                    }, 150);
-                }
-            });
-
-            // Prevent clicks inside sidebar from closing when clicking on non-link elements
-            sidebar.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
-        }
-
-        // Close menu on escape key press
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && sidebar.classList.contains('active')) {
-                toggleMenu(false);
+            sessionStorage.setItem('nexusbank_expiry', Date.now() + 3600000);
+            let inactivityTimer;
+            function resetInactivity() {
+                clearTimeout(inactivityTimer);
+                inactivityTimer = setTimeout(() => {
+                    sessionStorage.clear();
+                    window.location.replace('login.html');
+                }, 900000);
             }
-        });
-
-        // Close menu when window is resized to desktop size
-        window.addEventListener('resize', function() {
-            if (window.innerWidth >= 1024) {
-                toggleMenu(false);
-            }
-        });
-
-        // Optional: Close menu when swiping left on mobile
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        document.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].screenX;
-        }, false);
-
-        document.addEventListener('touchend', function(e) {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, false);
-
-        function handleSwipe() {
-            const swipeThreshold = 100; // Minimum swipe distance
-            if (sidebar.classList.contains('active') && (touchStartX - touchEndX) > swipeThreshold) {
-                // Swiped left while menu is open - close it
-                toggleMenu(false);
-            }
-        }
-    });
-
-   // Dynamic Greeting Based on Time of Day
-(function() {
-    // Get the current hour (0-23)
-    const currentHour = new Date().getHours();
-    
-    // Determine greeting based on time
-    let greeting = '';
-    let greetingEmoji = '';
-    
-    if (currentHour >= 5 && currentHour < 12) {
-        greeting = 'Good morning';
-        greetingEmoji = '☀️';
-    } else if (currentHour >= 12 && currentHour < 17) {
-        greeting = 'Good afternoon';
-        greetingEmoji = '🌤️';
-    } else if (currentHour >= 17 && currentHour < 21) {
-        greeting = 'Good evening';
-        greetingEmoji = '🌆';
-    } else {
-        greeting = 'Good night';
-        greetingEmoji = '🌙';
-    }
-    
-    // Get user's name (you can customize this)
-    const userName = 'John'; // This could come from a variable or localStorage
-    
-    // Update the greeting in the DOM
-    const greetingElement = document.querySelector('.page-title h1');
-    if (greetingElement) {
-        greetingElement.innerHTML = `${greeting}, ${userName} ${greetingEmoji}`;
-    }
-    
-    // Optional: Update page title based on time
-    const timeBasedMessage = {
-        morning: 'Start your day with HarvestBank',
-        afternoon: 'Continue your financial journey',
-        evening: 'Review your daily transactions',
-        night: 'Secure your finances for tomorrow'
-    };
-    
-    let message = '';
-    if (currentHour >= 5 && currentHour < 12) message = timeBasedMessage.morning;
-    else if (currentHour >= 12 && currentHour < 17) message = timeBasedMessage.afternoon;
-    else if (currentHour >= 17 && currentHour < 21) message = timeBasedMessage.evening;
-    else message = timeBasedMessage.night;
-    
-    // Update subtitle with time-based message
-    const subtitleElement = document.querySelector('.page-title p');
-    if (subtitleElement) {
-        subtitleElement.textContent = message;
-    }
-    
-    // Optional: Log greeting for debugging
-    console.log(`🕐 Current time: ${new Date().toLocaleTimeString()}`);
-    console.log(`👋 Greeting: ${greeting}, ${userName}`);
-})();
-
-// Alternative: More detailed version with live updating clock
-function updateGreetingWithClock() {
-    const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
-    
-    // Format time for display
-    const timeString = now.toLocaleTimeString('en-US', { 
-        hour: '2-digit', 
-        minute: '2-digit',
-        second: '2-digit'
-    });
-    
-    let greeting = '';
-    let greetingEmoji = '';
-    let backgroundColor = '';
-    
-    if (hours >= 5 && hours < 12) {
-        greeting = 'Good morning';
-        greetingEmoji = '🌅';
-        backgroundColor = 'linear-gradient(135deg, #FFD700, #FFA500)';
-    } else if (hours >= 12 && hours < 17) {
-        greeting = 'Good afternoon';
-        greetingEmoji = '☀️';
-        backgroundColor = 'linear-gradient(135deg, #FFA500, #FF8C00)';
-    } else if (hours >= 17 && hours < 21) {
-        greeting = 'Good evening';
-        greetingEmoji = '🌆';
-        backgroundColor = 'linear-gradient(135deg, #FF8C00, #FF4500)';
-    } else {
-        greeting = 'Good night';
-        greetingEmoji = '🌙';
-        backgroundColor = 'linear-gradient(135deg, #1E3A8A, #0A2472)';
-    }
-    
-    // Get user name (you can store this in localStorage or get from profile)
-    const userName = localStorage.getItem('userName') || 'John';
-    
-    // Update elements
-    const greetingElement = document.querySelector('.page-title h1');
-    const subtitleElement = document.querySelector('.page-title p');
-    const timeElement = document.querySelector('.current-time') || createTimeElement();
-    
-    if (greetingElement) {
-        greetingElement.innerHTML = `${greeting}, ${userName} ${greetingEmoji}`;
-    }
-    
-    if (subtitleElement) {
-        subtitleElement.innerHTML = `${timeString} · Your financial summary`;
-    }
-    
-    // Add a subtle time-based effect to the header
-    const headerElement = document.querySelector('.top-nav-premium');
-    if (headerElement) {
-        headerElement.style.transition = 'background 0.5s ease';
-    }
-}
-
-// Create a time element if it doesn't exist
-function createTimeElement() {
-    const pageTitle = document.querySelector('.page-title');
-    if (pageTitle) {
-        const timeEl = document.createElement('div');
-        timeEl.className = 'current-time';
-        timeEl.style.cssText = `
-            font-size: 0.8rem;
-            color: var(--gray);
-            margin-top: 4px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        `;
-        pageTitle.appendChild(timeEl);
-        return timeEl;
-    }
-    return null;
-}
-
-// Get user's name from various sources
-function getUserName() {
-    // Try to get from localStorage first
-    const savedName = localStorage.getItem('userName');
-    if (savedName) return savedName;
-    
-    // Try to get from URL params (for demo)
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlName = urlParams.get('name');
-    if (urlName) return urlName;
-    
-    // Try to get from session
-    const sessionName = sessionStorage.getItem('userName');
-    if (sessionName) return sessionName;
-    
-    // Default to 'John' if nothing found
-    return 'John';
-}
-
-// Set user name (call this after login)
-function setUserName(name) {
-    localStorage.setItem('userName', name);
-    sessionStorage.setItem('userName', name);
-}
-
-// Live updating clock (updates every second)
-function startLiveClock() {
-    updateGreetingWithClock();
-    setInterval(updateGreetingWithClock, 1000);
-}
-
-// Time-based background effects
-function applyTimeBasedEffects() {
-    const hour = new Date().getHours();
-    const body = document.body;
-    
-    // Add a subtle overlay based on time
-    let timeClass = '';
-    if (hour >= 5 && hour < 12) timeClass = 'morning';
-    else if (hour >= 12 && hour < 17) timeClass = 'afternoon';
-    else if (hour >= 17 && hour < 21) timeClass = 'evening';
-    else timeClass = 'night';
-    
-    body.classList.add(`time-${timeClass}`);
-    
-    // Remove old time classes
-    ['morning', 'afternoon', 'evening', 'night'].forEach(c => {
-        if (c !== timeClass) body.classList.remove(`time-${c}`);
-    });
-}
-
-// Weekend greeting
-function isWeekend() {
-    const day = new Date().getDay();
-    return day === 0 || day === 6; // 0 = Sunday, 6 = Saturday
-}
-
-// Special holiday greetings (simplified)
-function getSpecialGreeting() {
-    const now = new Date();
-    const month = now.getMonth();
-    const date = now.getDate();
-    
-    // Christmas
-    if (month === 11 && date === 25) {
-        return { greeting: 'Merry Christmas', emoji: '🎄' };
-    }
-    // New Year
-    if (month === 0 && date === 1) {
-        return { greeting: 'Happy New Year', emoji: '🎉' };
-    }
-    // Valentine's Day
-    if (month === 1 && date === 14) {
-        return { greeting: 'Happy Valentine\'s Day', emoji: '❤️' };
-    }
-    // St. Patrick's Day
-    if (month === 2 && date === 17) {
-        return { greeting: 'Happy St. Patrick\'s Day', emoji: '🍀' };
-    }
-    // Halloween
-    if (month === 9 && date === 31) {
-        return { greeting: 'Happy Halloween', emoji: '🎃' };
-    }
-    // Thanksgiving (4th Thursday of November - simplified)
-    if (month === 10 && date >= 22 && date <= 28) {
-        return { greeting: 'Happy Thanksgiving', emoji: '🦃' };
-    }
-    
-    return null;
-}
-
-// Main function to initialize all time-based features
-function initializeTimeBasedFeatures() {
-    const userName = getUserName();
-    
-    // Check for special holidays first
-    const special = getSpecialGreeting();
-    if (special) {
-        const greetingElement = document.querySelector('.page-title h1');
-        if (greetingElement) {
-            greetingElement.innerHTML = `${special.greeting}, ${userName} ${special.emoji}`;
-        }
-    } else {
-        // Regular time-based greeting
-        const currentHour = new Date().getHours();
-        let greeting = '';
-        let emoji = '';
-        
-        if (currentHour >= 5 && currentHour < 12) {
-            greeting = 'Good morning';
-            emoji = '🌅';
-        } else if (currentHour >= 12 && currentHour < 17) {
-            greeting = 'Good afternoon';
-            emoji = '☀️';
-        } else if (currentHour >= 17 && currentHour < 21) {
-            greeting = 'Good evening';
-            emoji = '🌆';
-        } else {
-            greeting = 'Good night';
-            emoji = '🌙';
-        }
-        
-        // Add weekend indicator
-        if (isWeekend()) {
-            greeting += ' and happy weekend';
-            emoji = '🎉';
-        }
-        
-        const greetingElement = document.querySelector('.page-title h1');
-        if (greetingElement) {
-            greetingElement.innerHTML = `${greeting}, ${userName} ${emoji}`;
-        }
-    }
-    
-    // Update subtitle with date
-    const subtitleElement = document.querySelector('.page-title p');
-    if (subtitleElement) {
-        const options = { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        };
-        const today = new Date().toLocaleDateString('en-US', options);
-        subtitleElement.innerHTML = `${today} · Your financial summary`;
-    }
-    
-    // Apply time-based effects
-    applyTimeBasedEffects();
-}
-
-// Add CSS for time-based effects
-function addTimeBasedStyles() {
-    const style = document.createElement('style');
-    style.textContent = `
-        .time-morning .top-nav-premium {
-            background: linear-gradient(135deg, rgba(255,215,0,0.05), rgba(255,165,0,0.05));
-        }
-        .time-afternoon .top-nav-premium {
-            background: linear-gradient(135deg, rgba(255,165,0,0.05), rgba(255,140,0,0.05));
-        }
-        .time-evening .top-nav-premium {
-            background: linear-gradient(135deg, rgba(255,140,0,0.05), rgba(255,69,0,0.05));
-        }
-        .time-night .top-nav-premium {
-            background: linear-gradient(135deg, rgba(30,58,138,0.1), rgba(10,36,114,0.1));
-        }
-        .time-night .page-title h1 {
-            color: #E2E8F0;
-        }
-    `;
-    document.head.appendChild(style);
-}
-
-// Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    initializeTimeBasedFeatures();
-    addTimeBasedStyles();
-    
-    // Optional: Live updating clock (uncomment if you want seconds to update)
-    // startLiveClock();
-});
-// PROTECTION SCRIPT - PASTE AT TOP OF EACH PROTECTED PAGE
-(function() {
-    // Check authentication
-    const auth = sessionStorage.getItem('nexusbank_auth');
-    const expiry = sessionStorage.getItem('nexusbank_expiry');
-    
-    if (auth !== 'authenticated' || !expiry || Date.now() > parseInt(expiry)) {
-        // Clear any stale data
-        sessionStorage.clear();
-        window.location.replace('login.html');
-        return;
-    }
-    
-    // Refresh expiry
-    sessionStorage.setItem('nexusbank_expiry', Date.now() + 3600000);
-    
-    // Inactivity logout
-    let timer;
-    function resetTimer() {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            sessionStorage.clear();
-            window.location.replace('login.html');
-        }, 900000); // 15 minutes
-    }
-    
-    ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(e => {
-        document.addEventListener(e, resetTimer);
-    });
-    resetTimer();
-})();
+            ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(e => document.addEventListener(e, resetInactivity));
+            resetInactivity();
+        })();
     </script>
-<script src="auto-logout.js"></script>
 </body>
+
 </html>
-
-
-
-
