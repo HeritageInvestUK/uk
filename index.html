@@ -1,867 +1,1679 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>HarvestBank International · modern banking</title>
-    <!-- Font Awesome 6 (free) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts: Inter + Playfair Display -->
+    <title>NexusBank · Investing & Checking, Plainly Stated</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Playfair+Display:wght@500;700;800&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="https://a.mktgcdn.com/p/trqY8cbRb9rpmzNBIHFEHxK3n0czpuAaJO27NrH_lzQ/1.0000/676x676.png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png"
+        href="https://a.mktgcdn.com/p/trqY8cbRb9rpmzNBIHFEHxK3n0czpuAaJO27NrH_lzQ/1.0000/676x676.png">
     <style>
-        /* ---------- global reset & vars ---------- */
+        :root {
+            /* ===== Token system ===== */
+            --ink: #10201B;
+            /* deep pine-black — primary dark surface */
+            --ink-soft: #1B2F27;
+            /* secondary dark surface */
+            --parchment: #F3EFE4;
+            /* warm ledger paper — light surface */
+            --parchment-deep: #EAE3D2;
+            --bone: #FBF9F3;
+            /* near-white for cards on paper */
+            --brass: #B98A2E;
+            /* accent — CTAs, marks */
+            --brass-bright: #D7A83F;
+            --ledger-green: #2F6B4F;
+            /* gains / success, used as data, not decoration */
+            --ledger-red: #A24632;
+            /* losses — used sparingly, factual */
+            --charcoal: #23302B;
+            /* body text on light */
+            --stone: #6B7A72;
+            /* muted text on light */
+            --hair: rgba(35, 48, 43, 0.14);
+            /* hairline rule on light */
+            --hair-dark: rgba(243, 239, 228, 0.16);
+            /* hairline rule on dark */
+            --shadow-card: 0 1px 2px rgba(16, 32, 27, 0.06), 0 8px 24px rgba(16, 32, 27, 0.06);
+            --shadow-lift: 0 20px 45px rgba(16, 32, 27, 0.16);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --primary-dark: #0a2540;
-            --primary-deep: #0f2b45;
-            --primary-blue: #1d4ed8;
-            --accent-gold: #f5b342;
-            --accent-glow: #FFD966;
-            --soft-bg: #f9fcff;
-            --card-white: #ffffff;
-            --text-dark: #1a2e44;
-            --text-muted: #4b6589;
-            --border-light: #e2ecf5;
-            --shadow-sm: 0 8px 20px -6px rgba(0,32,64,0.08);
-            --shadow-md: 0 16px 32px -12px rgba(29,78,216,0.25);
-            --shadow-lg: 0 30px 50px -20px #0f2b45;
-            --radius-card: 2rem;
-            --radius-btn: 60px;
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
 
         body {
-            font-family: "Inter", sans-serif;
-            background-color: var(--soft-bg);
-            color: var(--text-dark);
-            line-height: 1.5;
+            font-family: 'Inter', sans-serif;
+            color: var(--charcoal);
+            background: var(--parchment);
+            line-height: 1.6;
             overflow-x: hidden;
-            width: 100%;
         }
 
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-            width: 100%;
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Source Serif 4', serif;
+            font-weight: 600;
+            letter-spacing: -0.01em;
         }
 
-        /* ---------- premium navigation with register button ---------- */
-        .navbar {
+        .mono {
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        ::selection {
+            background: var(--brass);
+            color: var(--ink);
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--brass);
+            outline-offset: 3px;
+        }
+
+        /* ===== Loader ===== */
+        .premium-loader {
+            position: fixed;
+            inset: 0;
+            background: var(--ink);
+            z-index: 9999;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 0.9rem 2rem;
-            background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border-bottom: 1px solid rgba(100, 140, 200, 0.15);
-            position: sticky;
+            justify-content: center;
+            transition: opacity 0.6s var(--ease), visibility 0.6s var(--ease);
+        }
+
+        .premium-loader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-logo {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.9rem;
+            font-weight: 600;
+            color: var(--bone);
+            margin-bottom: 1.25rem;
+            letter-spacing: -0.01em;
+        }
+
+        .loader-logo .mark {
+            color: var(--brass-bright);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.1rem;
+            margin-right: 0.6rem;
+        }
+
+        .loader-rule {
+            width: 160px;
+            height: 1px;
+            background: var(--hair-dark);
+            position: relative;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .loader-rule::after {
+            content: '';
+            position: absolute;
             top: 0;
-            z-index: 1200;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-            width: 100%;
+            left: -40%;
+            width: 40%;
+            height: 100%;
+            background: var(--brass-bright);
+            animation: loading 1.1s infinite;
+        }
+
+        @keyframes loading {
+            0% {
+                left: -40%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* ===== Ticker (signature element) ===== */
+        .ticker-strip {
+            background: var(--ink);
+            border-bottom: 1px solid var(--hair-dark);
+            overflow: hidden;
+            white-space: nowrap;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .ticker-track {
+            display: inline-flex;
+            gap: 2.5rem;
+            padding-left: 100%;
+            animation: ticker-scroll 38s linear infinite;
+            will-change: transform;
+        }
+
+        @keyframes ticker-scroll {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-100%);
+            }
+        }
+
+        .ticker-item {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--bone);
+            display: inline-flex;
+            align-items: center;
             gap: 0.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        .ticker-item .sym {
+            color: var(--stone);
+        }
+
+        .ticker-item .up {
+            color: #7FBF97;
+        }
+
+        .ticker-item .down {
+            color: #D28A78;
+        }
+
+        /* ===== Navigation ===== */
+        .navbar-premium {
+            position: fixed;
+            top: 34px;
+            left: 0;
+            right: 0;
+            background: rgba(243, 239, 228, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--hair);
+            z-index: 1000;
+            transition: var(--transition, all 0.25s var(--ease));
+            height: 76px;
+        }
+
+        .navbar-premium.scrolled {
+            background: var(--parchment);
+            box-shadow: var(--shadow-card);
+        }
+
+        .nav-container {
+            max-width: 1360px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            height: 100%;
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
         }
 
         .logo {
-            font-size: 1.9rem;
-            font-weight: 700;
-            color: var(--primary-dark);
-            letter-spacing: -0.02em;
-            line-height: 1;
-            white-space: nowrap;
-        }
-        .logo span { 
-            background: linear-gradient(145deg, var(--primary-blue), #3b82f6);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
-        }
-
-        .nav-links {
             display: flex;
-            gap: 0.2rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .nav-links a {
-            text-decoration: none;
-            color: #254358;
-            font-weight: 500;
-            font-size: 0.95rem;
-            padding: 0.3rem 0.9rem;
-            transition: 0.2s;
-            white-space: nowrap;
-        }
-        .nav-links a:hover { color: var(--primary-blue); }
-
-        .auth-buttons {
-            display: flex;
+            align-items: center;
             gap: 0.6rem;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-        }
-
-        .login-btn, .register-btn {
-            padding: 0.6rem 1.4rem;
-            border-radius: var(--radius-btn);
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: 0.25s;
             text-decoration: none;
-            display: inline-block;
-            white-space: nowrap;
-            border: 1.5px solid transparent;
         }
 
-        .login-btn {
-            background: transparent;
-            border-color: var(--primary-blue);
-            color: var(--primary-blue);
-        }
-        .login-btn:hover {
-            background: var(--primary-blue);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 18px -8px var(--primary-blue);
-        }
-
-        .register-btn {
-            background: var(--primary-blue);
-            color: white;
-            box-shadow: 0 6px 14px -6px var(--primary-blue);
-        }
-        .register-btn:hover {
-            background: #2563eb;
-            transform: translateY(-2px);
-            box-shadow: 0 16px 22px -10px var(--primary-blue);
-        }
-
-        /* ---------- slider (moved below nav) ---------- */
-        .slider-block {
-            margin: 0 0 1.5rem 0;
-            width: 100%;
-        }
-
-        .feature-slider {
-            position: relative;
-            height: 80vh;
-            min-height: 620px;
-            width: 100%;
-            overflow: hidden;
-            background: #0b1e30;
-        }
-
-        .slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 1.2s cubic-bezier(0.23, 1, 0.32, 1);
-            background-size: cover;
-            background-position: center;
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            border: 1.5px solid var(--ink);
             display: flex;
             align-items: center;
+            justify-content: center;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--ink);
         }
 
-        .slide.active { opacity: 1; z-index: 10; }
+        .logo-text {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
 
-        .slide::before {
+        .desktop-nav {
+            display: none;
+        }
+
+        @media (min-width: 1024px) {
+            .desktop-nav {
+                display: flex;
+                align-items: center;
+                gap: 2.75rem;
+            }
+
+            .nav-link {
+                text-decoration: none;
+                color: var(--stone);
+                font-weight: 500;
+                font-size: 0.9rem;
+                font-family: 'IBM Plex Mono', monospace;
+                letter-spacing: 0.02em;
+                text-transform: uppercase;
+                position: relative;
+                padding-bottom: 4px;
+                transition: color 0.2s var(--ease);
+            }
+
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 1px;
+                background: var(--brass);
+                transition: width 0.25s var(--ease);
+            }
+
+            .nav-link:hover {
+                color: var(--ink);
+            }
+
+            .nav-link:hover::after {
+                width: 100%;
+            }
+
+            .nav-buttons {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .btn-outline-nav {
+                padding: 0.7rem 1.4rem;
+                background: transparent;
+                border: 1px solid var(--hair);
+                color: var(--charcoal);
+                font-weight: 600;
+                font-size: 0.88rem;
+                text-decoration: none;
+                transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+            }
+
+            .btn-outline-nav:hover {
+                border-color: var(--ink);
+                color: var(--ink);
+            }
+
+            .btn-primary-nav {
+                padding: 0.7rem 1.5rem;
+                background: var(--ink);
+                border: 1px solid var(--ink);
+                color: var(--bone);
+                font-weight: 600;
+                font-size: 0.88rem;
+                text-decoration: none;
+                transition: background 0.2s var(--ease);
+            }
+
+            .btn-primary-nav:hover {
+                background: var(--ink-soft);
+            }
+        }
+
+        .mobile-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+        }
+
+        @media (min-width: 1024px) {
+            .mobile-controls {
+                display: none;
+            }
+        }
+
+        .mobile-login {
+            width: 42px;
+            height: 42px;
+            border: 1.5px solid var(--ink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .mobile-menu-btn {
+            width: 42px;
+            height: 42px;
+            background: none;
+            border: 1px solid var(--hair);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--ink);
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 110px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--parchment);
+            z-index: 999;
+            transform: translateX(100%);
+            transition: transform 0.3s var(--ease);
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .mobile-menu-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--hair);
+        }
+
+        .mobile-menu-header h3 {
+            color: var(--ink);
+            font-size: 1.1rem;
+        }
+
+        .mobile-menu-links {
+            padding: 0.5rem 1.5rem;
+        }
+
+        .mobile-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.05rem 0;
+            color: var(--charcoal);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid var(--hair);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .mobile-link i {
+            color: var(--stone);
+            font-size: 0.8rem;
+        }
+
+        .mobile-cta {
+            padding: 1.5rem;
+            background: var(--ink);
+            margin: 1.5rem;
+        }
+
+        .mobile-cta p {
+            color: var(--bone);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            font-family: 'Source Serif 4', serif;
+        }
+
+        .btn-mobile {
+            display: block;
+            padding: 1rem;
+            background: var(--brass);
+            color: var(--ink);
+            text-decoration: none;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .mobile-bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bone);
+            border-top: 1px solid var(--hair);
+            display: flex;
+            justify-content: space-around;
+            padding: 0.5rem 0.25rem;
+            z-index: 990;
+        }
+
+        @media (min-width: 1024px) {
+            .mobile-bottom-nav {
+                display: none;
+            }
+        }
+
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--stone);
+            font-size: 0.65rem;
+            gap: 0.3rem;
+            padding: 0.5rem;
+            flex: 1;
+            max-width: 80px;
+            font-family: 'IBM Plex Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .bottom-nav-item i {
+            font-size: 1rem;
+        }
+
+        .bottom-nav-item.active {
+            color: var(--ink);
+        }
+
+        /* ===== Hero: statement layout ===== */
+        .hero-premium {
+            background: var(--ink);
+            color: var(--bone);
+            padding: 168px 0 90px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-premium::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(95deg, rgba(0,20,45,0.8) 0%, rgba(0,35,70,0.35) 60%, transparent 95%);
+            background-image: linear-gradient(var(--hair-dark) 1px, transparent 1px);
+            background-size: 100% 48px;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .hero-wrapper {
+            max-width: 1360px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
             z-index: 2;
         }
 
-        .slide-content {
-            position: relative;
-            z-index: 20;
-            color: white;
-            max-width: 650px;
-            margin-left: 8%;
-            padding: 2rem 0;
-            animation: slideUp 0.9s ease;
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 4.5rem;
+            align-items: start;
         }
 
-        @keyframes slideUp {
-            0% { opacity: 0; transform: translateY(35px); }
-            100% { opacity: 1; transform: translateY(0); }
+        @media (max-width: 1024px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
         }
 
-        .slide-content h1 {
-            font-size: clamp(2.4rem, 6vw, 4rem);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1.2rem;
-            text-shadow: 0 6px 18px rgba(0,0,0,0.5);
-            letter-spacing: -0.02em;
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--brass-bright);
+            margin-bottom: 1.75rem;
         }
 
-        .slide-content p {
-            font-size: clamp(1.1rem, 2.5vw, 1.35rem);
-            margin-bottom: 2.2rem;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
-            max-width: 580px;
-            opacity: 0.95;
+        .hero-eyebrow::before {
+            content: '';
+            width: 22px;
+            height: 1px;
+            background: var(--brass-bright);
         }
 
-        .slide-buttons {
+        .hero-title {
+            font-size: clamp(2.4rem, 4.6vw, 3.6rem);
+            font-weight: 600;
+            line-height: 1.08;
+            margin-bottom: 1.5rem;
+            max-width: 620px;
+        }
+
+        .hero-title em {
+            font-style: italic;
+            color: var(--brass-bright);
+        }
+
+        .hero-description {
+            font-size: 1.08rem;
+            color: rgba(251, 249, 243, 0.72);
+            margin-bottom: 2.25rem;
+            max-width: 480px;
+        }
+
+        .hero-actions {
             display: flex;
-            gap: 1.2rem;
+            gap: 1.25rem;
+            margin-bottom: 3rem;
             flex-wrap: wrap;
         }
 
-        .slide-btn-primary, .slide-btn-secondary {
-            padding: 1rem 2.4rem;
-            border-radius: var(--radius-btn);
-            font-weight: 600;
-            font-size: 1.1rem;
-            text-decoration: none;
-            transition: 0.3s;
-            display: inline-block;
-            text-align: center;
-            border: none;
+        @media (max-width: 480px) {
+            .hero-actions {
+                flex-direction: column;
+            }
         }
 
-        .slide-btn-primary {
-            background: var(--primary-blue);
-            color: white;
-            box-shadow: 0 14px 28px -8px #0f2b45;
-        }
-        .slide-btn-primary:hover {
-            background: #2563eb;
-            transform: translateY(-4px);
-            box-shadow: 0 22px 34px -8px #0f2b45;
-        }
-
-        .slide-btn-secondary {
-            background: rgba(255,255,255,0.18);
-            backdrop-filter: blur(12px);
-            border: 1.5px solid rgba(255,255,255,0.9);
-            color: white;
-        }
-        .slide-btn-secondary:hover {
-            background: rgba(255,255,255,0.3);
-            transform: translateY(-4px);
-        }
-
-        .slider-nav {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 14px;
-            z-index: 30;
-        }
-        .slider-dot {
-            width: 56px;
-            height: 5px;
-            background: rgba(255,255,255,0.4);
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 20px;
-        }
-        .slider-dot.active {
-            background: var(--accent-glow);
-            width: 95px;
-            box-shadow: 0 0 20px gold;
-        }
-
-        .slider-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 52px;
-            height: 52px;
-            background: rgba(255,255,255,0.15);
-            border: 1.5px solid white;
-            border-radius: 50%;
-            display: flex;
+        .btn-primary-large {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 2rem;
-            cursor: pointer;
-            z-index: 30;
-            backdrop-filter: blur(6px);
-            transition: 0.25s;
-        }
-        .slider-arrow:hover {
-            background: white;
-            color: var(--primary-dark);
-            transform: translateY(-50%) scale(1.1);
-        }
-        .slider-arrow.prev { left: 20px; }
-        .slider-arrow.next { right: 20px; }
-
-        /* ---------- section titles premium ---------- */
-        .section-title {
-            font-size: clamp(2rem, 5vw, 2.8rem);
+            gap: 0.65rem;
+            padding: 1rem 1.9rem;
+            background: var(--brass);
+            color: var(--ink);
+            border: 1px solid var(--brass);
+            font-size: 0.95rem;
             font-weight: 700;
-            line-height: 1.2;
-            text-align: center;
-            margin: 3rem 0 0.8rem;
-            color: var(--primary-dark);
+            text-decoration: none;
+            transition: background 0.2s var(--ease), transform 0.2s var(--ease);
         }
-        .section-title span {
-            font-family: "Playfair Display", serif;
-            font-weight: 800;
-            background: linear-gradient(150deg, #1d4ed8, #3b82f6);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+
+        .btn-primary-large:hover {
+            background: var(--brass-bright);
+            transform: translateY(-2px);
         }
-        .section-sub {
-            text-align: center;
-            color: var(--text-muted);
-            margin-bottom: 3rem;
-            font-size: 1.2rem;
-            max-width: 780px;
+
+        .btn-outline-large {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 1.9rem;
+            background: transparent;
+            border: 1px solid var(--hair-dark);
+            color: var(--bone);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: border-color 0.2s var(--ease);
+        }
+
+        .btn-outline-large:hover {
+            border-color: var(--brass-bright);
+            color: var(--brass-bright);
+        }
+
+        /* Ledger line stats — signature motif reused across the page */
+        .ledger {
+            border-top: 1px solid var(--hair-dark);
+            max-width: 480px;
+        }
+
+        .ledger-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.9rem 0;
+            border-bottom: 1px solid var(--hair-dark);
+        }
+
+        .ledger-row .label {
+            font-size: 0.85rem;
+            color: rgba(251, 249, 243, 0.6);
+        }
+
+        .ledger-row .value {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--bone);
+            white-space: nowrap;
+        }
+
+        .ledger-row .value.gain {
+            color: #7FBF97;
+        }
+
+        /* Hero statement card */
+        .statement-card {
+            background: var(--parchment);
+            color: var(--charcoal);
+            padding: 2.25rem;
+            box-shadow: var(--shadow-lift);
+            border-top: 3px solid var(--brass);
+        }
+
+        .statement-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-bottom: 1.25rem;
+            margin-bottom: 1.25rem;
+            border-bottom: 1px solid var(--hair);
+        }
+
+        .statement-head .kicker {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--stone);
+            margin-bottom: 0.35rem;
+        }
+
+        .statement-head h3 {
+            font-size: 1.15rem;
+        }
+
+        .statement-head .date {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--stone);
+        }
+
+        .statement-balance {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 1.75rem;
+        }
+
+        .statement-balance .num {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .statement-balance .chg {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.95rem;
+            color: var(--ledger-green);
+        }
+
+        .statement-list {
+            list-style: none;
+        }
+
+        .statement-list li {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.82rem;
+            padding: 0.65rem 0;
+            border-bottom: 1px dashed var(--hair);
+        }
+
+        .statement-list li:last-child {
+            border-bottom: none;
+        }
+
+        .statement-list .leader {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .statement-list .leader span {
+            color: var(--charcoal);
+        }
+
+        .statement-list .amt {
+            color: var(--stone);
+            white-space: nowrap;
+        }
+
+        .statement-list .amt.pos {
+            color: var(--ledger-green);
+        }
+
+        /* ===== Trust bar ===== */
+        .trust-bar {
+            background: var(--bone);
+            padding: 1.35rem 0;
+            border-bottom: 1px solid var(--hair);
+        }
+
+        .trust-grid {
+            max-width: 1360px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.75rem;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: var(--stone);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .trust-item i {
+            color: var(--brass);
+            font-size: 0.95rem;
+        }
+
+        /* ===== Sections ===== */
+        .section-premium {
+            padding: 6rem 0;
+        }
+
+        .section-premium.bg-ink {
+            background: var(--ink);
+            color: var(--bone);
+        }
+
+        .container-premium {
+            max-width: 1360px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            max-width: 640px;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-header.center {
             margin-left: auto;
             margin-right: auto;
-            padding: 0 1rem;
+            text-align: center;
         }
 
-        /* card grid (professional) */
-        .card-grid {
+        .section-subtitle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--brass);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle::before {
+            content: '';
+            width: 22px;
+            height: 1px;
+            background: var(--brass);
+        }
+
+        .section-header.center .section-subtitle {
+            justify-content: center;
+        }
+
+        .section-header h2 {
+            font-size: clamp(1.9rem, 3.6vw, 2.5rem);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--stone);
+            font-size: 1.05rem;
+        }
+
+        .bg-ink .section-header p {
+            color: rgba(251, 249, 243, 0.65);
+        }
+
+        /* Services grid — ledger-style cards */
+        .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 2rem;
-            margin: 2.5rem 0 3rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            border-top: 1px solid var(--hair);
+            border-left: 1px solid var(--hair);
+        }
+
+        @media (max-width: 900px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+                border-left: none;
+            }
         }
 
         .service-card {
-            background: var(--card-white);
-            border-radius: var(--radius-card);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-light);
+            background: var(--bone);
+            padding: 2.5rem;
+            border-right: 1px solid var(--hair);
+            border-bottom: 1px solid var(--hair);
+            transition: background 0.25s var(--ease);
         }
+
         .service-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--primary-blue);
+            background: var(--parchment-deep);
         }
 
-        .card-image {
-            height: 220px;
-            background-size: cover;
-            background-position: center;
-            transition: transform 0.6s;
-        }
-        .service-card:hover .card-image { transform: scale(1.06); }
-
-        .card-content {
-            padding: 1.8rem 1.8rem 2.2rem;
-        }
-        .card-content h3 {
-            font-size: 1.7rem;
-            font-weight: 600;
-            margin-bottom: 0.6rem;
-            color: var(--primary-dark);
-        }
-        .card-content p {
-            color: #3f5572;
+        .service-index {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.78rem;
+            color: var(--brass);
             margin-bottom: 1.5rem;
-            font-size: 0.98rem;
-            line-height: 1.6;
         }
-        .card-link {
-            text-decoration: none;
-            font-weight: 600;
-            color: var(--primary-blue);
+
+        .service-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .service-card p {
+            color: var(--stone);
+            font-size: 0.94rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-bottom: 1.75rem;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            padding: 0.55rem 0;
+            border-bottom: 1px dashed var(--hair);
+            color: var(--charcoal);
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list li i {
+            color: var(--ledger-green);
+            font-size: 0.7rem;
+        }
+
+        .btn-service {
             display: inline-flex;
             align-items: center;
-            gap: 0.7rem;
-            font-size: 1.1rem;
-            border-bottom: 2px solid transparent;
-            transition: 0.2s;
+            gap: 0.5rem;
+            color: var(--ink);
+            font-weight: 600;
+            font-size: 0.88rem;
+            text-decoration: none;
+            border-bottom: 1px solid var(--ink);
+            padding-bottom: 2px;
+            transition: gap 0.2s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease);
         }
-        .card-link i { transition: 0.2s; }
-        .card-link:hover i { transform: translateX(7px); }
-        .card-link:hover { border-bottom-color: var(--primary-blue); }
 
-        /* feature highlights */
-        .feature-highlights {
+        .btn-service:hover {
+            gap: 0.8rem;
+            color: var(--brass);
+            border-color: var(--brass);
+        }
+
+        /* Checking section on dark */
+        .bg-ink .service-card {
+            background: var(--ink-soft);
+            border-color: var(--hair-dark);
+        }
+
+        .bg-ink .service-card:hover {
+            background: #223c33;
+        }
+
+        .bg-ink .service-card h3,
+        .bg-ink .service-card p {
+            color: var(--bone);
+        }
+
+        .bg-ink .service-card p {
+            color: rgba(251, 249, 243, 0.65);
+        }
+
+        .bg-ink .feature-list li {
+            color: var(--bone);
+            border-color: var(--hair-dark);
+        }
+
+        .bg-ink .btn-service {
+            color: var(--bone);
+            border-color: var(--bone);
+        }
+
+        .bg-ink .btn-service:hover {
+            color: var(--brass-bright);
+            border-color: var(--brass-bright);
+        }
+
+        .bg-ink .services-grid {
+            border-color: var(--hair-dark);
+        }
+
+        /* Process — genuine sequence, numbered legitimately */
+        .process-rule {
+            border-top: 1px solid var(--hair);
+        }
+
+        .process-steps {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1.8rem;
-            margin: 3.5rem 0 2rem;
         }
-        .highlight-item {
-            background: white;
-            border-radius: 1.8rem;
-            padding: 2rem 1.5rem;
+
+        @media (max-width: 768px) {
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .process-step {
+            padding: 2.5rem 2rem;
+            border-right: 1px solid var(--hair);
+            border-bottom: 1px solid var(--hair);
+        }
+
+        .process-step:last-child {
+            border-right: none;
+        }
+
+        .step-number {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--brass);
+            margin-bottom: 1.25rem;
+        }
+
+        .process-step h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .process-step p {
+            color: var(--stone);
+            font-size: 0.92rem;
+        }
+
+        /* ===== CTA ===== */
+        .cta-premium {
+            padding: 6rem 0;
+            background: var(--brass);
+            position: relative;
+        }
+
+        .cta-content {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 2rem;
             text-align: center;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid #deecfb;
-            transition: 0.25s;
         }
-        .highlight-item:hover {
-            box-shadow: var(--shadow-md);
-            border-color: var(--primary-blue);
+
+        .cta-content .section-subtitle {
+            color: var(--ink);
         }
-        .highlight-icon {
-            background: #e8f0fe;
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
+
+        .cta-content .section-subtitle::before {
+            background: var(--ink);
+        }
+
+        .cta-content h2 {
+            color: var(--ink);
+            font-size: clamp(1.9rem, 3.6vw, 2.5rem);
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            color: rgba(16, 32, 27, 0.75);
+            font-size: 1.05rem;
+            margin-bottom: 2.25rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.25rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 480px) {
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+
+        .btn-cta-primary {
+            padding: 1rem 1.9rem;
+            background: var(--ink);
+            color: var(--bone);
+            border: 1px solid var(--ink);
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: transform 0.2s var(--ease);
+        }
+
+        .btn-cta-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-cta-outline {
+            padding: 1rem 1.9rem;
+            background: transparent;
+            border: 1px solid var(--ink);
+            color: var(--ink);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .cta-note {
+            color: rgba(16, 32, 27, 0.65);
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2rem;
-            color: var(--primary-blue);
-        }
-        .highlight-item h4 {
-            font-size: 1.4rem;
-            margin-bottom: 0.3rem;
-            color: var(--primary-dark);
-        }
-        .highlight-item p { color: #53718e; }
-
-        /* appointment banner */
-        .appointment-banner {
-            background: linear-gradient(115deg, #0c2b4b, #113a62);
-            border-radius: 3rem;
-            padding: 3.8rem 3.5rem;
-            margin: 5rem 0;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid #2b5580;
-        }
-        .appointment-banner h2 {
-            font-size: clamp(2rem, 4vw, 2.8rem);
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        .appointment-banner p {
-            color: #bed9ff;
-            font-size: 1.15rem;
-            max-width: 600px;
-        }
-        .book-btn {
-            background: var(--accent-glow);
-            color: var(--primary-dark);
-            border: none;
-            padding: 1.2rem 3.5rem;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 1.3rem;
-            cursor: pointer;
-            transition: 0.3s;
-            white-space: nowrap;
-            box-shadow: 0 16px 26px -8px #091c30;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .book-btn:hover {
-            background: #ffe07a;
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 26px 38px -8px #091c30;
+            gap: 0.5rem;
         }
 
-        /* info grid with contact details */
-        .info-grid {
+        /* ===== Footer ===== */
+        .footer-premium {
+            background: var(--ink);
+            color: var(--bone);
+            padding: 4.5rem 0 2rem;
+        }
+
+        .footer-grid {
+            max-width: 1360px;
+            margin: 0 auto;
+            padding: 0 2rem 3rem;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            margin: 4rem 0 5rem;
+            grid-template-columns: 1.4fr repeat(3, 1fr);
+            gap: 3rem;
+            border-bottom: 1px solid var(--hair-dark);
         }
-        .info-card {
-            background: white;
-            border-radius: 2.5rem;
-            padding: 3rem 3rem;
-            border: 1px solid #e5f0fd;
-            box-shadow: var(--shadow-sm);
-            transition: 0.3s;
+
+        @media (max-width: 1024px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
-        .info-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--primary-blue);
+
+        @media (max-width: 640px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
         }
-        .info-card h3 {
-            font-size: 2.2rem;
+
+        .footer-logo {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.35rem;
             font-weight: 600;
             margin-bottom: 1rem;
-            color: var(--primary-dark);
-        }
-        .info-card p {
-            color: #49658c;
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            line-height: 1.7;
-        }
-        .ask-btn {
-            background: none;
-            border: 2px solid var(--primary-blue);
-            padding: 1rem 2.8rem;
-            border-radius: 60px;
-            font-weight: 600;
-            color: var(--primary-blue);
-            cursor: pointer;
-            transition: 0.25s;
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 0.8rem;
-            font-size: 1.2rem;
-        }
-        .ask-btn i { font-size: 1.3rem; }
-        .ask-btn:hover {
-            background: var(--primary-blue);
-            color: white;
-            transform: translateY(-4px);
-            box-shadow: 0 18px 26px -10px var(--primary-blue);
+            gap: 0.6rem;
         }
 
-        /* ---------- CONTACT SECTION (address / email / phone) ---------- */
-        .contact-details {
-            background: white;
-            border-radius: 2.5rem;
-            padding: 3rem 3rem;
-            margin: 3rem 0 4rem;
-            border: 1px solid #dbeafe;
-            box-shadow: var(--shadow-sm);
-        }
-        .contact-details h3 {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            color: var(--primary-dark);
+        .footer-logo .mark {
+            font-family: 'IBM Plex Mono', monospace;
+            color: var(--brass-bright);
+            font-size: 1rem;
+            border: 1.5px solid var(--brass-bright);
+            width: 34px;
+            height: 34px;
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            justify-content: center;
         }
-        .contact-details h3 i { color: var(--primary-blue); font-size: 2rem; }
-        .contact-flex {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 3rem;
-            justify-content: space-between;
-        }
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            font-size: 1.2rem;
-            color: #254e77;
-        }
-        .contact-item i {
-            font-size: 2rem;
-            color: var(--primary-blue);
-            min-width: 2rem;
-        }
-        .contact-item .label {
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin-right: 0.3rem;
-        }
-        .contact-item a {
-            color: var(--primary-blue);
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
-            transition: 0.2s;
-        }
-        .contact-item a:hover { border-bottom-color: var(--primary-blue); }
 
-        /* footer with full address & contact */
-        .footer {
-            background: #0a1e35;
-            color: #b4d0f0;
-            padding: 5rem 0 2rem;
-            margin-top: 2rem;
+        .footer-address {
+            color: rgba(251, 249, 243, 0.55);
+            font-size: 0.92rem;
+            margin-bottom: 1.5rem;
+            font-family: 'IBM Plex Mono', monospace;
         }
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2.5rem;
+
+        .social-links {
+            display: flex;
+            gap: 0.85rem;
         }
-        .footer-col .logo { color: white; margin-bottom: 1.2rem; font-size: 2.1rem; }
-        .footer-col p, .footer-col .contact-address { color: #99bbdd; line-height: 1.7; }
-        .footer-col a {
-            color: #c7defa;
-            text-decoration: none;
+
+        .social-links a {
+            width: 38px;
+            height: 38px;
+            border: 1px solid var(--hair-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bone);
+            transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+        }
+
+        .social-links a:hover {
+            border-color: var(--brass-bright);
+            color: var(--brass-bright);
+        }
+
+        .footer-links h4 {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            color: var(--brass-bright);
+        }
+
+        .footer-links a {
             display: block;
-            margin-bottom: 0.9rem;
-            transition: 0.2s;
+            color: rgba(251, 249, 243, 0.6);
+            text-decoration: none;
+            margin-bottom: 0.85rem;
+            font-size: 0.92rem;
+            transition: color 0.2s var(--ease);
         }
-        .footer-col a:hover { color: white; transform: translateX(5px); }
-        .footer-col h4 { color: white; margin-bottom: 1.5rem; }
-        .contact-address i { margin-right: 0.5rem; color: var(--accent-glow); width: 1.4rem; }
-        .contact-address p { margin-bottom: 0.5rem; }
+
+        .footer-links a:hover {
+            color: var(--bone);
+        }
+
+        .footer-bottom {
+            max-width: 1360px;
+            margin: 0 auto;
+            padding: 2rem 2rem 0;
+        }
+
+        .legal-text {
+            color: rgba(251, 249, 243, 0.4);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            margin-bottom: 0.85rem;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
         .copyright {
-            text-align: center;
-            padding-top: 3rem;
-            color: #6e96c0;
-            border-top: 1px solid #253f5c;
-            margin-top: 3rem;
+            color: rgba(251, 249, 243, 0.3);
+            font-size: 0.78rem;
+            font-family: 'IBM Plex Mono', monospace;
         }
 
-        /* ---------- mobile adjustments ---------- */
-        @media screen and (max-width: 768px) {
-            .navbar {
-                flex-wrap: wrap;
-                padding: 0.8rem 1rem;
-                justify-content: center;
-                gap: 0.4rem;
-            }
-            .logo { font-size: 1.8rem; }
-            .nav-links { order: 3; width: 100%; justify-content: center; gap: 0.2rem; margin-top: 0.3rem; }
-            .nav-links a { font-size: 0.9rem; padding: 0.2rem 0.7rem; }
-            .auth-buttons { gap: 0.4rem; }
-
-            .feature-slider { min-height: 550px; height: 70vh; }
-            .slide-content { margin-left: 1.5rem; margin-right: 1rem; }
-            .slide-content h1 { font-size: 2.2rem; }
-            .slide-buttons { flex-direction: column; gap: 0.8rem; width: 100%; }
-            .slide-btn-primary, .slide-btn-secondary { width: 100%; text-align: center; padding: 1rem 1rem; }
-
-            .slider-arrow { width: 40px; height: 40px; font-size: 1.5rem; }
-            .slider-arrow.prev { left: 6px; }
-            .slider-arrow.next { right: 6px; }
-
-            .feature-highlights { grid-template-columns: 1fr; gap: 1rem; }
-            .info-grid { grid-template-columns: 1fr; }
-            .appointment-banner { padding: 2.5rem 2rem; flex-direction: column; text-align: center; gap: 2rem; }
-            .book-btn { width: 100%; }
-            .card-grid { gap: 1.5rem; }
-            .contact-flex { flex-direction: column; gap: 1.5rem; }
-            .contact-details { padding: 2rem; }
+        /* Fade-in on scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
         }
 
-        @media screen and (max-width: 480px) {
-            .navbar { padding: 0.5rem; }
-            .auth-buttons .login-btn, .auth-buttons .register-btn { padding: 0.5rem 1rem; font-size: 0.8rem; }
-            .nav-links a { font-size: 0.8rem; padding: 0.2rem 0.5rem; }
-            .slider-dot { width: 34px; }
-            .slider-dot.active { width: 55px; }
-            .info-card { padding: 2rem 1.5rem; }
-            .info-card h3 { font-size: 1.8rem; }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .slider-arrow, .slide-btn-primary, .slide-btn-secondary, .book-btn, .ask-btn, .login-btn, .register-btn {
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
+        .touch-device button,
+        .touch-device a {
+            min-height: 44px;
+        }
+
+        .touch-device input,
+        .touch-device select {
+            font-size: 16px !important;
         }
     </style>
 </head>
+
 <body>
-
-<!-- Navigation with REGISTER button (register.html) -->
-<nav class="navbar">
-    <div class="logo">Harvest<span>Bank</span></div>
-    <div class="nav-links">
-        <a href="#">Personal</a>
-        <a href="#">Business</a>
-        <a href="#">Wealth</a>
-        <a href="#">Insights</a>
-    </div>
-    <div class="auth-buttons">
-        <a href="login.html" class="login-btn">Log in</a>
-        <a href="register.html" class="register-btn">Register</a>
-    </div>
-</nav>
-
-<!-- SLIDER placed under navigation -->
-<div class="slider-block">
-    <div class="feature-slider">
-        <!-- slide 1 -->
-        <div class="slide active" style="background-image: url('https://nexusintbank.com/images/b1.jpg');">
-            <div class="slide-content">
-                <h1>Apply for a new Savings account in minutes.</h1>
-                <p>Competitive rates & flexible access. Open online today with seamless digital application.</p>
-                <div class="slide-buttons">
-                    <a href="#" class="slide-btn-primary">Open account</a>
-                    <a href="#" class="slide-btn-secondary">Compare accounts</a>
-                </div>
-            </div>
+    <!-- Loading Screen -->
+    <div class="premium-loader">
+        <div class="loader-content">
+            <div class="loader-logo"><span class="mark">N·B</span>NexusBank</div>
+            <div class="loader-rule"></div>
         </div>
-        <!-- slide 2 -->
-        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1556155092-490a1ba16284?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
-            <div class="slide-content">
-                <h1>Find your perfect mortgage.</h1>
-                <p>First‑time buyer or remortgage — flexible options tailored to you.</p>
-                <div class="slide-buttons">
-                    <a href="#" class="slide-btn-primary">Explore mortgages</a>
-                    <a href="#" class="slide-btn-secondary">Get a quote</a>
-                </div>
-            </div>
+    </div>
+
+    <!-- Market ticker — signature element -->
+    <div class="ticker-strip">
+        <div class="ticker-track" id="tickerTrack">
+            <!-- populated twice via JS for seamless loop, static fallback below -->
+            <span class="ticker-item"><span class="sym">AAPL</span> 214.32 <span class="up">▲ 0.8%</span></span>
+            <span class="ticker-item"><span class="sym">VTI</span> 289.11 <span class="up">▲ 0.3%</span></span>
+            <span class="ticker-item"><span class="sym">MSFT</span> 441.05 <span class="down">▼ 0.2%</span></span>
+            <span class="ticker-item"><span class="sym">QQQ</span> 502.77 <span class="up">▲ 0.6%</span></span>
+            <span class="ticker-item"><span class="sym">NXBK CHK</span> 1.25% APY <span class="up">▲</span></span>
+            <span class="ticker-item"><span class="sym">SPY</span> 598.40 <span class="up">▲ 0.4%</span></span>
+            <span class="ticker-item"><span class="sym">GOOGL</span> 189.60 <span class="down">▼ 0.1%</span></span>
         </div>
-        <!-- slide 3 -->
-        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
-            <div class="slide-content">
-                <h1>Travel money, delivered.</h1>
-                <p>Order online with great rates & no hidden fees. Home delivery or branch pick-up.</p>
-                <div class="slide-buttons">
-                    <a href="#" class="slide-btn-primary">Order now</a>
-                    <a href="#" class="slide-btn-secondary">Check rates</a>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar-premium" id="navbar">
+        <div class="nav-container">
+            <div class="nav-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-mark">N·B</div>
+                    <span class="logo-text">NexusBank</span>
+                </a>
+
+                <div class="desktop-nav">
+                    <a href="#invest" class="nav-link">Invest</a>
+                    <a href="#checking" class="nav-link">Checking</a>
+                    <a href="#process" class="nav-link">Process</a>
+                    <a href="#insights" class="nav-link">Insights</a>
+                    <div class="nav-buttons">
+                        <a href="login.html" class="btn-outline-nav">Sign In</a>
+                        <a href="register.html" class="btn-primary-nav">Open Account</a>
+                    </div>
+                </div>
+
+                <div class="mobile-controls">
+                    <a href="login.html" class="mobile-login"><i class="fas fa-lock"></i></a>
+                    <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
                 </div>
             </div>
         </div>
 
-        <!-- arrows and dots -->
-        <div class="slider-arrow prev" onclick="changeSlide(-1)">❮</div>
-        <div class="slider-arrow next" onclick="changeSlide(1)">❯</div>
-        <div class="slider-nav">
-            <button class="slider-dot active" onclick="currentSlide(0)"></button>
-            <button class="slider-dot" onclick="currentSlide(1)"></button>
-            <button class="slider-dot" onclick="currentSlide(2)"></button>
-        </div>
-    </div>
-</div>
-
-<main class="container">
-    <!-- section title -->
-    <h2 class="section-title">Choose <span>what's right</span> for you</h2>
-    <p class="section-sub">Banking, mortgages, travel & savings — all in one place, designed around your life.</p>
-
-    <!-- card grid -->
-    <div class="card-grid">
-        <div class="service-card">
-            <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1556742044-3c52d6e88c62?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');"></div>
-            <div class="card-content"><h3>Bank Accounts</h3><p>Current accounts, savings & premium packages with smart perks.</p><a href="#" class="card-link">Learn more <i class="fas fa-arrow-right"></i></a></div>
-        </div>
-        <div class="service-card">
-            <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1556155092-490a1ba16284?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');"></div>
-            <div class="card-content"><h3>Mortgages</h3><p>Fixed, variable, or tracker – we'll help you find the right fit.</p><a href="#" class="card-link">Learn more <i class="fas fa-arrow-right"></i></a></div>
-        </div>
-        <div class="service-card">
-            <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&auto=format&fit=crop&w=2021&q=80');"></div>
-            <div class="card-content"><h3>Travel Money</h3><p>Zero commission, great rates, delivered free or collect in branch.</p><a href="#" class="card-link">Learn more <i class="fas fa-arrow-right"></i></a></div>
-        </div>
-        <div class="service-card">
-            <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1579621970588-a35d0e7ab9b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');"></div>
-            <div class="card-content"><h3>Savings</h3><p>From easy access to fixed rate bonds — make your money work harder.</p><a href="#" class="card-link">Learn more <i class="fas fa-arrow-right"></i></a></div>
-        </div>
-    </div>
-
-    <!-- feature highlights -->
-    <div class="feature-highlights">
-        <div class="highlight-item"><div class="highlight-icon"><i class="fas fa-bolt"></i></div><h4>Instant payments</h4><p>24/7 real‑time transfers</p></div>
-        <div class="highlight-item"><div class="highlight-icon"><i class="fas fa-shield-alt"></i></div><h4>Secure vault</h4><p>Biometric & encryption</p></div>
-        <div class="highlight-item"><div class="highlight-icon"><i class="fas fa-robot"></i></div><h4>AI insights</h4><p>Smart spending analysis</p></div>
-    </div>
-
-    <!-- appointment banner -->
-    <div class="appointment-banner">
-        <div><h2>Book an appointment</h2><p>Existing customers may log in for faster booking. New? We’re happy to meet.</p></div>
-        <a href="#" class="book-btn">Book now</a>
-    </div>
-
-    <!-- info grid with contact/assistant -->
-    <div class="info-grid">
-        <div class="info-card"><h3>Your news & insights</h3><p>Market analysis, product updates, and financial guides from our experts.</p><a href="#" class="card-link">Read latest news <i class="fas fa-arrow-right"></i></a></div>
-        <div class="info-card"><h3>Account questions? Ask.</h3><p>I'm a tap away — open mobile app and say hello. 24/7 AI assistant.</p><button class="ask-btn"><i class="fas fa-comment-dots"></i> Ask questions</button></div>
-    </div>
-
-    <!-- NEW CONTACT SECTION (address / email / phone) explicitly added -->
-    <div class="contact-details">
-        <h3><i class="fas fa-map-pin"></i> Our central office & contact</h3>
-        <div class="contact-flex">
-            <div class="contact-item">
-                <i class="fas fa-map-marker-alt"></i>
-                <span><span class="label">Address:</span> 10 Bishops Square, London E1 6EG, United Kingdom</span>
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-header">
+                <h3>Menu</h3>
             </div>
-            <div class="contact-item">
-                <i class="fas fa-envelope"></i>
-                <span><span class="label">Email:</span> <a href="mailto:help@harvestinvest.co.uk">help@harvestinvest.uk</a></span>
+            <div class="mobile-menu-links">
+                <a href="#invest" class="mobile-link">Invest <i class="fas fa-chevron-right"></i></a>
+                <a href="#checking" class="mobile-link">Checking <i class="fas fa-chevron-right"></i></a>
+                <a href="#process" class="mobile-link">Process <i class="fas fa-chevron-right"></i></a>
+                <a href="login.html" class="mobile-link">Sign In <i class="fas fa-chevron-right"></i></a>
+                <a href="register.html" class="mobile-link">Open Account <i class="fas fa-chevron-right"></i></a>
             </div>
-            <div class="contact-item">
-                <i class="fas fa-phone-alt"></i>
-                <span><span class="label">Phone:</span> <a href="tel:+442079460123">+44 20 7946 0123</a></span>
+            <div class="mobile-cta">
+                <p>Ready to start investing?</p>
+                <a href="register.html" class="btn-mobile">Open Account</a>
             </div>
         </div>
-        <p style="margin-top: 2rem; color:#39668f; border-left: 4px solid var(--primary-blue); padding-left: 1.5rem;">Open Mon-Fri 8am–6pm, Sat 9am–1pm. International support 24/7 via app.</p>
-    </div>
-</main>
+    </nav>
 
-<!-- footer with full address and contact details -->
-<footer class="footer">
-    <div class="container">
-        <div class="footer-content">
-            <div class="footer-col">
-                <div class="logo">Harvest<span>Bank</span></div>
-                <div class="contact-address">
-                    <p><i class="fas fa-map-pin"></i> 10 Bishops Square, London E1 6EG, UK</p>
-                    <p><i class="fas fa-envelope"></i> help@harvestinvest.uk</p>
-                    <p><i class="fas fa-phone"></i> +44 20 7946 0123</p>
+    <!-- Mobile Bottom Nav -->
+    <div class="mobile-bottom-nav">
+        <a href="#invest" class="bottom-nav-item"><i class="fas fa-chart-bar"></i><span>Invest</span></a>
+        <a href="#checking" class="bottom-nav-item"><i class="fas fa-wallet"></i><span>Checking</span></a>
+        <a href="login.html" class="bottom-nav-item active"><i class="fas fa-lock"></i><span>Login</span></a>
+        <a href="#contact" class="bottom-nav-item"><i class="fas fa-phone"></i><span>Contact</span></a>
+        <a href="register.html" class="bottom-nav-item"><i class="fas fa-user-plus"></i><span>Join</span></a>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero-premium">
+        <div class="hero-wrapper">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <span class="hero-eyebrow">SEC Registered · Member FINRA/SIPC</span>
+                    <h1 class="hero-title">One account.<br>Every line, <em>itemized.</em></h1>
+                    <p class="hero-description">
+                        Trade stocks and ETFs commission-free, and hold a checking account that earns interest instead
+                        of collecting dust — both readable at a glance, like a statement should be.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="register.html" class="btn-primary-large">Open an account <i
+                                class="fas fa-arrow-right"></i></a>
+                        <a href="#invest" class="btn-outline-large">See how it works</a>
+                    </div>
+                    <div class="ledger">
+                        <div class="ledger-row"><span class="label">Commission on stocks &amp; ETFs</span><span
+                                class="value">$0.00</span></div>
+                        <div class="ledger-row"><span class="label">Stocks &amp; ETFs available</span><span
+                                class="value">10,000+</span></div>
+                        <div class="ledger-row"><span class="label">APY on checking*</span><span
+                                class="value gain">1.25%</span></div>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="statement-card">
+                        <div class="statement-head">
+                            <div>
+                                <div class="kicker">Portfolio Summary</div>
+                                <h3>Growth Portfolio</h3>
+                            </div>
+                            <div class="date">AS OF JUL 09</div>
+                        </div>
+                        <div class="statement-balance">
+                            <span class="num">$127,845.32</span>
+                            <span class="chg">▲ 8.4% YTD</span>
+                        </div>
+                        <ul class="statement-list">
+                            <li><span class="leader">Stocks<span></span></span><span class="amt">68%</span></li>
+                            <li><span class="leader">ETFs<span></span></span><span class="amt">22%</span></li>
+                            <li><span class="leader">Cash &amp; equivalents<span></span></span><span
+                                    class="amt pos">10%</span></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div class="footer-col"><h4>Personal</h4><a href="#">Current accounts</a><a href="#">Savings</a><a href="#">Credit cards</a><a href="#">Loans</a><a href="#">Mortgages</a></div>
-            <div class="footer-col"><h4>Business</h4><a href="#">Business accounts</a><a href="#">Merchant services</a><a href="#">Business loans</a></div>
-            <div class="footer-col"><h4>Support</h4><a href="#">Contact us</a><a href="#">Support centre</a><a href="#">Security</a><a href="#">Accessibility</a></div>
         </div>
-        <div class="copyright">© 2026 Heritage Investment Management Limited. All rights reserved. HeritageInvest is a trading name of Heritage Investment Management Limited, 
-                    authorised and regulated by the Financial Conduct Authority (FRN: 793452). 
-                    Registered in England and Wales No: 23974036.</div>
+    </section>
+
+    <!-- Trust Bar -->
+    <div class="trust-bar">
+        <div class="trust-grid">
+            <div class="trust-item"><i class="fas fa-shield-alt"></i><span>SEC / FINRA Regulated</span></div>
+            <div class="trust-item"><i class="fas fa-lock"></i><span>256-bit Encryption</span></div>
+            <div class="trust-item"><i class="fas fa-chart-bar"></i><span>Real-Time Trading</span></div>
+            <div class="trust-item"><i class="fas fa-clock"></i><span>24/7 Support</span></div>
+            <div class="trust-item"><i class="fas fa-globe"></i><span>Global Markets</span></div>
+        </div>
     </div>
-</footer>
 
-<script>
-    (function(){
-        let slideIndex = 0;
-        const slides = document.querySelectorAll('.slide');
-        const dots = document.querySelectorAll('.slider-dot');
-        const slider = document.querySelector('.feature-slider');
-        let autoInterval;
+    <!-- Investment Section -->
+    <section id="invest" class="section-premium">
+        <div class="container-premium">
+            <div class="section-header reveal">
+                <span class="section-subtitle">Investment Accounts</span>
+                <h2>Trade stocks &amp; ETFs, commission-free</h2>
+                <p>Thousands of stocks and ETFs, real-time data, and no account minimums — nothing hidden in a footnote.
+                </p>
+            </div>
+            <div class="services-grid reveal">
+                <div class="service-card">
+                    <div class="service-index">01 — Brokerage</div>
+                    <h3>Individual Brokerage</h3>
+                    <p>Trade stocks, ETFs, and options with no commission fees, backed by real-time data and charting.
+                    </p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-minus"></i> $0 commission on stocks &amp; ETFs</li>
+                        <li><i class="fas fa-minus"></i> Fractional shares available</li>
+                        <li><i class="fas fa-minus"></i> Extended-hours trading</li>
+                    </ul>
+                    <a href="register.html" class="btn-service">Open account <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-index">02 — Portfolios</div>
+                    <h3>ETF Portfolios</h3>
+                    <p>Build a diversified portfolio from pre-selected ETF strategies — managed or self-directed.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-minus"></i> Thematic &amp; smart-beta ETFs</li>
+                        <li><i class="fas fa-minus"></i> Automatic rebalancing</li>
+                        <li><i class="fas fa-minus"></i> Low expense ratios</li>
+                    </ul>
+                    <a href="register.html" class="btn-service">Explore ETFs <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-index">03 — Automated</div>
+                    <h3>Automated Investing</h3>
+                    <p>Set a goal and a risk tolerance — we build and manage a diversified ETF portfolio for you.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-minus"></i> Goal-based planning</li>
+                        <li><i class="fas fa-minus"></i> Tax-loss harvesting</li>
+                        <li><i class="fas fa-minus"></i> 0.25% advisory fee</li>
+                    </ul>
+                    <a href="register.html" class="btn-service">Get started <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        function showSlide(index) {
-            if (index >= slides.length) index = 0;
-            if (index < 0) index = slides.length-1;
-            slides.forEach(s => s.classList.remove('active'));
-            slides[index].classList.add('active');
-            dots.forEach(d => d.classList.remove('active'));
-            dots[index].classList.add('active');
-            slideIndex = index;
+    <!-- Checking Section -->
+    <section id="checking" class="section-premium bg-ink">
+        <div class="container-premium">
+            <div class="section-header reveal">
+                <span class="section-subtitle">Checking Account</span>
+                <h2>A checking account that earns its keep</h2>
+                <p>Competitive interest, no monthly fees, and your money available wherever you are.</p>
+            </div>
+            <div class="services-grid reveal">
+                <div class="service-card">
+                    <div class="service-index">01 — Everyday</div>
+                    <h3>Nexus Checking</h3>
+                    <p>Interest-bearing checking with no minimum balance, free ATM access worldwide, and mobile deposit.
+                    </p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-minus"></i> 1.25% APY on all balances</li>
+                        <li><i class="fas fa-minus"></i> No monthly fees or minimums</li>
+                        <li><i class="fas fa-minus"></i> Free ATM withdrawals globally</li>
+                    </ul>
+                    <a href="register.html" class="btn-service">Open checking <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-index">02 — Card</div>
+                    <h3>Debit Card</h3>
+                    <p>A premium metal debit card with purchase protection, travel benefits, and instant notifications.
+                    </p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-minus"></i> No foreign transaction fees</li>
+                        <li><i class="fas fa-minus"></i> Instant card lock / unlock</li>
+                        <li><i class="fas fa-minus"></i> Linked to your investment account</li>
+                    </ul>
+                    <a href="register.html" class="btn-service">Learn more <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-index">03 — Mobile</div>
+                    <h3>Digital Banking</h3>
+                    <p>Manage checking and investment accounts side by side in one clean, itemized mobile app.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-minus"></i> Mobile check deposit</li>
+                        <li><i class="fas fa-minus"></i> Bill pay &amp; transfers</li>
+                        <li><i class="fas fa-minus"></i> Real-time alerts &amp; budgeting</li>
+                    </ul>
+                    <a href="register.html" class="btn-service">Download app <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process" class="section-premium" style="padding-bottom: 0;">
+        <div class="container-premium">
+            <div class="section-header center reveal">
+                <span class="section-subtitle">How It Works</span>
+                <h2>Open an account in five minutes</h2>
+                <p>Apply, fund, and start trading — in that order, and nothing more.</p>
+            </div>
+        </div>
+        <div class="process-rule">
+            <div class="container-premium" style="padding: 0;">
+                <div class="process-steps reveal">
+                    <div class="process-step">
+                        <div class="step-number mono">01</div>
+                        <h4>Open an account</h4>
+                        <p>Complete a two-minute digital application.</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number mono">02</div>
+                        <h4>Fund it</h4>
+                        <p>Link your bank or transfer existing assets.</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number mono">03</div>
+                        <h4>Start trading</h4>
+                        <p>Buy stocks &amp; ETFs, commission-free.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-premium">
+        <div class="cta-content">
+            <span class="section-subtitle">Get Started Today</span>
+            <h2>Join thousands of investors</h2>
+            <p>Open your NexusBank investment and checking account in minutes and begin building wealth.</p>
+            <div class="cta-buttons">
+                <a href="register.html" class="btn-cta-primary"><i class="fas fa-chart-line"></i> Open account</a>
+                <a href="tel:+18001234567" class="btn-cta-outline"><i class="fas fa-phone"></i> 1-800-123-4567</a>
+            </div>
+            <div class="cta-note"><i class="fas fa-shield-alt"></i><span>All investments involve risk. Past performance
+                    does not guarantee future results.</span></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-premium">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo"><span class="mark">N·B</span>NexusBank</div>
+                <div class="footer-address">85 Broad Street<br>New York, NY 10004<br>United States</div>
+                <div class="social-links">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Invest</h4>
+                <a href="#">Stocks</a><a href="#">ETFs</a><a href="#">Options</a><a href="#">Automated</a>
+            </div>
+            <div class="footer-links">
+                <h4>Checking</h4>
+                <a href="#">Interest Rates</a><a href="#">Debit Card</a><a href="#">ATM Locator</a><a href="#">Mobile
+                    App</a>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Disclosures</a><a
+                    href="#">FINRA BrokerCheck</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="legal-text">NexusBank is a registered broker-dealer and member of FINRA/SIPC. Investment
+                products are not FDIC insured, not bank guaranteed, and may lose value.</div>
+            <div class="legal-text">Checking accounts are offered through NexusBank, N.A., Member FDIC. *APY is variable
+                and may change after account opening.</div>
+            <div class="copyright">© 2026 NexusBank. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Loading screen
+        window.addEventListener('load', function () {
+            setTimeout(() => { document.querySelector('.premium-loader').classList.add('fade-out'); }, 700);
+        });
+
+        // Duplicate ticker content for a seamless loop
+        const tickerTrack = document.getElementById('tickerTrack');
+        if (tickerTrack) {
+            tickerTrack.innerHTML += tickerTrack.innerHTML;
         }
 
-        window.changeSlide = function(direction) { showSlide(slideIndex + direction); resetTimer(); };
-        window.currentSlide = function(index) { showSlide(index); resetTimer(); };
-
-        function resetTimer() {
-            clearInterval(autoInterval);
-            autoInterval = setInterval(() => { changeSlide(1); }, 6000);
+        // Mobile menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                mobileMenu.classList.toggle('active');
+                mobileMenuBtn.innerHTML = mobileMenu.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            });
+            document.addEventListener('click', (e) => {
+                if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                    mobileMenu.classList.remove('active');
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+            mobileMenu.querySelectorAll('.mobile-link').forEach(link => {
+                link.addEventListener('click', () => { mobileMenu.classList.remove('active'); mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>'; });
+            });
+            new MutationObserver(() => {
+                document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+            }).observe(mobileMenu, { attributes: true, attributeFilter: ['class'] });
         }
 
-        if (slides.length) {
-            showSlide(0);
-            resetTimer();
-            slider.addEventListener('mouseenter', () => clearInterval(autoInterval));
-            slider.addEventListener('mouseleave', resetTimer);
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    if (mobileMenu) { mobileMenu.classList.remove('active'); mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>'; }
+                    const offset = document.querySelector('.navbar-premium').offsetHeight + 44;
+                    window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
+                }
+            });
+        });
 
-            let touchStart = 0;
-            slider.addEventListener('touchstart', (e) => { touchStart = e.changedTouches[0].screenX; }, {passive:true});
-            slider.addEventListener('touchend', (e) => {
-                let diff = e.changedTouches[0].screenX - touchStart;
-                if (Math.abs(diff) > 40) { diff > 0 ? changeSlide(-1) : changeSlide(1); }
-            }, {passive:true});
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+        });
+
+        // Reveal on scroll
+        const revealEls = document.querySelectorAll('.reveal');
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        revealEls.forEach(el => io.observe(el));
+
+        // Touch device detection
+        if (('ontouchstart' in window) || (navigator.maxTouchPoints > 0)) {
+            document.body.classList.add('touch-device');
         }
-
-        document.querySelector('.ask-btn')?.addEventListener('click', () => alert('HarvestBank Assistant: How can we help?'));
-    })();
-</script>
+    </script>
 </body>
+
 </html>
-
-
