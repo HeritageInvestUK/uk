@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <title>Statements · HeritageInvest</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,6 +51,8 @@
             line-height: 1.6;
             overflow-x: hidden;
             min-height: 100vh;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
         }
 
         h1,
@@ -90,11 +93,13 @@
             align-items: center;
             justify-content: center;
             transition: opacity 0.6s var(--ease), visibility 0.6s var(--ease);
+            pointer-events: all;
         }
 
         .premium-loader.fade-out {
             opacity: 0;
             visibility: hidden;
+            pointer-events: none;
         }
 
         .loader-content {
@@ -150,6 +155,7 @@
         .dashboard-premium {
             display: flex;
             min-height: 100vh;
+            position: relative;
         }
 
         .sidebar-premium {
@@ -160,7 +166,7 @@
             display: flex;
             flex-direction: column;
             border-right: 1px solid var(--hair-dark);
-            transition: left 0.3s var(--ease);
+            transition: left 0.35s var(--ease);
             z-index: 1000;
         }
 
@@ -204,6 +210,7 @@
             flex: 1;
             padding: 1.5rem 0;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .nav-section {
@@ -233,6 +240,8 @@
             font-weight: 500;
             font-size: 0.9rem;
             transition: background 0.2s var(--ease), color 0.2s var(--ease);
+            -webkit-tap-highlight-color: rgba(185, 138, 46, 0.15);
+            cursor: pointer;
         }
 
         .nav-section li a:hover,
@@ -306,6 +315,7 @@
             justify-content: center;
             cursor: pointer;
             transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+            -webkit-tap-highlight-color: rgba(185, 138, 46, 0.2);
         }
 
         .icon-btn:hover {
@@ -313,32 +323,57 @@
             color: var(--brass);
         }
 
+        /* Overlay */
         .sidebar-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             z-index: 999;
             opacity: 0;
-            transition: opacity 0.3s var(--ease);
+            transition: opacity 0.35s var(--ease);
+            pointer-events: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .sidebar-overlay.active {
             display: block;
             opacity: 1;
+            pointer-events: all;
         }
 
+        /* Menu Toggle Button */
         .menu-toggle {
             display: none;
-            background: none;
-            border: 1px solid var(--hair);
+            background: var(--bone);
+            border: 1.5px solid var(--hair);
             color: var(--ink);
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             cursor: pointer;
+            border-radius: 8px;
+            flex-shrink: 0;
+            transition: background 0.2s var(--ease), border-color 0.2s var(--ease), transform 0.15s var(--ease);
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            position: relative;
+            z-index: 10;
+        }
+
+        .menu-toggle:active {
+            background: var(--parchment-deep);
+            border-color: var(--ink);
+            transform: scale(0.95);
+        }
+
+        .menu-toggle:hover {
+            border-color: var(--ink);
+            background: var(--parchment);
         }
 
         .main-content-premium {
@@ -347,6 +382,7 @@
             padding: 1.5rem 2rem 2rem;
             overflow-y: auto;
             min-height: 100vh;
+            -webkit-overflow-scrolling: touch;
         }
 
         .top-nav-premium {
@@ -422,6 +458,8 @@
             position: relative;
             cursor: pointer;
             transition: border-color 0.2s var(--ease);
+            border-radius: 8px;
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
         }
 
         .notification-btn:hover,
@@ -474,6 +512,7 @@
             border-bottom: 2px solid transparent;
             transition: all 0.2s var(--ease);
             white-space: nowrap;
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
         }
 
         .account-tab.active {
@@ -495,6 +534,7 @@
             background: var(--bone);
             border: 1px solid var(--hair);
             padding: 1.5rem;
+            border-radius: 4px;
         }
 
         .filter-group {
@@ -521,6 +561,7 @@
             font-size: 0.95rem;
             background: white;
             transition: border-color 0.2s var(--ease);
+            border-radius: 4px;
         }
 
         .filter-select:focus {
@@ -540,6 +581,7 @@
             gap: 0.5rem;
             transition: background 0.2s var(--ease);
             white-space: nowrap;
+            border-radius: 4px;
         }
 
         .apply-filters-btn:hover {
@@ -571,6 +613,7 @@
             margin-bottom: 0.5rem;
             gap: 1rem;
             flex-wrap: wrap;
+            border-radius: 4px;
         }
 
         .statement-item:hover {
@@ -616,6 +659,8 @@
             transition: border-color 0.2s var(--ease);
             color: var(--charcoal);
             font-size: 0.85rem;
+            border-radius: 4px;
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
         }
 
         .statement-action:hover {
@@ -628,6 +673,7 @@
             border: 1px solid var(--hair);
             padding: 1.5rem;
             margin-bottom: 2rem;
+            border-radius: 4px;
         }
 
         .tax-documents-section h3 {
@@ -681,6 +727,7 @@
             gap: 0.4rem;
             transition: border-color 0.2s var(--ease);
             color: var(--charcoal);
+            border-radius: 4px;
         }
 
         .tax-download:hover {
@@ -696,6 +743,7 @@
             z-index: 2000;
             align-items: center;
             justify-content: center;
+            padding: 1rem;
         }
 
         .modal-premium.show {
@@ -706,11 +754,12 @@
             background: var(--bone);
             padding: 2rem;
             max-width: 700px;
-            width: 90%;
+            width: 100%;
             border-top: 3px solid var(--brass);
             box-shadow: var(--shadow-lift);
             max-height: 90vh;
             overflow-y: auto;
+            border-radius: 4px;
         }
 
         .modal-header {
@@ -730,6 +779,8 @@
             color: var(--stone);
             font-size: 1.2rem;
             cursor: pointer;
+            padding: 0.5rem;
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
         }
 
         .modal-body {
@@ -833,6 +884,7 @@
             align-items: center;
             gap: 0.5rem;
             transition: background 0.2s var(--ease);
+            border-radius: 4px;
         }
 
         .btn-primary:hover {
@@ -847,6 +899,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: border-color 0.2s var(--ease);
+            border-radius: 4px;
         }
 
         .btn-secondary:hover {
@@ -857,10 +910,13 @@
         @media (max-width:1024px) {
             .sidebar-premium {
                 position: fixed;
-                left: -280px;
+                left: -290px;
                 top: 0;
                 bottom: 0;
                 height: 100vh;
+                height: 100dvh;
+                width: 280px;
+                box-shadow: 4px 0 30px rgba(0, 0, 0, 0.3);
             }
 
             .sidebar-premium.active {
@@ -878,11 +934,16 @@
             .main-content-premium {
                 margin-left: 0;
                 padding: 1rem;
+                width: 100%;
             }
 
             .top-nav-premium {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+
+            .nav-left {
+                width: 100%;
             }
 
             .nav-right {
@@ -904,7 +965,19 @@
             }
         }
 
-        @media (max-width:480px) {
+        @media (max-width:600px) {
+            .main-content-premium {
+                padding: 0.75rem;
+            }
+
+            .page-title h1 {
+                font-size: 1.4rem;
+            }
+
+            .search-bar {
+                min-width: 120px;
+            }
+
             .statement-item {
                 flex-direction: column;
                 align-items: flex-start;
@@ -935,7 +1008,7 @@
 
 <body>
     <!-- Loading Screen -->
-    <div class="premium-loader">
+    <div class="premium-loader" id="premiumLoader">
         <div class="loader-content">
             <div class="loader-logo"><span class="mark">H·I</span>HeritageInvest</div>
             <div class="loader-rule"></div>
@@ -944,7 +1017,7 @@
 
     <div class="dashboard-premium">
         <!-- Sidebar -->
-        <aside class="sidebar-premium">
+        <aside class="sidebar-premium" id="sidebarPremium">
             <div class="sidebar-brand">
                 <div class="brand-logo">
                     <span class="mark">H·I</span>
@@ -1001,13 +1074,16 @@
             </div>
         </aside>
 
-        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
 
         <!-- Main Content -->
-        <main class="main-content-premium">
+        <main class="main-content-premium" id="mainContent">
             <header class="top-nav-premium">
                 <div class="nav-left">
-                    <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+                    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle navigation menu"
+                        aria-expanded="false">
+                        <i class="fas fa-bars"></i>
+                    </button>
                     <div class="page-title">
                         <h1>Account Statements</h1>
                         <p>Download and manage your statements</p>
@@ -1018,9 +1094,10 @@
                         <i class="fas fa-search"></i>
                         <input type="text" placeholder="Search statements...">
                     </div>
-                    <button class="notification-btn"><i class="far fa-bell"></i><span
+                    <button class="notification-btn" type="button"><i class="far fa-bell"></i><span
                             class="notification-dot"></span></button>
-                    <button class="support-btn"><i class="far fa-question-circle"></i><span>Help</span></button>
+                    <button class="support-btn" type="button"><i
+                            class="far fa-question-circle"></i><span>Help</span></button>
                 </div>
             </header>
 
@@ -1068,7 +1145,6 @@
             <div class="statements-list">
                 <div class="statement-year">
                     <h3>2024</h3>
-
                     <div class="statement-item">
                         <div class="statement-info">
                             <div class="statement-month">March 2024</div>
@@ -1084,7 +1160,6 @@
                                     class="fas fa-file-csv"></i>CSV</button>
                         </div>
                     </div>
-
                     <div class="statement-item">
                         <div class="statement-info">
                             <div class="statement-month">February 2024</div>
@@ -1100,7 +1175,6 @@
                                     class="fas fa-file-csv"></i>CSV</button>
                         </div>
                     </div>
-
                     <div class="statement-item">
                         <div class="statement-info">
                             <div class="statement-month">January 2024</div>
@@ -1117,10 +1191,8 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="statement-year">
                     <h3>2023</h3>
-
                     <div class="statement-item">
                         <div class="statement-info">
                             <div class="statement-month">December 2023</div>
@@ -1136,7 +1208,6 @@
                                     class="fas fa-file-csv"></i>CSV</button>
                         </div>
                     </div>
-
                     <div class="statement-item">
                         <div class="statement-info">
                             <div class="statement-month">November 2023</div>
@@ -1158,7 +1229,6 @@
             <!-- Tax Documents -->
             <div class="tax-documents-section">
                 <h3>Tax Documents</h3>
-
                 <div class="tax-item">
                     <div class="tax-info">
                         <i class="fas fa-file-invoice"></i>
@@ -1170,7 +1240,6 @@
                     <button class="tax-download" onclick="downloadTaxDoc('1099-2023')"><i
                             class="fas fa-download"></i>Download</button>
                 </div>
-
                 <div class="tax-item">
                     <div class="tax-info">
                         <i class="fas fa-file-invoice"></i>
@@ -1199,12 +1268,10 @@
                         <div class="bank-info"><i class="fas fa-landmark"></i><span>HeritageInvest</span></div>
                         <div class="statement-date">March 2024</div>
                     </div>
-
                     <div class="preview-account">
                         <div>Account: Checking (****1234)</div>
                         <div>Period: Mar 1 - Mar 31, 2024</div>
                     </div>
-
                     <table class="preview-transactions">
                         <thead>
                             <tr>
@@ -1231,7 +1298,6 @@
                             </tr>
                         </tbody>
                     </table>
-
                     <div class="preview-summary">
                         <div class="summary-row"><span>Beginning Balance</span><span>£2,272.09</span></div>
                         <div class="summary-row"><span>Total Deposits</span><span class="positive">+£3,500.00</span>
@@ -1251,36 +1317,86 @@
     </div>
 
     <script>
-        // Consolidated mobile menu
         (function () {
+            // =========================================================================
+            // RELIABLE MOBILE MENU TOGGLE – works on all phones & tablets
+            // =========================================================================
             const menuToggle = document.getElementById('menuToggle');
-            const sidebar = document.querySelector('.sidebar-premium');
-            let overlay = document.getElementById('sidebarOverlay');
-            if (!overlay) {
-                overlay = document.createElement('div');
-                overlay.id = 'sidebarOverlay';
-                overlay.className = 'sidebar-overlay';
-                document.body.appendChild(overlay);
-            }
+            const sidebar = document.getElementById('sidebarPremium');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            if (!menuToggle || !sidebar || !overlay) return;
+
+            let isMenuOpen = false;
+
             function toggleMenu(show) {
-                if (show === undefined) show = !sidebar.classList.contains('active');
+                if (typeof show !== 'boolean') show = !isMenuOpen;
+                isMenuOpen = show;
                 sidebar.classList.toggle('active', show);
                 overlay.classList.toggle('active', show);
+                menuToggle.setAttribute('aria-expanded', show ? 'true' : 'false');
+                overlay.setAttribute('aria-hidden', show ? 'false' : 'true');
                 document.body.style.overflow = show ? 'hidden' : '';
             }
-            menuToggle?.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
-            overlay.addEventListener('click', () => toggleMenu(false));
-            sidebar?.addEventListener('click', (e) => {
-                if (e.target.tagName === 'A' || e.target.closest('a')) {
-                    setTimeout(() => toggleMenu(false), 150);
-                }
+
+            function handleToggleInteraction(e) {
+                e.preventDefault();
                 e.stopPropagation();
+                toggleMenu();
+            }
+
+            menuToggle.addEventListener('pointerdown', handleToggleInteraction, { passive: false });
+            menuToggle.addEventListener('click', function (e) {
+                if (e.pointerType === 'touch' || e.pointerType === 'pen') return;
+                handleToggleInteraction(e);
             });
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && sidebar.classList.contains('active')) toggleMenu(false); });
-            window.addEventListener('resize', () => { if (window.innerWidth >= 1024) toggleMenu(false); });
+            menuToggle.addEventListener('touchstart', function (e) {
+                if (window.PointerEvent) return;
+                handleToggleInteraction(e);
+            }, { passive: false });
+
+            overlay.addEventListener('pointerdown', function (e) {
+                if (isMenuOpen) { e.preventDefault(); toggleMenu(false); }
+            });
+            overlay.addEventListener('click', function (e) {
+                if (isMenuOpen && (e.pointerType === 'mouse' || !window.PointerEvent)) toggleMenu(false);
+            });
+
+            sidebar.addEventListener('click', function (e) {
+                const link = e.target.closest('a');
+                if (link && isMenuOpen) {
+                    e.preventDefault();
+                    const href = link.getAttribute('href');
+                    toggleMenu(false);
+                    setTimeout(() => { if (href && href !== '#') window.location.href = href; }, 350);
+                }
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && isMenuOpen) { toggleMenu(false); menuToggle.focus(); }
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth >= 1024 && isMenuOpen) toggleMenu(false);
+            });
+
+            let touchStartX = 0, touchStartY = 0;
+            sidebar.addEventListener('touchstart', function (e) {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+            sidebar.addEventListener('touchend', function (e) {
+                if (!isMenuOpen) return;
+                const deltaX = touchStartX - e.changedTouches[0].screenX;
+                if (deltaX > 60 && deltaX > Math.abs(touchStartY - e.changedTouches[0].screenY)) toggleMenu(false);
+            });
         })();
 
-        setTimeout(() => document.querySelector('.premium-loader').classList.add('fade-out'), 700);
+        // Loader
+        setTimeout(() => {
+            const loader = document.getElementById('premiumLoader');
+            if (loader) { loader.classList.add('fade-out'); setTimeout(() => loader.remove(), 700); }
+        }, 700);
 
         // Filter statements
         function filterStatements(account) {
@@ -1314,7 +1430,7 @@
                 clearTimeout(inactivityTimer);
                 inactivityTimer = setTimeout(() => { sessionStorage.clear(); window.location.replace('login.html'); }, 900000);
             }
-            ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(e => document.addEventListener(e, resetInactivity));
+            ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart', 'pointerdown'].forEach(e => document.addEventListener(e, resetInactivity, { passive: true }));
             resetInactivity();
         })();
     </script>
