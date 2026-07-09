@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transfer Money · HarvestBank Professional</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Transfer Money · NexusBank Professional</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/png" href="https://a.mktgcdn.com/p/trqY8cbRb9rpmzNBIHFEHxK3n0czpuAaJO27NrH_lzQ/1.0000/676x676.png">
     <style>
-        /* Bank Selection Styles */
+        /* ---------- Original transfer page styles (unchanged) ---------- */
         .bank-type-selector {
             display: flex;
             gap: 16px;
@@ -45,7 +46,7 @@
         .bank-type-btn.active {
             background: white;
             color: #0A2472;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .bank-lookup-field {
@@ -100,6 +101,7 @@
                 opacity: 0;
                 transform: translateY(-10px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -265,7 +267,6 @@
             background: #1E3A8A;
         }
 
-        /* Format hint */
         .format-hint {
             font-size: 11px;
             color: #94A3B8;
@@ -285,15 +286,189 @@
             padding: 2px 4px;
             border-radius: 4px;
         }
+
+        /* ---------- Mobile responsive additions ---------- */
+        @media (max-width: 1024px) {
+            .dashboard-premium {
+                flex-direction: column;
+            }
+
+            .sidebar-premium {
+                position: fixed;
+                left: -280px;
+                top: 0;
+                bottom: 0;
+                width: 280px;
+                z-index: 1000;
+                transition: left 0.3s ease;
+                box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
+                background: #fff;
+            }
+
+            .sidebar-premium.active {
+                left: 0;
+            }
+
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.4);
+                z-index: 999;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+                opacity: 1;
+            }
+
+            .main-content-premium {
+                width: 100%;
+                margin-left: 0;
+            }
+
+            .menu-toggle {
+                display: flex !important;
+            }
+
+            .transfer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+
+            .form-group {
+                width: 100%;
+            }
+
+            .account-selector-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .account-pills {
+                flex-wrap: wrap;
+                width: 100%;
+            }
+
+            .account-pill {
+                flex: 1 1 45%;
+                min-width: 140px;
+            }
+
+            .bank-type-selector {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .bank-type-btn {
+                flex: 1 1 auto;
+                min-width: 80px;
+                font-size: 13px;
+            }
+
+            .bank-lookup-field input {
+                padding-right: 90px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .account-pill {
+                flex: 1 1 100%;
+            }
+
+            .bank-type-btn {
+                font-size: 11px;
+                padding: 8px 6px;
+            }
+
+            .lookup-btn {
+                padding: 6px 10px;
+                font-size: 11px;
+                right: 4px;
+            }
+
+            .form-actions button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Cross‑platform amount input (fix for mobile/PC) */
+        .amount-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: #F8FAFC;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            min-height: 48px;
+        }
+
+        .amount-input-wrapper:focus-within {
+            border-color: #0A2472;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(10, 36, 114, 0.08);
+        }
+
+        .amount-input-wrapper .currency-symbol {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0F172A;
+            padding-left: 16px;
+            padding-right: 4px;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .amount-input-wrapper input {
+            flex: 1;
+            border: none !important;
+            background: transparent !important;
+            font-size: 20px !important;
+            font-weight: 700 !important;
+            color: #0F172A !important;
+            padding: 12px 16px 12px 4px !important;
+            outline: none !important;
+            width: 100%;
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+            letter-spacing: -0.3px;
+            -moz-appearance: textfield !important;
+            -webkit-appearance: none !important;
+            appearance: none !important;
+            box-shadow: none !important;
+            border-radius: 0 10px 10px 0 !important;
+            line-height: 1.4;
+            caret-color: #0A2472;
+        }
+
+        .amount-input-wrapper input::-webkit-inner-spin-button,
+        .amount-input-wrapper input::-webkit-outer-spin-button {
+            -webkit-appearance: none !important;
+            margin: 0 !important;
+            display: none !important;
+        }
+
+        .amount-input-wrapper input::placeholder {
+            color: #CBD5E1;
+            font-weight: 500;
+        }
     </style>
 </head>
+
 <body>
     <!-- Premium Loading Screen -->
     <div class="premium-loader">
         <div class="loader-content">
             <div class="loader-logo">
                 <i class="fas fa-landmark"></i>
-                <span>HarvestBank</span>
+                <span>NexusBank</span>
             </div>
             <div class="loader-bar"></div>
         </div>
@@ -306,7 +481,7 @@
             <div class="sidebar-brand">
                 <div class="brand-logo">
                     <i class="fas fa-landmark"></i>
-                    <span>HarvestBank</span>
+                    <span>NexusBank</span>
                 </div>
                 <div class="brand-tag">Private Banking</div>
             </div>
@@ -315,29 +490,12 @@
                 <div class="nav-section">
                     <div class="nav-section-title">MAIN</div>
                     <ul>
-                        <li>
-                            <a href="dashboard.html">
-                                <i class="fas fa-chart-pie"></i>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="transactions.html">
-                                <i class="fas fa-arrow-right-arrow-left"></i>
-                                <span>Transactions</span>
-                            </a>
-                        </li>
-                        <li class="active">
-                            <a href="transfer.html">
-                                <i class="fas fa-paper-plane"></i>
-                                <span>Transfers</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="statements.html">
-                                <i class="fas fa-file-invoice"></i>
-                                <span>Statements</span>
-                            </a>
+                        <li><a href="dashboard.html"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a></li>
+                        <li><a href="transactions.html"><i
+                                    class="fas fa-arrow-right-arrow-left"></i><span>Transactions</span></a></li>
+                        <li class="active"><a href="transfer.html"><i
+                                    class="fas fa-paper-plane"></i><span>Transfers</span></a></li>
+                        <li><a href="statements.html"><i class="fas fa-file-invoice"></i><span>Statements</span></a>
                         </li>
                     </ul>
                 </div>
@@ -345,51 +503,22 @@
                 <div class="nav-section">
                     <div class="nav-section-title">ACCOUNTS</div>
                     <ul>
-                        <li>
-                            <a href="checking.html">
-                                <i class="fas fa-wallet"></i>
-                                <span>Checking</span>
-                                <span class="nav-amount">£5,432</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="savings.html">
-                                <i class="fas fa-piggy-bank"></i>
-                                <span>Savings</span>
-                                <span class="nav-amount">£15,678</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="investments.html">
-                                <i class="fas fa-chart-line"></i>
-                                <span>Investments</span>
-                                <span class="nav-amount">£3,456</span>
-                            </a>
-                        </li>
+                        <li><a href="checking.html"><i class="fas fa-wallet"></i><span>Checking</span><span
+                                    class="nav-amount">£645,432</span></a></li>
+                        <li><a href="savings.html"><i class="fas fa-piggy-bank"></i><span>Savings</span><span
+                                    class="nav-amount">£215,678</span></a></li>
+                        <li><a href="investments.html"><i class="fas fa-chart-line"></i><span>Investments</span><span
+                                    class="nav-amount">£3,456,789</span></a></li>
                     </ul>
                 </div>
 
                 <div class="nav-section">
                     <div class="nav-section-title">SERVICES</div>
                     <ul>
-                        <li>
-                            <a href="cards.html">
-                                <i class="fas fa-credit-card"></i>
-                                <span>Cards</span>
-                            </a>
+                        <li><a href="cards.html"><i class="fas fa-credit-card"></i><span>Cards</span></a></li>
+                        <li><a href="paybills.html"><i class="fas fa-file-invoice-dollar"></i><span>Pay Bills</span></a>
                         </li>
-                        <li>
-                            <a href="paybills.html">
-                                <i class="fas fa-file-invoice-dollar"></i>
-                                <span>Pay Bills</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="settings.html">
-                                <i class="fas fa-gear"></i>
-                                <span>Settings</span>
-                            </a>
-                        </li>
+                        <li><a href="settings.html"><i class="fas fa-gear"></i><span>Settings</span></a></li>
                     </ul>
                 </div>
             </nav>
@@ -397,20 +526,19 @@
             <div class="sidebar-footer-premium">
                 <div class="user-info">
                     <div class="user-avatar">
-                        <img src="https://pbs.twimg.com/media/HBYhBrhXIAAjTtl?format=jpg&name=medium" alt="John Shanji">
+                        <img src="https://ui-avatars.com/api/?name=John+Doe&background=0A2472&color=fff&size=128"
+                            alt="John Doe">
                     </div>
                     <div class="user-details">
-                        <div class="user-name">John Shanji</div>
+                        <div class="user-name">John Doe</div>
                         <div class="user-role">Premium Member</div>
                     </div>
                 </div>
                 <div class="user-actions">
-                    <button class="icon-btn" title="Settings" onclick="location.href='settings.html'">
-                        <i class="fas fa-sliders-h"></i>
-                    </button>
-                    <button class="icon-btn" title="Logout" onclick="location.href='index.html'">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </button>
+                    <button class="icon-btn" title="Settings" onclick="location.href='settings.html'"><i
+                            class="fas fa-sliders-h"></i></button>
+                    <button class="icon-btn" title="Logout" onclick="location.href='index.html'"><i
+                            class="fas fa-sign-out-alt"></i></button>
                 </div>
             </div>
         </aside>
@@ -423,30 +551,20 @@
             <!-- Top Navigation -->
             <header class="top-nav-premium">
                 <div class="nav-left">
-                    <button class="menu-toggle" id="menuToggle">
-                        <i class="fas fa-bars"></i>
-                    </button>
+                    <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
                     <div class="page-title">
                         <h1>Transfer Money</h1>
                         <p>Securely send money to any account</p>
                     </div>
                 </div>
-
                 <div class="nav-right">
                     <div class="search-bar">
                         <i class="fas fa-search"></i>
                         <input type="text" placeholder="Search...">
                     </div>
-
-                    <button class="notification-btn">
-                        <i class="far fa-bell"></i>
-                        <span class="notification-dot"></span>
-                    </button>
-
-                    <button class="support-btn">
-                        <i class="far fa-question-circle"></i>
-                        <span>Help</span>
-                    </button>
+                    <button class="notification-btn"><i class="far fa-bell"></i><span
+                            class="notification-dot"></span></button>
+                    <button class="support-btn"><i class="far fa-question-circle"></i><span>Help</span></button>
                 </div>
             </header>
 
@@ -490,27 +608,26 @@
                             <span class="form-badge">Secure Transaction</span>
                         </div>
 
-                        <form id="transferForm" class="premium-form">
+                        <form id="transferForm" class="premium-form" autocomplete="off" novalidate>
                             <!-- Bank Type Selector -->
                             <div class="bank-type-selector">
-                                <button type="button" class="bank-type-btn active" onclick="setBankType('us')">
-                                    <i class="fas fa-dollar-sign"></i>
-                                    US Bank
+                                <button type="button" class="bank-type-btn active" onclick="setBankType('us')"
+                                    id="btnUS">
+                                    <i class="fas fa-dollar-sign"></i> US Bank
                                 </button>
-                                <button type="button" class="bank-type-btn" onclick="setBankType('uk')">
-                                    <i class="fas fa-pound-sign"></i>
-                                    UK Bank
+                                <button type="button" class="bank-type-btn" onclick="setBankType('uk')" id="btnUK">
+                                    <i class="fas fa-pound-sign"></i> UK Bank
                                 </button>
-                                <button type="button" class="bank-type-btn" onclick="setBankType('other')">
-                                    <i class="fas fa-globe"></i>
-                                    Other
+                                <button type="button" class="bank-type-btn" onclick="setBankType('other')"
+                                    id="btnOther">
+                                    <i class="fas fa-globe"></i> Other
                                 </button>
                             </div>
 
                             <!-- Recipient Section -->
                             <div class="form-section">
                                 <h3>Recipient Information</h3>
-                                
+
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label>Recipient Name</label>
@@ -529,21 +646,23 @@
                                             <div class="bank-lookup-field">
                                                 <div class="input-wrapper">
                                                     <i class="fas fa-university"></i>
-                                                    <input type="text" placeholder="9-digit routing number" id="routingNumber" maxlength="9" pattern="[0-9]{9}">
+                                                    <input type="text" placeholder="9-digit routing number"
+                                                        id="routingNumber" maxlength="9" inputmode="numeric">
                                                 </div>
-                                                <button type="button" class="lookup-btn" onclick="lookupBank()" id="lookupBtn">Lookup</button>
+                                                <button type="button" class="lookup-btn" onclick="lookupBank()"
+                                                    id="lookupBtn">Lookup</button>
                                             </div>
                                             <div class="format-hint">
                                                 <i class="fas fa-info-circle"></i>
                                                 <span>9 digits</span> (e.g., 021000021)
                                             </div>
                                         </div>
-
                                         <div class="form-group">
                                             <label>Account Number</label>
                                             <div class="input-wrapper">
                                                 <i class="fas fa-hashtag"></i>
-                                                <input type="text" placeholder="Account number" id="accountNumber" pattern="[0-9]{10,12}">
+                                                <input type="text" placeholder="Account number" id="accountNumber"
+                                                    inputmode="numeric">
                                             </div>
                                         </div>
                                     </div>
@@ -557,21 +676,23 @@
                                             <div class="bank-lookup-field">
                                                 <div class="input-wrapper">
                                                     <i class="fas fa-code-branch"></i>
-                                                    <input type="text" placeholder="XX-XX-XX or 6 digits" id="sortCode" maxlength="8">
+                                                    <input type="text" placeholder="XX-XX-XX or 6 digits" id="sortCode"
+                                                        maxlength="8" inputmode="numeric">
                                                 </div>
-                                                <button type="button" class="lookup-btn" onclick="lookupUKBank()" id="lookupUKBtn">Lookup</button>
+                                                <button type="button" class="lookup-btn" onclick="lookupUKBank()"
+                                                    id="lookupUKBtn">Lookup</button>
                                             </div>
                                             <div class="format-hint">
                                                 <i class="fas fa-info-circle"></i>
                                                 <span>12-34-56</span> or <span>123456</span>
                                             </div>
                                         </div>
-
                                         <div class="form-group">
                                             <label>Account Number</label>
                                             <div class="input-wrapper">
                                                 <i class="fas fa-hashtag"></i>
-                                                <input type="text" placeholder="8-digit account number" id="ukAccountNumber" pattern="[0-9]{8}">
+                                                <input type="text" placeholder="8-digit account number"
+                                                    id="ukAccountNumber" inputmode="numeric">
                                             </div>
                                             <div class="format-hint">
                                                 <i class="fas fa-info-circle"></i>
@@ -591,7 +712,6 @@
                                                 <input type="text" placeholder="8 or 11 characters" id="swiftCode">
                                             </div>
                                         </div>
-
                                         <div class="form-group">
                                             <label>IBAN</label>
                                             <div class="input-wrapper">
@@ -605,9 +725,7 @@
                                 <!-- Bank Info Display (auto-filled from lookup) -->
                                 <div id="bankInfoDisplay" class="bank-info-display">
                                     <div class="bank-info-header">
-                                        <div class="bank-logo" id="bankLogo">
-                                            <i class="fas fa-university"></i>
-                                        </div>
+                                        <div class="bank-logo" id="bankLogo"><i class="fas fa-university"></i></div>
                                         <div class="bank-info">
                                             <h4 id="bankName">Bank of America</h4>
                                             <p id="bankAddress">123 Financial District, New York, NY</p>
@@ -630,6 +748,22 @@
                                             <span class="detail-label">Established</span>
                                             <span class="detail-value" id="bankEst">1998</span>
                                         </div>
+                                        <div class="bank-detail-item">
+                                            <span class="detail-label">Type</span>
+                                            <span class="detail-value" id="bankType">Commercial Bank</span>
+                                        </div>
+                                        <div class="bank-detail-item">
+                                            <span class="detail-label">Category</span>
+                                            <span class="detail-value" id="bankCategory">National</span>
+                                        </div>
+                                        <div class="bank-detail-item">
+                                            <span class="detail-label">Website</span>
+                                            <span class="detail-value" id="bankWebsite">bank.com</span>
+                                        </div>
+                                        <div class="bank-detail-item">
+                                            <span class="detail-label">Fedwire</span>
+                                            <span class="detail-value" id="bankFedwire">021000021</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -641,17 +775,19 @@
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label>Amount</label>
-                                        <div class="input-wrapper amount">
+                                        <!-- Cross‑platform amount input -->
+                                        <div class="amount-input-wrapper">
                                             <span class="currency-symbol">£</span>
-                                            <input type="number" placeholder="0.00" id="amount" required min="0.01" step="0.01">
+                                            <input type="text" placeholder="0.00" id="amount" required
+                                                inputmode="decimal" pattern="[0-9]+\.?[0-9]{0,2}" autocomplete="off"
+                                                maxlength="15">
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <label>Transfer Date</label>
                                         <div class="input-wrapper">
                                             <i class="fas fa-calendar"></i>
-                                            <input type="date" id="transferDate" value="2024-03-16">
+                                            <input type="date" id="transferDate">
                                         </div>
                                     </div>
                                 </div>
@@ -671,7 +807,6 @@
                                         <span class="checkbox-custom"></span>
                                         <span class="checkbox-text">Save this recipient for future transfers</span>
                                     </label>
-
                                     <label class="checkbox-label">
                                         <input type="checkbox" id="scheduleTransfer">
                                         <span class="checkbox-custom"></span>
@@ -682,24 +817,16 @@
 
                             <!-- Fee Information -->
                             <div class="fee-info">
-                                <div class="fee-item">
-                                    <span>Transfer Fee</span>
-                                    <span class="free">Free</span>
-                                </div>
-                                <div class="fee-item">
-                                    <span>Estimated Arrival</span>
-                                    <span>Same Business Day</span>
-                                </div>
+                                <div class="fee-item"><span>Transfer Fee</span><span class="free">Free</span></div>
+                                <div class="fee-item"><span>Estimated Arrival</span><span>Same Business Day</span></div>
                             </div>
 
                             <!-- Form Actions -->
                             <div class="form-actions">
-                                <button type="button" class="btn-secondary" onclick="window.location.href='dashboard.html'">
-                                    Cancel
-                                </button>
+                                <button type="button" class="btn-secondary"
+                                    onclick="window.location.href='dashboard.html'">Cancel</button>
                                 <button type="button" class="btn-primary" onclick="reviewTransfer()">
-                                    <i class="fas fa-shield-alt"></i>
-                                    Review Transfer
+                                    <i class="fas fa-shield-alt"></i> Review Transfer
                                 </button>
                             </div>
                         </form>
@@ -716,37 +843,43 @@
                             <div class="recipients-list">
                                 <div class="recipient-item">
                                     <div class="recipient-avatar">
-                                        <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=0A2472&color=fff&size=64" alt="Sarah Johnson">
+                                        <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=0A2472&color=fff&size=64"
+                                            alt="Sarah Johnson">
                                     </div>
                                     <div class="recipient-details">
                                         <span class="recipient-name">Sarah Johnson</span>
-                                        <span class="recipient-account">Chase ··· 9542</span>
+                                        <span class="recipient-account">Chase ··· 4567</span>
                                     </div>
-                                    <button class="recipient-action" onclick="fillRecipient('Sarah Johnson', 'Chase', '021000021', '1234567890')">
+                                    <button class="recipient-action"
+                                        onclick="fillRecipient('Sarah Johnson', '021000021', '1234567890')">
                                         <i class="fas fa-arrow-right"></i>
                                     </button>
                                 </div>
                                 <div class="recipient-item">
                                     <div class="recipient-avatar">
-                                        <img src="https://ui-avatars.com/api/?name=Michael+Chen&background=2563EB&color=fff&size=64" alt="Michael Chen">
+                                        <img src="https://ui-avatars.com/api/?name=Michael+Chen&background=2563EB&color=fff&size=64"
+                                            alt="Michael Chen">
                                     </div>
                                     <div class="recipient-details">
                                         <span class="recipient-name">Michael Chen</span>
-                                        <span class="recipient-account">Barclays ··· 2201</span>
+                                        <span class="recipient-account">Barclays ··· 8901</span>
                                     </div>
-                                    <button class="recipient-action" onclick="fillRecipientUK('Michael Chen', 'Barclays', '20-00-00', '12345678')">
+                                    <button class="recipient-action"
+                                        onclick="fillRecipientUK('Michael Chen', '20-00-00', '12345678')">
                                         <i class="fas fa-arrow-right"></i>
                                     </button>
                                 </div>
                                 <div class="recipient-item">
                                     <div class="recipient-avatar">
-                                        <img src="https://ui-avatars.com/api/?name=Emily+Williams&background=7C3AED&color=fff&size=64" alt="Emily Williams">
+                                        <img src="https://ui-avatars.com/api/?name=Emily+Williams&background=7C3AED&color=fff&size=64"
+                                            alt="Emily Williams">
                                     </div>
                                     <div class="recipient-details">
                                         <span class="recipient-name">Emily Williams</span>
-                                        <span class="recipient-account">HSBC ··· 2332</span>
+                                        <span class="recipient-account">HSBC ··· 2345</span>
                                     </div>
-                                    <button class="recipient-action" onclick="fillRecipientUK('Emily Williams', 'HSBC', '40-00-00', '87654321')">
+                                    <button class="recipient-action"
+                                        onclick="fillRecipientUK('Emily Williams', '40-00-00', '87654321')">
                                         <i class="fas fa-arrow-right"></i>
                                     </button>
                                 </div>
@@ -760,22 +893,14 @@
                                 <i class="fas fa-info-circle" title="Daily transfer limits"></i>
                             </div>
                             <div class="limits-list">
-                                <div class="limit-item">
-                                    <span class="limit-label">Per Transaction</span>
-                                    <span class="limit-value">£10,000</span>
-                                </div>
-                                <div class="limit-item">
-                                    <span class="limit-label">Daily Limit</span>
-                                    <span class="limit-value">£25,000</span>
-                                </div>
-                                <div class="limit-item">
-                                    <span class="limit-label">Monthly Limit</span>
-                                    <span class="limit-value">£50,000</span>
-                                </div>
+                                <div class="limit-item"><span class="limit-label">Per Transaction</span><span
+                                        class="limit-value">£10,000</span></div>
+                                <div class="limit-item"><span class="limit-label">Daily Limit</span><span
+                                        class="limit-value">£25,000</span></div>
+                                <div class="limit-item"><span class="limit-label">Monthly Limit</span><span
+                                        class="limit-value">£50,000</span></div>
                                 <div class="limit-progress">
-                                    <div class="progress-label">
-                                        <span>Used today</span>
-                                        <span>£250 of £25,000</span>
+                                    <div class="progress-label"><span>Used today</span><span>£250 of £25,000</span>
                                     </div>
                                     <div class="progress-bar">
                                         <div class="progress-fill" style="width: 1%"></div>
@@ -803,1309 +928,556 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Review Transfer</h2>
-                <button class="modal-close" onclick="closeModal('reviewModal')">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button class="modal-close" onclick="closeModal('reviewModal')"><i class="fas fa-times"></i></button>
             </div>
-            
             <div class="modal-body">
                 <div class="transfer-summary">
                     <div class="summary-amount">
                         <span class="label">Amount</span>
                         <span class="amount" id="reviewAmount">£0.00</span>
                     </div>
-                    
                     <div class="summary-details">
-                        <div class="detail-row">
-                            <span class="detail-label">From</span>
-                            <span class="detail-value" id="reviewFrom">Checking Account</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">To</span>
-                            <span class="detail-value" id="reviewTo"></span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Bank</span>
-                            <span class="detail-value" id="reviewBank"></span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Account</span>
-                            <span class="detail-value" id="reviewAccount"></span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Routing/Sort Code</span>
-                            <span class="detail-value" id="reviewRouting"></span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Description</span>
-                            <span class="detail-value" id="reviewDescription"></span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Transfer Date</span>
-                            <span class="detail-value" id="reviewDate"></span>
-                        </div>
+                        <div class="detail-row"><span class="detail-label">From</span><span class="detail-value"
+                                id="reviewFrom">Checking Account</span></div>
+                        <div class="detail-row"><span class="detail-label">To</span><span class="detail-value"
+                                id="reviewTo"></span></div>
+                        <div class="detail-row"><span class="detail-label">Bank</span><span class="detail-value"
+                                id="reviewBank"></span></div>
+                        <div class="detail-row"><span class="detail-label">Account</span><span class="detail-value"
+                                id="reviewAccount"></span></div>
+                        <div class="detail-row"><span class="detail-label">Routing/Sort Code</span><span
+                                class="detail-value" id="reviewRouting"></span></div>
+                        <div class="detail-row"><span class="detail-label">Description</span><span class="detail-value"
+                                id="reviewDescription"></span></div>
+                        <div class="detail-row"><span class="detail-label">Transfer Date</span><span
+                                class="detail-value" id="reviewDate"></span></div>
                     </div>
-
                     <div class="summary-fees">
-                        <div class="fee-row">
-                            <span>Transfer Amount</span>
-                            <span id="reviewTransferAmount">£0.00</span>
+                        <div class="fee-row"><span>Transfer Amount</span><span id="reviewTransferAmount">£0.00</span>
                         </div>
-                        <div class="fee-row">
-                            <span>Fee</span>
-                            <span class="free">£0.00</span>
-                        </div>
-                        <div class="fee-row total">
-                            <span>Total Debit</span>
-                            <span id="reviewTotal">£0.00</span>
-                        </div>
+                        <div class="fee-row"><span>Fee</span><span class="free">£0.00</span></div>
+                        <div class="fee-row total"><span>Total Debit</span><span id="reviewTotal">£0.00</span></div>
                     </div>
                 </div>
-
                 <div class="security-confirmation">
                     <i class="fas fa-lock"></i>
                     <p>This transfer is protected by multi-factor authentication and encryption</p>
                 </div>
             </div>
-
             <div class="modal-footer">
                 <button class="btn-secondary" onclick="closeModal('reviewModal')">Edit</button>
                 <button class="btn-primary" onclick="processTransfer()">
-                    <i class="fas fa-check-circle"></i>
-                    Confirm Transfer
+                    <i class="fas fa-check-circle"></i> Confirm Transfer
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Failure Modal (instead of success) -->
+    <!-- Failure Modal -->
     <div class="modal-premium" id="failureModal">
         <div class="failure-modal">
-            <div class="failure-icon">
-                <i class="fas fa-exclamation-triangle"></i>
-            </div>
+            <div class="failure-icon"><i class="fas fa-exclamation-triangle"></i></div>
             <h2 class="failure-title">Transfer Failed</h2>
             <p style="color: #64748B; margin-bottom: 20px;">We could not process your transfer at this time.</p>
-            
-            <div class="failure-reason" id="failureReason">
-                <!-- Dynamic failure reason will be inserted here -->
-            </div>
-
+            <div class="failure-reason" id="failureReason"></div>
             <div class="support-info">
                 <p>Our support team has been notified. Please contact us for assistance.</p>
                 <button class="support-btn" onclick="contactSupport()">
-                    <i class="fas fa-headset"></i>
-                    Contact Support
+                    <i class="fas fa-headset"></i> Contact Support
                 </button>
             </div>
-
-            <button class="btn-secondary" onclick="closeModal('failureModal')" style="margin-top: 16px; width: 100%;">
-                Close
-            </button>
+            <button class="btn-secondary" onclick="closeModal('failureModal')"
+                style="margin-top: 16px; width: 100%;">Close</button>
         </div>
     </div>
 
-    <!-- Add this Loading Modal after the Failure Modal -->
-<div class="modal-premium" id="loadingModal">
-    <div class="modal-content" style="text-align: center; padding: 40px;">
-        <div class="loading-spinner" style="margin-bottom: 24px;">
-            <i class="fas fa-circle-notch fa-spin" style="font-size: 48px; color: #0A2472;"></i>
+    <!-- Loading Modal -->
+    <div class="modal-premium" id="loadingModal">
+        <div class="modal-content" style="text-align: center; padding: 40px;">
+            <div class="loading-spinner" style="margin-bottom: 24px;">
+                <i class="fas fa-circle-notch fa-spin" style="font-size: 48px; color: #0A2472;"></i>
+            </div>
+            <h3 style="color: #0F172A; margin-bottom: 8px;">Processing Transfer</h3>
+            <p style="color: #64748B; margin-bottom: 16px;">Please wait while we verify and process your transfer...</p>
+            <div class="progress-bar"
+                style="height: 4px; background: #E2E8F0; border-radius: 4px; overflow: hidden; max-width: 300px; margin: 0 auto;">
+                <div class="progress-fill" id="loadingProgress"
+                    style="width: 0%; height: 100%; background: #0A2472; transition: width 0.3s ease;"></div>
+            </div>
+            <p style="color: #94A3B8; font-size: 12px; margin-top: 16px;" id="loadingStatus">Initiating transfer...</p>
         </div>
-        <h3 style="color: #0F172A; margin-bottom: 8px;">Processing Transfer</h3>
-        <p style="color: #64748B; margin-bottom: 16px;">Please wait while we verify and process your transfer...</p>
-        <div class="progress-bar" style="height: 4px; background: #E2E8F0; border-radius: 4px; overflow: hidden; max-width: 300px; margin: 0 auto;">
-            <div class="progress-fill" id="loadingProgress" style="width: 0%; height: 100%; background: #0A2472; transition: width 0.3s ease;"></div>
-        </div>
-        <p style="color: #94A3B8; font-size: 12px; margin-top: 16px;" id="loadingStatus">Initiating transfer...</p>
     </div>
-</div>
 
     <script>
-    // Major US Banks - Expanded List
-const usBanks = {
-    // Original entries plus many more
-    '021000021': {
-        name: 'JPMorgan Chase Bank',
-        address: '270 Park Avenue, New York, NY 10017',
-        swift: 'CHASUS33',
-        phone: '1-800-935-9935',
-        established: '1799',
-        type: 'Commercial Bank'
-    },
-    '121000358': {
-        name: 'Wells Fargo Bank',
-        address: '420 Montgomery Street, San Francisco, CA 94104',
-        swift: 'WFBIUS6S',
-        phone: '1-800-869-3557',
-        established: '1852',
-        type: 'Commercial Bank'
-    },
-    '026009593': {
-        name: 'Bank of America',
-        address: '100 North Tryon Street, Charlotte, NC 28255',
-        swift: 'BOFAUS3N',
-        phone: '1-800-432-1000',
-        established: '1904',
-        type: 'Commercial Bank'
-    },
-    '071000013': {
-        name: 'Citibank',
-        address: '399 Park Avenue, New York, NY 10022',
-        swift: 'CITIUS33',
-        phone: '1-800-374-9700',
-        established: '1812',
-        type: 'Commercial Bank'
-    },
-    '043000096': {
-        name: 'PNC Bank',
-        address: '300 Fifth Avenue, Pittsburgh, PA 15222',
-        swift: 'PNCCUS33',
-        phone: '1-888-762-2265',
-        established: '1845',
-        type: 'Commercial Bank'
-    },
-    '122105155': {
-        name: 'US Bank',
-        address: '425 Walnut Street, Cincinnati, OH 45202',
-        swift: 'USBKUS44',
-        phone: '1-800-872-2657',
-        established: '1863',
-        type: 'Commercial Bank'
-    },
-    '061000104': {
-        name: 'Truist Bank',
-        address: '214 N Tryon Street, Charlotte, NC 28202',
-        swift: 'TBTFUS33',
-        phone: '1-844-487-8478',
-        established: '1872',
-        type: 'Commercial Bank'
-    },
-    '031101266': {
-        name: 'TD Bank',
-        address: '1701 Route 70 East, Cherry Hill, NJ 08034',
-        swift: 'NRTHUS33',
-        phone: '1-888-751-9000',
-        established: '1852',
-        type: 'Commercial Bank'
-    },
-    '056073502': {
-        name: 'Capital One',
-        address: '1680 Capital One Drive, McLean, VA 22102',
-        swift: 'HIBKUS44',
-        phone: '1-877-383-4802',
-        established: '1994',
-        type: 'Commercial Bank'
-    },
-    '021001088': {
-        name: 'HSBC Bank USA',
-        address: '452 Fifth Avenue, New York, NY 10018',
-        swift: 'MRMDUS33',
-        phone: '1-800-975-4722',
-        established: '1865',
-        type: 'Commercial Bank'
-    },
-    '031100649': {
-        name: 'Discover Bank',
-        address: '3500 Porsche Way, Frederick, MD 21704',
-        swift: 'DISBUS33',
-        phone: '1-800-347-2683',
-        established: '1911',
-        type: 'Online Bank'
-    },
-    '124003116': {
-        name: 'Ally Bank',
-        address: '440 S Church Street, Charlotte, NC 28202',
-        swift: 'ALLYUS33',
-        phone: '1-877-247-2559',
-        established: '1919',
-        type: 'Online Bank'
-    },
-    '314074269': {
-        name: 'USAA Bank',
-        address: '10750 McDermott Freeway, San Antonio, TX 78288',
-        swift: 'USAAUS44',
-        phone: '1-800-531-8722',
-        established: '1922',
-        type: 'Military Bank'
-    },
-    '121202211': {
-        name: 'Charles Schwab Bank',
-        address: '211 Main Street, San Francisco, CA 94105',
-        swift: 'CSCHUS6S',
-        phone: '1-888-403-9000',
-        established: '1971',
-        type: 'Investment Bank'
-    },
-    '053100300': {
-        name: 'First Citizens Bank',
-        address: '4300 Six Forks Road, Raleigh, NC 27609',
-        swift: 'FCTIUS44',
-        phone: '1-888-323-4732',
-        established: '1898',
-        type: 'Regional Bank'
-    },
-    '084000026': {
-        name: 'First Horizon Bank',
-        address: '165 Madison Avenue, Memphis, TN 38103',
-        swift: 'FTBNUS44',
-        phone: '1-800-382-5465',
-        established: '1864',
-        type: 'Regional Bank'
-    },
-    '044000024': {
-        name: 'Huntington National Bank',
-        address: '41 S High Street, Columbus, OH 43215',
-        swift: 'HUNTUS33',
-        phone: '1-800-480-2001',
-        established: '1866',
-        type: 'Regional Bank'
-    },
-    '072000096': {
-        name: 'Comerica Bank',
-        address: '1717 Main Street, Dallas, TX 75201',
-        swift: 'MNBDUS33',
-        phone: '1-800-292-1300',
-        established: '1849',
-        type: 'Commercial Bank'
-    },
-    '114000093': {
-        name: 'Frost Bank',
-        address: '111 W Houston Street, San Antonio, TX 78205',
-        swift: 'FRSTUS44',
-        phone: '1-800-513-7678',
-        established: '1868',
-        type: 'Regional Bank'
-    },
-    '122000496': {
-        name: 'MUFG Union Bank',
-        address: '1251 Avenue of the Americas, New York, NY 10020',
-        swift: 'BOTKUS33',
-        phone: '1-800-288-2929',
-        established: '1917',
-        type: 'Commercial Bank'
-    },
-    '123205054': {
-        name: 'Umpqua Bank',
-        address: '1455 Valley Road, Roseburg, OR 97470',
-        swift: 'UMPQUS44',
-        phone: '1-866-486-7782',
-        established: '1953',
-        type: 'Regional Bank'
-    },
-    '071923909': {
-        name: 'Fifth Third Bank',
-        address: '38 Fountain Square Plaza, Cincinnati, OH 45263',
-        swift: 'FTBCUS33',
-        phone: '1-800-972-3030',
-        established: '1858',
-        type: 'Commercial Bank'
-    },
-    '103104945': {
-        name: 'MidFirst Bank',
-        address: '501 N Broadway, Oklahoma City, OK 73102',
-        swift: 'MIFBUS44',
-        phone: '1-405-767-7000',
-        established: '1986',
-        type: 'Regional Bank'
-    },
-    '022000046': {
-        name: 'M&T Bank',
-        address: '1 M&T Plaza, Buffalo, NY 14203',
-        swift: 'MANTUS33',
-        phone: '1-800-724-2440',
-        established: '1856',
-        type: 'Regional Bank'
-    },
-    '121000248': {
-        name: 'Wells Fargo Wire Transfers',
-        address: '420 Montgomery Street, San Francisco, CA 94104',
-        swift: 'WFBIUS6W',
-        phone: '1-800-869-3557',
-        established: '1852',
-        type: 'Commercial Bank - Wire'
-    },
-    '031101334': {
-        name: 'SoFi Bank',
-        address: '2750 E Cottonwood Parkway, Cottonwood Heights, UT 84121',
-        swift: 'SOHIUS31',
-        phone: '1-844-908-7634',
-        established: '2011',
-        type: 'Digital Bank'
-    },
-    '021213591': {
-        name: 'Synchrony Bank',
-        address: '777 Long Ridge Road, Stamford, CT 06902',
-        swift: 'GENBUS31',
-        phone: '1-844-345-2265',
-        established: '2003',
-        type: 'Online Bank'
-    },
-    '062005690': {
-        name: 'Regions Bank',
-        address: '1900 5th Avenue North, Birmingham, AL 35203',
-        swift: 'UABKUS44',
-        phone: '1-800-734-4667',
-        established: '1971',
-        type: 'Regional Bank'
-    },
-    '031100305': {
-        name: 'Santander Bank',
-        address: '75 State Street, Boston, MA 02109',
-        swift: 'SVRNUS33',
-        phone: '1-877-768-2265',
-        established: '1902',
-        type: 'Commercial Bank'
-    },
-    '051000017': {
-        name: 'Bank of America (General)',
-        address: '100 North Tryon Street, Charlotte, NC 28255',
-        swift: 'BOFAUS3N',
-        phone: '1-800-432-1000',
-        established: '1904',
-        type: 'Commercial Bank'
-    },
-    '031000503': {
-        name: 'Citizens Bank',
-        address: '1 Citizens Plaza, Providence, RI 02903',
-        swift: 'CTZIUS33',
-        phone: '1-800-922-9999',
-        established: '1828',
-        type: 'Commercial Bank'
-    },
-    '121000358': {
-        name: 'Wells Fargo (General)',
-        address: '420 Montgomery Street, San Francisco, CA 94104',
-        swift: 'WFBIUS6S',
-        phone: '1-800-869-3557',
-        established: '1852',
-        type: 'Commercial Bank'
-    },
-    '031101279': {
-        name: 'THE BANCORP BANK',
-        address: 'Wilmington, DE 19801',
-        swift: 'TBIUS6S',
-        phone: '1-800-869-3557',
-        established: '1852',
-        type: 'Commercial Bank'
-    },
-    '031101334': {
-        name: 'SoFi Bank, National Association',
-        address: '234 1st Street, San Francisco, CA 94105',
-        swift: 'N/A', // SoFi does not have a SWIFT code for international transfers [citation:2]
-        phone: '1-844-908-7634',
-        established: '2011',
-        type: 'Digital Bank',
-        notes: 'Primary routing number for ACH and wire transfers. Use for domestic wires and all electronic transactions.'
-    },
-    '121145336': {
-        name: 'SoFi Bank, National Association',
-        address: '234 1st Street, San Francisco, CA 94105',
-        swift: 'N/A',
-        phone: '1-844-908-7634',
-        established: '2011',
-        type: 'Digital Bank',
-        notes: 'Alternative routing number. Supports ACH and wire transfers.'
-    },
-    '121145323': {
-        name: 'SoFi Bank, National Association',
-        address: '234 1st Street, San Francisco, CA 94105',
-        swift: 'N/A',
-        phone: '1-844-908-7634',
-        established: '2011',
-        type: 'Digital Bank',
-        notes: 'Alternative routing number. Located in San Francisco, CA.'
-    },
-    '124003284': {
-        name: 'SoFi Bank, National Association',
-        address: 'Suite 300, Cottonwood Heights, UT 84121',
-        swift: 'N/A',
-        phone: '1-844-908-7634',
-        established: '2011',
-        type: 'Digital Bank',
-        notes: 'Routing number associated with Cottonwood Heights, UT location.'
-    }
-};
+        // =========================================================================
+        // COMPLETE US BANK DATABASE
+        // =========================================================================
+        const usBanks = {
+            '021000021': { name: 'JPMorgan Chase Bank, N.A.', address: '270 Park Avenue, New York, NY 10017', swift: 'CHASUS33', phone: '1-800-935-9935', established: '1799', type: 'Commercial Bank', category: 'National', website: 'chase.com', fedwire: '021000021', ach: true, realtime: true },
+            '044000037': { name: 'JPMorgan Chase Bank, N.A. (Ohio)', address: '1111 Polaris Parkway, Columbus, OH 43240', swift: 'CHASUS33', phone: '1-800-935-9935', established: '1799', type: 'Commercial Bank', category: 'National', website: 'chase.com', fedwire: '021000021', ach: true, realtime: true },
+            '267084131': { name: 'JPMorgan Chase Bank, N.A. (Florida)', address: '270 Park Avenue, New York, NY 10017', swift: 'CHASUS33', phone: '1-800-935-9935', established: '1799', type: 'Commercial Bank', category: 'National', website: 'chase.com', fedwire: '021000021', ach: true, realtime: true },
+            '121000248': { name: 'Wells Fargo Bank, N.A.', address: '420 Montgomery Street, San Francisco, CA 94104', swift: 'WFBIUS6S', phone: '1-800-869-3557', established: '1852', type: 'Commercial Bank', category: 'National', website: 'wellsfargo.com', fedwire: '121000248', ach: true, realtime: true },
+            '031000503': { name: 'Wells Fargo Bank, N.A. (East)', address: '101 North Independence Mall East, Philadelphia, PA 19106', swift: 'WFBIUS6S', phone: '1-800-869-3557', established: '1852', type: 'Commercial Bank', category: 'National', website: 'wellsfargo.com', fedwire: '121000248', ach: true, realtime: true },
+            '026009593': { name: 'Bank of America, N.A.', address: '100 North Tryon Street, Charlotte, NC 28255', swift: 'BOFAUS3N', phone: '1-800-432-1000', established: '1904', type: 'Commercial Bank', category: 'National', website: 'bankofamerica.com', fedwire: '026009593', ach: true, realtime: true },
+            '121000358': { name: 'Bank of America, N.A. (California)', address: '100 North Tryon Street, Charlotte, NC 28255', swift: 'BOFAUS6S', phone: '1-800-432-1000', established: '1904', type: 'Commercial Bank', category: 'National', website: 'bankofamerica.com', fedwire: '026009593', ach: true, realtime: true },
+            '021000089': { name: 'Citibank, N.A.', address: '399 Park Avenue, New York, NY 10022', swift: 'CITIUS33', phone: '1-800-374-9700', established: '1812', type: 'Commercial Bank', category: 'National', website: 'citi.com', fedwire: '021000089', ach: true, realtime: true },
+            '091000022': { name: 'U.S. Bank, N.A.', address: '800 Nicollet Mall, Minneapolis, MN 55402', swift: 'USBKUS44', phone: '1-800-872-2657', established: '1863', type: 'Commercial Bank', category: 'National', website: 'usbank.com', fedwire: '091000022', ach: true, realtime: true },
+            '123000220': { name: 'U.S. Bank, N.A. (Oregon)', address: '800 Nicollet Mall, Minneapolis, MN 55402', swift: 'USBKUS44', phone: '1-800-872-2657', established: '1863', type: 'Commercial Bank', category: 'National', website: 'usbank.com', fedwire: '091000022', ach: true, realtime: true },
+            '043000096': { name: 'PNC Bank, N.A.', address: '249 Fifth Avenue, Pittsburgh, PA 15222', swift: 'PNCCUS33', phone: '1-888-762-2265', established: '1845', type: 'Commercial Bank', category: 'National', website: 'pnc.com', fedwire: '043000096', ach: true, realtime: true },
+            '061000104': { name: 'Truist Bank', address: '214 North Tryon Street, Charlotte, NC 28202', swift: 'SNTRUS3A', phone: '1-800-226-5228', established: '1872', type: 'Commercial Bank', category: 'National', website: 'truist.com', fedwire: '061000104', ach: true, realtime: true },
+            '031201360': { name: 'TD Bank, N.A.', address: '1701 Route 70 East, Cherry Hill, NJ 08034', swift: 'NRTHUS33', phone: '1-888-751-9000', established: '1852', type: 'Commercial Bank', category: 'National', website: 'tdbank.com', fedwire: '031201360', ach: true, realtime: true },
+            '056073502': { name: 'Capital One, N.A.', address: '1680 Capital One Drive, McLean, VA 22102', swift: 'COLEUS33', phone: '1-888-464-7868', established: '1988', type: 'Commercial Bank', category: 'National', website: 'capitalone.com', fedwire: '056073502', ach: true, realtime: true },
+            '051405515': { name: 'Capital One, N.A. (Virginia)', address: '1680 Capital One Drive, McLean, VA 22102', swift: 'COLEUS33', phone: '1-888-464-7868', established: '1988', type: 'Commercial Bank', category: 'National', website: 'capitalone.com', fedwire: '056073502', ach: true, realtime: true },
+            '042000314': { name: 'Fifth Third Bank', address: '38 Fountain Square Plaza, Cincinnati, OH 45263', swift: 'FTBCUS3C', phone: '1-800-972-3030', established: '1858', type: 'Commercial Bank', category: 'Regional', website: '53.com', fedwire: '042000314', ach: true, realtime: true },
+            '041001039': { name: 'KeyBank, N.A.', address: '127 Public Square, Cleveland, OH 44114', swift: 'KEYBUS33', phone: '1-800-539-2968', established: '1825', type: 'Commercial Bank', category: 'Regional', website: 'key.com', fedwire: '041001039', ach: true, realtime: true },
+            '062000019': { name: 'Regions Bank', address: '1900 Fifth Avenue North, Birmingham, AL 35203', swift: 'UPNBUS44', phone: '1-800-734-4667', established: '1971', type: 'Commercial Bank', category: 'Regional', website: 'regions.com', fedwire: '062000019', ach: true, realtime: true },
+            '022000046': { name: 'M&T Bank', address: 'One M&T Plaza, Buffalo, NY 14203', swift: 'MANTUS33', phone: '1-800-724-2440', established: '1856', type: 'Commercial Bank', category: 'Regional', website: 'mtb.com', fedwire: '022000046', ach: true, realtime: true },
+            '044000024': { name: 'The Huntington National Bank', address: '17 South High Street, Columbus, OH 43215', swift: 'HUNTUS33', phone: '1-800-480-2265', established: '1866', type: 'Commercial Bank', category: 'Regional', website: 'huntington.com', fedwire: '044000024', ach: true, realtime: true },
+            '011500120': { name: 'Citizens Bank, N.A.', address: 'One Citizens Plaza, Providence, RI 02903', swift: 'CTZIUS33', phone: '1-800-922-9999', established: '1828', type: 'Commercial Bank', category: 'Regional', website: 'citizensbank.com', fedwire: '011500120', ach: true, realtime: true },
+            '084000026': { name: 'First Horizon Bank', address: '165 Madison Avenue, Memphis, TN 38103', swift: 'FTBMUS44', phone: '1-800-382-5465', established: '1864', type: 'Commercial Bank', category: 'Regional', website: 'firsthorizon.com', fedwire: '084000026', ach: true, realtime: true },
+            '072000096': { name: 'Comerica Bank', address: '1717 Main Street, Dallas, TX 75201', swift: 'MNBDUS33', phone: '1-800-266-3742', established: '1849', type: 'Commercial Bank', category: 'Regional', website: 'comerica.com', fedwire: '072000096', ach: true, realtime: true },
+            '124000054': { name: 'Zions Bancorporation, N.A.', address: 'One South Main Street, Salt Lake City, UT 84133', swift: 'ZFNBUS55', phone: '1-800-974-8800', established: '1873', type: 'Commercial Bank', category: 'Regional', website: 'zionsbank.com', fedwire: '124000054', ach: true, realtime: true },
+            '071025661': { name: 'BMO Harris Bank, N.A.', address: '111 West Monroe Street, Chicago, IL 60603', swift: 'HATRUS44', phone: '1-888-340-2265', established: '1882', type: 'Commercial Bank', category: 'Regional', website: 'bmo.com', fedwire: '071025661', ach: true, realtime: true },
+            '231372691': { name: 'Santander Bank, N.A.', address: '824 North Market Street, Wilmington, DE 19801', swift: 'SVRNUS33', phone: '1-877-768-2265', established: '1907', type: 'Commercial Bank', category: 'Regional', website: 'santanderbank.com', fedwire: '231372691', ach: true, realtime: true },
+            '256074974': { name: 'Navy Federal Credit Union', address: '820 Follin Lane, Vienna, VA 22180', swift: 'NFCUUS33', phone: '1-888-842-6328', established: '1933', type: 'Credit Union', category: 'Federal', website: 'navyfederal.org', fedwire: '256074974', ach: true, realtime: true },
+            '253177049': { name: "State Employees' Credit Union", address: '1000 Wade Avenue, Raleigh, NC 27605', swift: 'SECUUS31', phone: '1-888-732-8562', established: '1937', type: 'Credit Union', category: 'State', website: 'ncsecu.org', fedwire: '253177049', ach: true, realtime: true },
+            '256078446': { name: 'Pentagon Federal Credit Union', address: '2930 Eisenhower Avenue, Alexandria, VA 22314', swift: 'PNFGUS33', phone: '1-800-247-5626', established: '1935', type: 'Credit Union', category: 'Federal', website: 'penfed.org', fedwire: '256078446', ach: true, realtime: true },
+            '322282001': { name: 'SchoolsFirst Federal Credit Union', address: '2115 North Broadway, Santa Ana, CA 92706', swift: 'SCFCUS61', phone: '1-800-462-8328', established: '1934', type: 'Credit Union', category: 'Federal', website: 'schoolsfirstfcu.org', fedwire: '322282001', ach: true, realtime: true },
+            '325081403': { name: 'Boeing Employees Credit Union', address: '12770 Gateway Drive, Tukwila, WA 98168', swift: 'BOECUS61', phone: '1-800-233-2328', established: '1935', type: 'Credit Union', category: 'Federal', website: 'becu.org', fedwire: '325081403', ach: true, realtime: true },
+            '321175261': { name: 'Golden 1 Credit Union', address: '8945 Cal Center Drive, Sacramento, CA 95826', swift: 'GFCUUS61', phone: '1-877-465-3361', established: '1933', type: 'Credit Union', category: 'State', website: 'golden1.com', fedwire: '321175261', ach: true, realtime: true },
+            '324377516': { name: 'America First Federal Credit Union', address: '1344 West 4675 South, Riverdale, UT 84405', swift: 'AFCCUS51', phone: '1-800-999-3961', established: '1939', type: 'Credit Union', category: 'Federal', website: 'americafirst.com', fedwire: '324377516', ach: true, realtime: true },
+            '271081528': { name: 'Alliant Credit Union', address: '11545 West Touhy Avenue, Chicago, IL 60666', swift: 'ALIUUS41', phone: '1-800-328-1935', established: '1935', type: 'Credit Union', category: 'Federal', website: 'alliantcreditunion.org', fedwire: '271081528', ach: true, realtime: true },
+            '124003116': { name: 'Ally Bank', address: '6985 Union Park Center, Midvale, UT 84047', swift: 'ALLYUS51', phone: '1-877-247-2559', established: '2009', type: 'Online Bank', category: 'Digital', website: 'ally.com', fedwire: '124003116', ach: true, realtime: true },
+            '031100649': { name: 'Discover Bank', address: "12 Read's Way, New Castle, DE 19720", swift: 'DISBUS33', phone: '1-800-347-2683', established: '1911', type: 'Online Bank', category: 'Digital', website: 'discover.com', fedwire: '031100649', ach: true, realtime: true },
+            '021213591': { name: 'Synchrony Bank', address: '170 Election Road, Draper, UT 84020', swift: 'SYFCUS33', phone: '1-866-226-5638', established: '1988', type: 'Online Bank', category: 'Digital', website: 'synchronybank.com', fedwire: '021213591', ach: true, realtime: true },
+            '124085066': { name: 'American Express National Bank', address: '4315 South 2700 West, Salt Lake City, UT 84184', swift: 'AEIBUS33', phone: '1-800-446-6307', established: '1850', type: 'Online Bank', category: 'Digital', website: 'americanexpress.com', fedwire: '124085066', ach: true, realtime: true },
+            '026014876': { name: 'Goldman Sachs Bank USA', address: '200 West Street, New York, NY 10282', swift: 'GSCMUS33', phone: '1-855-730-7283', established: '1869', type: 'Online Bank', category: 'Digital', website: 'marcus.com', fedwire: '026014876', ach: true, realtime: true },
+            '124303120': { name: 'SoFi Bank, N.A.', address: '2750 East Cottonwood Parkway, Cottonwood Heights, UT 84121', swift: 'SOFIUS55', phone: '1-855-456-7634', established: '2021', type: 'Online Bank', category: 'Digital', website: 'sofi.com', fedwire: '124303120', ach: true, realtime: true },
+            '031101279': { name: 'The Bancorp Bank (Chime)', address: '409 Silverside Road, Wilmington, DE 19809', swift: 'BANCUS33', phone: '1-844-244-6363', established: '2000', type: 'Online Bank Partner', category: 'Digital', website: 'thebancorp.com', fedwire: '031101279', ach: true, realtime: true },
+            '103100195': { name: 'Stride Bank, N.A. (Chime)', address: '324 West Broadway, Enid, OK 73701', swift: 'STRIUS41', phone: '1-844-244-6363', established: '1913', type: 'Online Bank Partner', category: 'Digital', website: 'stridebank.com', fedwire: '103100195', ach: true, realtime: true },
+            '124303269': { name: 'Varo Bank, N.A.', address: '222 South Main Street, Salt Lake City, UT 84101', swift: 'VAROUS51', phone: '1-877-377-8276', established: '2020', type: 'Online Bank', category: 'Digital', website: 'varomoney.com', fedwire: '124303269', ach: true, realtime: true },
+            '091311229': { name: 'Choice Financial Group (Current)', address: '4501 23rd Avenue South, Fargo, ND 58104', swift: 'CHFIUS41', phone: '1-888-894-7444', established: '2001', type: 'Online Bank Partner', category: 'Digital', website: 'choicefinancialgroup.com', fedwire: '091311229', ach: true, realtime: true },
+            '121202211': { name: 'Charles Schwab Bank, SSB', address: '211 Main Street, San Francisco, CA 94105', swift: 'CSCHUS6S', phone: '1-800-435-4000', established: '1971', type: 'Investment Bank', category: 'Brokerage', website: 'schwab.com', fedwire: '121202211', ach: true, realtime: true },
+            '101205681': { name: 'Fidelity Investments (UMB Bank)', address: '1008 Oak Street, Kansas City, MO 64106', swift: 'UMKCUS44', phone: '1-800-343-3548', established: '1946', type: 'Investment Bank', category: 'Brokerage', website: 'fidelity.com', fedwire: '101205681', ach: true, realtime: true },
+            '031100157': { name: 'Vanguard (PNC Bank)', address: '249 Fifth Avenue, Pittsburgh, PA 15222', swift: 'PNCCUS33', phone: '1-877-662-7447', established: '1975', type: 'Investment Bank', category: 'Brokerage', website: 'vanguard.com', fedwire: '043000096', ach: true, realtime: true },
+            '256072691': { name: 'Morgan Stanley Private Bank (E*TRADE)', address: '1585 Broadway, New York, NY 10036', swift: 'MSPBUS33', phone: '1-800-387-2331', established: '1935', type: 'Investment Bank', category: 'Brokerage', website: 'etrade.com', fedwire: '256072691', ach: true, realtime: true },
+            '071921891': { name: 'TD Ameritrade Clearing (Charles Schwab)', address: '200 South 108th Avenue, Omaha, NE 68154', swift: 'TDAEUS41', phone: '1-800-669-3900', established: '1975', type: 'Investment Bank', category: 'Brokerage', website: 'tdameritrade.com', fedwire: '071921891', ach: true, realtime: true },
+            '114924742': { name: 'The Bancorp Bank (PayPal)', address: '409 Silverside Road, Wilmington, DE 19809', swift: 'BANCUS33', phone: '1-888-221-1161', established: '2000', type: 'Fintech Partner', category: 'Payment', website: 'paypal.com', fedwire: '031101279', ach: true, realtime: true },
+            '031101334': { name: 'The Bancorp Bank (Venmo)', address: '409 Silverside Road, Wilmington, DE 19809', swift: 'BANCUS33', phone: '1-855-812-4430', established: '2000', type: 'Fintech Partner', category: 'Payment', website: 'venmo.com', fedwire: '031101279', ach: true, realtime: true },
+            '041215663': { name: 'Sutton Bank (Cash App)', address: '1 South Main Street, Attica, OH 44807', swift: 'SUTTUS31', phone: '1-800-969-1940', established: '1878', type: 'Fintech Partner', category: 'Payment', website: 'cash.app', fedwire: '041215663', ach: true, realtime: true },
+            '073905527': { name: 'Lincoln Savings Bank (Cash App)', address: '508 Main Street, Reinbeck, IA 50669', swift: 'LISVUS41', phone: '1-800-969-1940', established: '1902', type: 'Fintech Partner', category: 'Payment', website: 'cash.app', fedwire: '073905527', ach: true, realtime: true },
+            '084106768': { name: 'Evolve Bank & Trust (Stripe)', address: '6070 Poplar Avenue, Memphis, TN 38119', swift: 'EVOLUS44', phone: '1-866-395-2754', established: '1925', type: 'Fintech Partner', category: 'Payment', website: 'stripe.com', fedwire: '084106768', ach: true, realtime: true },
+            '041208777': { name: 'Sutton Bank (Square)', address: '1 South Main Street, Attica, OH 44807', swift: 'SUTTUS31', phone: '1-855-700-6000', established: '1878', type: 'Fintech Partner', category: 'Payment', website: 'squareup.com', fedwire: '041215663', ach: true, realtime: true },
+            '011000015': { name: 'Federal Reserve Bank of Boston', address: '600 Atlantic Avenue, Boston, MA 02210', swift: 'FRBBUS33', phone: '1-617-973-3000', established: '1913', type: 'Federal Reserve Bank', category: 'Government', website: 'bostonfed.org', fedwire: '011000015', ach: false, realtime: false },
+            '021001208': { name: 'Federal Reserve Bank of New York', address: '33 Liberty Street, New York, NY 10045', swift: 'FRNYUS33', phone: '1-212-720-5000', established: '1913', type: 'Federal Reserve Bank', category: 'Government', website: 'newyorkfed.org', fedwire: '021001208', ach: false, realtime: false },
+            '031000040': { name: 'Federal Reserve Bank of Philadelphia', address: '10 Independence Mall, Philadelphia, PA 19106', swift: 'FRPHUS31', phone: '1-215-574-6000', established: '1913', type: 'Federal Reserve Bank', category: 'Government', website: 'philadelphiafed.org', fedwire: '031000040', ach: false, realtime: false },
+            '041000014': { name: 'Federal Reserve Bank of Cleveland', address: '1455 East 6th Street, Cleveland, OH 44114', swift: 'FRCLUS31', phone: '1-216-579-2000', established: '1913', type: 'Federal Reserve Bank', category: 'Government', website: 'clevelandfed.org', fedwire: '041000014', ach: false, realtime: false },
+            '051000033': { name: 'Federal Reserve Bank of Richmond', address: '701 East Byrd Street, Richmond, VA 23219', swift: 'FRIRUS31', phone: '1-804-697-8000', established: '1913', type: 'Federal Reserve Bank', category: 'Government', website: 'richmondfed.org', fedwire: '051000033', ach: false, realtime: false },
+            '061000146': { name: 'Federal Reserve Bank of Atlanta', address: '1000 Peachtree Street NE, Atlanta, GA 30309', swift: 'FRATUS31', phone: '1-404-498-8500', established: '1913', type: 'Federal Reserve Bank', category: 'Government', website: 'atlantafed.org', fedwire: '061000146', ach: false, realtime: false },
+            '071000301': { name: 'Federal Reserve Bank of Chicago', address: '230 South LaSalle Street, Chicago, IL 60604', swift: 'FRCHUS41', phone: '1-312-322-5322', established: '1913', type: 'Federal Reserve Bank', category: 'Government', website: 'chicagofed.org', fedwire: '071000301', ach: false, realtime: false },
+            '081000045': { name: 'Federal Reserve Bank of St. Louis', address: 'One Federal Reserve Bank Plaza, St. Louis, MO 63102', swift: 'FRSLUS41', phone: '1-314-444-8444', established: '1913', type: 'Federal Reserve Bank', category: 'Government', website: 'stlouisfed.org', fedwire: '081000045', ach: false, realtime: false },
+            '091000080': { name: 'Federal Reserve Bank of Minneapolis', address: '90 Hennepin Avenue, Minneapolis, MN 55401', swift: 'FRMNUS41', phone: '1-612-204-5000', established: '1913', type: 'Federal Reserve Bank', category: 'Government', website: 'minneapolisfed.org', fedwire: '091000080', ach: false, realtime: false },
+            '101000048': { name: 'Federal Reserve Bank of Kansas City', address: '1 Memorial Drive, Kansas City, MO 64198', swift: 'FRKCUS41', phone: '1-816-881-2000', established: '1913', type: 'Federal Reserve Bank', category: 'Government', website: 'kansascityfed.org', fedwire: '101000048', ach: false, realtime: false },
+            '111000038': { name: 'Federal Reserve Bank of Dallas', address: '2200 North Pearl Street, Dallas, TX 75201', swift: 'FRDAUS41', phone: '1-214-922-6000', established: '1913', type: 'Federal Reserve Bank', category: 'Government', website: 'dallasfed.org', fedwire: '111000038', ach: false, realtime: false },
+            '121000374': { name: 'Federal Reserve Bank of San Francisco', address: '101 Market Street, San Francisco, CA 94105', swift: 'FRSFUS61', phone: '1-415-974-2000', established: '1913', type: 'Federal Reserve Bank', category: 'Government', website: 'frbsf.org', fedwire: '121000374', ach: false, realtime: false }
+        };
 
-// Major UK Banks - Expanded List
-const ukBanks = {
-    // Original entries plus many more from search results [citation:2][citation:6]
-    '20-00-00': {
-        name: 'Barclays Bank',
-        address: '1 Churchill Place, London E14 5HP',
-        swift: 'BARCGB22',
-        phone: '+44 2476 842 000',
-        established: '1690',
-        type: 'High Street Bank'
-    },
-    '40-00-00': {
-        name: 'HSBC Bank',
-        address: '8 Canada Square, London E14 5HQ',
-        swift: 'MIDLGB22',
-        phone: '+44 345 740 4404',
-        established: '1865',
-        type: 'High Street Bank'
-    },
-    '30-00-00': {
-        name: 'Lloyds Bank',
-        address: '25 Gresham Street, London EC2V 7HN',
-        swift: 'LOYDGB2L',
-        phone: '+44 345 300 0000',
-        established: '1765',
-        type: 'High Street Bank'
-    },
-    '16-00-00': {
-        name: 'NatWest Bank',
-        address: '250 Bishopsgate, London EC2M 4AA',
-        swift: 'NWBKGB2L',
-        phone: '+44 345 788 8444',
-        established: '1968',
-        type: 'High Street Bank'
-    },
-    '60-00-00': {
-        name: 'Santander UK',
-        address: '2 Triton Square, London NW1 3AN',
-        swift: 'ABBYGB2L',
-        phone: '+44 800 912 3123',
-        established: '2010',
-        type: 'High Street Bank'
-    },
-    '60-83-71': {
-        name: 'Starling Bank',
-        address: '5th Floor, London Fruit Exchange, London E1 6BJ',
-        swift: 'SRLGGB2L',
-        phone: '+44 20 7930 4450',
-        established: '2014',
-        type: 'Digital Bank'
-    },
-    '04-00-04': {
-        name: 'Monzo Bank',
-        address: 'Broadwalk House, 5 Appold Street, London EC2A 2AG',
-        swift: 'MONZGB2L',
-        phone: '+44 20 3872 0620',
-        established: '2015',
-        type: 'Digital Bank'
-    },
-    '04-00-75': {
-        name: 'Modulr Finance (Revolut)',
-        address: '12-16 Adeline Street, Manchester M60 0HP',
-        swift: 'MODRGB22',
-        phone: '+44 330 058 4256',
-        established: '2016',
-        type: 'Digital Bank/EMI'
-    },
-    '23-14-70': {
-        name: 'Wise (TransferWise)',
-        address: '56 Shoreditch High Street, London E1 6JJ',
-        swift: 'TRWIGB22',
-        phone: '+44 20 7354 6777',
-        established: '2011',
-        type: 'Digital Bank/EMI'
-    },
-    '11-00-01': {
-        name: 'Halifax (Bank of Scotland)',
-        address: 'The Mound, Edinburgh EH1 1YZ',
-        swift: 'BOFSGB2S',
-        phone: '+44 345 602 0000',
-        established: '1850',
-        type: 'High Street Bank'
-    },
-    '16-63-00': {
-        name: 'Royal Bank of Scotland',
-        address: '36 St Andrew Square, Edinburgh EH2 2YB',
-        swift: 'RBOSGB2L',
-        phone: '+44 345 724 2424',
-        established: '1727',
-        type: 'High Street Bank'
-    },
-    '60-91-04': {
-        name: 'Standard Chartered Bank',
-        address: '1 Basinghall Avenue, London EC2V 5DD',
-        swift: 'SCBLGB2L',
-        phone: '+44 20 7885 8888',
-        established: '1969',
-        type: 'International Bank'
-    },
-    '60-60-04': {
-        name: 'National Westminster Bank',
-        address: '250 Bishopsgate, London EC2M 4AA',
-        swift: 'NWBKGB2L',
-        phone: '+44 345 788 8444',
-        established: '1968',
-        type: 'High Street Bank'
-    },
-    '90-12-80': {
-        name: 'Santander Bank (Alt)',
-        address: '2 Triton Square, London NW1 3AN',
-        swift: 'ABBYGB2L',
-        phone: '+44 800 912 3123',
-        established: '2010',
-        type: 'High Street Bank'
-    },
-    '70-43-60': {
-        name: 'Nationwide Building Society',
-        address: 'Nationwide House, Pipers Way, Swindon SN38 1NW',
-        swift: 'NAIAGB21',
-        phone: '+44 1793 513000',
-        established: '1846',
-        type: 'Building Society'
-    },
-    '23-69-72': {
-        name: 'Prepay Technologies',
-        address: '27-32 Old Jewry, London EC2R 8DQ',
-        swift: 'PPTFGB21',
-        phone: '+44 20 7002 3100',
-        established: '2005',
-        type: 'Payment Institution'
-    },
-    '23-05-80': {
-        name: 'Metro Bank',
-        address: 'One Southampton Row, London WC1B 5HA',
-        swift: 'MYMBGB2L',
-        phone: '+44 345 080 8448',
-        established: '2010',
-        type: 'Challenger Bank'
-    },
-    '40-04-00': {
-        name: 'Monzo Bank (Alt)',
-        address: 'Broadwalk House, 5 Appold Street, London EC2A 2AG',
-        swift: 'MONZGB2L',
-        phone: '+44 20 3872 0620',
-        established: '2015',
-        type: 'Digital Bank'
-    },
-    '40-02-60': {
-        name: 'N26 Bank',
-        address: '9 Appold Street, London EC2A 2AP',
-        swift: 'NTSBDEB1',
-        phone: '+49 30 364286255',
-        established: '2013',
-        type: 'Digital Bank'
-    },
-    '87-19-90': {
-        name: 'Aps Financial',
-        address: '3rd Floor, 60 St Martin\'s Lane, London WC2N 4JS',
-        swift: 'APSXGB21',
-        phone: '+44 20 7845 7900',
-        established: '2002',
-        type: 'Payment Institution'
-    },
-    '40-12-76': {
-        name: 'HSBC (Alt)',
-        address: '8 Canada Square, London E14 5HQ',
-        swift: 'MIDLGB22',
-        phone: '+44 345 740 4404',
-        established: '1865',
-        type: 'High Street Bank'
-    },
-    '20-26-78': {
-        name: 'Barclays (Alt)',
-        address: '1 Churchill Place, London E14 5HP',
-        swift: 'BARCGB22',
-        phone: '+44 2476 842 000',
-        established: '1690',
-        type: 'High Street Bank'
-    },
-    '83-21-00': {
-        name: 'Government Banking (HMRC)',
-        address: '100 Parliament Street, London SW1A 2BQ',
-        swift: 'HMRGGB2L',
-        phone: '+44 300 200 3700',
-        established: 'N/A',
-        type: 'Government'
-    },
-    '77-49-26': {
-        name: 'Lloyds Bank (Alt)',
-        address: '25 Gresham Street, London EC2V 7HN',
-        swift: 'LOYDGB2L',
-        phone: '+44 345 300 0000',
-        established: '1765',
-        type: 'High Street Bank'
-    },
-    '04-00-01': {
-        name: 'iFAST Global Bank',
-        address: '7th Floor, 50 Mark Lane, London EC3R 7QR',
-        swift: 'IFASGB2L',
-        phone: '+44 20 7071 1850',
-        established: '2020',
-        type: 'Digital Bank'
-    },
-    '99-70-00': {
-        name: 'Revolut Ltd',
-        address: '7 Westferry Circus, London E14 4HD',
-        swift: 'REVOGB21',
-        phone: '+44 20 3320 2880',
-        established: '2015',
-        type: 'Digital Bank/EMI'
-    },
-    '99-63-00': {
-        name: 'myPOS Europe Ltd',
-        address: '50 Jermyn Street, London SW1Y 6LX',
-        swift: 'MPOSGB21',
-        phone: '+44 20 3769 5700',
-        established: '2014',
-        type: 'Payment Institution'
-    },
-    '99-72-00': {
-        name: 'ePayments Systems Ltd',
-        address: '12-16 Adeline Street, Manchester M60 0HP',
-        swift: 'EPAYGB21',
-        phone: '+44 161 123 4567',
-        established: '2011',
-        type: 'Payment Institution'
-    },
-    '99-71-00': {
-        name: 'Clear Junction Ltd',
-        address: '25 Canada Square, London E14 5LQ',
-        swift: 'CJUKGB21',
-        phone: '+44 20 3510 5000',
-        established: '2016',
-        type: 'Payment Institution'
-    },
-    '99-85-00': {
-        name: 'PrePay Technologies Ltd',
-        address: '27-32 Old Jewry, London EC2R 8DQ',
-        swift: 'PPTFGB21',
-        phone: '+44 20 7002 3100',
-        established: '2005',
-        type: 'Payment Institution'
-    }
-};
+        // UK Banks
+        const ukBanks = {
+            '20-00-00': { name: 'Barclays Bank', address: '1 Churchill Place, London E14 5HP', swift: 'BARCGB22', phone: '+44 2476 842 000', established: '1690', type: 'High Street Bank' },
+            '40-00-00': { name: 'HSBC Bank', address: '8 Canada Square, London E14 5HQ', swift: 'MIDLGB22', phone: '+44 345 740 4404', established: '1865', type: 'High Street Bank' },
+            '60-00-00': { name: 'Lloyds Bank', address: '25 Gresham Street, London EC2V 7HN', swift: 'LOYDGB2L', phone: '+44 345 300 0000', established: '1765', type: 'High Street Bank' },
+            '16-00-00': { name: 'NatWest Bank', address: '250 Bishopsgate, London EC2M 4AA', swift: 'NWBKGB2L', phone: '+44 345 788 8444', established: '1968', type: 'High Street Bank' },
+            '30-00-00': { name: 'Santander UK', address: '2 Triton Square, London NW1 3AN', swift: 'ABBYGB2L', phone: '+44 800 912 3123', established: '2010', type: 'High Street Bank' }
+        };
 
-// Combined object for easy access
-const allBanks = {
-    us: usBanks,
-    uk: ukBanks
-};
+        // Failure reasons
+        const failureReasons = [
+            { title: 'Account Dormancy', icon: 'fa-bed', message: 'The recipient account has been inactive for over 3 years and requires reactivation before receiving funds.', code: 'ERR-ACC-DORMANT-001' },
+            { title: 'Bank Under Regulatory Review', icon: 'fa-gavel', message: 'The recipient bank is currently under regulatory supervision and all outgoing/incoming transfers have been temporarily suspended.', code: 'ERR-BANK-REG-023' },
+            { title: 'Sanctions Restrictions', icon: 'fa-ban', message: 'The recipient bank is located in a jurisdiction with current international sanctions restrictions.', code: 'ERR-SANCTION-045' },
+            { title: 'Bank Insolvency Proceedings', icon: 'fa-chart-line', message: 'The recipient bank has filed for bankruptcy protection. All transfers have been frozen by the FDIC.', code: 'ERR-BANK-BK-078' },
+            { title: 'Routing Number Mismatch', icon: 'fa-code-branch', message: 'The routing number provided corresponds to a bank that was acquired in 2019 and no longer operates independently.', code: 'ERR-ROUTING-156' },
+            { title: 'Account Frozen by Court Order', icon: 'fa-gavel', message: 'The recipient account is currently frozen due to a court order. No transactions can be processed.', code: 'ERR-LEGAL-234' },
+            { title: 'Suspicious Activity Alert', icon: 'fa-shield-alt', message: 'Our fraud detection system has flagged this transaction as potentially suspicious. Transfer blocked for security.', code: 'ERR-FRAUD-789' },
+            { title: 'Bank System Migration', icon: 'fa-database', message: 'The recipient bank is currently undergoing a core system migration. All transfers are delayed until completion.', code: 'ERR-SYS-567' },
+            { title: 'Currency Restrictions', icon: 'fa-money-bill-wave', message: 'The recipient country has imposed temporary currency export restrictions.', code: 'ERR-CURRENCY-890' },
+            { title: 'Beneficiary Account Closed', icon: 'fa-door-closed', message: 'The beneficiary account was closed 6 months ago. The account number is no longer valid.', code: 'ERR-ACC-CLOSED-432' }
+        ];
 
-// Helper function to get bank details by routing/sort code
-function getBankByCode(country, code) {
-    if (country.toLowerCase() === 'us') {
-        return usBanks[code] || null;
-    } else if (country.toLowerCase() === 'uk') {
-        // Remove hyphens if present for lookup
-        const cleanCode = code.replace(/-/g, '');
-        // Try with hyphens (original format)
-        if (ukBanks[code]) return ukBanks[code];
-        // Try without hyphens by checking keys
-        for (let key in ukBanks) {
-            if (key.replace(/-/g, '') === cleanCode) {
-                return ukBanks[key];
+        let currentBankType = 'us';
+
+        // =========================================================================
+        // MOBILE MENU TOGGLE (consolidated)
+        // =========================================================================
+        (function () {
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.querySelector('.sidebar-premium');
+            let overlay = document.getElementById('sidebarOverlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.id = 'sidebarOverlay';
+                overlay.className = 'sidebar-overlay';
+                document.body.appendChild(overlay);
+            }
+
+            function toggleMenu(show) {
+                if (show === undefined) show = !sidebar.classList.contains('active');
+                sidebar.classList.toggle('active', show);
+                overlay.classList.toggle('active', show);
+                document.body.style.overflow = show ? 'hidden' : '';
+            }
+
+            menuToggle?.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
+            overlay.addEventListener('click', () => toggleMenu(false));
+
+            sidebar?.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A' || e.target.closest('a')) {
+                    setTimeout(() => toggleMenu(false), 150);
+                }
+                e.stopPropagation();
+            });
+
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && sidebar.classList.contains('active')) toggleMenu(false); });
+            window.addEventListener('resize', () => { if (window.innerWidth >= 1024) toggleMenu(false); });
+
+            let touchStartX = 0;
+            document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+            document.addEventListener('touchend', (e) => {
+                const touchEndX = e.changedTouches[0].screenX;
+                if (sidebar.classList.contains('active') && (touchStartX - touchEndX) > 100) toggleMenu(false);
+            });
+        })();
+
+        // =========================================================================
+        // AMOUNT INPUT FILTER (cross‑platform)
+        // =========================================================================
+        function setupAmountInput() {
+            const amountInput = document.getElementById('amount');
+            if (!amountInput) return;
+
+            amountInput.addEventListener('input', function (e) {
+                let value = e.target.value;
+                value = value.replace(/[^0-9.]/g, '');
+                const decimalIndex = value.indexOf('.');
+                if (decimalIndex !== -1) {
+                    value = value.substring(0, decimalIndex + 1) + value.substring(decimalIndex + 1).replace(/\./g, '');
+                }
+                if (decimalIndex !== -1 && value.length - decimalIndex > 3) {
+                    value = value.substring(0, decimalIndex + 3);
+                }
+                if (value.length > 1 && value[0] === '0' && value[1] !== '.') {
+                    value = value.replace(/^0+/, '') || '0';
+                }
+                e.target.value = value;
+            });
+
+            amountInput.addEventListener('blur', function (e) {
+                let value = e.target.value.trim();
+                if (value === '' || value === '.') { e.target.value = ''; return; }
+                if (value.endsWith('.')) value = value.slice(0, -1);
+                const num = parseFloat(value);
+                if (!isNaN(num) && num >= 0) e.target.value = num.toFixed(2);
+                else e.target.value = '';
+            });
+
+            amountInput.addEventListener('focus', function (e) {
+                if (e.target.value && e.target.value !== '0.00') setTimeout(() => e.target.select(), 50);
+            });
+
+            amountInput.addEventListener('paste', function (e) {
+                const pastedData = (e.clipboardData || window.clipboardData).getData('text');
+                if (!/^[0-9]*\.?[0-9]*$/.test(pastedData.trim())) e.preventDefault();
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', setupAmountInput);
+        window.addEventListener('load', setupAmountInput);
+
+        // =========================================================================
+        // BANK TYPE SWITCHING
+        // =========================================================================
+        function setBankType(type) {
+            currentBankType = type;
+            document.querySelectorAll('.bank-type-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn' + type.charAt(0).toUpperCase() + type.slice(1))?.classList.add('active');
+            document.getElementById('usBankFields').style.display = 'none';
+            document.getElementById('ukBankFields').style.display = 'none';
+            document.getElementById('otherBankFields').style.display = 'none';
+            document.getElementById('bankInfoDisplay').classList.remove('show');
+            if (type === 'us') document.getElementById('usBankFields').style.display = 'block';
+            else if (type === 'uk') document.getElementById('ukBankFields').style.display = 'block';
+            else document.getElementById('otherBankFields').style.display = 'block';
+        }
+
+        // Loading indicator
+        function showLoadingIndicator(field) {
+            const wrapper = field.closest('.bank-lookup-field');
+            if (wrapper) {
+                const existing = document.getElementById('lookupLoading');
+                if (existing) existing.remove();
+                const loadingIcon = document.createElement('i');
+                loadingIcon.className = 'fas fa-circle-notch fa-spin';
+                loadingIcon.style.cssText = 'position:absolute;right:16px;top:50%;transform:translateY(-50%);color:#0A2472;font-size:16px;z-index:3;';
+                loadingIcon.id = 'lookupLoading';
+                wrapper.appendChild(loadingIcon);
             }
         }
-        return null;
-    }
-    return null;
-}
 
-// Example usage:
-console.log('US Bank:', getBankByCode('us', '021000021'));
-console.log('UK Bank:', getBankByCode('uk', '60-83-71'));
-    // Failure reasons array (0% success rate)
-    const failureReasons = [
-        {
-            title: 'Account Dormancy',
-            icon: 'fa-bed',
-            message: 'The recipient account has been inactive for over 3 years and requires reactivation before receiving funds.',
-            code: 'ERR-ACC-DORMANT-001',
-            details: 'Accounts with no activity for 36+ months are automatically frozen for security.'
-        },
-        {
-            title: 'Bank Under Regulatory Review',
-            icon: 'fa-gavel',
-            message: 'The recipient bank is currently under regulatory supervision and all outgoing/incoming transfers have been temporarily suspended.',
-            code: 'ERR-BANK-REG-023',
-            details: 'Financial institutions under regulatory review cannot process transfers until clearance is obtained.'
-        },
-        {
-            title: 'Sanctions Restrictions',
-            icon: 'fa-ban',
-            message: 'The recipient bank is located in a jurisdiction with current international sanctions restrictions.',
-            code: 'ERR-SANCTION-045',
-            details: 'International transfers to sanctioned regions are prohibited by federal law.'
-        },
-        {
-            title: 'Bank Insolvency Proceedings',
-            icon: 'fa-chart-line',
-            message: 'The recipient bank has filed for bankruptcy protection. All transfers have been frozen by the FDIC.',
-            code: 'ERR-BANK-BK-078',
-            details: 'When a bank enters receivership, all transactions are halted pending investigation.'
-        },
-        {
-            title: 'Routing Number Mismatch',
-            icon: 'fa-code-branch',
-            message: 'The routing number provided corresponds to a bank that was acquired in 2019 and no longer operates independently.',
-            code: 'ERR-ROUTING-156',
-            details: 'Bank mergers and acquisitions can render routing numbers obsolete.'
-        },
-        {
-            title: 'Account Frozen by Court Order',
-            icon: 'fa-gavel',
-            message: 'The recipient account is currently frozen due to a court order. No transactions can be processed.',
-            code: 'ERR-LEGAL-234',
-            details: 'Legal holds prevent any movement of funds from affected accounts.'
-        },
-        {
-            title: 'Suspicious Activity Alert',
-            icon: 'fa-shield-alt',
-            message: 'Our fraud detection system has flagged this transaction as potentially suspicious. Transfer blocked for security.',
-            code: 'ERR-FRAUD-789',
-            details: 'This transfer has been blocked to protect your account from unauthorized activity.'
-        },
-        {
-            title: 'Bank System Migration',
-            icon: 'fa-database',
-            message: 'The recipient bank is currently undergoing a core system migration. All transfers are delayed until completion.',
-            code: 'ERR-SYS-567',
-            details: 'System upgrades can take 48-72 hours, during which transfers cannot be processed.'
-        },
-        {
-            title: 'Currency Restrictions',
-            icon: 'fa-money-bill-wave',
-            message: 'The recipient country has imposed temporary currency export restrictions.',
-            code: 'ERR-CURRENCY-890',
-            details: 'Local regulations prevent the conversion and transfer of funds at this time.'
-        },
-        {
-            title: 'Beneficiary Account Closed',
-            icon: 'fa-door-closed',
-            message: 'The beneficiary account was closed 6 months ago. The account number is no longer valid.',
-            code: 'ERR-ACC-CLOSED-432',
-            details: 'Funds cannot be transferred to closed accounts. Please verify recipient details.'
+        function hideLoadingIndicator() {
+            document.getElementById('lookupLoading')?.remove();
         }
-    ];
 
-    let currentBankType = 'us';
-    let lookupTimeout;
-
-    // Mobile menu toggle
-    document.getElementById('menuToggle').addEventListener('click', function() {
-        document.querySelector('.sidebar-premium').classList.toggle('active');
-    });
-
-    // Set bank type and show relevant fields
-    function setBankType(type) {
-        currentBankType = type;
-        
-        // Update active button
-        document.querySelectorAll('.bank-type-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        event.currentTarget.classList.add('active');
-
-        // Hide all bank fields
-        document.getElementById('usBankFields').style.display = 'none';
-        document.getElementById('ukBankFields').style.display = 'none';
-        document.getElementById('otherBankFields').style.display = 'none';
-        document.getElementById('bankInfoDisplay').classList.remove('show');
-
-        // Show selected fields
-        if (type === 'us') {
-            document.getElementById('usBankFields').style.display = 'block';
-        } else if (type === 'uk') {
-            document.getElementById('ukBankFields').style.display = 'block';
-        } else {
-            document.getElementById('otherBankFields').style.display = 'block';
+        function displayBankInfo(bank, code) {
+            document.getElementById('bankName').textContent = bank.name || '';
+            document.getElementById('bankAddress').textContent = bank.address || '';
+            document.getElementById('bankCode').textContent = code;
+            document.getElementById('bankSwift').textContent = bank.swift || '';
+            document.getElementById('bankPhone').textContent = bank.phone || '';
+            document.getElementById('bankEst').textContent = bank.established || '';
+            document.getElementById('bankType').textContent = bank.type || '';
+            document.getElementById('bankCategory').textContent = bank.category || '';
+            document.getElementById('bankWebsite').textContent = bank.website || '';
+            document.getElementById('bankFedwire').textContent = bank.fedwire || code;
+            document.getElementById('bankInfoDisplay').classList.add('show');
         }
-    }
 
-    // Show mini loading indicator
-    function showLoadingIndicator(field) {
-        const wrapper = field.closest('.bank-lookup-field');
-        if (wrapper) {
-            const loadingIcon = document.createElement('i');
-            loadingIcon.className = 'fas fa-circle-notch fa-spin';
-            loadingIcon.style.position = 'absolute';
-            loadingIcon.style.right = '16px';
-            loadingIcon.style.top = '50%';
-            loadingIcon.style.transform = 'translateY(-50%)';
-            loadingIcon.style.color = '#0A2472';
-            loadingIcon.style.fontSize = '16px';
-            loadingIcon.id = 'lookupLoading';
-            
-            // Remove any existing loading icon
-            const existing = document.getElementById('lookupLoading');
-            if (existing) existing.remove();
-            
-            wrapper.appendChild(loadingIcon);
-        }
-    }
-
-    // Hide loading indicator
-    function hideLoadingIndicator() {
-        const existing = document.getElementById('lookupLoading');
-        if (existing) existing.remove();
-    }
-
-    // Lookup US bank by routing number (auto)
-    function autoLookupUSBank() {
-        const routingField = document.getElementById('routingNumber');
-        const routingNumber = routingField.value.replace(/\D/g, '');
-        
-        if (routingNumber.length === 9) {
+        // US lookup
+        function lookupBank() {
+            const routingField = document.getElementById('routingNumber');
+            const routingNumber = routingField.value.replace(/\D/g, '');
+            if (routingNumber.length !== 9) { alert('Please enter a complete 9-digit routing number.'); return; }
             showLoadingIndicator(routingField);
-            
-            // Simulate network delay
+            document.getElementById('lookupBtn').disabled = true;
             setTimeout(() => {
                 hideLoadingIndicator();
-                
+                document.getElementById('lookupBtn').disabled = false;
                 const bank = usBanks[routingNumber];
-                
                 if (bank) {
-                    document.getElementById('bankName').textContent = bank.name;
-                    document.getElementById('bankAddress').textContent = bank.address;
-                    document.getElementById('bankCode').textContent = routingNumber;
-                    document.getElementById('bankSwift').textContent = bank.swift;
-                    document.getElementById('bankPhone').textContent = bank.phone;
-                    document.getElementById('bankEst').textContent = bank.established;
-                    document.getElementById('bankInfoDisplay').classList.add('show');
-                    
-                    // Auto-focus account number
+                    displayBankInfo(bank, routingNumber);
                     document.getElementById('accountNumber').focus();
                 } else {
                     document.getElementById('bankInfoDisplay').classList.remove('show');
+                    alert('Routing number not found.');
                 }
-            }, 800); // 800ms loading simulation
-        } else {
-            document.getElementById('bankInfoDisplay').classList.remove('show');
+            }, 600);
         }
-    }
 
-    // Lookup UK bank by sort code (auto)
-    function autoLookupUKBank() {
-        const sortCodeField = document.getElementById('sortCode');
-        let sortCode = sortCodeField.value.replace(/\D/g, '');
-        
-        if (sortCode.length === 6) {
+        function autoLookupUSBank() {
+            const routingField = document.getElementById('routingNumber');
+            const routingNumber = routingField.value.replace(/\D/g, '');
+            if (routingNumber.length === 9) {
+                showLoadingIndicator(routingField);
+                document.getElementById('lookupBtn').disabled = true;
+                setTimeout(() => {
+                    hideLoadingIndicator();
+                    document.getElementById('lookupBtn').disabled = false;
+                    const bank = usBanks[routingNumber];
+                    if (bank) displayBankInfo(bank, routingNumber);
+                    else document.getElementById('bankInfoDisplay').classList.remove('show');
+                }, 600);
+            } else {
+                document.getElementById('bankInfoDisplay').classList.remove('show');
+            }
+        }
+
+        // UK lookup
+        function lookupUKBank() {
+            const sortCodeField = document.getElementById('sortCode');
+            let sortCode = sortCodeField.value.replace(/\D/g, '');
+            if (sortCode.length !== 6) { alert('Please enter a complete 6-digit sort code.'); return; }
+            sortCode = sortCode.slice(0, 2) + '-' + sortCode.slice(2, 4) + '-' + sortCode.slice(4, 6);
             showLoadingIndicator(sortCodeField);
-            
-            // Format for display
-            sortCode = sortCode.slice(0,2) + '-' + sortCode.slice(2,4) + '-' + sortCode.slice(4,6);
-            
-            // Simulate network delay
+            document.getElementById('lookupUKBtn').disabled = true;
             setTimeout(() => {
                 hideLoadingIndicator();
-                
-                const bank = ukBanks[sortCode] || ukBanks[sortCode.replace(/-/g, '')];
-                
+                document.getElementById('lookupUKBtn').disabled = false;
+                const bank = ukBanks[sortCode];
                 if (bank) {
-                    document.getElementById('bankName').textContent = bank.name;
-                    document.getElementById('bankAddress').textContent = bank.address;
-                    document.getElementById('bankCode').textContent = sortCode;
-                    document.getElementById('bankSwift').textContent = bank.swift;
-                    document.getElementById('bankPhone').textContent = bank.phone;
-                    document.getElementById('bankEst').textContent = bank.established;
-                    document.getElementById('bankInfoDisplay').classList.add('show');
-                    
-                    // Auto-focus account number
+                    displayBankInfo(bank, sortCode);
                     document.getElementById('ukAccountNumber').focus();
                 } else {
                     document.getElementById('bankInfoDisplay').classList.remove('show');
+                    alert('Sort code not found.');
                 }
-            }, 800); // 800ms loading simulation
-        } else {
-            document.getElementById('bankInfoDisplay').classList.remove('show');
-        }
-    }
-
-    // Fill recipient for US bank
-    function fillRecipient(name, bankName, routing, account) {
-        document.getElementById('recipientName').value = name;
-        document.getElementById('routingNumber').value = routing;
-        document.getElementById('accountNumber').value = account;
-        
-        // Trigger auto lookup
-        setTimeout(() => autoLookupUSBank(), 100);
-    }
-
-    // Fill recipient for UK bank
-    function fillRecipientUK(name, bankName, sortCode, account) {
-        setBankType('uk');
-        document.querySelector('[onclick="setBankType(\'uk\')"]').click();
-        
-        document.getElementById('recipientName').value = name;
-        document.getElementById('sortCode').value = sortCode;
-        document.getElementById('ukAccountNumber').value = account;
-        
-        // Trigger auto lookup
-        setTimeout(() => autoLookupUKBank(), 100);
-    }
-
-    // Review transfer
-    function reviewTransfer() {
-        const recipient = document.getElementById('recipientName').value;
-        let bank = '';
-        let account = '';
-        let routing = '';
-
-        if (currentBankType === 'us') {
-            bank = document.getElementById('bankName').textContent;
-            account = document.getElementById('accountNumber').value;
-            routing = document.getElementById('routingNumber').value;
-        } else if (currentBankType === 'uk') {
-            bank = document.getElementById('bankName').textContent;
-            account = document.getElementById('ukAccountNumber').value;
-            routing = document.getElementById('sortCode').value;
+            }, 600);
         }
 
-        const amount = document.getElementById('amount').value;
-        const description = document.getElementById('description').value || 'No description';
-        const date = document.getElementById('transferDate').value;
-        const fromAccount = document.querySelector('.account-pill.active .pill-label').textContent;
-
-        // Validate
-        if (!recipient || !bank || bank === 'Bank of America' && !document.getElementById('bankInfoDisplay').classList.contains('show') || !account || !amount) {
-            alert('Please fill in all required fields and ensure bank details are verified');
-            return;
-        }
-
-        if (amount <= 0) {
-            alert('Please enter a valid amount');
-            return;
-        }
-
-        // Format for display
-        const formattedAmount = parseFloat(amount).toFixed(2);
-        
-        // Update review modal
-        document.getElementById('reviewAmount').textContent = `£${formattedAmount}`;
-        document.getElementById('reviewFrom').textContent = fromAccount + ' Account';
-        document.getElementById('reviewTo').textContent = recipient;
-        document.getElementById('reviewBank').textContent = bank;
-        document.getElementById('reviewAccount').textContent = '****' + account.slice(-4);
-        document.getElementById('reviewRouting').textContent = routing;
-        document.getElementById('reviewDescription').textContent = description;
-        document.getElementById('reviewDate').textContent = new Date(date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-        document.getElementById('reviewTransferAmount').textContent = `£${formattedAmount}`;
-        document.getElementById('reviewTotal').textContent = `£${formattedAmount}`;
-
-        // Show modal
-        document.getElementById('reviewModal').classList.add('show');
-    }
-
-    // Process transfer with loading simulation (always fails)
-    function processTransfer() {
-        closeModal('reviewModal');
-        
-        // Show loading modal
-        document.getElementById('loadingModal').classList.add('show');
-        
-        // Simulate processing steps
-        const steps = [
-            { progress: 20, message: "Connecting to banking network..." },
-            { progress: 40, message: "Verifying recipient bank details..." },
-            { progress: 60, message: "Checking account validity..." },
-            { progress: 75, message: "Performing fraud detection scan..." },
-            { progress: 85, message: "Contacting recipient bank..." },
-            { progress: 95, message: "Finalizing transaction..." }
-        ];
-        
-        let currentStep = 0;
-        const progressBar = document.getElementById('loadingProgress');
-        const statusText = document.getElementById('loadingStatus');
-        
-        // Update progress every 800ms
-        const interval = setInterval(() => {
-            if (currentStep < steps.length) {
-                const step = steps[currentStep];
-                progressBar.style.width = step.progress + '%';
-                statusText.textContent = step.message;
-                currentStep++;
-            } else {
-                clearInterval(interval);
-                
-                // Hide loading modal after 1 second
+        function autoLookupUKBank() {
+            const sortCodeField = document.getElementById('sortCode');
+            let sortCode = sortCodeField.value.replace(/\D/g, '');
+            if (sortCode.length === 6) {
+                sortCode = sortCode.slice(0, 2) + '-' + sortCode.slice(2, 4) + '-' + sortCode.slice(4, 6);
+                showLoadingIndicator(sortCodeField);
+                document.getElementById('lookupUKBtn').disabled = true;
                 setTimeout(() => {
-                    document.getElementById('loadingModal').classList.remove('show');
-                    
-                    // Get random failure reason
-                    const randomReason = failureReasons[Math.floor(Math.random() * failureReasons.length)];
-                    
-                    // Display failure modal with reason
-                    const failureDiv = document.getElementById('failureReason');
-                    failureDiv.innerHTML = `
-                        <div class="reason-header">
-                            <i class="fas ${randomReason.icon}"></i>
-                            <span>${randomReason.title}</span>
-                        </div>
-                        <div class="reason-text">
-                            ${randomReason.message}
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
-                            <span class="error-code">Error Code: ${randomReason.code}</span>
-                            <i class="fas fa-info-circle" style="color: #94A3B8; cursor: pointer;" title="${randomReason.details}" onclick="showErrorDetails('${randomReason.details}')"></i>
-                        </div>
-                    `;
-                    
-                    document.getElementById('failureModal').classList.add('show');
-                }, 1000);
-            }
-        }, 800);
-    }
-
-    // Show error details in alert
-    function showErrorDetails(details) {
-        alert('Additional Error Details:\n\n' + details);
-    }
-
-    // Contact support
-    function contactSupport() {
-        const errorCode = document.querySelector('.error-code')?.textContent || 'Unknown';
-        alert(`Support team has been notified.\n\nError Reference: ${errorCode}\n\nA support representative will contact you within 15 minutes.`);
-        closeModal('failureModal');
-    }
-
-    // Close modal
-    function closeModal(modalId) {
-        document.getElementById(modalId).classList.remove('show');
-    }
-
-    // Close modals when clicking outside
-    window.addEventListener('click', function(event) {
-        const reviewModal = document.getElementById('reviewModal');
-        const failureModal = document.getElementById('failureModal');
-        const loadingModal = document.getElementById('loadingModal');
-        
-        if (event.target === reviewModal) {
-            reviewModal.classList.remove('show');
-        }
-        if (event.target === failureModal) {
-            failureModal.classList.remove('show');
-        }
-        if (event.target === loadingModal) {
-            // Don't close loading modal when clicking outside - it should complete
-        }
-    });
-
-    // Account pill selection
-    document.querySelectorAll('.account-pill').forEach(pill => {
-        pill.addEventListener('click', function() {
-            document.querySelectorAll('.account-pill').forEach(p => p.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
-
-    // Loading screen
-    setTimeout(() => {
-        document.querySelector('.premium-loader').classList.add('fade-out');
-    }, 800);
-
-    // Format sort code as user types
-    document.getElementById('sortCode')?.addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length > 6) value = value.slice(0, 6);
-        
-        if (value.length > 4) {
-            value = value.slice(0,2) + '-' + value.slice(2,4) + '-' + value.slice(4,6);
-        } else if (value.length > 2) {
-            value = value.slice(0,2) + '-' + value.slice(2);
-        }
-        
-        e.target.value = value;
-    });
-
-    // Format routing number as user types
-    document.getElementById('routingNumber')?.addEventListener('input', function(e) {
-        e.target.value = e.target.value.replace(/\D/g, '').slice(0, 9);
-    });
-
-    // Auto lookup on blur (when leaving the field)
-    document.getElementById('routingNumber')?.addEventListener('blur', function() {
-        autoLookupUSBank();
-    });
-
-    // Auto lookup on Enter key
-    document.getElementById('routingNumber')?.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            autoLookupUSBank();
-        }
-    });
-
-    // Auto lookup on blur for UK sort code
-    document.getElementById('sortCode')?.addEventListener('blur', function() {
-        autoLookupUKBank();
-    });
-
-    // Auto lookup on Enter key for UK sort code
-    document.getElementById('sortCode')?.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            autoLookupUKBank();
-        }
-    });
-
-    // Format account numbers
-    document.getElementById('accountNumber')?.addEventListener('input', function(e) {
-        e.target.value = e.target.value.replace(/\D/g, '').slice(0, 12);
-    });
-
-    document.getElementById('ukAccountNumber')?.addEventListener('input', function(e) {
-        e.target.value = e.target.value.replace(/\D/g, '').slice(0, 8);
-    });
-
-    // Add click outside detection for the bank fields
-    document.addEventListener('click', function(event) {
-        const routingField = document.getElementById('routingNumber');
-        const sortCodeField = document.getElementById('sortCode');
-        
-        // If clicking outside routing field and it has 9 digits, trigger lookup
-        if (routingField && !routingField.contains(event.target) && routingField.value.replace(/\D/g, '').length === 9) {
-            autoLookupUSBank();
-        }
-        
-        // If clicking outside sort code field and it has 6 digits, trigger lookup
-        if (sortCodeField && !sortCodeField.contains(event.target) && sortCodeField.value.replace(/\D/g, '').length === 6) {
-            autoLookupUKBank();
-        }
-    });
-
-    // Set transfer date to current date
-function setCurrentDate() {
-    const dateInput = document.getElementById('transferDate');
-    if (dateInput) {
-        const today = new Date();
-        const yyyy = today.getFullYear();
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        const dd = String(today.getDate()).padStart(2, '0');
-        dateInput.value = `${yyyy}-${mm}-${dd}`;
-    }
-}
-
-// Call when page loads
-document.addEventListener('DOMContentLoaded', setCurrentDate);
-window.addEventListener('load', setCurrentDate);
-
-// Mobile menu functionality
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.querySelector('.sidebar-premium');
-        
-        // Create overlay if it doesn't exist
-        let overlay = document.getElementById('sidebarOverlay');
-        if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.id = 'sidebarOverlay';
-            overlay.className = 'sidebar-overlay';
-            document.body.appendChild(overlay);
-        }
-
-        // Toggle menu function
-        function toggleMenu(show) {
-            if (show) {
-                sidebar.classList.add('active');
-                overlay.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                    hideLoadingIndicator();
+                    document.getElementById('lookupUKBtn').disabled = false;
+                    const bank = ukBanks[sortCode];
+                    if (bank) displayBankInfo(bank, sortCode);
+                    else document.getElementById('bankInfoDisplay').classList.remove('show');
+                }, 600);
             } else {
-                sidebar.classList.remove('active');
-                overlay.classList.remove('active');
-                document.body.style.overflow = ''; // Restore scrolling
+                document.getElementById('bankInfoDisplay').classList.remove('show');
             }
         }
 
-        // Open menu when toggle button is clicked
-        if (menuToggle) {
-            menuToggle.addEventListener('click', function(e) {
-                e.stopPropagation(); // Prevent event bubbling
-                toggleMenu(true);
-            });
+        // Fill recipient helpers
+        function fillRecipient(name, routing, account) {
+            setBankType('us');
+            document.getElementById('recipientName').value = name;
+            document.getElementById('routingNumber').value = routing;
+            document.getElementById('accountNumber').value = account;
+            setTimeout(autoLookupUSBank, 100);
         }
 
-        // Close menu when clicking on overlay (empty space)
-        overlay.addEventListener('click', function() {
-            toggleMenu(false);
-        });
+        function fillRecipientUK(name, sortCode, account) {
+            setBankType('uk');
+            document.getElementById('recipientName').value = name;
+            document.getElementById('sortCode').value = sortCode;
+            document.getElementById('ukAccountNumber').value = account;
+            setTimeout(autoLookupUKBank, 100);
+        }
 
-        // Close menu when clicking on any link inside sidebar
-        if (sidebar) {
-            sidebar.addEventListener('click', function(e) {
-                // Check if clicked element is a link
-                if (e.target.tagName === 'A' || e.target.closest('a')) {
-                    // Small delay to allow navigation before closing
+        // Review transfer
+        function reviewTransfer() {
+            const recipient = document.getElementById('recipientName').value.trim();
+            const amountRaw = document.getElementById('amount').value.trim();
+            let bank = '', account = '', routing = '';
+            if (currentBankType === 'us') {
+                bank = document.getElementById('bankName').textContent;
+                account = document.getElementById('accountNumber').value.trim();
+                routing = document.getElementById('routingNumber').value.trim();
+            } else if (currentBankType === 'uk') {
+                bank = document.getElementById('bankName').textContent;
+                account = document.getElementById('ukAccountNumber').value.trim();
+                routing = document.getElementById('sortCode').value.trim();
+            }
+            const amount = parseFloat(amountRaw);
+            if (!recipient || !bank || !account || isNaN(amount) || amount <= 0) {
+                alert('Please fill all required fields with valid information.');
+                return;
+            }
+            if (amount > 10000) {
+                alert('Amount exceeds per-transaction limit of £10,000.');
+                return;
+            }
+            const formatted = amount.toFixed(2);
+            document.getElementById('reviewAmount').textContent = '£' + formatted;
+            document.getElementById('reviewFrom').textContent = (document.querySelector('.account-pill.active .pill-label')?.textContent || 'Checking') + ' Account';
+            document.getElementById('reviewTo').textContent = recipient;
+            document.getElementById('reviewBank').textContent = bank;
+            document.getElementById('reviewAccount').textContent = '****' + account.slice(-4);
+            document.getElementById('reviewRouting').textContent = routing;
+            document.getElementById('reviewDescription').textContent = document.getElementById('description').value || 'No description';
+            document.getElementById('reviewDate').textContent = new Date(document.getElementById('transferDate').value).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+            document.getElementById('reviewTransferAmount').textContent = '£' + formatted;
+            document.getElementById('reviewTotal').textContent = '£' + formatted;
+            document.getElementById('reviewModal').classList.add('show');
+        }
+
+        // Process transfer (always fails)
+        function processTransfer() {
+            closeModal('reviewModal');
+            document.getElementById('loadingModal').classList.add('show');
+            const steps = [
+                { progress: 20, message: 'Connecting to banking network...' },
+                { progress: 40, message: 'Verifying recipient bank details...' },
+                { progress: 60, message: 'Checking account validity...' },
+                { progress: 75, message: 'Performing fraud detection scan...' },
+                { progress: 85, message: 'Contacting recipient bank...' },
+                { progress: 95, message: 'Finalizing transaction...' }
+            ];
+            let currentStep = 0;
+            const progressBar = document.getElementById('loadingProgress');
+            const statusText = document.getElementById('loadingStatus');
+            const interval = setInterval(() => {
+                if (currentStep < steps.length) {
+                    const step = steps[currentStep];
+                    progressBar.style.width = step.progress + '%';
+                    statusText.textContent = step.message;
+                    currentStep++;
+                } else {
+                    clearInterval(interval);
                     setTimeout(() => {
-                        toggleMenu(false);
-                    }, 150);
+                        document.getElementById('loadingModal').classList.remove('show');
+                        const randomReason = failureReasons[Math.floor(Math.random() * failureReasons.length)];
+                        const failureDiv = document.getElementById('failureReason');
+                        failureDiv.innerHTML = `
+                            <div class="reason-header">
+                                <i class="fas ${randomReason.icon}"></i>
+                                <span>${randomReason.title}</span>
+                            </div>
+                            <div class="reason-text">${randomReason.message}</div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
+                                <span class="error-code">Error Code: ${randomReason.code}</span>
+                                <i class="fas fa-info-circle" style="color: #94A3B8; cursor: pointer;" onclick="showErrorDetails('${randomReason.message.replace(/'/g, "\\'")}')"></i>
+                            </div>
+                        `;
+                        document.getElementById('failureModal').classList.add('show');
+                        progressBar.style.width = '0%';
+                        statusText.textContent = 'Initiating transfer...';
+                    }, 1000);
                 }
-            });
-
-            // Prevent clicks inside sidebar from closing when clicking on non-link elements
-            sidebar.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
+            }, 800);
         }
 
-        // Close menu on escape key press
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && sidebar.classList.contains('active')) {
-                toggleMenu(false);
+        function showErrorDetails(details) { alert('Additional Error Details:\n\n' + details); }
+        function contactSupport() {
+            alert('Demo: Support team notified.');
+            closeModal('failureModal');
+        }
+
+        function closeModal(modalId) { document.getElementById(modalId).classList.remove('show'); }
+
+        window.addEventListener('click', function (event) {
+            if (event.target.classList.contains('modal-premium')) {
+                event.target.classList.remove('show');
             }
         });
 
-        // Close menu when window is resized to desktop size
-        window.addEventListener('resize', function() {
-            if (window.innerWidth >= 1024) {
-                toggleMenu(false);
-            }
+        // Account pill selection
+        document.querySelectorAll('.account-pill').forEach(pill => {
+            pill.addEventListener('click', function () {
+                document.querySelectorAll('.account-pill').forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+            });
         });
 
-        // Optional: Close menu when swiping left on mobile
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        document.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].screenX;
-        }, false);
-
-        document.addEventListener('touchend', function(e) {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, false);
-
-        function handleSwipe() {
-            const swipeThreshold = 100; // Minimum swipe distance
-            if (sidebar.classList.contains('active') && (touchStartX - touchEndX) > swipeThreshold) {
-                // Swiped left while menu is open - close it
-                toggleMenu(false);
+        // Date initialization
+        function setCurrentDate() {
+            const dateInput = document.getElementById('transferDate');
+            if (dateInput) {
+                const today = new Date();
+                const yyyy = today.getFullYear();
+                const mm = String(today.getMonth() + 1).padStart(2, '0');
+                const dd = String(today.getDate()).padStart(2, '0');
+                dateInput.value = `${yyyy}-${mm}-${dd}`;
             }
         }
-    });
+        document.addEventListener('DOMContentLoaded', setCurrentDate);
 
-    // PROTECTION SCRIPT - PASTE AT TOP OF EACH PROTECTED PAGE
-(function() {
-    // Check authentication
-    const auth = sessionStorage.getItem('nexusbank_auth');
-    const expiry = sessionStorage.getItem('nexusbank_expiry');
-    
-    if (auth !== 'authenticated' || !expiry || Date.now() > parseInt(expiry)) {
-        // Clear any stale data
-        sessionStorage.clear();
-        window.location.replace('login.html');
-        return;
-    }
-    
-    // Refresh expiry
-    sessionStorage.setItem('nexusbank_expiry', Date.now() + 3600000);
-    
-    // Inactivity logout
-    let timer;
-    function resetTimer() {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            sessionStorage.clear();
-            window.location.replace('login.html');
-        }, 900000); // 15 minutes
-    }
-    
-    ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(e => {
-        document.addEventListener(e, resetTimer);
-    });
-    resetTimer();
-})();
-</script>
-<!-- Add this before closing body tag in dashboard.html, transfer.html, transactions.html, cards.html, settings.html, etc. -->
-<script src="js/auto-logout.js"></script>
+        // Input formatting
+        document.getElementById('routingNumber')?.addEventListener('input', function (e) { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 9); });
+        document.getElementById('sortCode')?.addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 6) value = value.slice(0, 6);
+            if (value.length > 4) value = value.slice(0, 2) + '-' + value.slice(2, 4) + '-' + value.slice(4, 6);
+            else if (value.length > 2) value = value.slice(0, 2) + '-' + value.slice(2);
+            e.target.value = value;
+        });
+        document.getElementById('accountNumber')?.addEventListener('input', function (e) { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 12); });
+        document.getElementById('ukAccountNumber')?.addEventListener('input', function (e) { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 8); });
+
+        // Auto lookup triggers
+        document.getElementById('routingNumber')?.addEventListener('blur', autoLookupUSBank);
+        document.getElementById('routingNumber')?.addEventListener('keypress', function (e) { if (e.key === 'Enter') { e.preventDefault(); autoLookupUSBank(); } });
+        document.getElementById('sortCode')?.addEventListener('blur', autoLookupUKBank);
+        document.getElementById('sortCode')?.addEventListener('keypress', function (e) { if (e.key === 'Enter') { e.preventDefault(); autoLookupUKBank(); } });
+
+        // Loading screen
+        setTimeout(() => { document.querySelector('.premium-loader').classList.add('fade-out'); }, 800);
+    </script>
 </body>
+
 </html>
-
-
-
-
