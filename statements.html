@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Statements · NexusBank</title>
+    <title>Statements · HeritageInvest</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="https://a.mktgcdn.com/p/trqY8cbRb9rpmzNBIHFEHxK3n0czpuAaJO27NrH_lzQ/1.0000/676x676.png">
+    <link rel="icon" type="image/png"
+        href="https://a.mktgcdn.com/p/trqY8cbRb9rpmzNBIHFEHxK3n0czpuAaJO27NrH_lzQ/1.0000/676x676.png">
     <style>
         :root {
             --ink: #10201B;
@@ -24,15 +26,23 @@
             --ledger-red: #A24632;
             --charcoal: #23302B;
             --stone: #6B7A72;
-            --hair: rgba(35,48,43,0.14);
-            --hair-dark: rgba(243,239,228,0.16);
-            --shadow-card: 0 1px 2px rgba(16,32,27,0.06), 0 8px 24px rgba(16,32,27,0.06);
-            --shadow-lift: 0 20px 45px rgba(16,32,27,0.16);
+            --hair: rgba(35, 48, 43, 0.14);
+            --hair-dark: rgba(243, 239, 228, 0.16);
+            --shadow-card: 0 1px 2px rgba(16, 32, 27, 0.06), 0 8px 24px rgba(16, 32, 27, 0.06);
+            --shadow-lift: 0 20px 45px rgba(16, 32, 27, 0.16);
             --ease: cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        * { margin:0; padding:0; box-sizing:border-box; }
-        html { scroll-behavior: smooth; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             color: var(--charcoal);
@@ -41,292 +51,893 @@
             overflow-x: hidden;
             min-height: 100vh;
         }
-        h1,h2,h3,h4 { font-family: 'Source Serif 4', serif; font-weight:600; letter-spacing:-0.01em; }
-        .mono { font-family: 'IBM Plex Mono', monospace; }
-        a { color: inherit; text-decoration: none; }
-        ::selection { background: var(--brass); color: var(--ink); }
-        :focus-visible { outline: 2px solid var(--brass); outline-offset:2px; }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Source Serif 4', serif;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .mono {
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        ::selection {
+            background: var(--brass);
+            color: var(--ink);
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--brass);
+            outline-offset: 2px;
+        }
 
         /* Loader */
         .premium-loader {
-            position: fixed; inset:0; background: var(--ink); z-index:9999;
-            display: flex; align-items: center; justify-content: center;
+            position: fixed;
+            inset: 0;
+            background: var(--ink);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: opacity 0.6s var(--ease), visibility 0.6s var(--ease);
         }
-        .premium-loader.fade-out { opacity:0; visibility:hidden; }
-        .loader-content { text-align: center; }
+
+        .premium-loader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
         .loader-logo {
-            font-family: 'Source Serif 4', serif; font-size:1.9rem; font-weight:600;
-            color: var(--bone); margin-bottom:1.25rem;
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.9rem;
+            font-weight: 600;
+            color: var(--bone);
+            margin-bottom: 1.25rem;
         }
-        .loader-logo .mark { color: var(--brass-bright); font-family:'IBM Plex Mono',monospace; font-size:1.1rem; margin-right:0.6rem; }
+
+        .loader-logo .mark {
+            color: var(--brass-bright);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.1rem;
+            margin-right: 0.6rem;
+        }
+
         .loader-rule {
-            width:160px; height:1px; background: var(--hair-dark);
-            position:relative; margin:0 auto; overflow:hidden;
+            width: 160px;
+            height: 1px;
+            background: var(--hair-dark);
+            position: relative;
+            margin: 0 auto;
+            overflow: hidden;
         }
+
         .loader-rule::after {
-            content:''; position:absolute; top:0; left:-40%; width:40%; height:100%;
-            background: var(--brass-bright); animation: loading 1.1s infinite;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -40%;
+            width: 40%;
+            height: 100%;
+            background: var(--brass-bright);
+            animation: loading 1.1s infinite;
         }
-        @keyframes loading { 0%{left:-40%;} 100%{left:100%;} }
+
+        @keyframes loading {
+            0% {
+                left: -40%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
 
         /* Layout */
-        .dashboard-premium { display:flex; min-height:100vh; }
+        .dashboard-premium {
+            display: flex;
+            min-height: 100vh;
+        }
+
         .sidebar-premium {
-            background: var(--ink); color: var(--bone); width:280px; flex-shrink:0;
-            display: flex; flex-direction: column; border-right:1px solid var(--hair-dark);
-            transition: left 0.3s var(--ease); z-index:1000;
+            background: var(--ink);
+            color: var(--bone);
+            width: 280px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--hair-dark);
+            transition: left 0.3s var(--ease);
+            z-index: 1000;
         }
+
         .sidebar-brand {
-            padding:2rem 1.5rem 1.5rem; border-bottom:1px solid var(--hair-dark);
-            display: flex; align-items: center; gap:0.6rem;
+            padding: 2rem 1.5rem 1.5rem;
+            border-bottom: 1px solid var(--hair-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
         }
+
         .brand-logo .mark {
-            width:38px; height:38px; border:1.5px solid var(--brass);
-            display:flex; align-items: center; justify-content: center;
-            font-family: 'IBM Plex Mono',monospace; font-size:0.95rem; font-weight:600;
+            width: 38px;
+            height: 38px;
+            border: 1.5px solid var(--brass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.95rem;
+            font-weight: 600;
             color: var(--brass);
         }
-        .brand-logo span {
-            font-family: 'Source Serif 4',serif; font-size:1.35rem; font-weight:600; color: var(--bone);
-            margin-left:0.6rem;
-        }
-        .brand-tag { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; color: var(--stone); margin-top:0.3rem; }
 
-        .sidebar-nav-premium { flex:1; padding:1.5rem 0; overflow-y:auto; }
-        .nav-section { margin-bottom:1.5rem; }
-        .nav-section-title {
-            font-family:'IBM Plex Mono',monospace; font-size:0.7rem; text-transform:uppercase;
-            letter-spacing:0.06em; color: var(--brass); padding:0 1.5rem; margin-bottom:0.5rem;
+        .brand-logo span {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--bone);
+            margin-left: 0.6rem;
         }
-        .nav-section ul { list-style:none; }
+
+        .brand-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--stone);
+            margin-top: 0.3rem;
+        }
+
+        .sidebar-nav-premium {
+            flex: 1;
+            padding: 1.5rem 0;
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-section-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--brass);
+            padding: 0 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-section ul {
+            list-style: none;
+        }
+
         .nav-section li a {
-            display:flex; align-items:center; gap:0.75rem; padding:0.8rem 1.5rem;
-            color: rgba(251,249,243,0.7); font-weight:500; font-size:0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.8rem 1.5rem;
+            color: rgba(251, 249, 243, 0.7);
+            font-weight: 500;
+            font-size: 0.9rem;
             transition: background 0.2s var(--ease), color 0.2s var(--ease);
         }
-        .nav-section li a:hover, .nav-section li.active a { background: var(--ink-soft); color: var(--bone); }
-        .nav-section li a i { width:20px; text-align:center; font-size:0.95rem; }
-        .nav-badge {
-            background: var(--brass); color: var(--ink); font-family:'IBM Plex Mono',monospace;
-            font-size:0.65rem; padding:0.15rem 0.5rem; border-radius:20px; margin-left:auto;
+
+        .nav-section li a:hover,
+        .nav-section li.active a {
+            background: var(--ink-soft);
+            color: var(--bone);
         }
+
+        .nav-section li a i {
+            width: 20px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .nav-badge {
+            background: var(--brass);
+            color: var(--ink);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.65rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 20px;
+            margin-left: auto;
+        }
+
         .nav-amount {
-            font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color: var(--stone);
-            margin-left:auto;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--stone);
+            margin-left: auto;
         }
 
         .sidebar-footer-premium {
-            padding:1.5rem; border-top:1px solid var(--hair-dark);
-            display:flex; align-items:center; gap:0.75rem;
+            padding: 1.5rem;
+            border-top: 1px solid var(--hair-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
-        .user-avatar img { width:38px; height:38px; border-radius:50%; object-fit:cover; }
-        .user-details .user-name { font-weight:600; font-size:0.9rem; }
-        .user-details .user-role { color: var(--stone); font-size:0.75rem; }
-        .user-actions { display:flex; gap:0.5rem; margin-left:auto; }
+
+        .user-avatar img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-details .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-details .user-role {
+            color: var(--stone);
+            font-size: 0.75rem;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-left: auto;
+        }
+
         .icon-btn {
-            background:none; border:1px solid var(--hair-dark); color: var(--bone);
-            width:34px; height:34px; display:flex; align-items:center; justify-content:center;
-            cursor:pointer; transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+            background: none;
+            border: 1px solid var(--hair-dark);
+            color: var(--bone);
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
         }
-        .icon-btn:hover { border-color: var(--brass); color: var(--brass); }
+
+        .icon-btn:hover {
+            border-color: var(--brass);
+            color: var(--brass);
+        }
 
         .sidebar-overlay {
-            display:none; position:fixed; inset:0; background: rgba(0,0,0,0.4);
-            z-index:999; opacity:0; transition: opacity 0.3s var(--ease);
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s var(--ease);
         }
-        .sidebar-overlay.active { display:block; opacity:1; }
-        .menu-toggle { display:none; background:none; border:1px solid var(--hair); color: var(--ink); width:42px; height:42px; align-items:center; justify-content:center; font-size:1.2rem; cursor:pointer; }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: 1px solid var(--hair);
+            color: var(--ink);
+            width: 42px;
+            height: 42px;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
 
         .main-content-premium {
-            flex:1; background: var(--parchment); padding:1.5rem 2rem 2rem;
-            overflow-y:auto; min-height:100vh;
+            flex: 1;
+            background: var(--parchment);
+            padding: 1.5rem 2rem 2rem;
+            overflow-y: auto;
+            min-height: 100vh;
         }
 
         .top-nav-premium {
-            display:flex; align-items:center; justify-content:space-between;
-            padding:1rem 0; border-bottom:1px solid var(--hair); margin-bottom:2rem;
-            flex-wrap:wrap; gap:1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--hair);
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
-        .nav-left { display:flex; align-items:center; gap:1rem; }
-        .page-title h1 { font-size:1.8rem; font-weight:600; color: var(--ink); }
-        .page-title p { color: var(--stone); font-size:0.95rem; }
-        .nav-right { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .page-title h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .page-title p {
+            color: var(--stone);
+            font-size: 0.95rem;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
         .search-bar {
-            display:flex; align-items:center; background: var(--bone); border:1px solid var(--hair);
-            padding:0.5rem 1rem; border-radius:8px; gap:0.5rem; min-width:200px;
+            display: flex;
+            align-items: center;
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            gap: 0.5rem;
+            min-width: 200px;
         }
-        .search-bar i { color: var(--stone); font-size:0.9rem; }
+
+        .search-bar i {
+            color: var(--stone);
+            font-size: 0.9rem;
+        }
+
         .search-bar input {
-            border:none; background:transparent; font-family:'Inter',sans-serif; font-size:0.9rem;
-            outline:none; color: var(--charcoal); width:100%;
+            border: none;
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            color: var(--charcoal);
+            width: 100%;
         }
-        .notification-btn, .support-btn {
-            background: var(--bone); border:1px solid var(--hair); width:42px; height:42px;
-            display:flex; align-items:center; justify-content:center; position:relative;
-            cursor:pointer; transition: border-color 0.2s var(--ease);
+
+        .notification-btn,
+        .support-btn {
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            transition: border-color 0.2s var(--ease);
         }
-        .notification-btn:hover, .support-btn:hover { border-color: var(--ink); }
+
+        .notification-btn:hover,
+        .support-btn:hover {
+            border-color: var(--ink);
+        }
+
         .notification-dot {
-            position:absolute; top:8px; right:8px; width:8px; height:8px;
-            background: var(--ledger-red); border-radius:50%;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--ledger-red);
+            border-radius: 50%;
         }
-        .support-btn { gap:0.4rem; width:auto; padding:0 1rem; font-weight:500; font-size:0.9rem; }
-        .support-btn i { font-size:1rem; }
+
+        .support-btn {
+            gap: 0.4rem;
+            width: auto;
+            padding: 0 1rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .support-btn i {
+            font-size: 1rem;
+        }
 
         /* Account selector tabs */
         .statement-account-selector {
-            display:flex; gap:0; border-bottom:1px solid var(--hair); margin-bottom:2rem;
-            overflow-x:auto; -webkit-overflow-scrolling:touch;
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid var(--hair);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
+
         .account-tab {
-            padding:0.8rem 1.5rem; background:transparent; border:none;
-            font-family:'IBM Plex Mono',monospace; font-size:0.8rem; text-transform:uppercase;
-            letter-spacing:0.04em; color: var(--stone); cursor:pointer;
-            border-bottom:2px solid transparent; transition: all 0.2s var(--ease);
-            white-space:nowrap;
+            padding: 0.8rem 1.5rem;
+            background: transparent;
+            border: none;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--stone);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s var(--ease);
+            white-space: nowrap;
         }
-        .account-tab.active { color: var(--ink); border-bottom-color: var(--brass); }
-        .account-tab:hover { color: var(--ink); }
+
+        .account-tab.active {
+            color: var(--ink);
+            border-bottom-color: var(--brass);
+        }
+
+        .account-tab:hover {
+            color: var(--ink);
+        }
 
         /* Filters */
         .statement-filters {
-            display:flex; gap:1rem; align-items:flex-end; margin-bottom:2rem;
-            flex-wrap:wrap; background: var(--bone); border:1px solid var(--hair); padding:1.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 1.5rem;
         }
-        .filter-group { flex:1; min-width:150px; }
+
+        .filter-group {
+            flex: 1;
+            min-width: 150px;
+        }
+
         .filter-group label {
-            display:block; font-family:'IBM Plex Mono',monospace; font-size:0.7rem;
-            text-transform:uppercase; letter-spacing:0.04em; color: var(--stone); margin-bottom:0.3rem;
+            display: block;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--stone);
+            margin-bottom: 0.3rem;
         }
-        .filter-select, select.filter-select {
-            width:100%; padding:0.6rem; border:1px solid var(--hair); font-family:'Inter',sans-serif;
-            font-size:0.95rem; background: white; transition: border-color 0.2s var(--ease);
+
+        .filter-select,
+        select.filter-select {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid var(--hair);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            background: white;
+            transition: border-color 0.2s var(--ease);
         }
-        .filter-select:focus { outline:none; border-color: var(--brass); }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--brass);
+        }
+
         .apply-filters-btn {
-            padding:0.6rem 1.2rem; background: var(--ink); color: var(--bone); border:1px solid var(--ink);
-            font-weight:600; cursor:pointer; display:flex; align-items:center; gap:0.5rem;
-            transition: background 0.2s var(--ease); white-space:nowrap;
+            padding: 0.6rem 1.2rem;
+            background: var(--ink);
+            color: var(--bone);
+            border: 1px solid var(--ink);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.2s var(--ease);
+            white-space: nowrap;
         }
-        .apply-filters-btn:hover { background: var(--ink-soft); }
+
+        .apply-filters-btn:hover {
+            background: var(--ink-soft);
+        }
 
         /* Statements list */
-        .statements-list { margin-bottom:2rem; }
-        .statement-year { margin-bottom:2rem; }
-        .statement-year h3 { font-size:1.2rem; color: var(--ink); margin-bottom:1rem; }
+        .statements-list {
+            margin-bottom: 2rem;
+        }
+
+        .statement-year {
+            margin-bottom: 2rem;
+        }
+
+        .statement-year h3 {
+            font-size: 1.2rem;
+            color: var(--ink);
+            margin-bottom: 1rem;
+        }
+
         .statement-item {
-            display:flex; align-items:center; justify-content:space-between;
-            background: var(--bone); border:1px solid var(--hair); padding:1rem 1.5rem;
-            margin-bottom:0.5rem; gap:1rem; flex-wrap:wrap;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 1rem 1.5rem;
+            margin-bottom: 0.5rem;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
-        .statement-item:hover { border-color: var(--brass); box-shadow: var(--shadow-card); }
-        .statement-info { flex:1; min-width:200px; }
-        .statement-month { font-weight:600; font-size:1rem; }
-        .statement-account { font-size:0.85rem; color: var(--stone); }
-        .statement-period { font-size:0.8rem; color: var(--stone); }
-        .statement-actions { display:flex; gap:0.5rem; flex-wrap:wrap; }
+
+        .statement-item:hover {
+            border-color: var(--brass);
+            box-shadow: var(--shadow-card);
+        }
+
+        .statement-info {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .statement-month {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .statement-account {
+            font-size: 0.85rem;
+            color: var(--stone);
+        }
+
+        .statement-period {
+            font-size: 0.8rem;
+            color: var(--stone);
+        }
+
+        .statement-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
         .statement-action {
-            padding:0.4rem 0.8rem; border:1px solid var(--hair); background: white;
-            font-weight:500; cursor:pointer; display:flex; align-items:center; gap:0.3rem;
-            transition: border-color 0.2s var(--ease); color: var(--charcoal); font-size:0.85rem;
+            padding: 0.4rem 0.8rem;
+            border: 1px solid var(--hair);
+            background: white;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: border-color 0.2s var(--ease);
+            color: var(--charcoal);
+            font-size: 0.85rem;
         }
-        .statement-action:hover { border-color: var(--ink); }
+
+        .statement-action:hover {
+            border-color: var(--ink);
+        }
 
         /* Tax documents */
         .tax-documents-section {
-            background: var(--bone); border:1px solid var(--hair); padding:1.5rem;
-            margin-bottom:2rem;
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
         }
-        .tax-documents-section h3 { font-size:1.2rem; margin-bottom:1rem; color: var(--ink); }
+
+        .tax-documents-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--ink);
+        }
+
         .tax-item {
-            display:flex; align-items:center; justify-content:space-between;
-            padding:1rem 0; border-bottom:1px solid var(--hair); gap:1rem; flex-wrap:wrap;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--hair);
+            gap: 1rem;
+            flex-wrap: wrap;
         }
-        .tax-item:last-child { border-bottom:none; }
-        .tax-info { display:flex; align-items:center; gap:0.75rem; }
-        .tax-info i { color: var(--brass); font-size:1.2rem; }
-        .tax-title { font-weight:600; }
-        .tax-year { font-size:0.85rem; color: var(--stone); }
+
+        .tax-item:last-child {
+            border-bottom: none;
+        }
+
+        .tax-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .tax-info i {
+            color: var(--brass);
+            font-size: 1.2rem;
+        }
+
+        .tax-title {
+            font-weight: 600;
+        }
+
+        .tax-year {
+            font-size: 0.85rem;
+            color: var(--stone);
+        }
+
         .tax-download {
-            padding:0.5rem 1rem; border:1px solid var(--hair); background: white;
-            font-weight:500; cursor:pointer; display:flex; align-items:center; gap:0.4rem;
-            transition: border-color 0.2s var(--ease); color: var(--charcoal);
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--hair);
+            background: white;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: border-color 0.2s var(--ease);
+            color: var(--charcoal);
         }
-        .tax-download:hover { border-color: var(--ink); }
+
+        .tax-download:hover {
+            border-color: var(--ink);
+        }
 
         /* Modal */
         .modal-premium {
-            display:none; position:fixed; inset:0; background: rgba(0,0,0,0.5); z-index:2000;
-            align-items:center; justify-content:center;
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
         }
-        .modal-premium.show { display:flex; }
+
+        .modal-premium.show {
+            display: flex;
+        }
+
         .modal-content {
-            background: var(--bone); padding:2rem; max-width:700px; width:90%;
-            border-top:3px solid var(--brass); box-shadow: var(--shadow-lift);
-            max-height:90vh; overflow-y:auto;
+            background: var(--bone);
+            padding: 2rem;
+            max-width: 700px;
+            width: 90%;
+            border-top: 3px solid var(--brass);
+            box-shadow: var(--shadow-lift);
+            max-height: 90vh;
+            overflow-y: auto;
         }
-        .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; }
-        .modal-header h2 { font-size:1.4rem; }
-        .modal-close { background:none; border:none; color: var(--stone); font-size:1.2rem; cursor:pointer; }
-        .modal-body { margin-bottom:1.5rem; }
-        .statement-preview { color: var(--charcoal); }
-        .preview-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
-        .bank-info { display:flex; align-items:center; gap:0.5rem; font-weight:600; }
-        .bank-info i { color: var(--brass); }
-        .statement-date { font-family:'IBM Plex Mono',monospace; font-size:0.9rem; color: var(--stone); }
-        .preview-account { font-size:0.9rem; margin-bottom:1.5rem; color: var(--stone); }
-        .preview-transactions { width:100%; border-collapse:collapse; margin-bottom:1.5rem; }
-        .preview-transactions th, .preview-transactions td { padding:0.6rem; text-align:left; border-bottom:1px solid var(--hair); }
-        .preview-transactions th { font-family:'IBM Plex Mono',monospace; font-size:0.75rem; color: var(--stone); text-transform:uppercase; }
-        .positive { color: var(--ledger-green); }
-        .negative { color: var(--ledger-red); }
-        .preview-summary { border-top:2px solid var(--hair); padding-top:1rem; }
-        .summary-row { display:flex; justify-content:space-between; padding:0.4rem 0; }
-        .summary-row.total { font-weight:600; border-top:1px solid var(--hair); padding-top:0.6rem; margin-top:0.4rem; }
-        .modal-footer { display:flex; gap:1rem; justify-content:flex-end; }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.4rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--stone);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .statement-preview {
+            color: var(--charcoal);
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .bank-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        .bank-info i {
+            color: var(--brass);
+        }
+
+        .statement-date {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--stone);
+        }
+
+        .preview-account {
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            color: var(--stone);
+        }
+
+        .preview-transactions {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+
+        .preview-transactions th,
+        .preview-transactions td {
+            padding: 0.6rem;
+            text-align: left;
+            border-bottom: 1px solid var(--hair);
+        }
+
+        .preview-transactions th {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--stone);
+            text-transform: uppercase;
+        }
+
+        .positive {
+            color: var(--ledger-green);
+        }
+
+        .negative {
+            color: var(--ledger-red);
+        }
+
+        .preview-summary {
+            border-top: 2px solid var(--hair);
+            padding-top: 1rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.4rem 0;
+        }
+
+        .summary-row.total {
+            font-weight: 600;
+            border-top: 1px solid var(--hair);
+            padding-top: 0.6rem;
+            margin-top: 0.4rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
         .btn-primary {
-            padding:0.7rem 1.5rem; background: var(--ink); color: var(--bone); border:1px solid var(--ink);
-            font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:0.5rem;
+            padding: 0.7rem 1.5rem;
+            background: var(--ink);
+            color: var(--bone);
+            border: 1px solid var(--ink);
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
             transition: background 0.2s var(--ease);
         }
-        .btn-primary:hover { background: var(--ink-soft); }
+
+        .btn-primary:hover {
+            background: var(--ink-soft);
+        }
+
         .btn-secondary {
-            padding:0.7rem 1.5rem; background:transparent; border:1px solid var(--hair);
-            color: var(--charcoal); font-weight:600; cursor:pointer;
+            padding: 0.7rem 1.5rem;
+            background: transparent;
+            border: 1px solid var(--hair);
+            color: var(--charcoal);
+            font-weight: 600;
+            cursor: pointer;
             transition: border-color 0.2s var(--ease);
         }
-        .btn-secondary:hover { border-color: var(--ink); }
+
+        .btn-secondary:hover {
+            border-color: var(--ink);
+        }
 
         /* Responsive */
         @media (max-width:1024px) {
             .sidebar-premium {
-                position:fixed; left:-280px; top:0; bottom:0; height:100vh;
+                position: fixed;
+                left: -280px;
+                top: 0;
+                bottom: 0;
+                height: 100vh;
             }
-            .sidebar-premium.active { left:0; }
-            .sidebar-overlay { display:block; }
-            .menu-toggle { display:flex; }
-            .main-content-premium { margin-left:0; padding:1rem; }
-            .top-nav-premium { flex-direction:column; align-items:flex-start; }
-            .nav-right { width:100%; justify-content:space-between; }
-            .statement-filters { flex-direction:column; }
-            .filter-group { min-width:100%; }
-            .apply-filters-btn { width:100%; justify-content:center; }
+
+            .sidebar-premium.active {
+                left: 0;
+            }
+
+            .sidebar-overlay {
+                display: block;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .main-content-premium {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .top-nav-premium {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .statement-filters {
+                flex-direction: column;
+            }
+
+            .filter-group {
+                min-width: 100%;
+            }
+
+            .apply-filters-btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
+
         @media (max-width:480px) {
-            .statement-item { flex-direction:column; align-items:flex-start; }
-            .statement-actions { width:100%; justify-content:space-between; }
-            .statement-action { flex:1; justify-content:center; }
-            .tax-item { flex-direction:column; align-items:flex-start; }
-            .tax-download { width:100%; justify-content:center; }
+            .statement-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .statement-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .statement-action {
+                flex: 1;
+                justify-content: center;
+            }
+
+            .tax-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .tax-download {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
+
 <body>
     <!-- Loading Screen -->
     <div class="premium-loader">
         <div class="loader-content">
-            <div class="loader-logo"><span class="mark">N·B</span>NexusBank</div>
+            <div class="loader-logo"><span class="mark">H·I</span>HeritageInvest</div>
             <div class="loader-rule"></div>
         </div>
     </div>
@@ -336,8 +947,8 @@
         <aside class="sidebar-premium">
             <div class="sidebar-brand">
                 <div class="brand-logo">
-                    <span class="mark">N·B</span>
-                    <span>NexusBank</span>
+                    <span class="mark">H·I</span>
+                    <span>HeritageInvest</span>
                 </div>
                 <div class="brand-tag">Private Banking</div>
             </div>
@@ -346,37 +957,46 @@
                     <div class="nav-section-title">MAIN</div>
                     <ul>
                         <li><a href="dashboard.html"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a></li>
-                        <li><a href="transactions.html"><i class="fas fa-arrow-right-arrow-left"></i><span>Transactions</span></a></li>
+                        <li><a href="transactions.html"><i
+                                    class="fas fa-arrow-right-arrow-left"></i><span>Transactions</span></a></li>
                         <li><a href="transfer.html"><i class="fas fa-paper-plane"></i><span>Transfers</span></a></li>
-                        <li class="active"><a href="statements.html"><i class="fas fa-file-invoice"></i><span>Statements</span></a></li>
+                        <li class="active"><a href="statements.html"><i
+                                    class="fas fa-file-invoice"></i><span>Statements</span></a></li>
                     </ul>
                 </div>
                 <div class="nav-section">
                     <div class="nav-section-title">ACCOUNTS</div>
                     <ul>
-                        <li><a href="checking.html"><i class="fas fa-wallet"></i><span>Checking</span><span class="nav-amount">£645,432</span></a></li>
-                        <li><a href="savings.html"><i class="fas fa-piggy-bank"></i><span>Savings</span><span class="nav-amount">£215,678</span></a></li>
-                        <li><a href="investments.html"><i class="fas fa-chart-line"></i><span>Investments</span><span class="nav-amount">£3,456,789</span></a></li>
+                        <li><a href="checking.html"><i class="fas fa-wallet"></i><span>Checking</span><span
+                                    class="nav-amount">£645,432</span></a></li>
+                        <li><a href="savings.html"><i class="fas fa-piggy-bank"></i><span>Savings</span><span
+                                    class="nav-amount">£215,678</span></a></li>
+                        <li><a href="investments.html"><i class="fas fa-chart-line"></i><span>Investments</span><span
+                                    class="nav-amount">£3,456,789</span></a></li>
                     </ul>
                 </div>
                 <div class="nav-section">
                     <div class="nav-section-title">SERVICES</div>
                     <ul>
                         <li><a href="cards.html"><i class="fas fa-credit-card"></i><span>Cards</span></a></li>
-                        <li><a href="paybills.html"><i class="fas fa-file-invoice-dollar"></i><span>Pay Bills</span></a></li>
+                        <li><a href="paybills.html"><i class="fas fa-file-invoice-dollar"></i><span>Pay Bills</span></a>
+                        </li>
                         <li><a href="settings.html"><i class="fas fa-gear"></i><span>Settings</span></a></li>
                     </ul>
                 </div>
             </nav>
             <div class="sidebar-footer-premium">
-                <div class="user-avatar"><img src="https://pbs.twimg.com/media/HBYhBrhXIAAjTtl?format=jpg&name=medium" alt="John Shanji"></div>
+                <div class="user-avatar"><img src="https://pbs.twimg.com/media/HBYhBrhXIAAjTtl?format=jpg&name=medium"
+                        alt="John Doe"></div>
                 <div class="user-details">
-                    <div class="user-name">John Shanji</div>
+                    <div class="user-name">John Doe</div>
                     <div class="user-role">Premium Member</div>
                 </div>
                 <div class="user-actions">
-                    <button class="icon-btn" title="Settings" onclick="location.href='settings.html'"><i class="fas fa-sliders-h"></i></button>
-                    <button class="icon-btn" title="Logout" onclick="location.href='index.html'"><i class="fas fa-sign-out-alt"></i></button>
+                    <button class="icon-btn" title="Settings" onclick="location.href='settings.html'"><i
+                            class="fas fa-sliders-h"></i></button>
+                    <button class="icon-btn" title="Logout" onclick="location.href='index.html'"><i
+                            class="fas fa-sign-out-alt"></i></button>
                 </div>
             </div>
         </aside>
@@ -398,7 +1018,8 @@
                         <i class="fas fa-search"></i>
                         <input type="text" placeholder="Search statements...">
                     </div>
-                    <button class="notification-btn"><i class="far fa-bell"></i><span class="notification-dot"></span></button>
+                    <button class="notification-btn"><i class="far fa-bell"></i><span
+                            class="notification-dot"></span></button>
                     <button class="support-btn"><i class="far fa-question-circle"></i><span>Help</span></button>
                 </div>
             </header>
@@ -447,7 +1068,7 @@
             <div class="statements-list">
                 <div class="statement-year">
                     <h3>2024</h3>
-                    
+
                     <div class="statement-item">
                         <div class="statement-info">
                             <div class="statement-month">March 2024</div>
@@ -455,9 +1076,12 @@
                             <div class="statement-period">Mar 1 - Mar 31, 2024</div>
                         </div>
                         <div class="statement-actions">
-                            <button class="statement-action" onclick="viewStatement('2024-03')"><i class="fas fa-eye"></i>View</button>
-                            <button class="statement-action" onclick="downloadStatement('2024-03')"><i class="fas fa-download"></i>PDF</button>
-                            <button class="statement-action" onclick="downloadCSV('2024-03')"><i class="fas fa-file-csv"></i>CSV</button>
+                            <button class="statement-action" onclick="viewStatement('2024-03')"><i
+                                    class="fas fa-eye"></i>View</button>
+                            <button class="statement-action" onclick="downloadStatement('2024-03')"><i
+                                    class="fas fa-download"></i>PDF</button>
+                            <button class="statement-action" onclick="downloadCSV('2024-03')"><i
+                                    class="fas fa-file-csv"></i>CSV</button>
                         </div>
                     </div>
 
@@ -468,9 +1092,12 @@
                             <div class="statement-period">Feb 1 - Feb 29, 2024</div>
                         </div>
                         <div class="statement-actions">
-                            <button class="statement-action" onclick="viewStatement('2024-02')"><i class="fas fa-eye"></i>View</button>
-                            <button class="statement-action" onclick="downloadStatement('2024-02')"><i class="fas fa-download"></i>PDF</button>
-                            <button class="statement-action" onclick="downloadCSV('2024-02')"><i class="fas fa-file-csv"></i>CSV</button>
+                            <button class="statement-action" onclick="viewStatement('2024-02')"><i
+                                    class="fas fa-eye"></i>View</button>
+                            <button class="statement-action" onclick="downloadStatement('2024-02')"><i
+                                    class="fas fa-download"></i>PDF</button>
+                            <button class="statement-action" onclick="downloadCSV('2024-02')"><i
+                                    class="fas fa-file-csv"></i>CSV</button>
                         </div>
                     </div>
 
@@ -481,16 +1108,19 @@
                             <div class="statement-period">Jan 1 - Jan 31, 2024</div>
                         </div>
                         <div class="statement-actions">
-                            <button class="statement-action" onclick="viewStatement('2024-01')"><i class="fas fa-eye"></i>View</button>
-                            <button class="statement-action" onclick="downloadStatement('2024-01')"><i class="fas fa-download"></i>PDF</button>
-                            <button class="statement-action" onclick="downloadCSV('2024-01')"><i class="fas fa-file-csv"></i>CSV</button>
+                            <button class="statement-action" onclick="viewStatement('2024-01')"><i
+                                    class="fas fa-eye"></i>View</button>
+                            <button class="statement-action" onclick="downloadStatement('2024-01')"><i
+                                    class="fas fa-download"></i>PDF</button>
+                            <button class="statement-action" onclick="downloadCSV('2024-01')"><i
+                                    class="fas fa-file-csv"></i>CSV</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="statement-year">
                     <h3>2023</h3>
-                    
+
                     <div class="statement-item">
                         <div class="statement-info">
                             <div class="statement-month">December 2023</div>
@@ -498,9 +1128,12 @@
                             <div class="statement-period">Dec 1 - Dec 31, 2023</div>
                         </div>
                         <div class="statement-actions">
-                            <button class="statement-action" onclick="viewStatement('2023-12')"><i class="fas fa-eye"></i>View</button>
-                            <button class="statement-action" onclick="downloadStatement('2023-12')"><i class="fas fa-download"></i>PDF</button>
-                            <button class="statement-action" onclick="downloadCSV('2023-12')"><i class="fas fa-file-csv"></i>CSV</button>
+                            <button class="statement-action" onclick="viewStatement('2023-12')"><i
+                                    class="fas fa-eye"></i>View</button>
+                            <button class="statement-action" onclick="downloadStatement('2023-12')"><i
+                                    class="fas fa-download"></i>PDF</button>
+                            <button class="statement-action" onclick="downloadCSV('2023-12')"><i
+                                    class="fas fa-file-csv"></i>CSV</button>
                         </div>
                     </div>
 
@@ -511,9 +1144,12 @@
                             <div class="statement-period">Nov 1 - Nov 30, 2023</div>
                         </div>
                         <div class="statement-actions">
-                            <button class="statement-action" onclick="viewStatement('2023-11')"><i class="fas fa-eye"></i>View</button>
-                            <button class="statement-action" onclick="downloadStatement('2023-11')"><i class="fas fa-download"></i>PDF</button>
-                            <button class="statement-action" onclick="downloadCSV('2023-11')"><i class="fas fa-file-csv"></i>CSV</button>
+                            <button class="statement-action" onclick="viewStatement('2023-11')"><i
+                                    class="fas fa-eye"></i>View</button>
+                            <button class="statement-action" onclick="downloadStatement('2023-11')"><i
+                                    class="fas fa-download"></i>PDF</button>
+                            <button class="statement-action" onclick="downloadCSV('2023-11')"><i
+                                    class="fas fa-file-csv"></i>CSV</button>
                         </div>
                     </div>
                 </div>
@@ -522,7 +1158,7 @@
             <!-- Tax Documents -->
             <div class="tax-documents-section">
                 <h3>Tax Documents</h3>
-                
+
                 <div class="tax-item">
                     <div class="tax-info">
                         <i class="fas fa-file-invoice"></i>
@@ -531,7 +1167,8 @@
                             <div class="tax-year">Tax Year 2023</div>
                         </div>
                     </div>
-                    <button class="tax-download" onclick="downloadTaxDoc('1099-2023')"><i class="fas fa-download"></i>Download</button>
+                    <button class="tax-download" onclick="downloadTaxDoc('1099-2023')"><i
+                            class="fas fa-download"></i>Download</button>
                 </div>
 
                 <div class="tax-item">
@@ -542,7 +1179,8 @@
                             <div class="tax-year">Tax Year 2023</div>
                         </div>
                     </div>
-                    <button class="tax-download" onclick="downloadTaxDoc('1099-div-2023')"><i class="fas fa-download"></i>Download</button>
+                    <button class="tax-download" onclick="downloadTaxDoc('1099-div-2023')"><i
+                            class="fas fa-download"></i>Download</button>
                 </div>
             </div>
         </main>
@@ -558,10 +1196,10 @@
             <div class="modal-body">
                 <div class="statement-preview">
                     <div class="preview-header">
-                        <div class="bank-info"><i class="fas fa-landmark"></i><span>NexusBank</span></div>
+                        <div class="bank-info"><i class="fas fa-landmark"></i><span>HeritageInvest</span></div>
                         <div class="statement-date">March 2024</div>
                     </div>
-                    
+
                     <div class="preview-account">
                         <div>Account: Checking (****1234)</div>
                         <div>Period: Mar 1 - Mar 31, 2024</div>
@@ -569,33 +1207,52 @@
 
                     <table class="preview-transactions">
                         <thead>
-                            <tr><th>Date</th><th>Description</th><th>Amount</th></tr>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                            </tr>
                         </thead>
                         <tbody>
-                            <tr><td>Mar 15</td><td>Transfer to Sarah Johnson</td><td class="negative">-£250.00</td></tr>
-                            <tr><td>Mar 14</td><td>Salary Deposit - ABC Corp</td><td class="positive">+£3,500.00</td></tr>
-                            <tr><td>Mar 12</td><td>Amazon.com</td><td class="negative">-£89.99</td></tr>
+                            <tr>
+                                <td>Mar 15</td>
+                                <td>Transfer to Sarah Johnson</td>
+                                <td class="negative">-£250.00</td>
+                            </tr>
+                            <tr>
+                                <td>Mar 14</td>
+                                <td>Salary Deposit - ABC Corp</td>
+                                <td class="positive">+£3,500.00</td>
+                            </tr>
+                            <tr>
+                                <td>Mar 12</td>
+                                <td>Amazon.com</td>
+                                <td class="negative">-£89.99</td>
+                            </tr>
                         </tbody>
                     </table>
 
                     <div class="preview-summary">
                         <div class="summary-row"><span>Beginning Balance</span><span>£2,272.09</span></div>
-                        <div class="summary-row"><span>Total Deposits</span><span class="positive">+£3,500.00</span></div>
-                        <div class="summary-row"><span>Total Withdrawals</span><span class="negative">-£339.99</span></div>
+                        <div class="summary-row"><span>Total Deposits</span><span class="positive">+£3,500.00</span>
+                        </div>
+                        <div class="summary-row"><span>Total Withdrawals</span><span class="negative">-£339.99</span>
+                        </div>
                         <div class="summary-row total"><span>Ending Balance</span><span>£5,432.10</span></div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="btn-secondary" onclick="closeModal('statementModal')">Close</button>
-                <button class="btn-primary" onclick="downloadStatement()"><i class="fas fa-download"></i>Download PDF</button>
+                <button class="btn-primary" onclick="downloadStatement()"><i class="fas fa-download"></i>Download
+                    PDF</button>
             </div>
         </div>
     </div>
 
     <script>
         // Consolidated mobile menu
-        (function(){
+        (function () {
             const menuToggle = document.getElementById('menuToggle');
             const sidebar = document.querySelector('.sidebar-premium');
             let overlay = document.getElementById('sidebarOverlay');
@@ -638,12 +1295,12 @@
         function downloadTaxDoc(doc) { alert('Downloading tax document...'); }
         function closeModal(modalId) { document.getElementById(modalId).classList.remove('show'); }
 
-        window.addEventListener('click', function(event) {
+        window.addEventListener('click', function (event) {
             if (event.target.classList.contains('modal-premium')) event.target.classList.remove('show');
         });
 
         // Auth protection
-        (function() {
+        (function () {
             const auth = sessionStorage.getItem('nexusbank_auth');
             const expiry = sessionStorage.getItem('nexusbank_expiry');
             if (auth !== 'authenticated' || !expiry || Date.now() > parseInt(expiry)) {
@@ -657,9 +1314,10 @@
                 clearTimeout(inactivityTimer);
                 inactivityTimer = setTimeout(() => { sessionStorage.clear(); window.location.replace('login.html'); }, 900000);
             }
-            ['mousedown','mousemove','keydown','scroll','touchstart'].forEach(e => document.addEventListener(e, resetInactivity));
+            ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(e => document.addEventListener(e, resetInactivity));
             resetInactivity();
         })();
     </script>
 </body>
+
 </html>
