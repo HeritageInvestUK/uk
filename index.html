@@ -14,32 +14,21 @@
     <link rel="icon" type="image/png"
         href="https://a.mktgcdn.com/p/trqY8cbRb9rpmzNBIHFEHxK3n0czpuAaJO27NrH_lzQ/1.0000/676x676.png">
     <style>
+        /* ===== Original Token system & Global ===== */
         :root {
-            /* ===== Token system ===== */
             --ink: #10201B;
-            /* deep pine-black — primary dark surface */
             --ink-soft: #1B2F27;
-            /* secondary dark surface */
             --parchment: #F3EFE4;
-            /* warm ledger paper — light surface */
             --parchment-deep: #EAE3D2;
             --bone: #FBF9F3;
-            /* near-white for cards on paper */
             --brass: #B98A2E;
-            /* accent — CTAs, marks */
             --brass-bright: #D7A83F;
             --ledger-green: #2F6B4F;
-            /* gains / success, used as data, not decoration */
             --ledger-red: #A24632;
-            /* losses — used sparingly, factual */
             --charcoal: #23302B;
-            /* body text on light */
             --stone: #6B7A72;
-            /* muted text on light */
             --hair: rgba(35, 48, 43, 0.14);
-            /* hairline rule on light */
             --hair-dark: rgba(243, 239, 228, 0.16);
-            /* hairline rule on dark */
             --shadow-card: 0 1px 2px rgba(16, 32, 27, 0.06), 0 8px 24px rgba(16, 32, 27, 0.06);
             --shadow-lift: 0 20px 45px rgba(16, 32, 27, 0.16);
             --radius-sm: 4px;
@@ -526,7 +515,7 @@
             color: var(--ink);
         }
 
-        /* ===== Hero: statement layout ===== */
+        /* ===== Hero ===== */
         .hero-premium {
             background: var(--ink);
             color: var(--bone);
@@ -658,7 +647,6 @@
             color: var(--brass-bright);
         }
 
-        /* Ledger line stats — signature motif reused across the page */
         .ledger {
             border-top: 1px solid var(--hair-dark);
             max-width: 480px;
@@ -690,7 +678,6 @@
             color: #7FBF97;
         }
 
-        /* Hero statement card */
         .statement-card {
             background: var(--parchment);
             color: var(--charcoal);
@@ -881,7 +868,6 @@
             color: rgba(251, 249, 243, 0.65);
         }
 
-        /* Services grid — ledger-style cards */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -971,7 +957,6 @@
             border-color: var(--brass);
         }
 
-        /* Checking section on dark */
         .bg-ink .service-card {
             background: var(--ink-soft);
             border-color: var(--hair-dark);
@@ -1009,7 +994,6 @@
             border-color: var(--hair-dark);
         }
 
-        /* Process — genuine sequence, numbered legitimately */
         .process-rule {
             border-top: 1px solid var(--hair);
         }
@@ -1259,7 +1243,6 @@
             font-family: 'IBM Plex Mono', monospace;
         }
 
-        /* Fade-in on scroll */
         .reveal {
             opacity: 0;
             transform: translateY(16px);
@@ -1280,10 +1263,92 @@
         .touch-device select {
             font-size: 16px !important;
         }
+
+        /* ==============================================
+           MOBILE RESPONSIVE FIXES (added, preserving original)
+           ============================================== */
+        @media (max-width: 768px) {
+            .navbar-premium {
+                height: 64px;
+                top: 34px;
+            }
+            .hero-premium {
+                padding: 140px 0 60px;
+            }
+            .hero-title {
+                font-size: clamp(2rem, 8vw, 2.8rem);
+            }
+            .hero-description {
+                font-size: 1rem;
+                max-width: 100%;
+            }
+            .statement-card {
+                padding: 1.5rem;
+            }
+            .statement-balance .num {
+                font-size: 2rem;
+            }
+            .ledger-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.3rem;
+            }
+            .ledger-row .value {
+                white-space: normal;
+            }
+            .trust-grid {
+                justify-content: center;
+                gap: 1.2rem;
+            }
+            .trust-item {
+                font-size: 0.7rem;
+            }
+            .section-premium {
+                padding: 3.5rem 0;
+            }
+            .section-header {
+                margin-bottom: 2rem;
+            }
+            .service-card {
+                padding: 1.8rem;
+            }
+            .cta-premium {
+                padding: 4rem 0;
+            }
+            .footer-premium {
+                padding: 3rem 0 2rem;
+            }
+            .footer-grid {
+                gap: 2rem;
+                padding-bottom: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .ticker-strip {
+                height: 28px;
+            }
+            .ticker-item {
+                font-size: 0.65rem;
+            }
+            .hero-actions .btn-primary-large,
+            .hero-actions .btn-outline-large {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+            .hero-title br {
+                display: none;
+            }
+            .process-step {
+                padding: 1.8rem 1.2rem;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <!-- (Content remains exactly the same as your provided index.html) -->
     <!-- Loading Screen -->
     <div class="premium-loader">
         <div class="loader-content">
@@ -1292,10 +1357,9 @@
         </div>
     </div>
 
-    <!-- Market ticker — signature element -->
+    <!-- Market ticker -->
     <div class="ticker-strip">
         <div class="ticker-track" id="tickerTrack">
-            <!-- populated twice via JS for seamless loop, static fallback below -->
             <span class="ticker-item"><span class="sym">AAPL</span> 214.32 <span class="up">▲ 0.8%</span></span>
             <span class="ticker-item"><span class="sym">VTI</span> 289.11 <span class="up">▲ 0.3%</span></span>
             <span class="ticker-item"><span class="sym">MSFT</span> 441.05 <span class="down">▼ 0.2%</span></span>
