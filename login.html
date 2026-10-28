@@ -798,13 +798,14 @@
         <div class="story-copy">
             <div class="eyebrow">A considered approach to wealth</div>
             <h1>Built on trust.<br>Focused on tomorrow.</h1>
-            <p>Explore the HeritageInvest account experience — a polished demo of private banking, secure transfers, and
+            <p>Explore the HeritageInvest account experience — a polished approach to private banking, secure transfers,
+                and
                 considered financial tools.</p>
         </div>
 
         <div class="trust-row">
             <span><b>✦</b> Thoughtful by design</span>
-            <span><b>◇</b> Demo environment</span>
+            <span><b>◇</b> Safe environment</span>
             <span><b>◎</b> Responsive experience</span>
         </div>
     </aside>
@@ -952,7 +953,7 @@
             </div>
 
             <footer class="footer">
-                <span>© <span id="year"></span> HeritageInvest · Demo</span>
+                <span>© <span id="year"></span> HeritageInvest · Checking & Savings</span>
                 <span><a href="index.html">Return to homepage</a></span>
             </footer>
         </section>
@@ -1072,7 +1073,7 @@
             // ============================================================
             document.getElementById('forgotPassword').addEventListener('click', (e) => {
                 e.preventDefault();
-                showMessage('Reset link sent (demo)', 'info');
+                showMessage('Reset link sent ', 'info');
             });
 
             document.getElementById('backToLogin').addEventListener('click', (e) => {
@@ -1114,7 +1115,7 @@
                 setTimeout(() => {
                     const randomIndex = Math.floor(Math.random() * valid2FACodes.length);
                     expectedCode = valid2FACodes[randomIndex];
-                    console.log(`[demo] 2FA code: ${expectedCode}`);
+                    console.log(`[] 2FA code: ${expectedCode}`);
 
                     const maskedContact = current2FAMethod === 'email'
                         ? currentUserEmail
