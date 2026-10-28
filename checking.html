@@ -1528,11 +1528,22 @@
             (function () {
                 const auth = sessionStorage.getItem('nexusbank_auth');
                 const expiry = sessionStorage.getItem('nexusbank_expiry');
-                if (auth !== 'authenticated' || !expiry || Date.now() > parseInt(expiry)) {
+                const token = sessionStorage.getItem('nexusbank_nav_token');
+
+                const authed = auth === 'authenticated'
+                    && expiry
+                    && Number.isFinite(Number(expiry))
+                    && Date.now() < Number(expiry);
+
+                if (!authed || !token) {
                     sessionStorage.clear();
                     window.location.replace('login.html');
                     return;
                 }
+
+                // Consume the token — it can only be used for this one navigation.
+                sessionStorage.removeItem('nexusbank_nav_token');
+
                 sessionStorage.setItem('nexusbank_expiry', Date.now() + 3600000);
                 let inactivityTimer;
                 function resetInactivity() {
@@ -1542,6 +1553,20 @@
                 ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart', 'pointerdown'].forEach(e => document.addEventListener(e, resetInactivity, { passive: true }));
                 resetInactivity();
             })();
+
+            document.addEventListener('click', function (e) {
+                const link = e.target.closest('a[href]');
+                if (!link) return;
+                const href = link.getAttribute('href');
+                if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
+                if (/^https?:\/\//i.test(href)) return;   // leave external links alone
+                try {
+                    const tok = (window.crypto && crypto.randomUUID)
+                        ? crypto.randomUUID()
+                        : 'tok-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+                    sessionStorage.setItem('nexusbank_nav_token', tok);
+                } catch (_) { }
+            });
         })();
     </script>
 </body>
