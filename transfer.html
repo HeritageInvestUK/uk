@@ -2012,14 +2012,14 @@
                             </div>
                             <div class="limits-list">
                                 <div class="limit-item"><span class="limit-label">Per Transaction</span><span
-                                        class="limit-value">$10,000</span></div>
-                                <div class="limit-item"><span class="limit-label">Daily Limit</span><span
-                                        class="limit-value">$25,000</span></div>
-                                <div class="limit-item"><span class="limit-label">Monthly Limit</span><span
                                         class="limit-value">$50,000</span></div>
+                                <div class="limit-item"><span class="limit-label">Daily Limit</span><span
+                                        class="limit-value">$100,000</span></div>
+                                <div class="limit-item"><span class="limit-label">Monthly Limit</span><span
+                                        class="limit-value">$250,000</span></div>
                                 <div class="limit-progress">
                                     <div class="progress-label"><span>Used today</span><span id="usedTodayLabel">$0 of
-                                            $25,000</span></div>
+                                            $100,000</span></div>
                                     <div class="progress-bar">
                                         <div class="progress-fill" id="usedTodayBar" style="width: 1%"></div>
                                     </div>
@@ -2632,8 +2632,8 @@
                     alert('Please fill all required fields with valid information.');
                     return;
                 }
-                if (amount > 10000) {
-                    alert('Amount exceeds per-transaction limit of $10,000.');
+                if (amount > 50000) {
+                    alert('Amount exceeds per-transaction limit of $50,000.');
                     return;
                 }
 
