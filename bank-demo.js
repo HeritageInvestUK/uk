@@ -7,7 +7,9 @@ const BankDemo = (() => {
       checking:    { label: 'Checking',       balance: 645432.10 },
       savings:     { label: 'Savings',        balance: 215678.90 },
       credit:      { label: 'Premium Credit', balance: 28234.56 },
-      investments: { label: 'Investments',    balance: 3456789.00 }
+      investments: { label: 'Investments',    balance: 3456789.00 },
+      stocks:      { label: 'Stocks',         balance: 2700000.50 },
+      etf:         { label: 'ETF',            balance: 759058.87 }
     },
     transactions: [],
     dailyUsed: 250,
