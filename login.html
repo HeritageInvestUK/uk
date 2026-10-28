@@ -498,7 +498,6 @@
             }
         }
 
-        /* Steps */
         .hidden {
             display: none !important;
         }
@@ -549,7 +548,6 @@
             color: var(--stone);
         }
 
-        /* Delivery info panel */
         .delivery-panel {
             background: rgba(185, 138, 46, 0.06);
             border: 1px solid var(--hair);
@@ -571,7 +569,6 @@
             margin-top: 0.2rem;
         }
 
-        /* Code entry */
         .code-section {
             margin-bottom: 1.5rem;
         }
@@ -632,7 +629,6 @@
             text-underline-offset: 3px;
         }
 
-        /* Footer / secure note */
         .secure-note {
             display: flex;
             gap: 0.75rem;
@@ -672,7 +668,6 @@
             text-underline-offset: 3px;
         }
 
-        /* Link button */
         .link-button {
             background: none;
             border: none;
@@ -686,7 +681,6 @@
             padding: 0;
         }
 
-        /* Responsive */
         @media (max-width: 900px) {
             body {
                 grid-template-columns: 1fr;
@@ -753,10 +747,8 @@
 </head>
 
 <body>
-    <!-- Toast container -->
     <div id="messageContainer"></div>
 
-    <!-- Loading overlay -->
     <div class="premium-loader" id="premiumLoader"
         style="position:fixed;inset:0;background:var(--ink);z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity 0.6s var(--ease),visibility 0.6s var(--ease);">
         <div style="text-align:center;">
@@ -785,7 +777,6 @@
         }
     </style>
 
-    <!-- Left story panel -->
     <aside class="story">
         <div class="brand">
             <div class="brand-mark">H·I</div>
@@ -799,8 +790,7 @@
             <div class="eyebrow">A considered approach to wealth</div>
             <h1>Built on trust.<br>Focused on tomorrow.</h1>
             <p>Explore the HeritageInvest account experience — a polished approach to private banking, secure transfers,
-                and
-                considered financial tools.</p>
+                and considered financial tools.</p>
         </div>
 
         <div class="trust-row">
@@ -810,7 +800,6 @@
         </div>
     </aside>
 
-    <!-- Right form panel -->
     <main class="main">
         <section class="panel">
             <div class="brand mobile-brand">
@@ -824,8 +813,8 @@
             <div class="demo-banner">
                 <i class="fas fa-info-circle"></i>
                 <div>
-                    <strong>sign-in</strong>
-
+                    <strong>Sign-in</strong>
+                    Enter your credentials to access your account.
                 </div>
             </div>
 
@@ -893,7 +882,6 @@
                     <p class="subheading">Choose how you want to receive your verification code.</p>
                 </header>
 
-                <!-- Method selector -->
                 <div class="method-options">
                     <div class="method-option selected" id="emailOption" onclick="select2FAMethod('email')">
                         <i class="fas fa-envelope"></i>
@@ -907,18 +895,15 @@
                     </div>
                 </div>
 
-                <!-- Delivery status -->
                 <div class="delivery-panel">
                     <div class="delivery-title" id="deliveryMessage">Ready to send code</div>
                     <div class="delivery-sub" id="deliverySub">Select method and send</div>
                 </div>
 
-                <!-- Send code button -->
                 <button class="btn" id="sendCodeBtn" type="button" onclick="initiateSendCode()">
                     <i class="fas fa-envelope-open-text"></i> Send verification code
                 </button>
 
-                <!-- Code entry (hidden until sent) -->
                 <div id="codeEntrySection" class="code-section hidden" style="margin-top:1.5rem;">
                     <div class="code-inputs">
                         <input type="text" id="code1" maxlength="1" inputmode="numeric"
@@ -946,7 +931,6 @@
                     </button>
                 </div>
 
-                <!-- Back -->
                 <div style="text-align:center; margin-top:1.5rem;">
                     <button class="link-button" id="backToLogin" type="button">← Back to sign in</button>
                 </div>
@@ -959,9 +943,6 @@
         </section>
     </main>
 
-    <!-- ============================================================
-         LOGIN SCRIPT — working 2FA flow
-         ============================================================ -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Loader fade-out
@@ -1203,7 +1184,7 @@
             });
 
             // ============================================================
-            // Verify
+            // Verify — THIS IS WHERE THE TOKEN IS ISSUED
             // ============================================================
             window.verifyCodeWithDelay = function () {
                 const code = Array.from({ length: 6 }, (_, i) => {
@@ -1228,9 +1209,24 @@
                     verifySpinner.style.display = 'none';
 
                     if (code === expectedCode || valid2FACodes.includes(code)) {
+                        // Mark session authenticated
                         sessionStorage.setItem('nexusbank_auth', 'authenticated');
-                        sessionStorage.setItem('nexusbank_expiry', Date.now() + 3600000);
                         sessionStorage.setItem('nexusbank_user', currentUserEmail);
+
+                        // Short-lived expiry — every successful page load will
+                        // re-arm it. 15 minutes of not navigating and you're out.
+                        sessionStorage.setItem('nexusbank_expiry', Date.now() + 15 * 60 * 1000);
+
+                        // Issue the one-shot navigation token.
+                        // The very next page consumes it. If a page loads without
+                        // consuming it, it must have been entered via the address
+                        // bar → bounce back to login.
+                        try {
+                            const tok = (window.crypto && crypto.randomUUID)
+                                ? crypto.randomUUID()
+                                : 'tok-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+                            sessionStorage.setItem('nexusbank_nav_token', tok);
+                        } catch (_) { }
 
                         showMessage('Verification successful. Redirecting...', 'success');
                         btnText.innerText = 'Success';
