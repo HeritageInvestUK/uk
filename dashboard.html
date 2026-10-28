@@ -3,8 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Dashboard · HeritageInvest</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,6 +11,7 @@
         href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="icon" type="image/png"
         href="https://a.mktgcdn.com/p/trqY8cbRb9rpmzNBIHFEHxK3n0czpuAaJO27NrH_lzQ/1.0000/676x676.png">
     <style>
@@ -27,17 +27,17 @@
             --ledger-red: #A24632;
             --charcoal: #23302B;
             --stone: #6B7A72;
-            --hair: rgba(35, 48, 43, 0.14);
-            --hair-dark: rgba(243, 239, 228, 0.16);
-            --shadow-card: 0 1px 2px rgba(16, 32, 27, 0.06), 0 8px 24px rgba(16, 32, 27, 0.06);
-            --shadow-lift: 0 20px 45px rgba(16, 32, 27, 0.16);
-            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+            --hair: rgba(35, 48, 43, .14);
+            --hair-dark: rgba(243, 239, 228, .16);
+            --shadow-card: 0 1px 2px rgba(16, 32, 27, .06), 0 8px 24px rgba(16, 32, 27, .06);
+            --shadow-lift: 0 20px 45px rgba(16, 32, 27, .16);
+            --ease: cubic-bezier(.22, 1, .36, 1);
         }
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         html {
@@ -45,27 +45,23 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: Inter, sans-serif;
             color: var(--charcoal);
             background: var(--parchment);
-            line-height: 1.6;
-            overflow-x: hidden;
+            line-height: 1.55;
             min-height: 100vh;
-            -webkit-tap-highlight-color: transparent;
             -webkit-font-smoothing: antialiased;
+            -webkit-tap-highlight-color: transparent;
         }
 
         h1,
         h2,
         h3,
         h4 {
-            font-family: 'Source Serif 4', serif;
+            font-family: "Source Serif 4", serif;
             font-weight: 600;
-            letter-spacing: -0.01em;
-        }
-
-        .mono {
-            font-family: 'IBM Plex Mono', monospace;
+            letter-spacing: -.02em;
+            color: var(--ink);
         }
 
         a {
@@ -73,14 +69,27 @@
             text-decoration: none;
         }
 
-        ::selection {
-            background: var(--brass);
-            color: var(--ink);
+        button {
+            cursor: pointer;
+            font: inherit;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        :focus-visible {
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
             outline: 2px solid var(--brass);
-            outline-offset: 2px;
+            outline-offset: 3px;
+        }
+
+        .mono,
+        .money,
+        .ticker,
+        .metric-value,
+        .market-price {
+            font-family: "IBM Plex Mono", monospace;
+            font-variant-numeric: tabular-nums;
         }
 
         /* Loader */
@@ -92,8 +101,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.6s var(--ease), visibility 0.6s var(--ease);
-            pointer-events: all;
+            transition: opacity .6s var(--ease), visibility .6s var(--ease);
         }
 
         .premium-loader.fade-out {
@@ -102,12 +110,8 @@
             pointer-events: none;
         }
 
-        .loader-content {
-            text-align: center;
-        }
-
         .loader-logo {
-            font-family: 'Source Serif 4', serif;
+            font-family: "Source Serif 4", serif;
             font-size: 1.9rem;
             font-weight: 600;
             color: var(--bone);
@@ -116,9 +120,9 @@
 
         .loader-logo .mark {
             color: var(--brass-bright);
-            font-family: 'IBM Plex Mono', monospace;
+            font-family: "IBM Plex Mono", monospace;
             font-size: 1.1rem;
-            margin-right: 0.6rem;
+            margin-right: .6rem;
         }
 
         .loader-rule {
@@ -138,10 +142,10 @@
             width: 40%;
             height: 100%;
             background: var(--brass-bright);
-            animation: loading 1.1s infinite;
+            animation: loadSlide 1.1s infinite;
         }
 
-        @keyframes loading {
+        @keyframes loadSlide {
             0% {
                 left: -40%;
             }
@@ -152,133 +156,121 @@
         }
 
         /* Layout */
-        .dashboard-premium {
+        .app {
             display: flex;
             min-height: 100vh;
-            position: relative;
         }
 
-        .sidebar-premium {
+        .sidebar {
+            width: 260px;
+            flex: 0 0 260px;
             background: var(--ink);
             color: var(--bone);
-            width: 280px;
-            flex-shrink: 0;
             display: flex;
             flex-direction: column;
+            min-height: 100vh;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            z-index: 40;
             border-right: 1px solid var(--hair-dark);
-            transition: left 0.35s var(--ease);
-            z-index: 1000;
         }
 
-        .sidebar-brand {
-            padding: 2rem 1.5rem 1.5rem;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 26px 22px 22px;
             border-bottom: 1px solid var(--hair-dark);
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
         }
 
-        .brand-logo .mark {
-            width: 38px;
-            height: 38px;
-            border: 1.5px solid var(--brass);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.95rem;
-            font-weight: 600;
+        .brand-mark {
+            width: 39px;
+            height: 39px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--brass);
             color: var(--brass);
+            font: 600 13px "IBM Plex Mono", monospace;
+            flex-shrink: 0;
         }
 
-        .brand-logo span {
-            font-family: 'Source Serif 4', serif;
-            font-size: 1.35rem;
-            font-weight: 600;
+        .brand-name {
+            font: 600 21px "Source Serif 4", serif;
             color: var(--bone);
-            margin-left: 0.6rem;
+            line-height: 1.1;
         }
 
-        .brand-tag {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--stone);
-            margin-top: 0.3rem;
-        }
-
-        .sidebar-nav-premium {
-            flex: 1;
-            padding: 1.5rem 0;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .nav-section {
-            margin-bottom: 1.5rem;
-        }
-
-        .nav-section-title {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.7rem;
+        .brand-sub {
+            font: 10px "IBM Plex Mono", monospace;
+            letter-spacing: .12em;
             text-transform: uppercase;
-            letter-spacing: 0.06em;
+            color: #a9b0a9;
+            margin-top: 5px;
+        }
+
+        .nav {
+            padding: 22px 0;
+            overflow: auto;
+            flex: 1;
+        }
+
+        .nav-label {
+            font: 10px "IBM Plex Mono", monospace;
+            letter-spacing: .12em;
             color: var(--brass);
-            padding: 0 1.5rem;
-            margin-bottom: 0.5rem;
+            padding: 0 22px;
+            margin: 17px 0 8px;
+            text-transform: uppercase;
         }
 
-        .nav-section ul {
-            list-style: none;
-        }
-
-        .nav-section li a {
+        .nav a {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.8rem 1.5rem;
-            color: rgba(251, 249, 243, 0.7);
+            gap: 12px;
+            padding: 11px 22px;
+            color: rgba(251, 249, 243, .72);
+            font-size: 13px;
             font-weight: 500;
-            font-size: 0.9rem;
-            transition: background 0.2s var(--ease), color 0.2s var(--ease);
-            -webkit-tap-highlight-color: rgba(185, 138, 46, 0.15);
-            cursor: pointer;
+            border-left: 3px solid transparent;
+            transition: .2s;
         }
 
-        .nav-section li a:hover,
-        .nav-section li.active a {
+        .nav a i {
+            width: 18px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .nav a:hover,
+        .nav a.active {
             background: var(--ink-soft);
             color: var(--bone);
+            border-left-color: var(--brass);
         }
 
-        .nav-section li a i {
-            width: 20px;
-            text-align: center;
-            font-size: 0.95rem;
+        .nav-balance {
+            margin-left: auto;
+            color: #a9b0a9;
+            font: 10px "IBM Plex Mono", monospace;
         }
 
         .nav-badge {
             background: var(--brass);
             color: var(--ink);
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.65rem;
-            padding: 0.15rem 0.5rem;
+            font: 10px "IBM Plex Mono", monospace;
+            font-weight: 600;
+            padding: 2px 7px;
             border-radius: 20px;
             margin-left: auto;
         }
 
-        .nav-amount {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.8rem;
-            color: var(--stone);
-            margin-left: auto;
-        }
-
-        .sidebar-footer-premium {
-            padding: 1.5rem;
+        .sidebar-foot {
+            padding: 1.25rem;
             border-top: 1px solid var(--hair-dark);
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: .75rem;
         }
 
         .user-avatar img {
@@ -288,19 +280,20 @@
             object-fit: cover;
         }
 
-        .user-details .user-name {
+        .user-name {
+            font-size: 12px;
             font-weight: 600;
-            font-size: 0.9rem;
+            color: var(--bone);
         }
 
-        .user-details .user-role {
-            color: var(--stone);
-            font-size: 0.75rem;
+        .user-role {
+            font-size: 10px;
+            color: #a9b0a9;
         }
 
         .user-actions {
             display: flex;
-            gap: 0.5rem;
+            gap: .4rem;
             margin-left: auto;
         }
 
@@ -308,14 +301,13 @@
             background: none;
             border: 1px solid var(--hair-dark);
             color: var(--bone);
-            width: 34px;
-            height: 34px;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
-            -webkit-tap-highlight-color: rgba(185, 138, 46, 0.2);
+            transition: border-color .2s;
+            border-radius: 3px;
         }
 
         .icon-btn:hover {
@@ -323,653 +315,511 @@
             color: var(--brass);
         }
 
-        /* Overlay */
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-            opacity: 0;
-            transition: opacity 0.35s var(--ease);
-            pointer-events: none;
-            -webkit-tap-highlight-color: transparent;
+        .main {
+            min-width: 0;
+            flex: 1;
+            padding: 0 30px 40px;
         }
 
-        .sidebar-overlay.active {
-            display: block;
-            opacity: 1;
-            pointer-events: all;
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            padding: 22px 0;
+            border-bottom: 1px solid var(--hair);
+            margin-bottom: 22px;
         }
 
-        /* Menu Toggle Button */
+        .top-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-width: 0;
+        }
+
         .menu-toggle {
             display: none;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--hair);
             background: var(--bone);
-            border: 1.5px solid var(--hair);
             color: var(--ink);
-            width: 44px;
-            height: 44px;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            cursor: pointer;
-            border-radius: 8px;
-            flex-shrink: 0;
-            transition: background 0.2s var(--ease), border-color 0.2s var(--ease), transform 0.15s var(--ease);
-            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
-            touch-action: manipulation;
-            user-select: none;
-            -webkit-user-select: none;
-            position: relative;
-            z-index: 10;
+            border-radius: 6px;
+            place-items: center;
         }
 
-        .menu-toggle:active {
-            background: var(--parchment-deep);
-            border-color: var(--ink);
-            transform: scale(0.95);
+        .eyebrow {
+            font: 10px "IBM Plex Mono", monospace;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: var(--stone);
+            margin-bottom: 3px;
         }
 
-        .menu-toggle:hover {
-            border-color: var(--ink);
-            background: var(--parchment);
+        .page-title {
+            font-size: clamp(23px, 2.4vw, 31px);
+            line-height: 1.2;
         }
 
-        .main-content-premium {
-            flex: 1;
-            background: var(--parchment);
-            padding: 1.5rem 2rem 2rem;
-            overflow-y: auto;
-            min-height: 100vh;
-            -webkit-overflow-scrolling: touch;
+        .subtitle {
+            font-size: 12px;
+            color: var(--stone);
+            margin-top: 5px;
         }
 
-        .top-nav-premium {
+        .top-actions {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--hair);
-            margin-bottom: 2rem;
+            gap: 10px;
             flex-wrap: wrap;
-            gap: 1rem;
         }
 
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .page-title h1 {
-            font-size: 1.8rem;
-            font-weight: 600;
+        .icon-button {
+            width: 38px;
+            height: 38px;
+            background: var(--bone);
+            border: 1px solid var(--hair);
             color: var(--ink);
-        }
-
-        .page-title p {
-            color: var(--stone);
-            font-size: 0.95rem;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .search-bar {
-            display: flex;
-            align-items: center;
-            background: var(--bone);
-            border: 1px solid var(--hair);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            gap: 0.5rem;
-            min-width: 200px;
-        }
-
-        .search-bar i {
-            color: var(--stone);
-            font-size: 0.9rem;
-        }
-
-        .search-bar input {
-            border: none;
-            background: transparent;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
-            outline: none;
-            color: var(--charcoal);
-            width: 100%;
-        }
-
-        .notification-btn,
-        .support-btn {
-            background: var(--bone);
-            border: 1px solid var(--hair);
-            width: 42px;
-            height: 42px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            cursor: pointer;
-            transition: border-color 0.2s var(--ease);
-            border-radius: 8px;
-            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
-        }
-
-        .notification-btn:hover,
-        .support-btn:hover {
-            border-color: var(--ink);
-        }
-
-        .notification-dot {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 8px;
-            height: 8px;
-            background: var(--ledger-red);
-            border-radius: 50%;
-        }
-
-        .support-btn {
-            gap: 0.4rem;
-            width: auto;
-            padding: 0 1rem;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        .support-btn i {
-            font-size: 1rem;
-        }
-
-        /* Quick actions */
-        .quick-actions-strip {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .quick-action-card {
-            background: var(--bone);
-            border: 1px solid var(--hair);
-            padding: 1rem 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--charcoal);
-            cursor: pointer;
-            transition: all 0.2s var(--ease);
-            text-decoration: none;
-            white-space: nowrap;
             border-radius: 4px;
         }
 
-        .quick-action-card:hover {
-            border-color: var(--ink);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-card);
-        }
-
-        .quick-action-card.primary {
-            background: var(--ink);
-            color: var(--bone);
+        .icon-button:hover {
             border-color: var(--ink);
         }
 
-        .quick-action-card.primary:hover {
-            background: var(--ink-soft);
-        }
-
-        /* Account overview */
-        .account-overview {
-            margin-bottom: 2rem;
-        }
-
-        .overview-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1.5rem;
-        }
-
-        .overview-header h2 {
-            font-size: 1.6rem;
-            color: var(--ink);
-        }
-
-        .view-all-link {
-            color: var(--stone);
-            font-weight: 500;
-            font-size: 0.9rem;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-
-        .view-all-link:hover {
-            color: var(--ink);
-        }
-
-        .account-cards-grid {
+        /* Metrics */
+        .metrics {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 13px;
+            margin-bottom: 22px;
         }
 
-        .account-card {
+        .metric {
             background: var(--bone);
             border: 1px solid var(--hair);
-            padding: 1.5rem;
-            transition: box-shadow 0.2s var(--ease);
+            padding: 17px 18px;
+            min-width: 0;
+            box-shadow: var(--shadow-card);
             cursor: pointer;
-            position: relative;
+            transition: box-shadow .2s, transform .2s;
             border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .account-card.main {
-            border-top: 3px solid var(--brass);
-        }
-
-        .account-card:hover {
+        .metric:hover {
             box-shadow: var(--shadow-lift);
+            transform: translateY(-1px);
         }
 
-        .card-header {
+        .metric-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .card-title {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 600;
-            font-size: 0.9rem;
+            gap: 8px;
             color: var(--stone);
+            font-size: 11px;
+            margin-bottom: 12px;
         }
 
-        .card-title i {
-            color: var(--brass);
-        }
-
-        .card-actions i {
-            color: var(--stone);
-            cursor: pointer;
-        }
-
-        .card-badge {
-            background: var(--parchment-deep);
-            padding: 0.2rem 0.6rem;
-            font-size: 0.7rem;
-            font-weight: 600;
-            border-radius: 4px;
-        }
-
-        .card-balance {
-            display: flex;
-            align-items: baseline;
-            gap: 0.2rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .card-balance .currency {
-            font-size: 1.5rem;
+        .metric-icon {
+            width: 31px;
+            height: 31px;
+            display: grid;
+            place-items: center;
+            background: var(--parchment);
             color: var(--ink);
+            border: 1px solid var(--hair);
+            border-radius: 3px;
+            font-size: 12px;
         }
 
-        .card-balance .amount {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 2rem;
+        .metric-value {
+            font-size: clamp(18px, 2vw, 25px);
             font-weight: 600;
             color: var(--ink);
+            margin: 0 0 5px;
+            letter-spacing: -.04em;
+            overflow-wrap: anywhere;
         }
 
-        .card-balance.small .amount {
-            font-size: 1.5rem;
-        }
-
-        .card-change {
+        .metric-foot {
             display: flex;
+            gap: 6px;
             align-items: center;
-            gap: 0.3rem;
-            font-size: 0.85rem;
-            margin-bottom: 1rem;
-        }
-
-        .card-change.positive {
-            color: var(--ledger-green);
-        }
-
-        .card-footer {
-            display: flex;
+            color: var(--stone);
+            font-size: 10px;
             justify-content: space-between;
-            font-size: 0.8rem;
-            color: var(--stone);
-            margin-top: 1rem;
-            padding-top: 1rem;
+        }
+
+        .metric.metric-primary {
+            border-top: 3px solid var(--brass);
+            background:
+                linear-gradient(180deg, rgba(185, 138, 46, .05), transparent 60%),
+                var(--bone);
+        }
+
+        .metric.metric-primary .metric-value {
+            font-size: clamp(22px, 2.4vw, 30px);
+            letter-spacing: -.05em;
+        }
+
+        .metric-footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 12px;
+            padding-top: 12px;
             border-top: 1px solid var(--hair);
         }
 
-        .card-account-number {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
+        .metric-footer-cell .cell-label {
+            display: block;
+            font: 9px "IBM Plex Mono", monospace;
+            text-transform: uppercase;
+            letter-spacing: .06em;
             color: var(--stone);
-            cursor: pointer;
-            margin-bottom: 1rem;
+            margin-bottom: 3px;
         }
 
-        .card-progress {
-            margin-top: 1rem;
+        .metric-footer-cell .cell-value {
+            display: block;
+            font-family: "IBM Plex Mono", monospace;
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--ink);
         }
 
-        .progress-label {
+        .positive {
+            color: var(--ledger-green) !important;
+        }
+
+        .negative {
+            color: var(--ledger-red) !important;
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 27px;
+        }
+
+        .section-head {
             display: flex;
             justify-content: space-between;
-            font-size: 0.75rem;
-            color: var(--stone);
-            margin-bottom: 0.3rem;
-        }
-
-        .progress-bar {
-            height: 6px;
-            background: var(--parchment);
-            overflow: hidden;
-            border-radius: 3px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--brass);
-            width: 0;
-        }
-
-        .card-interest {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-            color: var(--ledger-green);
-            margin-top: 0.5rem;
-        }
-
-        .card-investment-details {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-        }
-
-        .card-investment-details .detail {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card-investment-details .positive {
-            color: var(--ledger-green);
-        }
-
-        /* Analytics row */
-        .analytics-row {
-            display: flex;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            align-items: flex-end;
+            gap: 14px;
+            margin-bottom: 14px;
             flex-wrap: wrap;
         }
 
-        .chart-card,
-        .insights-card {
+        .section-head h2 {
+            font-size: 22px;
+        }
+
+        .section-head p {
+            font-size: 11px;
+            color: var(--stone);
+            margin-top: 3px;
+        }
+
+        .section-kicker {
+            font: 10px "IBM Plex Mono", monospace;
+            color: var(--brass);
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            margin-bottom: 3px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 13px;
+            border: 1px solid var(--ink);
+            background: var(--ink);
+            color: var(--bone);
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 3px;
+            transition: background .2s;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            background: var(--ink-soft);
+        }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 9px 12px;
+            border: 1px solid var(--hair);
+            background: var(--bone);
+            color: var(--ink);
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 3px;
+            transition: border-color .2s;
+            white-space: nowrap;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--ink);
+        }
+
+        .panel {
             background: var(--bone);
             border: 1px solid var(--hair);
-            padding: 1.5rem;
-            flex: 1;
-            min-width: 300px;
+            box-shadow: var(--shadow-card);
+            min-width: 0;
             border-radius: 4px;
         }
 
-        .chart-card .card-header,
-        .insights-card .card-header {
+        .panel-head {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 17px 18px;
+            border-bottom: 1px solid var(--hair);
+            flex-wrap: wrap;
         }
 
-        .chart-legend {
+        .panel-head h3 {
+            font-size: 17px;
+        }
+
+        .panel-head p {
+            font-size: 10px;
+            color: var(--stone);
+            margin-top: 3px;
+        }
+
+        .panel-body {
+            padding: 17px 18px;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.65fr) minmax(270px, 1fr);
+            gap: 14px;
+        }
+
+        .chart-area {
+            height: 265px;
+            position: relative;
+        }
+
+        .chart-stat {
             display: flex;
-            gap: 1rem;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 13px;
+        }
+
+        .chart-stat strong {
+            font: 600 24px "IBM Plex Mono", monospace;
+            color: var(--ink);
+        }
+
+        .chart-stat span {
+            font-size: 11px;
+        }
+
+        .allocation-wrap {
+            height: 205px;
+            max-width: 310px;
+            margin: 0 auto;
+        }
+
+        .legend-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 9px 12px;
+            margin-top: 14px;
         }
 
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 0.4rem;
-            font-size: 0.8rem;
+            gap: 7px;
+            font-size: 10px;
             color: var(--stone);
+            min-width: 0;
         }
 
-        .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
-
-        .chart-container {
-            margin-top: 1rem;
-        }
-
-        .chart-bars {
-            display: flex;
-            align-items: flex-end;
-            gap: 1.5rem;
-            height: 200px;
-            justify-content: center;
-        }
-
-        .bar-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.3rem;
-        }
-
-        .bar {
-            width: 24px;
-            border-radius: 4px 4px 0 0;
-            transition: height 0.3s var(--ease);
-        }
-
-        .bar.current {
-            background: var(--ink);
-        }
-
-        .bar.previous {
-            background: var(--parchment-deep);
-            margin-left: -8px;
-        }
-
-        .bar-label {
-            font-size: 0.7rem;
-            color: var(--stone);
-        }
-
-        .insights-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .insight-item {
-            display: flex;
-            gap: 1rem;
-            padding: 0.75rem;
-            border: 1px solid var(--hair);
-            cursor: pointer;
-            transition: background 0.2s var(--ease);
-            border-radius: 4px;
-        }
-
-        .insight-item:hover {
-            background: var(--parchment-deep);
-        }
-
-        .insight-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
+        .legend-dot {
+            width: 8px;
+            height: 8px;
             flex-shrink: 0;
+            border-radius: 1px;
         }
 
-        .insight-icon.success {
-            background: rgba(47, 107, 79, 0.1);
-            color: var(--ledger-green);
-        }
-
-        .insight-icon.warning {
-            background: rgba(185, 138, 46, 0.1);
-            color: var(--brass);
-        }
-
-        .insight-icon.info {
-            background: rgba(10, 36, 114, 0.1);
-            color: var(--ink);
-        }
-
-        .insight-content h4 {
-            font-size: 0.95rem;
-            margin-bottom: 0.2rem;
-            color: var(--ink);
-        }
-
-        .insight-content p {
-            font-size: 0.85rem;
-            color: var(--stone);
-        }
-
-        .insight-action {
+        .legend-item strong {
             display: block;
-            width: 100%;
-            margin-top: 1.5rem;
-            padding: 0.8rem;
-            background: transparent;
-            border: 1px solid var(--hair);
-            text-align: center;
-            font-weight: 600;
-            font-size: 0.9rem;
             color: var(--ink);
-            cursor: pointer;
-            transition: border-color 0.2s var(--ease);
-            border-radius: 4px;
+            font: 11px "IBM Plex Mono", monospace;
         }
 
-        .insight-action:hover {
-            border-color: var(--ink);
-        }
-
-        /* Recent transactions */
-        .transactions-section {
-            margin-bottom: 2rem;
-        }
-
-        .section-header {
+        .range-tabs {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-            gap: 1rem;
+            gap: 3px;
+            background: var(--parchment);
+            padding: 3px;
+            border-radius: 3px;
         }
 
-        .section-header h2 {
-            font-size: 1.5rem;
+        .range-tabs button {
+            border: 0;
+            background: transparent;
+            padding: 6px 8px;
+            font: 10px "IBM Plex Mono", monospace;
+            color: var(--stone);
+            border-radius: 2px;
         }
 
-        .header-actions {
-            display: flex;
-            gap: 0.75rem;
-            align-items: center;
-            flex-wrap: wrap;
+        .range-tabs button.active {
+            background: var(--ink);
+            color: var(--bone);
         }
 
-        .btn-outline-small {
-            padding: 0.5rem 1rem;
-            background: var(--bone);
-            border: 1px solid var(--hair);
-            font-weight: 500;
-            font-size: 0.85rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            transition: border-color 0.2s var(--ease);
-            border-radius: 4px;
-        }
-
-        .btn-outline-small:hover {
-            border-color: var(--ink);
-        }
-
-        .transactions-table-container {
+        /* Tables */
+        .table-wrap {
             overflow-x: auto;
+            width: 100%;
             -webkit-overflow-scrolling: touch;
         }
 
-        .transactions-table-premium {
+        table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-
-        .transactions-table-premium th {
-            text-align: left;
-            padding: 0.8rem;
-            color: var(--stone);
-            font-weight: 500;
-            border-bottom: 2px solid var(--hair);
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.75rem;
-            text-transform: uppercase;
             white-space: nowrap;
         }
 
-        .transactions-table-premium td {
-            padding: 0.8rem;
+        th {
+            padding: 11px 13px;
+            background: rgba(243, 239, 228, .62);
+            font: 9px "IBM Plex Mono", monospace;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: var(--stone);
+            text-align: right;
             border-bottom: 1px solid var(--hair);
+        }
+
+        td {
+            padding: 12px 13px;
+            border-bottom: 1px solid var(--hair);
+            font-size: 11px;
+            text-align: right;
             vertical-align: middle;
+        }
+
+        th:first-child,
+        td:first-child,
+        th:nth-child(2),
+        td:nth-child(2) {
+            text-align: left;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        tbody tr:hover {
+            background: rgba(243, 239, 228, .48);
+        }
+
+        .company-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 155px;
+        }
+
+        .company-logo {
+            width: 34px;
+            height: 34px;
+            display: grid;
+            place-items: center;
+            flex: 0 0 34px;
+            border: 1px solid var(--hair);
+            background: #fff;
+            border-radius: 50%;
+            overflow: hidden;
+            color: var(--ink);
+            font: 600 10px "IBM Plex Mono", monospace;
+        }
+
+        .company-logo img {
+            width: 23px;
+            height: 23px;
+            object-fit: contain;
+        }
+
+        .company-name {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .company-symbol {
+            font: 10px "IBM Plex Mono", monospace;
+            color: var(--stone);
+            margin-top: 2px;
+        }
+
+        .category-badge {
+            font-size: 9px;
+            background: var(--parchment-deep);
+            padding: 3px 7px;
+            border-radius: 3px;
+            font-family: "IBM Plex Mono", monospace;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            white-space: nowrap;
+        }
+
+        .status-badge {
+            font-size: 9px;
+            padding: 3px 7px;
+            border-radius: 10px;
+            font-family: "IBM Plex Mono", monospace;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            white-space: nowrap;
+        }
+
+        .status-badge.completed {
+            background: rgba(47, 107, 79, .1);
+            color: var(--ledger-green);
+        }
+
+        .status-badge.pending {
+            background: rgba(185, 138, 46, .1);
+            color: var(--brass);
         }
 
         .transaction-info {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: .7rem;
         }
 
         .transaction-icon {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
+            font-size: 11px;
             background: var(--parchment);
             flex-shrink: 0;
         }
@@ -978,54 +828,15 @@
             color: var(--ink);
         }
 
-        .transaction-icon.deposit {
-            color: var(--ledger-green);
-        }
-
-        .transaction-icon.payment {
-            color: var(--stone);
-        }
-
         .transaction-name {
+            font-size: 11px;
             font-weight: 500;
+            color: var(--ink);
         }
 
         .transaction-meta {
-            font-size: 0.8rem;
+            font-size: 10px;
             color: var(--stone);
-        }
-
-        .category-badge {
-            font-size: 0.75rem;
-            background: var(--parchment-deep);
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-            white-space: nowrap;
-        }
-
-        .status-badge {
-            font-size: 0.75rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 20px;
-            white-space: nowrap;
-        }
-
-        .status-badge.completed {
-            background: rgba(47, 107, 79, 0.1);
-            color: var(--ledger-green);
-        }
-
-        .status-badge.pending {
-            background: rgba(185, 138, 46, 0.1);
-            color: var(--brass);
-        }
-
-        .negative {
-            color: var(--ledger-red);
-        }
-
-        .positive {
-            color: var(--ledger-green);
         }
 
         .row-action {
@@ -1033,27 +844,87 @@
             border: none;
             color: var(--stone);
             cursor: pointer;
-            padding: 0.25rem;
-            font-size: 1rem;
+            padding: .25rem;
+            font-size: 12px;
         }
 
-        .text-right {
-            text-align: right;
+        /* Trending grid */
+        .trending-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
         }
 
-        /* Bottom widgets */
+        .trend-card {
+            padding: 14px;
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            box-shadow: var(--shadow-card);
+            min-width: 0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: box-shadow .2s, transform .2s;
+        }
+
+        .trend-card:hover {
+            box-shadow: var(--shadow-lift);
+            transform: translateY(-1px);
+        }
+
+        .trend-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .trend-top .company-logo {
+            width: 31px;
+            height: 31px;
+            flex-basis: 31px;
+        }
+
+        .trend-price {
+            font: 600 17px "IBM Plex Mono", monospace;
+            color: var(--ink);
+            margin: 14px 0 3px;
+        }
+
+        .trend-name {
+            font-size: 10px;
+            color: var(--stone);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .trend-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 6px;
+            margin-top: 13px;
+        }
+
+        .trend-bottom span {
+            font: 10px "IBM Plex Mono", monospace;
+        }
+
+        /* Widgets */
         .bottom-widgets {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin-bottom: 22px;
         }
 
         .widget-card {
             background: var(--bone);
             border: 1px solid var(--hair);
-            padding: 1.5rem;
+            padding: 17px 18px;
             cursor: pointer;
-            transition: box-shadow 0.2s var(--ease);
+            transition: box-shadow .2s;
+            box-shadow: var(--shadow-card);
             border-radius: 4px;
         }
 
@@ -1069,74 +940,86 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
+            margin-bottom: 14px;
         }
 
         .widget-header h3 {
-            font-size: 1.1rem;
+            font-size: 15px;
+        }
+
+        .widget-header a {
+            color: var(--stone);
+            font-size: 10px;
         }
 
         .widget-list {
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
+            gap: 12px;
         }
 
         .list-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 10px;
         }
 
         .item-info {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 10px;
+            min-width: 0;
         }
 
         .item-info i {
             color: var(--brass);
-            width: 20px;
+            width: 16px;
+            font-size: 12px;
         }
 
         .item-title {
             font-weight: 500;
-            font-size: 0.9rem;
+            font-size: 11px;
+            color: var(--ink);
         }
 
         .item-date {
-            font-size: 0.8rem;
+            font-size: 10px;
             color: var(--stone);
         }
 
         .item-amount {
-            font-family: 'IBM Plex Mono', monospace;
+            font-family: "IBM Plex Mono", monospace;
             font-weight: 600;
+            font-size: 11px;
+            color: var(--ink);
         }
 
         .spending-categories {
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
+            gap: 11px;
         }
 
         .category-item {
             display: flex;
             flex-direction: column;
-            gap: 0.3rem;
+            gap: 5px;
         }
 
         .category-label {
             display: flex;
             justify-content: space-between;
-            font-size: 0.85rem;
+            font-size: 10px;
+            color: var(--stone);
         }
 
         .category-bar {
-            height: 8px;
+            height: 6px;
             background: var(--parchment);
             overflow: hidden;
-            border-radius: 4px;
+            border-radius: 3px;
         }
 
         .bar-fill {
@@ -1148,23 +1031,23 @@
         }
 
         .score-number {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 3rem;
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 2.5rem;
             font-weight: 600;
             color: var(--ink);
-            margin: 1rem 0;
+            margin: .75rem 0;
         }
 
         .score-range {
-            margin-top: 0.5rem;
+            margin-top: .5rem;
         }
 
         .range-bar {
-            height: 8px;
+            height: 6px;
             background: var(--parchment);
             overflow: hidden;
-            margin-bottom: 0.3rem;
-            border-radius: 4px;
+            margin-bottom: .3rem;
+            border-radius: 3px;
         }
 
         .range-fill {
@@ -1176,290 +1059,325 @@
         .range-labels {
             display: flex;
             justify-content: space-between;
-            font-size: 0.7rem;
+            font-size: 9px;
             color: var(--stone);
+            font-family: "IBM Plex Mono", monospace;
         }
 
         .score-change {
-            font-size: 0.85rem;
+            font-size: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.3rem;
-            margin-top: 0.5rem;
-        }
-
-        .score-change.positive {
+            gap: .3rem;
+            margin-top: .5rem;
             color: var(--ledger-green);
         }
 
         .score-badge {
-            background: rgba(47, 107, 79, 0.1);
+            background: rgba(47, 107, 79, .1);
             color: var(--ledger-green);
-            padding: 0.2rem 0.6rem;
-            font-size: 0.7rem;
-            border-radius: 4px;
+            padding: 3px 8px;
+            font-size: 9px;
+            border-radius: 3px;
+            font-family: "IBM Plex Mono", monospace;
+            font-weight: 600;
         }
 
-        /* Modal */
-        .modal-premium {
+        /* Overlay */
+        .overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
+            background: rgba(16, 32, 27, .5);
+            z-index: 35;
         }
 
-        .modal-premium.show {
-            display: flex;
+        .overlay.show {
+            display: block;
         }
 
-        .modal-content {
-            background: var(--bone);
-            padding: 2rem;
-            max-width: 400px;
-            width: 100%;
-            border-top: 3px solid var(--brass);
-            box-shadow: var(--shadow-lift);
-            border-radius: 4px;
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 230px;
+                flex-basis: 230px;
+            }
+
+            .main {
+                padding: 0 22px 32px;
+            }
+
+            .metrics {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .trending-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .bottom-widgets {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .overview-grid {
+                grid-template-columns: minmax(0, 1.4fr) minmax(250px, 1fr);
+            }
         }
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
+        @media (max-width: 900px) {
+            .sidebar {
+                position: fixed;
+                left: -270px;
+                top: 0;
+                bottom: 0;
+                height: 100dvh;
+                width: 260px;
+                flex-basis: 260px;
+                transition: left .3s var(--ease);
+                box-shadow: 4px 0 30px rgba(0, 0, 0, .2);
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .menu-toggle {
+                display: grid;
+            }
+
+            .main {
+                padding: 0 18px 28px;
+            }
+
+            .overview-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .allocation-wrap {
+                height: 190px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .top-actions {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
         }
 
-        .modal-header h2 {
-            font-size: 1.4rem;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            color: var(--stone);
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-
-        .btn-primary {
-            padding: 0.7rem 1.5rem;
-            background: var(--ink);
-            color: var(--bone);
-            border: 1px solid var(--ink);
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s var(--ease);
-            border-radius: 4px;
-        }
-
-        .btn-primary:hover {
-            background: var(--ink-soft);
-        }
-
-        /* ============================================================
-           MOBILE TRANSACTIONS CARD LAYOUT
-           ============================================================ */
         @media (max-width: 700px) {
-            .transactions-table-premium thead {
+            .transactions-table thead {
                 display: none;
             }
 
-            .transactions-table-premium,
-            .transactions-table-premium tbody,
-            .transactions-table-premium tr,
-            .transactions-table-premium td {
+            .transactions-table,
+            .transactions-table tbody,
+            .transactions-table tr,
+            .transactions-table td {
                 display: block;
                 width: 100%;
             }
 
-            .transactions-table-premium tr {
+            .transactions-table tr {
                 background: var(--bone);
                 border: 1px solid var(--hair);
                 border-radius: 6px;
-                padding: 0.9rem 1rem;
-                margin-bottom: 0.75rem;
+                padding: .9rem 1rem;
+                margin-bottom: .75rem;
                 position: relative;
-                animation: txFadeIn 0.3s var(--ease) both;
             }
 
-            .transactions-table-premium tr:last-child {
+            .transactions-table tr:last-child {
                 margin-bottom: 0;
             }
 
-            .transactions-table-premium td {
+            .transactions-table td {
                 border: none;
                 padding: 0;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                gap: 0.75rem;
+                gap: .75rem;
             }
 
-            /* Transaction info row (icon + name + meta) */
-            .transactions-table-premium td:nth-child(1) {
+            .transactions-table td:nth-child(1) {
                 display: block;
-                margin-bottom: 0.55rem;
+                margin-bottom: .55rem;
                 padding-right: 32px;
             }
 
-            .transactions-table-premium td:nth-child(1) .transaction-info {
-                gap: 0.65rem;
+            .transactions-table td:nth-child(1) .transaction-info {
+                gap: .65rem;
             }
 
-            .transactions-table-premium td:nth-child(1) .transaction-icon {
-                width: 34px;
-                height: 34px;
-                font-size: 0.85rem;
-                flex-shrink: 0;
+            .transactions-table td:nth-child(1) .transaction-name {
+                font-size: .95rem;
             }
 
-            .transactions-table-premium td:nth-child(1) .transaction-name {
-                font-size: 0.92rem;
-                line-height: 1.25;
-            }
-
-            .transactions-table-premium td:nth-child(1) .transaction-meta {
-                font-size: 0.75rem;
+            .transactions-table td:nth-child(1) .transaction-meta {
+                font-size: .78rem;
                 color: var(--stone);
                 margin-top: 1px;
             }
 
-            /* Date, category, status on one line */
-            .transactions-table-premium td:nth-child(2),
-            .transactions-table-premium td:nth-child(3),
-            .transactions-table-premium td:nth-child(4) {
+            .transactions-table td:nth-child(2),
+            .transactions-table td:nth-child(3),
+            .transactions-table td:nth-child(4) {
                 display: inline-flex;
                 width: auto;
-                font-size: 0.75rem;
+                font-size: .75rem;
                 color: var(--stone);
                 padding: 0;
-                margin-right: 0.5rem;
-                padding-bottom: 0.2rem;
+                margin-right: .5rem;
+                padding-bottom: .2rem;
             }
 
-            .transactions-table-premium td:nth-child(2) {
+            .transactions-table td:nth-child(2) {
                 order: 2;
             }
 
-            .transactions-table-premium td:nth-child(3) {
+            .transactions-table td:nth-child(3) {
                 order: 3;
             }
 
-            .transactions-table-premium td:nth-child(4) {
+            .transactions-table td:nth-child(4) {
                 order: 4;
             }
 
-            /* Amount bottom-right */
-            .transactions-table-premium td:nth-child(5) {
+            .transactions-table td:nth-child(5) {
                 display: block;
                 position: absolute;
-                bottom: 0.9rem;
+                bottom: .9rem;
                 right: 1rem;
                 width: auto;
                 text-align: right;
-                font-family: 'IBM Plex Mono', monospace;
+                font-family: "IBM Plex Mono", monospace;
                 font-weight: 600;
-                font-size: 0.95rem;
+                font-size: 1rem;
                 order: 5;
             }
 
-            /* Ellipsis button top-right */
-            .transactions-table-premium td:nth-child(6) {
+            .transactions-table td:nth-child(6) {
                 display: block;
                 position: absolute;
-                top: 0.85rem;
-                right: 0.75rem;
+                top: .85rem;
+                right: .75rem;
                 width: auto;
                 padding: 0;
                 order: 6;
             }
 
-            .transactions-table-premium .row-action {
+            .transactions-table .row-action {
                 font-size: 1rem;
-            }
-
-            .transactions-table-premium .category-badge,
-            .transactions-table-premium .status-badge {
-                font-size: 0.7rem;
-                padding: 0.15rem 0.5rem;
-            }
-
-            .transactions-table-premium td[colspan] {
-                display: block;
-                text-align: center !important;
-                padding: 2rem 1rem !important;
-            }
-
-            @keyframes txFadeIn {
-                from {
-                    opacity: 0;
-                    transform: translateY(6px);
-                }
-
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
             }
         }
 
-        /* Responsive */
-        @media (max-width:1024px) {
-            .sidebar-premium {
-                position: fixed;
-                left: -290px;
-                top: 0;
-                bottom: 0;
-                height: 100vh;
-                height: 100dvh;
-                width: 280px;
-                box-shadow: 4px 0 30px rgba(0, 0, 0, 0.3);
+        @media (max-width: 600px) {
+            .main {
+                padding: 0 12px 24px;
             }
 
-            .sidebar-premium.active {
-                left: 0;
+            .topbar {
+                padding: 15px 0;
+                margin-bottom: 15px;
+                gap: 8px;
+                align-items: center;
             }
 
-            .sidebar-overlay {
-                display: block;
+            .page-title {
+                font-size: 23px;
             }
 
-            .menu-toggle {
-                display: flex;
+            .subtitle {
+                font-size: 10px;
             }
 
-            .main-content-premium {
-                margin-left: 0;
-                padding: 1rem;
-                width: 100%;
+            .top-actions {
+                gap: 6px;
             }
 
-            .top-nav-premium {
-                flex-direction: column;
-                align-items: flex-start;
+            .top-actions .icon-button {
+                display: none;
             }
 
-            .nav-left {
-                width: 100%;
+            .metrics {
+                gap: 8px;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                margin-bottom: 16px;
             }
 
-            .nav-right {
-                width: 100%;
-                justify-content: space-between;
+            .metric {
+                padding: 12px;
             }
 
-            .account-cards-grid {
-                grid-template-columns: 1fr;
+            .metric-value {
+                font-size: 18px;
+                margin: 9px 0 4px;
             }
 
-            .analytics-row {
-                flex-direction: column;
+            .metric.metric-primary .metric-value {
+                font-size: 20px;
+            }
+
+            .metric-footer-grid {
+                gap: 6px;
+                margin-top: 10px;
+                padding-top: 10px;
+            }
+
+            .metric-footer-cell .cell-value {
+                font-size: 11px;
+            }
+
+            .metric-top {
+                font-size: 10px;
+                margin-bottom: 9px;
+            }
+
+            .metric-icon {
+                width: 27px;
+                height: 27px;
+            }
+
+            .metric-foot {
+                font-size: 9px;
+                flex-wrap: wrap;
+            }
+
+            .section {
+                margin-bottom: 21px;
+            }
+
+            .section-head h2 {
+                font-size: 20px;
+            }
+
+            .panel-head,
+            .panel-body {
+                padding: 13px;
+            }
+
+            .chart-area {
+                height: 220px;
+            }
+
+            .range-tabs button {
+                padding: 6px 5px;
+            }
+
+            .trending-grid {
+                gap: 8px;
+            }
+
+            .trend-card {
+                padding: 11px;
+            }
+
+            .trend-price {
+                font-size: 15px;
             }
 
             .bottom-widgets {
@@ -1467,115 +1385,69 @@
             }
         }
 
-        @media (max-width:600px) {
-            .main-content-premium {
-                padding: 0.75rem;
-            }
+        @media (prefers-reduced-motion: reduce) {
 
-            .page-title h1 {
-                font-size: 1.4rem;
-            }
-
-            .search-bar {
-                min-width: 120px;
-            }
-
-            .quick-actions-strip {
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                gap: 0.5rem;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none;
-            }
-
-            .quick-actions-strip::-webkit-scrollbar {
-                display: none;
-            }
-
-            .quick-action-card {
-                padding: 0.8rem 1rem;
-                font-size: 0.8rem;
-                flex-shrink: 0;
-            }
-
-            .card-balance .amount {
-                font-size: 1.6rem;
-            }
-
-            .chart-bars {
-                height: 150px;
-                gap: 1rem;
-            }
-
-            .bar {
-                width: 16px;
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition: none !important;
+                animation: none !important;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- Loading -->
     <div class="premium-loader" id="premiumLoader">
-        <div class="loader-content">
+        <div style="text-align:center;">
             <div class="loader-logo"><span class="mark">H·I</span>HeritageInvest</div>
             <div class="loader-rule"></div>
         </div>
     </div>
 
-    <div class="dashboard-premium">
-        <!-- Sidebar -->
-        <aside class="sidebar-premium" id="sidebarPremium">
-            <div class="sidebar-brand">
-                <div class="brand-logo">
-                    <span class="mark">H·I</span>
-                    <span>HeritageInvest</span>
+    <div class="app">
+        <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+            <div class="brand">
+                <div class="brand-mark">H·I</div>
+                <div>
+                    <div class="brand-name">HeritageInvest</div>
+                    <div class="brand-sub">Private Banking</div>
                 </div>
-                <div class="brand-tag">Private Banking</div>
             </div>
-            <nav class="sidebar-nav-premium">
-                <div class="nav-section">
-                    <div class="nav-section-title">MAIN</div>
-                    <ul>
-                        <li class="active"><a href="dashboard.html"><i
-                                    class="fas fa-chart-pie"></i><span>Dashboard</span><span
-                                    class="nav-badge">9</span></a></li>
-                        <li><a href="transactions.html"><i
-                                    class="fas fa-arrow-right-arrow-left"></i><span>Transactions</span></a></li>
-                        <li><a href="transfer.html"><i class="fas fa-paper-plane"></i><span>Transfers</span></a></li>
-                        <li><a href="statements.html"><i class="fas fa-file-invoice"></i><span>Statements</span></a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="nav-section">
-                    <div class="nav-section-title">ACCOUNTS</div>
-                    <ul>
-                        <li><a href="checking.html"><i class="fas fa-wallet"></i><span>Checking</span><span
-                                    class="nav-amount" data-balance="checking">$0</span></a></li>
-                        <li><a href="savings.html"><i class="fas fa-piggy-bank"></i><span>Savings</span><span
-                                    class="nav-amount" data-balance="savings">$0</span></a></li>
-                        <li><a href="investments.html"><i class="fas fa-chart-line"></i><span>Investments</span><span
-                                    class="nav-amount" data-balance="investments">$0</span></a></li>
-                    </ul>
-                </div>
-                <div class="nav-section">
-                    <div class="nav-section-title">SERVICES</div>
-                    <ul>
-                        <li><a href="cards.html"><i class="fas fa-credit-card"></i><span>Cards</span></a></li>
-                        <li><a href="paybills.html"><i class="fas fa-file-invoice-dollar"></i><span>Pay Bills</span></a>
-                        </li>
-                        <li><a href="settings.html"><i class="fas fa-gear"></i><span>Settings</span></a></li>
-                    </ul>
-                </div>
+            <nav class="nav">
+                <div class="nav-label">Main</div>
+                <a href="dashboard.html" class="active" aria-current="page">
+                    <i class="fa-solid fa-chart-pie"></i><span>Dashboard</span><span class="nav-badge"
+                        id="navTxBadge">0</span>
+                </a>
+                <a href="transactions.html"><i
+                        class="fa-solid fa-arrow-right-arrow-left"></i><span>Transactions</span></a>
+                <a href="transfer.html"><i class="fa-solid fa-paper-plane"></i><span>Transfers</span></a>
+                <a href="statements.html"><i class="fa-solid fa-file-invoice"></i><span>Statements</span></a>
+                <div class="nav-label">Accounts</div>
+                <a href="checking.html"><i class="fa-solid fa-wallet"></i><span>Checking</span><span class="nav-balance"
+                        data-balance="checking">$0</span></a>
+                <a href="savings.html"><i class="fa-solid fa-piggy-bank"></i><span>Savings</span><span
+                        class="nav-balance" data-balance="savings">$0</span></a>
+                <a href="investments.html"><i class="fa-solid fa-chart-line"></i><span>Investments</span><span
+                        class="nav-balance" data-balance="investments">$0</span></a>
+                <div class="nav-label">Services</div>
+                <a href="cards.html"><i class="fa-solid fa-credit-card"></i><span>Cards</span></a>
+                <a href="paybills.html"><i class="fa-solid fa-file-invoice-dollar"></i><span>Pay Bills</span></a>
+                <a href="settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
             </nav>
-            <div class="sidebar-footer-premium">
+            <div class="sidebar-foot">
                 <div class="user-avatar"><img src="https://pbs.twimg.com/media/HVr9a6xW0AA2cn5?format=jpg&name=small"
                         alt="Robert Alexandre"></div>
-                <div class="user-details">
+                <div>
                     <div class="user-name">Robert Alexandre</div>
                     <div class="user-role">Premium Member</div>
                 </div>
                 <div class="user-actions">
+                    <button class="icon-btn" title="Reset demo data"
+                        onclick="if(confirm('Reset all demo balances and transactions?')){BankDemo.reset();location.reload();}"><i
+                            class="fas fa-rotate-left"></i></button>
                     <button class="icon-btn" title="Settings" onclick="location.href='settings.html'"><i
                             class="fas fa-sliders-h"></i></button>
                     <button class="icon-btn" title="Logout" onclick="location.href='index.html'"><i
@@ -1584,263 +1456,205 @@
             </div>
         </aside>
 
-        <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+        <div class="overlay" id="sidebarOverlay"></div>
 
-        <!-- Main Content -->
-        <main class="main-content-premium" id="mainContent">
-            <header class="top-nav-premium">
-                <div class="nav-left">
-                    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle navigation menu"
-                        aria-expanded="false">
-                        <i class="fas fa-bars"></i>
+        <main class="main">
+            <header class="topbar">
+                <div class="top-left">
+                    <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">
+                        <i class="fa-solid fa-bars"></i>
                     </button>
-                    <div class="page-title">
-                        <h1>Good morning, Robert</h1>
-                        <p>Here's your financial summary for today</p>
+                    <div>
+                        <div class="eyebrow" id="dateEyebrow">Today</div>
+                        <h1 class="page-title" id="greeting">Good morning, Robert</h1>
+                        <p class="subtitle">Your financial summary for today.</p>
                     </div>
                 </div>
-                <div class="nav-right">
-                    <div class="search-bar">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Search transactions, accounts...">
-                    </div>
-                    <button class="notification-btn" type="button"><i class="far fa-bell"></i><span
-                            class="notification-dot"></span></button>
-                    <button class="support-btn" type="button"><i
-                            class="far fa-question-circle"></i><span>Help</span></button>
+                <div class="top-actions">
+                    <button class="icon-button" title="Notifications" aria-label="Notifications"><i
+                            class="fa-regular fa-bell"></i></button>
+                    <button class="icon-button" title="Help" aria-label="Help"><i
+                            class="fa-regular fa-circle-question"></i></button>
                 </div>
             </header>
 
-            <!-- Quick Actions -->
-            <div class="quick-actions-strip">
-                <button class="quick-action-card primary" onclick="location.href='transfer.html'"><i
-                        class="fas fa-arrow-right-arrow-left"></i><span>Transfer</span></button>
-                <button class="quick-action-card" onclick="location.href='checking.html'"><i
-                        class="fas fa-wallet"></i><span>Accounts</span></button>
-                <button class="quick-action-card" onclick="location.href='paybills.html'"><i
-                        class="fas fa-file-invoice"></i><span>Pay Bills</span></button>
-                <button class="quick-action-card" onclick="location.href='cards.html'"><i
-                        class="fas fa-credit-card"></i><span>Cards</span></button>
-                <button class="quick-action-card" onclick="location.href='statements.html'"><i
-                        class="fas fa-file-pdf"></i><span>Statements</span></button>
-                <button class="quick-action-card" onclick="location.href='investments.html'"><i
-                        class="fas fa-chart-line"></i><span>Investments</span></button>
-            </div>
-
-            <!-- Account Overview -->
-            <div class="account-overview">
-                <div class="overview-header">
-                    <h2>Account Overview</h2>
-                    <a href="checking.html" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="account-cards-grid">
-                    <!-- Total Balance -->
-                    <div class="account-card main" onclick="location.href='checking.html'">
-                        <div class="card-header">
-                            <div class="card-title"><i class="fas fa-wallet"></i><span>Total Balance</span></div>
-                            <div class="card-actions"><i class="fas fa-ellipsis-h"></i></div>
+            <!-- Metrics -->
+            <section class="metrics" aria-label="Account overview">
+                <!-- Primary Total Balance card -->
+                <article class="metric metric-primary" onclick="location.href='checking.html'">
+                    <div class="metric-top">
+                        <span>Total Balance</span>
+                        <span class="metric-icon"><i class="fa-solid fa-wallet"></i></span>
+                    </div>
+                    <div class="metric-value" data-balance-total-display>$0.00</div>
+                    <div class="metric-foot">
+                        <span>Across all accounts</span>
+                        <span class="positive"><i class="fa-solid fa-arrow-up"></i> +2.3%</span>
+                    </div>
+                    <div class="metric-footer-grid">
+                        <div class="metric-footer-cell">
+                            <span class="cell-label">Available</span>
+                            <span class="cell-value" data-balance-total-display>$0.00</span>
                         </div>
-                        <div class="card-balance">
-                            <span class="currency"></span>
-                            <span class="amount" data-balance-total>0.00</span>
-                        </div>
-                        <div class="card-change positive">
-                            <i class="fas fa-arrow-up"></i><span>+2.3% from last month</span>
-                        </div>
-                        <div class="card-footer">
-                            <div class="footer-item">
-                                <span class="label">Available</span>
-                                <span class="value" data-balance-total>$0.00</span>
-                            </div>
-                            <div class="footer-item">
-                                <span class="label">Hold</span>
-                                <span class="value">$0.00</span>
-                            </div>
+                        <div class="metric-footer-cell">
+                            <span class="cell-label">Hold</span>
+                            <span class="cell-value">$0.00</span>
                         </div>
                     </div>
+                </article>
 
-                    <!-- Checking -->
-                    <div class="account-card" onclick="location.href='checking.html'">
-                        <div class="card-header">
-                            <div class="card-title"><i class="fas fa-credit-card"></i><span>Checking</span></div>
-                            <span class="card-badge">Main</span>
-                        </div>
-                        <div class="card-balance small">
-                            <span class="currency"></span>
-                            <span class="amount" data-balance="checking">0.00</span>
-                        </div>
-                        <div class="card-account-number" onclick="event.stopPropagation();">
-                            <i class="far fa-copy"></i><span>**** 4756</span>
-                        </div>
-                        <div class="card-progress">
-                            <div class="progress-label"><span>Monthly limit</span><span id="checkingLimitPct">45%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="checkingLimitBar" style="width:45%"></div>
-                            </div>
-                        </div>
+                <article class="metric" onclick="location.href='checking.html'">
+                    <div class="metric-top"><span>Checking</span><span class="metric-icon"><i
+                                class="fa-solid fa-credit-card"></i></span></div>
+                    <div class="metric-value" data-balance="checking">$0.00</div>
+                    <div class="metric-foot">
+                        <span>Monthly spend</span>
+                        <span id="checkingSpendPct">0%</span>
                     </div>
-
-                    <!-- Savings -->
-                    <div class="account-card highlight" onclick="location.href='savings.html'">
-                        <div class="card-header">
-                            <div class="card-title"><i class="fas fa-piggy-bank"></i><span>Savings</span></div>
-                            <span class="card-badge">2.5% APY</span>
-                        </div>
-                        <div class="card-balance small">
-                            <span class="currency"></span>
-                            <span class="amount" data-balance="savings">0.00</span>
-                        </div>
-                        <div class="card-account-number" onclick="event.stopPropagation();">
-                            <i class="far fa-copy"></i><span>**** 9904</span>
-                        </div>
-                        <div class="card-interest">
-                            <i class="fas fa-leaf"></i><span>Earned $32.15 this month</span>
-                        </div>
+                </article>
+                <article class="metric" onclick="location.href='savings.html'">
+                    <div class="metric-top"><span>Savings</span><span class="metric-icon"><i
+                                class="fa-solid fa-piggy-bank"></i></span></div>
+                    <div class="metric-value" data-balance="savings">$0.00</div>
+                    <div class="metric-foot">
+                        <span>2.5% APY</span>
+                        <span class="positive">+$32.15</span>
                     </div>
-
-                    <!-- Investments -->
-                    <div class="account-card" onclick="location.href='investments.html'">
-                        <div class="card-header">
-                            <div class="card-title"><i class="fas fa-chart-line"></i><span>Investments</span></div>
-                            <span class="card-change small positive">+5.2%</span>
-                        </div>
-                        <div class="card-balance small">
-                            <span class="currency"></span>
-                            <span class="amount" data-balance="investments">0.00</span>
-                        </div>
-                        <div class="card-investment-details">
-                            <div class="detail"><span>Stocks</span><span class="positive"
-                                    data-balance="stocks">$0.00</span></div>
-                            <div class="detail"><span>ETF</span><span data-balance="etf">$0.00</span></div>
-                        </div>
+                </article>
+                <article class="metric" onclick="location.href='investments.html'">
+                    <div class="metric-top"><span>Investments</span><span class="metric-icon"><i
+                                class="fa-solid fa-chart-line"></i></span></div>
+                    <div class="metric-value" data-balance="investments">$0.00</div>
+                    <div class="metric-foot">
+                        <span>Stocks + ETF</span>
+                        <span class="positive"><i class="fa-solid fa-arrow-up"></i> +5.2%</span>
                     </div>
-                </div>
-            </div>
+                </article>
+            </section>
 
-            <!-- Analytics Row -->
-            <div class="analytics-row">
-                <div class="chart-card">
-                    <div class="card-header">
+            <!-- Performance + Allocation -->
+            <section class="section overview-grid">
+                <article class="panel">
+                    <div class="panel-head">
                         <div>
-                            <h3>Spending Analysis</h3>
-                            <p class="subtitle" style="color:var(--stone); font-size:0.85rem;">Last 30 days vs previous
-                                period</p>
+                            <h3>Portfolio performance</h3>
+                            <p>Total balance over time</p>
                         </div>
-                        <div class="chart-legend">
-                            <span class="legend-item"><span class="dot" style="background: var(--ink)"></span>This
-                                month</span>
-                            <span class="legend-item"><span class="dot"
-                                    style="background: var(--parchment-deep)"></span>Last month</span>
-                        </div>
-                    </div>
-                    <div class="chart-container">
-                        <div class="chart-bars">
-                            <div class="bar-group">
-                                <div class="bar current" style="height:120px"></div>
-                                <div class="bar previous" style="height:100px"></div><span class="bar-label">Mon</span>
-                            </div>
-                            <div class="bar-group">
-                                <div class="bar current" style="height:80px"></div>
-                                <div class="bar previous" style="height:90px"></div><span class="bar-label">Tue</span>
-                            </div>
-                            <div class="bar-group">
-                                <div class="bar current" style="height:150px"></div>
-                                <div class="bar previous" style="height:110px"></div><span class="bar-label">Wed</span>
-                            </div>
-                            <div class="bar-group">
-                                <div class="bar current" style="height:100px"></div>
-                                <div class="bar previous" style="height:80px"></div><span class="bar-label">Thu</span>
-                            </div>
-                            <div class="bar-group">
-                                <div class="bar current" style="height:130px"></div>
-                                <div class="bar previous" style="height:120px"></div><span class="bar-label">Fri</span>
-                            </div>
-                            <div class="bar-group">
-                                <div class="bar current" style="height:70px"></div>
-                                <div class="bar previous" style="height:60px"></div><span class="bar-label">Sat</span>
-                            </div>
-                            <div class="bar-group">
-                                <div class="bar current" style="height:60px"></div>
-                                <div class="bar previous" style="height:50px"></div><span class="bar-label">Sun</span>
-                            </div>
+                        <div class="range-tabs" id="perfRanges">
+                            <button data-range="1W">1W</button>
+                            <button data-range="1M" class="active">1M</button>
+                            <button data-range="3M">3M</button>
+                            <button data-range="1Y">1Y</button>
                         </div>
                     </div>
-                </div>
-                <div class="insights-card">
-                    <div class="card-header">
-                        <h3>Financial Insights</h3><i class="fas fa-robot" style="color:var(--brass)"></i>
+                    <div class="panel-body">
+                        <div class="chart-stat">
+                            <strong data-balance-total-display>$0.00</strong>
+                            <span class="positive">+8.50% overall</span>
+                        </div>
+                        <div class="chart-area"><canvas id="performanceChart"
+                                aria-label="Portfolio performance"></canvas></div>
                     </div>
-                    <div class="insights-list">
-                        <div class="insight-item" onclick="location.href='savings.html'">
-                            <div class="insight-icon success"><i class="fas fa-chart-pie"></i></div>
-                            <div class="insight-content">
-                                <h4>Spending decreased by 12%</h4>
-                                <p>Compared to last month, you've saved $245 more</p>
-                            </div>
+                </article>
+                <article class="panel">
+                    <div class="panel-head">
+                        <div>
+                            <h3>Account allocation</h3>
+                            <p>Your money by account type</p>
                         </div>
-                        <div class="insight-item" onclick="location.href='paybills.html'">
-                            <div class="insight-icon warning"><i class="fas fa-exclamation-triangle"></i></div>
-                            <div class="insight-content">
-                                <h4>Upcoming bill due in 3 days</h4>
-                                <p>Electricity bill of $145.67</p>
-                            </div>
-                        </div>
-                        <div class="insight-item" onclick="location.href='savings.html'">
-                            <div class="insight-icon info"><i class="fas fa-bullseye"></i></div>
-                            <div class="insight-content">
-                                <h4>Savings goal 75% complete</h4>
-                                <p>Emergency fund: $15,000 of $20,000</p>
-                            </div>
-                        </div>
+                        <span class="eyebrow">Breakdown</span>
                     </div>
-                    <button class="insight-action" onclick="location.href='transactions.html'">View All Insights <i
-                            class="fas fa-arrow-right"></i></button>
-                </div>
-            </div>
+                    <div class="panel-body">
+                        <div class="allocation-wrap"><canvas id="allocationChart"
+                                aria-label="Account allocation"></canvas></div>
+                        <div class="legend-list" id="allocationLegend"></div>
+                    </div>
+                </article>
+            </section>
 
-            <!-- Recent Transactions -->
-            <div class="transactions-section">
-                <div class="section-header">
+            <!-- Quick actions -->
+            <section class="section">
+                <div class="section-head">
                     <div>
-                        <h2>Recent Transactions</h2>
-                        <p style="color:var(--stone); font-size:0.85rem;" id="txSubtitle">Your latest 10 transactions
-                        </p>
-                    </div>
-                    <div class="header-actions">
-                        <button class="btn-outline-small" onclick="location.href='statements.html'"><i
-                                class="fas fa-download"></i>Export</button>
-                        <button class="btn-outline-small" onclick="location.href='transactions.html'"><i
-                                class="fas fa-filter"></i>Filter</button>
-                        <a href="transactions.html" class="view-all-link">View All <i
-                                class="fas fa-arrow-right"></i></a>
+                        <div class="section-kicker">Shortcuts</div>
+                        <h2>Quick Actions</h2>
+                        <p>Jump to the most common tasks.</p>
                     </div>
                 </div>
-                <div class="transactions-table-container">
-                    <table class="transactions-table-premium">
-                        <thead>
-                            <tr>
-                                <th>Transaction</th>
-                                <th>Date</th>
-                                <th>Category</th>
-                                <th>Status</th>
-                                <th class="text-right">Amount</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="txBody">
-                            <!-- Populated by script below -->
-                        </tbody>
-                    </table>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="btn" onclick="location.href='transfer.html'"><i class="fa-solid fa-paper-plane"></i>
+                        Transfer Money</button>
+                    <button class="btn-outline" onclick="location.href='checking.html'"><i
+                            class="fa-solid fa-wallet"></i> Accounts</button>
+                    <button class="btn-outline" onclick="location.href='paybills.html'"><i
+                            class="fa-solid fa-file-invoice-dollar"></i> Pay Bills</button>
+                    <button class="btn-outline" onclick="location.href='cards.html'"><i
+                            class="fa-solid fa-credit-card"></i> Cards</button>
+                    <button class="btn-outline" onclick="location.href='statements.html'"><i
+                            class="fa-solid fa-file-pdf"></i> Statements</button>
+                    <button class="btn-outline" onclick="location.href='investments.html'"><i
+                            class="fa-solid fa-chart-line"></i> Investments</button>
                 </div>
-            </div>
+            </section>
 
-            <!-- Bottom Widgets -->
-            <div class="bottom-widgets">
+            <!-- Recent transactions -->
+            <section class="section">
+                <div class="section-head">
+                    <div>
+                        <div class="section-kicker">Activity log</div>
+                        <h2>Recent Transactions</h2>
+                        <p id="txSubtitle">Your latest 10 transactions</p>
+                    </div>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <button class="btn-outline" onclick="location.href='statements.html'"><i
+                                class="fa-solid fa-download"></i> Export</button>
+                        <button class="btn-outline" onclick="location.href='transactions.html'"><i
+                                class="fa-solid fa-filter"></i> Filter</button>
+                        <a href="transactions.html"
+                            style="color:var(--stone); font-size:11px; font-weight:600; display:flex; align-items:center; gap:4px;">View
+                            All <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="table-wrap">
+                        <table class="transactions-table">
+                            <thead>
+                                <tr>
+                                    <th>Transaction</th>
+                                    <th>Date</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th class="text-right">Amount</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="txBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Trending stocks -->
+            <section class="section">
+                <div class="section-head">
+                    <div>
+                        <div class="section-kicker">Market pulse</div>
+                        <h2>Trending Stocks</h2>
+                        <p>Selected companies with daily moves.</p>
+                    </div>
+                    <button class="btn-outline" onclick="location.href='investments.html'">
+                        Explore all stocks <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+                <div class="trending-grid" id="trendingGrid"></div>
+            </section>
+
+            <!-- Bottom widgets -->
+            <section class="bottom-widgets">
                 <div class="widget-card" onclick="location.href='paybills.html'">
                     <div class="widget-header">
-                        <h3>Upcoming Bills</h3><a href="paybills.html" onclick="event.stopPropagation();"
-                            style="color:var(--stone);">View all</a>
+                        <h3>Upcoming Bills</h3>
+                        <a href="paybills.html" onclick="event.stopPropagation();">View all</a>
                     </div>
                     <div class="widget-list">
                         <div class="list-item">
@@ -1872,10 +1686,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="widget-card" onclick="location.href='investments.html'">
+
+                <div class="widget-card" onclick="location.href='transactions.html'">
                     <div class="widget-header">
-                        <h3>Spending Categories</h3><a href="investments.html" onclick="event.stopPropagation();"
-                            style="color:var(--stone);">Details</a>
+                        <h3>Spending Categories</h3>
+                        <a href="transactions.html" onclick="event.stopPropagation();">Details</a>
                     </div>
                     <div class="spending-categories">
                         <div class="category-item">
@@ -1910,6 +1725,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="widget-card highlight" onclick="location.href='cards.html'">
                     <div class="widget-header">
                         <h3>Credit Score</h3><span class="score-badge">Excellent</span>
@@ -1922,42 +1738,32 @@
                             </div>
                             <div class="range-labels"><span>300</span><span>850</span></div>
                         </div>
-                        <div class="score-change positive"><i class="fas fa-arrow-up"></i><span>+12 points from last
-                                month</span></div>
+                        <div class="score-change"><i class="fas fa-arrow-up"></i><span>+12 points from last month</span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
+
+            <p style="text-align:center; color:var(--stone); font-size:10px; padding:12px 0 0;">© <span
+                    id="year"></span> HeritageInvest</p>
         </main>
     </div>
 
-    <!-- Demo Modal -->
-    <div class="modal-premium" id="demoModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Demo Feature</h2><button class="modal-close" onclick="closeDemoModal()"><i
-                        class="fas fa-times"></i></button>
-            </div>
-            <div class="modal-body">
-                <p style="text-align:center; color:var(--stone); padding:20px;">This is a demonstration feature. In a
-                    production environment, this would perform the requested action.</p>
-            </div>
-            <div class="modal-footer" style="text-align:center; margin-top:1rem;"><button class="btn-primary"
-                    onclick="closeDemoModal()">Close</button></div>
-        </div>
-    </div>
-
-    <!-- ============================================================
-         Shared demo state module
-         ============================================================ -->
     <script src="bank-demo.js"></script>
     <script src="bank-idle.js"></script>
 
-    <!-- ============================================================
-         Dashboard page wiring
-         ============================================================ -->
     <script>
         (function () {
-            // ---------- Shared BankDemo module (inline fallback) ----------
+            'use strict';
+
+            const TRENDING_STOCKS = [
+                { symbol: 'AAPL', name: 'Apple Inc.', domain: 'apple.com', price: 231.42, change: 1.28 },
+                { symbol: 'NVDA', name: 'NVIDIA Corporation', domain: 'nvidia.com', price: 142.65, change: 2.91 },
+                { symbol: 'MSFT', name: 'Microsoft Corporation', domain: 'microsoft.com', price: 428.76, change: 0.84 },
+                { symbol: 'META', name: 'Meta Platforms, Inc.', domain: 'meta.com', price: 621.17, change: 1.73 }
+            ];
+
+            // ---------- Fallback BankDemo if bank-demo.js missing ----------
             if (typeof window.BankDemo === 'undefined') {
                 console.warn('[dashboard] bank-demo.js not loaded — using inline fallback.');
                 (function () {
@@ -1977,8 +1783,20 @@
                         perTxnLimit: 10000
                     });
                     const load = () => {
-                        try { const r = localStorage.getItem(KEY); return r ? JSON.parse(r) : defaultState(); }
-                        catch (_) { return defaultState(); }
+                        try {
+                            const r = localStorage.getItem(KEY);
+                            if (!r) return defaultState();
+                            const s = JSON.parse(r);
+                            const now = Date.now();
+                            let changed = false;
+                            (s.transactions || []).forEach(t => {
+                                if (t.status === 'pending' && t.pendingUntil && now >= t.pendingUntil) {
+                                    t.status = 'sent'; changed = true;
+                                }
+                            });
+                            if (changed) localStorage.setItem(KEY, JSON.stringify(s));
+                            return s;
+                        } catch (_) { return defaultState(); }
                     };
                     const save = s => localStorage.setItem(KEY, JSON.stringify(s));
                     let state = load();
@@ -1991,38 +1809,18 @@
                             const k = el.getAttribute('data-balance');
                             if (state.accounts[k]) el.textContent = fmt(state.accounts[k].balance);
                         });
-                        document.querySelectorAll('[data-balance-total]').forEach(el => {
-                            el.textContent = fmt(totalBalance());
-                        });
                         const navMap = { 'checking.html': 'checking', 'savings.html': 'savings', 'investments.html': 'investments' };
                         Object.entries(navMap).forEach(([href, k]) => {
-                            document.querySelectorAll('a[href$="' + href + '"] .nav-amount').forEach(el => {
+                            document.querySelectorAll('a[href$="' + href + '"] .nav-balance').forEach(el => {
                                 el.textContent = fmtShort(state.accounts[k].balance);
                             });
                         });
-                        const used = document.querySelector('.progress-label span:last-child');
-                        if (used) used.textContent = fmtShort(state.dailyUsed) + ' of ' + fmtShort(state.dailyLimit);
-                        document.querySelectorAll('[data-transactions]').forEach(el => {
-                            el.innerHTML = renderList(el.getAttribute('data-transactions'));
-                        });
-                    }
-                    function renderList(limit) {
-                        const n = (!limit || limit === 'all') ? state.transactions.length : parseInt(limit, 10);
-                        if (!state.transactions.length) return '<div style="color:var(--stone);padding:1rem 0;font-size:0.9rem;">No transactions yet.</div>';
-                        return state.transactions.slice(0, n).map(tx => `
-                        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem 0;border-bottom:1px solid var(--hair);">
-                          <div>
-                            <div style="font-weight:600;">${tx.to}</div>
-                            <div style="font-size:0.8rem;color:var(--stone);">${tx.bank} · ${tx.account} · ${new Date(tx.ts).toLocaleDateString('en-GB')}</div>
-                          </div>
-                          <div style="font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--ledger-red);">−${fmt(tx.amount)}</div>
-                        </div>`).join('');
                     }
                     function transfer(p) {
                         const { fromAccount, recipient, bankName, accountNumber, routing, amount, description, fee, transferType, pendingMs } = p;
                         if (!recipient) throw new Error('Missing recipient.');
                         if (!Number.isFinite(amount) || amount <= 0) throw new Error('Invalid amount.');
-                        if (amount > state.perTxnLimit) throw new Error('Exceeds per-transaction limit (' + fmt(state.perTxnLimit) + ').');
+                        if (amount > state.perTxnLimit) throw new Error('Exceeds per-transaction limit.');
                         if (state.dailyUsed + amount > state.dailyLimit) throw new Error('Exceeds daily limit.');
                         const acc = state.accounts[fromAccount];
                         if (!acc) throw new Error('Unknown source account.');
@@ -2053,16 +1851,35 @@
                 })();
             }
 
-            // ---------- Dashboard rendering ----------
             const fmt = n => '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             const escapeHtml = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
+            // ---------- Total balance fill ----------
+            function fillTotalBalanceDisplays() {
+                let total = 0;
+                try { total = BankDemo.totalBalance(); }
+                catch (_) {
+                    try {
+                        const s = BankDemo.getState();
+                        total = (s.accounts.checking?.balance || 0) + (s.accounts.savings?.balance || 0) + (s.accounts.investments?.balance || 0);
+                    } catch (__) { total = 0; }
+                }
+                document.querySelectorAll('[data-balance-total-display]').forEach(el => {
+                    el.textContent = fmt(total);
+                });
+            }
+
+            // ---------- Transactions table ----------
+            // IMPORTANT: every record in state.transactions is an OUTGOING transfer
+            // (it was created by BankDemo.transfer()). We always render it as a
+            // DEBIT (negative, red) to match transactions.html and statements.html.
             function renderTransactionsTable(limit) {
                 limit = limit || 10;
                 const state = BankDemo.getState();
                 const tbody = document.getElementById('txBody');
                 const subtitle = document.getElementById('txSubtitle');
                 if (!tbody) return;
+
                 const all = state.transactions || [];
                 const visible = all.slice(0, limit);
 
@@ -2072,10 +1889,13 @@
                         : 'No transactions yet — try sending a transfer';
                 }
 
+                const badge = document.getElementById('navTxBadge');
+                if (badge) badge.textContent = all.length;
+
                 if (!visible.length) {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem 1rem;color:var(--stone);">'
-                        + '<i class="fas fa-inbox" style="font-size:1.5rem;display:block;margin-bottom:0.5rem;opacity:0.6;"></i>'
-                        + 'No transactions yet. <a href="transfer.html" style="color:var(--brass);font-weight:600;">Send one →</a>'
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:2rem 1rem; color:var(--stone);">'
+                        + '<i class="fas fa-inbox" style="font-size:1.5rem; display:block; margin-bottom:0.5rem; opacity:0.6;"></i>'
+                        + 'No transactions yet. <a href="transfer.html" style="color:var(--brass); font-weight:600;">Send one →</a>'
                         + '</td></tr>';
                     return;
                 }
@@ -2086,9 +1906,11 @@
                     const status = tx.status || 'completed';
                     const statusCls = status === 'pending' ? 'pending' : 'completed';
                     const statusLabel = status === 'pending' ? 'Pending' : 'Completed';
-                    const amountCls = tx.amount >= 0 ? 'positive' : 'negative';
-                    const amountSign = tx.amount >= 0 ? '+' : '-';
-                    const amountStr = amountSign + fmt(Math.abs(tx.amount));
+
+                    // Always treat stored transfers as outgoing (debit) — the amount
+                    // in the record is a positive magnitude of the outgoing sum.
+                    const debitAmount = Math.abs(Number(tx.amount) || 0);
+                    const amountStr = '-' + fmt(debitAmount);
 
                     return '<tr onclick="location.href=\'transactions.html\'">'
                         + '<td><div class="transaction-info">'
@@ -2096,153 +1918,272 @@
                         + '<div>'
                         + '<div class="transaction-name">Transfer to ' + escapeHtml(tx.to) + '</div>'
                         + '<div class="transaction-meta">To: ' + escapeHtml(tx.account) + (tx.bank ? ' · ' + escapeHtml(tx.bank) : '') + '</div>'
-                        + '</div>'
-                        + '</div></td>'
+                        + '</div></div></td>'
                         + '<td>' + dateStr + '</td>'
                         + '<td><span class="category-badge">Transfer</span></td>'
                         + '<td><span class="status-badge ' + statusCls + '">' + statusLabel + '</span></td>'
-                        + '<td class="text-right ' + amountCls + '">' + amountStr + '</td>'
+                        + '<td class="text-right negative">' + amountStr + '</td>'
                         + '<td><button class="row-action" onclick="event.stopPropagation();"><i class="fas fa-ellipsis-v"></i></button></td>'
                         + '</tr>';
                 }).join('');
             }
 
-            function refreshDashboard() {
-                BankDemo.refreshUI();
-
-                document.querySelectorAll('.card-footer .value[data-balance-total]').forEach(el => {
-                    el.textContent = fmt(BankDemo.totalBalance());
-                });
-
-                const state = BankDemo.getState();
-                if (state && state.dailyLimit) {
-                    const pct = Math.min(100, Math.round((state.dailyUsed / state.dailyLimit) * 100));
-                    const pLabel = document.getElementById('checkingLimitPct');
-                    const pBar = document.getElementById('checkingLimitBar');
-                    if (pLabel) pLabel.textContent = pct + '%';
-                    if (pBar) pBar.style.width = pct + '%';
-                }
-
-                renderTransactionsTable(10);
+            // ---------- Trending ----------
+            function renderTrending() {
+                const grid = document.getElementById('trendingGrid');
+                if (!grid) return;
+                grid.innerHTML = TRENDING_STOCKS.map(s => {
+                    const initials = s.symbol.slice(0, 2);
+                    const src = 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(s.domain) + '&sz=128';
+                    const changeCls = s.change >= 0 ? 'positive' : 'negative';
+                    const changeSign = s.change >= 0 ? '+' : '';
+                    return '<article class="trend-card" onclick="location.href=\'investments.html\'">'
+                        + '<div class="trend-top">'
+                        + '<div class="company-cell" style="min-width:0;">'
+                        + '<span class="company-logo"><img src="' + src + '" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display=\'none\';this.parentElement.textContent=\'' + initials + '\'"></span>'
+                        + '<div style="min-width:0;"><div class="company-name" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + escapeHtml(s.symbol) + '</div>'
+                        + '<div class="company-symbol" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + escapeHtml(s.name) + '</div></div>'
+                        + '</div></div>'
+                        + '<div class="trend-price">' + fmt(s.price) + '</div>'
+                        + '<div class="trend-bottom"><span class="' + changeCls + '">' + changeSign + s.change.toFixed(2) + '%</span>'
+                        + '<span style="color:var(--stone); font-size:10px;">Today</span></div>'
+                        + '</article>';
+                }).join('');
             }
 
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', refreshDashboard);
-            } else {
-                refreshDashboard();
+            // ---------- Charts ----------
+            let perfChart = null, allocChart = null;
+
+            function seedSeries(count, start, end, vol) {
+                vol = vol || 0.012;
+                const values = [];
+                let v = start;
+                for (let i = 0; i < count; i++) {
+                    const progress = i / (count - 1 || 1);
+                    v = v * (1 + (Math.random() - 0.48) * vol);
+                    values.push(Math.max(0.01, v * (1 - progress) + end * progress));
+                }
+                values[values.length - 1] = end;
+                return values;
             }
 
-            window.addEventListener('storage', e => {
-                if (e.key === 'heritage_demo_state_v1') refreshDashboard();
-            });
-
-            window.addEventListener('focus', () => {
-                try { refreshDashboard(); } catch (_) { }
-            });
-
-            window.__refreshDashboard = refreshDashboard;
-            window.__demoReset = function () {
-                if (confirm('Reset all demo balances and transactions?')) {
-                    BankDemo.reset();
-                    refreshDashboard();
-                }
-            };
-
-            // ---------- The rest of the dashboard script ----------
-            (function () {
-                const menuToggle = document.getElementById('menuToggle');
-                const sidebar = document.getElementById('sidebarPremium');
-                const overlay = document.getElementById('sidebarOverlay');
-                if (!menuToggle || !sidebar || !overlay) return;
-                let isMenuOpen = false;
-                function toggleMenu(show) {
-                    if (typeof show !== 'boolean') show = !isMenuOpen;
-                    isMenuOpen = show;
-                    sidebar.classList.toggle('active', show);
-                    overlay.classList.toggle('active', show);
-                    menuToggle.setAttribute('aria-expanded', show ? 'true' : 'false');
-                    overlay.setAttribute('aria-hidden', show ? 'false' : 'true');
-                    document.body.style.overflow = show ? 'hidden' : '';
-                }
-                function handleToggleInteraction(e) { e.preventDefault(); e.stopPropagation(); toggleMenu(); }
-                menuToggle.addEventListener('pointerdown', handleToggleInteraction, { passive: false });
-                menuToggle.addEventListener('click', function (e) {
-                    if (e.pointerType === 'touch' || e.pointerType === 'pen') return;
-                    handleToggleInteraction(e);
+            function seriesConfig(range) {
+                const counts = { '1W': 7, '1M': 30, '3M': 13, '1Y': 12 };
+                const count = counts[range] || 30;
+                const labels = Array.from({ length: count }, (_, i) => {
+                    const d = new Date();
+                    d.setDate(d.getDate() - (count - 1 - i) * (range === '1Y' ? 30 : range === '3M' ? 7 : 1));
+                    return range === '1W'
+                        ? d.toLocaleDateString([], { weekday: 'short' })
+                        : range === '1Y'
+                            ? d.toLocaleDateString([], { month: 'short', year: '2-digit' })
+                            : d.toLocaleDateString([], { month: 'short', day: 'numeric' });
                 });
-                menuToggle.addEventListener('touchstart', function (e) {
-                    if (window.PointerEvent) return;
-                    handleToggleInteraction(e);
-                }, { passive: false });
-                overlay.addEventListener('pointerdown', function (e) { if (isMenuOpen) { e.preventDefault(); toggleMenu(false); } });
-                overlay.addEventListener('click', function (e) { if (isMenuOpen && (e.pointerType === 'mouse' || !window.PointerEvent)) toggleMenu(false); });
-                sidebar.addEventListener('click', function (e) {
-                    const link = e.target.closest('a');
-                    if (link && isMenuOpen) {
-                        e.preventDefault();
-                        const href = link.getAttribute('href');
-                        toggleMenu(false);
-                        setTimeout(() => { if (href && href !== '#') window.location.href = href; }, 350);
+                const end = BankDemo.totalBalance();
+                return { labels, values: seedSeries(count, end * 0.92, end) };
+            }
+
+            let currentRange = '1M';
+
+            function renderPerformanceChart(range) {
+                if (typeof Chart === 'undefined') return;
+                currentRange = range || '1M';
+                const cfg = seriesConfig(currentRange);
+                const ctx = document.getElementById('performanceChart');
+                if (!ctx) return;
+                if (perfChart) perfChart.destroy();
+                perfChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: cfg.labels,
+                        datasets: [{
+                            data: cfg.values,
+                            borderColor: '#10201B',
+                            backgroundColor: 'rgba(16,32,27,.06)',
+                            fill: true,
+                            tension: 0.34,
+                            pointRadius: 0,
+                            pointHoverRadius: 4,
+                            pointBackgroundColor: '#B98A2E',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: { intersect: false, mode: 'index' },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: { callbacks: { label: c => ' ' + fmt(c.parsed.y) } }
+                        },
+                        scales: {
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: '#6B7A72', maxTicksLimit: 7, font: { family: 'Inter', size: 10 } }
+                            },
+                            y: {
+                                grid: { color: 'rgba(35,48,43,.08)' },
+                                ticks: {
+                                    color: '#6B7A72',
+                                    font: { family: 'IBM Plex Mono', size: 9 },
+                                    callback: v => '$' + (v >= 1e6 ? (v / 1e6).toFixed(1) + 'M' : v >= 1e3 ? (v / 1e3).toFixed(0) + 'K' : v)
+                                }
+                            }
+                        }
                     }
                 });
-                document.addEventListener('keydown', function (e) {
-                    if (e.key === 'Escape' && isMenuOpen) { toggleMenu(false); menuToggle.focus(); }
-                });
-                window.addEventListener('resize', function () {
-                    if (window.innerWidth >= 1024 && isMenuOpen) toggleMenu(false);
-                });
-                let tsX = 0, tsY = 0;
-                sidebar.addEventListener('touchstart', function (e) { tsX = e.changedTouches[0].screenX; tsY = e.changedTouches[0].screenY; }, { passive: true });
-                sidebar.addEventListener('touchend', function (e) {
-                    if (!isMenuOpen) return;
-                    const dx = tsX - e.changedTouches[0].screenX;
-                    if (dx > 60 && dx > Math.abs(tsY - e.changedTouches[0].screenY)) toggleMenu(false);
-                });
-            })();
+            }
 
-            // Loader
-            setTimeout(() => {
-                const loader = document.getElementById('premiumLoader');
-                if (loader) { loader.classList.add('fade-out'); setTimeout(() => loader.remove(), 700); }
-            }, 700);
+            function renderAllocationChart() {
+                if (typeof Chart === 'undefined') return;
+                const state = BankDemo.getState();
+                const a = state.accounts || {};
+                const labels = ['Checking', 'Savings', 'Investments'];
+                const values = [
+                    a.checking?.balance || 0,
+                    a.savings?.balance || 0,
+                    a.investments?.balance || 0
+                ];
+                const colors = ['#10201B', '#B98A2E', '#2F6B4F'];
+                const ctx = document.getElementById('allocationChart');
+                if (!ctx) return;
+                if (allocChart) allocChart.destroy();
+                allocChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels,
+                        datasets: [{
+                            data: values,
+                            backgroundColor: colors,
+                            borderColor: '#FBF9F3',
+                            borderWidth: 3,
+                            hoverOffset: 5
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '69%',
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: { callbacks: { label: c => ' ' + c.label + ': ' + fmt(c.parsed) } }
+                        }
+                    }
+                });
+                const legend = document.getElementById('allocationLegend');
+                if (legend) {
+                    legend.innerHTML = labels.map((label, i) =>
+                        '<div class="legend-item">'
+                        + '<span class="legend-dot" style="background:' + colors[i] + '"></span>'
+                        + '<span>' + label + '<strong>' + fmt(values[i]) + '</strong></span>'
+                        + '</div>'
+                    ).join('');
+                }
+            }
 
-            // Dynamic greeting
-            (function () {
+            function bindRangeTabs() {
+                document.querySelectorAll('#perfRanges button').forEach(b => {
+                    b.addEventListener('click', () => {
+                        document.querySelectorAll('#perfRanges button').forEach(x => x.classList.remove('active'));
+                        b.classList.add('active');
+                        renderPerformanceChart(b.dataset.range);
+                    });
+                });
+            }
+
+            function updateSpendingPercent() {
+                const state = BankDemo.getState();
+                if (!state || !state.dailyLimit) return;
+                const pct = Math.min(100, Math.round((state.dailyUsed / state.dailyLimit) * 100));
+                const el = document.getElementById('checkingSpendPct');
+                if (el) el.textContent = pct + '%';
+            }
+
+            function updateGreeting() {
                 const hour = new Date().getHours();
                 let greeting = 'Good morning';
                 if (hour >= 12 && hour < 17) greeting = 'Good afternoon';
                 else if (hour >= 17 && hour < 21) greeting = 'Good evening';
                 else if (hour >= 21 || hour < 5) greeting = 'Good night';
-                const h1 = document.querySelector('.page-title h1');
+
+                const h1 = document.getElementById('greeting');
                 if (h1) h1.textContent = greeting + ', Robert';
-                const p = document.querySelector('.page-title p');
-                if (p) {
-                    const today = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-                    p.textContent = today + ' · Your financial summary';
+
+                const eyebrow = document.getElementById('dateEyebrow');
+                if (eyebrow) {
+                    eyebrow.textContent = new Date().toLocaleDateString('en-US', {
+                        weekday: 'long', month: 'long', day: 'numeric'
+                    });
                 }
-            })();
 
-            // Copy account number
-            document.querySelectorAll('.card-account-number').forEach(item => {
-                item.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    const text = this.querySelector('span').textContent;
-                    if (navigator.clipboard) navigator.clipboard.writeText(text);
-                    const original = this.innerHTML;
-                    this.innerHTML = '<i class="fas fa-check"></i><span>Copied!</span>';
-                    setTimeout(() => this.innerHTML = original, 1500);
-                });
-            });
+                const yearEl = document.getElementById('year');
+                if (yearEl) yearEl.textContent = new Date().getFullYear();
+            }
 
-            window.closeDemoModal = function () {
-                document.getElementById('demoModal').classList.remove('show');
-            };
-            window.addEventListener('click', (e) => {
-                if (e.target.classList.contains('modal-premium')) e.target.classList.remove('show');
-            });
+            function refreshDashboard() {
+                BankDemo.refreshUI();
+                fillTotalBalanceDisplays();
+                updateSpendingPercent();
+                renderTransactionsTable(10);
+                renderPerformanceChart(currentRange);
+                renderAllocationChart();
+            }
 
-            // Auth protection — presence check only; idle timeout is handled by bank-idle.js
-            (function () {
+            document.addEventListener('DOMContentLoaded', function () {
+                updateGreeting();
+                refreshDashboard();
+                renderTrending();
+                bindRangeTabs();
+
+                setTimeout(() => {
+                    const loader = document.getElementById('premiumLoader');
+                    if (loader) {
+                        loader.classList.add('fade-out');
+                        setTimeout(() => loader.remove(), 700);
+                    }
+                }, 700);
+
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebarOverlay');
+                const menuToggle = document.getElementById('menuToggle');
+
+                if (sidebar && overlay && menuToggle) {
+                    function openSidebar() {
+                        sidebar.classList.add('open');
+                        overlay.classList.add('show');
+                        menuToggle.setAttribute('aria-expanded', 'true');
+                        document.body.style.overflow = 'hidden';
+                    }
+                    function closeSidebar() {
+                        sidebar.classList.remove('open');
+                        overlay.classList.remove('show');
+                        menuToggle.setAttribute('aria-expanded', 'false');
+                        document.body.style.overflow = '';
+                    }
+                    function toggleSidebar() {
+                        if (sidebar.classList.contains('open')) closeSidebar();
+                        else openSidebar();
+                    }
+                    menuToggle.addEventListener('click', toggleSidebar);
+                    overlay.addEventListener('click', closeSidebar);
+                    sidebar.querySelectorAll('a').forEach(a => {
+                        a.addEventListener('click', () => {
+                            if (window.innerWidth <= 900) closeSidebar();
+                        });
+                    });
+                    document.addEventListener('keydown', function (e) {
+                        if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+                            closeSidebar();
+                            menuToggle.focus();
+                        }
+                    });
+                    window.addEventListener('resize', () => {
+                        if (window.innerWidth > 900 && sidebar.classList.contains('open')) {
+                            closeSidebar();
+                        }
+                    });
+                }
+
                 const auth = sessionStorage.getItem('nexusbank_auth');
                 const expiry = sessionStorage.getItem('nexusbank_expiry');
                 if (auth !== 'authenticated' || !expiry || Date.now() > parseInt(expiry)) {
@@ -2251,7 +2192,18 @@
                     return;
                 }
                 sessionStorage.setItem('nexusbank_expiry', Date.now() + 3600000);
-            })();
+            });
+
+            window.addEventListener('storage', e => {
+                if (e.key === 'heritage_demo_state_v1') {
+                    try { refreshDashboard(); } catch (_) { }
+                }
+            });
+            window.addEventListener('focus', () => {
+                try { refreshDashboard(); } catch (_) { }
+            });
+
+            window.__refreshDashboard = refreshDashboard;
         })();
     </script>
 </body>
