@@ -176,6 +176,7 @@
             display: flex;
             align-items: center;
             gap: 0.6rem;
+            flex-shrink: 0;
         }
 
         .brand-logo .mark {
@@ -211,6 +212,7 @@
             padding: 1.5rem 0;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
+            min-height: 0;
         }
 
         .nav-section {
@@ -279,6 +281,10 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            flex-shrink: 0;
+            background: var(--ink);
+            position: relative;
+            z-index: 2;
         }
 
         .user-avatar img {
@@ -893,12 +899,38 @@
                 bottom: 0;
                 height: 100vh;
                 height: 100dvh;
+                max-height: 100dvh;
                 width: 280px;
                 box-shadow: 4px 0 30px rgba(0, 0, 0, 0.3);
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                padding-bottom: env(safe-area-inset-bottom, 0);
             }
 
             .sidebar-premium.active {
                 left: 0;
+            }
+
+            .sidebar-brand {
+                flex: 0 0 auto;
+            }
+
+            .sidebar-nav-premium {
+                flex: 1 1 auto;
+                min-height: 0;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                padding: 1.25rem 0;
+            }
+
+            .sidebar-footer-premium {
+                flex: 0 0 auto;
+                padding: 1rem 1.5rem;
+                padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0));
+                background: var(--ink);
+                position: relative;
+                z-index: 2;
             }
 
             .sidebar-overlay {
@@ -975,6 +1007,28 @@
                 font-size: 1.1rem;
             }
         }
+
+        @media (max-width:1024px) and (max-height:700px) {
+            .sidebar-brand {
+                padding: 1.25rem 1.5rem 1rem;
+            }
+
+            .sidebar-nav-premium {
+                padding: 0.75rem 0;
+            }
+
+            .nav-section {
+                margin-bottom: 1rem;
+            }
+
+            .nav-section li a {
+                padding: 0.6rem 1.5rem;
+            }
+
+            .sidebar-footer-premium {
+                padding: 0.75rem 1.5rem;
+            }
+        }
     </style>
 </head>
 
@@ -1012,11 +1066,11 @@
                     <div class="nav-section-title">ACCOUNTS</div>
                     <ul>
                         <li><a href="checking.html"><i class="fas fa-wallet"></i><span>Checking</span><span
-                                    class="nav-amount">$645,432</span></a></li>
+                                    class="nav-amount" data-balance="checking">$0</span></a></li>
                         <li><a href="savings.html"><i class="fas fa-piggy-bank"></i><span>Savings</span><span
-                                    class="nav-amount">$215,678</span></a></li>
+                                    class="nav-amount" data-balance="savings">$0</span></a></li>
                         <li><a href="investments.html"><i class="fas fa-chart-line"></i><span>Investments</span><span
-                                    class="nav-amount">$3,456,789</span></a></li>
+                                    class="nav-amount" data-balance="investments">$0</span></a></li>
                     </ul>
                 </div>
                 <div class="nav-section">
@@ -1040,7 +1094,8 @@
                 <div class="user-actions">
                     <button class="icon-btn" title="Settings" onclick="location.href='settings.html'"><i
                             class="fas fa-sliders-h"></i></button>
-                    <button class="icon-btn" title="Logout" onclick="location.href='index.html'"><i
+                    <button class="icon-btn" title="Logout"
+                        onclick="sessionStorage.clear(); location.href='index.html';"><i
                             class="fas fa-sign-out-alt"></i></button>
                 </div>
             </div>
@@ -1215,7 +1270,8 @@
                         class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
-                <p>The recipient account has been inactive for over 3 years and requires reactivation</p>
+                <p>This is a demonstration action. In a production environment, this would perform the requested card
+                    operation.</p>
             </div>
             <div class="modal-footer">
                 <button class="btn-primary" onclick="closeModal('cardActionModal')">Close</button>
@@ -1223,120 +1279,175 @@
         </div>
     </div>
 
+    <script src="bank-demo.js"></script>
+    <script src="bank-idle.js"></script>
+
     <script>
         (function () {
-            // =========================================================================
-            // RELIABLE MOBILE MENU TOGGLE – works on all phones & tablets
-            // =========================================================================
+            'use strict';
+
+            // ============================================================
+            // 1. AUTH CHECK + ONE-SHOT NAV TOKEN (must run first)
+            // ============================================================
+            const auth = sessionStorage.getItem('nexusbank_auth');
+            const expiry = sessionStorage.getItem('nexusbank_expiry');
+            const token = sessionStorage.getItem('nexusbank_nav_token');
+
+            const authed = auth === 'authenticated'
+                && expiry
+                && Number.isFinite(Number(expiry))
+                && Date.now() < Number(expiry);
+
+            if (!authed || !token) {
+                sessionStorage.clear();
+                window.location.replace('login.html');
+                return;
+            }
+
+            // Consume the token — it can only be used for this one navigation
+            sessionStorage.removeItem('nexusbank_nav_token');
+
+            // Re-arm the expiry (sliding 15-minute window)
+            sessionStorage.setItem('nexusbank_expiry', Date.now() + 15 * 60 * 1000);
+
+            // ============================================================
+            // 2. RE-ARM TOKEN ON EVERY INTERNAL LINK CLICK
+            // ============================================================
+            document.addEventListener('click', function (e) {
+                const link = e.target.closest('a[href]');
+                if (!link) return;
+                const href = link.getAttribute('href');
+                if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
+                if (/^https?:\/\//i.test(href)) return;
+                try {
+                    const tok = (window.crypto && crypto.randomUUID)
+                        ? crypto.randomUUID()
+                        : 'tok-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+                    sessionStorage.setItem('nexusbank_nav_token', tok);
+                } catch (_) { }
+            });
+
+            // ============================================================
+            // 3. SIDEBAR / MOBILE MENU TOGGLE
+            // ============================================================
             const menuToggle = document.getElementById('menuToggle');
             const sidebar = document.getElementById('sidebarPremium');
             const overlay = document.getElementById('sidebarOverlay');
 
-            if (!menuToggle || !sidebar || !overlay) return;
+            if (menuToggle && sidebar && overlay) {
+                let isMenuOpen = false;
 
-            let isMenuOpen = false;
+                function toggleMenu(show) {
+                    if (typeof show !== 'boolean') show = !isMenuOpen;
+                    isMenuOpen = show;
+                    sidebar.classList.toggle('active', show);
+                    overlay.classList.toggle('active', show);
+                    menuToggle.setAttribute('aria-expanded', show ? 'true' : 'false');
+                    overlay.setAttribute('aria-hidden', show ? 'false' : 'true');
+                    document.body.style.overflow = show ? 'hidden' : '';
+                }
 
-            function toggleMenu(show) {
-                if (typeof show !== 'boolean') show = !isMenuOpen;
-                isMenuOpen = show;
-                sidebar.classList.toggle('active', show);
-                overlay.classList.toggle('active', show);
-                menuToggle.setAttribute('aria-expanded', show ? 'true' : 'false');
-                overlay.setAttribute('aria-hidden', show ? 'false' : 'true');
-                document.body.style.overflow = show ? 'hidden' : '';
-            }
-
-            function handleToggleInteraction(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                toggleMenu();
-            }
-
-            menuToggle.addEventListener('pointerdown', handleToggleInteraction, { passive: false });
-            menuToggle.addEventListener('click', function (e) {
-                if (e.pointerType === 'touch' || e.pointerType === 'pen') return;
-                handleToggleInteraction(e);
-            });
-            menuToggle.addEventListener('touchstart', function (e) {
-                if (window.PointerEvent) return;
-                handleToggleInteraction(e);
-            }, { passive: false });
-
-            overlay.addEventListener('pointerdown', function (e) {
-                if (isMenuOpen) { e.preventDefault(); toggleMenu(false); }
-            });
-            overlay.addEventListener('click', function (e) {
-                if (isMenuOpen && (e.pointerType === 'mouse' || !window.PointerEvent)) toggleMenu(false);
-            });
-
-            sidebar.addEventListener('click', function (e) {
-                const link = e.target.closest('a');
-                if (link && isMenuOpen) {
+                function handleToggleInteraction(e) {
                     e.preventDefault();
-                    const href = link.getAttribute('href');
-                    toggleMenu(false);
-                    setTimeout(() => { if (href && href !== '#') window.location.href = href; }, 350);
+                    e.stopPropagation();
+                    toggleMenu();
+                }
+
+                menuToggle.addEventListener('pointerdown', handleToggleInteraction, { passive: false });
+                menuToggle.addEventListener('click', function (e) {
+                    if (e.pointerType === 'touch' || e.pointerType === 'pen') return;
+                    handleToggleInteraction(e);
+                });
+                menuToggle.addEventListener('touchstart', function (e) {
+                    if (window.PointerEvent) return;
+                    handleToggleInteraction(e);
+                }, { passive: false });
+
+                overlay.addEventListener('pointerdown', function (e) {
+                    if (isMenuOpen) { e.preventDefault(); toggleMenu(false); }
+                });
+                overlay.addEventListener('click', function (e) {
+                    if (isMenuOpen && (e.pointerType === 'mouse' || !window.PointerEvent)) toggleMenu(false);
+                });
+
+                // NOTE: we do NOT call preventDefault() on link clicks here.
+                // The token-rearm listener above handles link clicks, and the
+                // browser performs the navigation normally.
+                sidebar.addEventListener('click', function (e) {
+                    const link = e.target.closest('a');
+                    if (link && isMenuOpen && window.innerWidth <= 1024) {
+                        // Close the drawer; let the browser navigate to the link
+                        toggleMenu(false);
+                    }
+                });
+
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape' && isMenuOpen) { toggleMenu(false); menuToggle.focus(); }
+                });
+
+                window.addEventListener('resize', function () {
+                    if (window.innerWidth > 1024 && isMenuOpen) toggleMenu(false);
+                });
+
+                let touchStartX = 0, touchStartY = 0;
+                sidebar.addEventListener('touchstart', function (e) {
+                    touchStartX = e.changedTouches[0].screenX;
+                    touchStartY = e.changedTouches[0].screenY;
+                }, { passive: true });
+                sidebar.addEventListener('touchend', function (e) {
+                    if (!isMenuOpen) return;
+                    const deltaX = touchStartX - e.changedTouches[0].screenX;
+                    if (deltaX > 60 && deltaX > Math.abs(touchStartY - e.changedTouches[0].screenY)) toggleMenu(false);
+                });
+            }
+
+            // ============================================================
+            // 4. LOADER
+            // ============================================================
+            setTimeout(() => {
+                const loader = document.getElementById('premiumLoader');
+                if (loader) { loader.classList.add('fade-out'); setTimeout(() => loader.remove(), 700); }
+            }, 700);
+
+            // ============================================================
+            // 5. CARD ACTION MODAL
+            // ============================================================
+            window.showCardAction = function (action) {
+                const titles = {
+                    'freeze': 'Freeze Card',
+                    'limit': 'Adjust Spending Limit',
+                    'report': 'Report Lost or Stolen',
+                    'pin': 'Change PIN',
+                    'replace': 'Replace Card',
+                    'digital': 'Add to Digital Wallet'
+                };
+                document.getElementById('actionTitle').textContent = titles[action] || 'Card Action';
+                document.getElementById('cardActionModal').classList.add('show');
+            };
+
+            window.showRedeemModal = function () {
+                document.getElementById('actionTitle').textContent = 'Redeem Points';
+                document.getElementById('cardActionModal').classList.add('show');
+            };
+
+            window.closeModal = function (modalId) {
+                document.getElementById(modalId).classList.remove('show');
+            };
+
+            window.addEventListener('click', function (event) {
+                if (event.target.classList.contains('modal-premium')) {
+                    event.target.classList.remove('show');
                 }
             });
 
-            document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape' && isMenuOpen) { toggleMenu(false); menuToggle.focus(); }
+            // ============================================================
+            // 6. BANK DEMO UI REFRESH (balances in sidebar)
+            // ============================================================
+            document.addEventListener('DOMContentLoaded', () => {
+                try { BankDemo.refreshUI(); } catch (_) { }
             });
 
-            window.addEventListener('resize', function () {
-                if (window.innerWidth >= 1024 && isMenuOpen) toggleMenu(false);
-            });
-
-            let touchStartX = 0, touchStartY = 0;
-            sidebar.addEventListener('touchstart', function (e) {
-                touchStartX = e.changedTouches[0].screenX;
-                touchStartY = e.changedTouches[0].screenY;
-            }, { passive: true });
-            sidebar.addEventListener('touchend', function (e) {
-                if (!isMenuOpen) return;
-                const deltaX = touchStartX - e.changedTouches[0].screenX;
-                if (deltaX > 60 && deltaX > Math.abs(touchStartY - e.changedTouches[0].screenY)) toggleMenu(false);
-            });
         })();
-
-        // Loader
-        setTimeout(() => {
-            const loader = document.getElementById('premiumLoader');
-            if (loader) { loader.classList.add('fade-out'); setTimeout(() => loader.remove(), 700); }
-        }, 700);
-
-        // Card action functions
-        function showCardAction(action) {
-            const titles = {
-                'freeze': 'Freeze Card',
-                'limit': 'Adjust Spending Limit',
-                'report': 'Report Lost or Stolen',
-                'pin': 'Change PIN',
-                'replace': 'Replace Card',
-                'digital': 'Add to Digital Wallet'
-            };
-            document.getElementById('actionTitle').textContent = titles[action] || 'Card Action';
-            document.getElementById('cardActionModal').classList.add('show');
-        }
-
-        function showRedeemModal() {
-            document.getElementById('actionTitle').textContent = 'Redeem Points';
-            document.getElementById('cardActionModal').classList.add('show');
-        }
-
-        function closeModal(modalId) { document.getElementById(modalId).classList.remove('show'); }
-
-        window.addEventListener('click', function (event) {
-            if (event.target.classList.contains('modal-premium')) {
-                event.target.classList.remove('show');
-            }
-        });
-    </script>
-
-    <script src="bank-demo.js"></script>
-    <script src="bank-idle.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => BankDemo.refreshUI());
     </script>
 </body>
 
