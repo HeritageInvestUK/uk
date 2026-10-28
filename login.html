@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <title>Sign In · HeritageInvest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png"
+        href="https://a.mktgcdn.com/p/trqY8cbRb9rpmzNBIHFEHxK3n0czpuAaJO27NrH_lzQ/1.0000/676x676.png">
+    <style>
+        :root {
+            --ink: #10201B;
+            --ink-soft: #1B2F27;
+            --parchment: #F3EFE4;
+            --parchment-deep: #EAE3D2;
+            --bone: #FBF9F3;
+            --brass: #B98A2E;
+            --brass-bright: #D7A83F;
+            --ledger-green: #2F6B4F;
+            --ledger-red: #A24632;
+            --charcoal: #23302B;
+            --stone: #6B7A72;
+            --hair: rgba(35, 48, 43, 0.14);
+            --hair-dark: rgba(243, 239, 228, 0.16);
+            --shadow-lift: 0 20px 45px rgba(16, 32, 27, 0.16);
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--charcoal);
+            background: var(--parchment);
+            line-height: 1.6;
+            min-height: 100vh;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            display: grid;
+            grid-template-columns: minmax(320px, 1fr) minmax(360px, 1fr);
+        }
+
+        /* Left story panel */
+        .story {
+            background: var(--ink);
+            color: var(--bone);
+            padding: 2.5rem 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        .story::before,
+        .story::after {
+            content: '';
+            position: absolute;
+            border: 1px solid rgba(185, 138, 46, 0.28);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .story::before {
+            width: 620px;
+            height: 620px;
+            right: -260px;
+            top: 12%;
+        }
+
+        .story::after {
+            width: 440px;
+            height: 440px;
+            right: -170px;
+            top: 23%;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+            border: 1.5px solid var(--brass);
+            display: grid;
+            place-items: center;
+            color: var(--brass-bright);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .brand-name {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-sub {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--stone);
+            margin-top: 0.15rem;
+        }
+
+        .story-copy {
+            position: relative;
+            z-index: 1;
+            max-width: 560px;
+            padding: 3rem 0;
+        }
+
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            color: var(--brass-bright);
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+
+        .eyebrow::before {
+            content: '';
+            height: 1px;
+            width: 30px;
+            background: var(--brass);
+        }
+
+        .story h1 {
+            font-family: 'Source Serif 4', serif;
+            font-weight: 500;
+            font-size: clamp(2.4rem, 4.5vw, 4rem);
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+            margin: 1.2rem 0;
+        }
+
+        .story-copy p {
+            max-width: 440px;
+            color: rgba(251, 249, 243, 0.72);
+            line-height: 1.8;
+        }
+
+        .trust-row {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            color: var(--stone);
+            font-size: 0.78rem;
+        }
+
+        .trust-row span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .trust-row b {
+            color: var(--brass-bright);
+            font-size: 1rem;
+        }
+
+        /* Right form area */
+        .main {
+            display: grid;
+            place-items: center;
+            padding: 2rem;
+            background: var(--parchment);
+        }
+
+        .panel {
+            width: min(100%, 460px);
+        }
+
+        .mobile-brand {
+            display: none;
+            margin-bottom: 2rem;
+        }
+
+        .mobile-brand .brand-name {
+            color: var(--ink);
+        }
+
+        .mobile-brand .brand-sub {
+            color: var(--stone);
+        }
+
+        .demo-banner {
+            display: flex;
+            gap: 0.7rem;
+            padding: 0.85rem 1rem;
+            border: 1px solid rgba(185, 138, 46, 0.35);
+            background: rgba(185, 138, 46, 0.08);
+            color: var(--charcoal);
+            font-size: 0.78rem;
+            line-height: 1.5;
+            margin-bottom: 1.75rem;
+            border-radius: 4px;
+        }
+
+        .demo-banner i {
+            color: var(--brass);
+            margin-top: 2px;
+        }
+
+        .demo-banner strong {
+            display: block;
+            font-size: 0.8rem;
+            margin-bottom: 0.15rem;
+            color: var(--ink);
+        }
+
+        .panel-heading {
+            margin-bottom: 2rem;
+        }
+
+        .panel-heading .eyebrow {
+            color: var(--ledger-green);
+            font-size: 0.68rem;
+        }
+
+        .panel-heading h2 {
+            font-family: 'Source Serif 4', serif;
+            font-size: 2.15rem;
+            letter-spacing: -0.03em;
+            font-weight: 600;
+            margin: 0.8rem 0 0.4rem;
+            color: var(--ink);
+        }
+
+        .subheading {
+            color: var(--stone);
+            font-size: 0.92rem;
+        }
+
+        .field {
+            margin-bottom: 1.25rem;
+        }
+
+        .field label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--ink);
+        }
+
+        .label-note {
+            font-size: 0.7rem;
+            color: var(--stone);
+            font-weight: 500;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-wrap>i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--stone);
+            font-size: 0.95rem;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .input-wrap input {
+            width: 100%;
+            height: 54px;
+            border: 1px solid var(--hair);
+            border-radius: 6px;
+            background: white;
+            padding: 0 3rem 0 2.9rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: var(--charcoal);
+            transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+        }
+
+        .input-wrap input::placeholder {
+            color: #9aa3a0;
+        }
+
+        .input-wrap input:focus {
+            outline: none;
+            border-color: var(--brass);
+            box-shadow: 0 0 0 4px rgba(185, 138, 46, 0.14);
+        }
+
+        .show-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: 0;
+            color: var(--stone);
+            padding: 0.5rem;
+            cursor: pointer;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .show-btn:hover {
+            color: var(--ink);
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin: 0.2rem 0 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            color: var(--stone);
+            font-size: 0.82rem;
+            font-weight: 500;
+        }
+
+        .remember input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--ink);
+        }
+
+        .form-row a {
+            color: var(--ink);
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .btn {
+            width: 100%;
+            min-height: 54px;
+            border: 1px solid var(--ink);
+            border-radius: 6px;
+            background: var(--ink);
+            color: var(--bone);
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            cursor: pointer;
+            transition: transform 0.2s var(--ease), background 0.2s var(--ease);
+        }
+
+        .btn:hover {
+            background: var(--ink-soft);
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--ink);
+            border: 1px solid var(--hair);
+        }
+
+        .btn-secondary:hover {
+            background: var(--parchment-deep);
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(251, 249, 243, 0.35);
+            border-top-color: var(--bone);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        .btn-secondary .loading-spinner,
+        #verifySpinner {
+            border-top-color: var(--ink);
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Messages */
+        #messageContainer {
+            position: fixed;
+            top: 1.25rem;
+            right: 1.25rem;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            max-width: 340px;
+        }
+
+        .message {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.7rem;
+            padding: 0.85rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            box-shadow: var(--shadow-lift);
+            animation: slideIn 0.3s var(--ease);
+        }
+
+        .message i {
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .message.success {
+            background: rgba(47, 107, 79, 0.1);
+            border: 1px solid rgba(47, 107, 79, 0.3);
+            color: var(--ledger-green);
+        }
+
+        .message.error {
+            background: rgba(162, 70, 50, 0.08);
+            border: 1px solid rgba(162, 70, 50, 0.3);
+            color: var(--ledger-red);
+        }
+
+        .message.info {
+            background: rgba(185, 138, 46, 0.1);
+            border: 1px solid rgba(185, 138, 46, 0.3);
+            color: var(--brass);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+        }
+
+        /* Steps */
+        .hidden {
+            display: none !important;
+        }
+
+        /* 2FA method options */
+        .method-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .method-option {
+            padding: 1rem;
+            border: 1.5px solid var(--hair);
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+            transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+        }
+
+        .method-option:hover {
+            border-color: var(--brass);
+        }
+
+        .method-option.selected {
+            border-color: var(--brass);
+            background: rgba(185, 138, 46, 0.06);
+        }
+
+        .method-option i {
+            font-size: 1.4rem;
+            color: var(--brass);
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+
+        .method-option .method-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: block;
+            color: var(--ink);
+        }
+
+        .method-option .method-sub {
+            font-size: 0.72rem;
+            color: var(--stone);
+        }
+
+        /* Delivery info panel */
+        .delivery-panel {
+            background: rgba(185, 138, 46, 0.06);
+            border: 1px solid var(--hair);
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .delivery-panel .delivery-title {
+            font-weight: 600;
+            color: var(--ink);
+            font-size: 0.9rem;
+        }
+
+        .delivery-panel .delivery-sub {
+            font-size: 0.8rem;
+            color: var(--stone);
+            margin-top: 0.2rem;
+        }
+
+        /* Code entry */
+        .code-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .code-inputs {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .code-inputs input {
+            width: 100%;
+            height: 56px;
+            text-align: center;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border: 1.5px solid var(--hair);
+            border-radius: 6px;
+            background: white;
+            color: var(--ink);
+            transition: border-color 0.2s var(--ease);
+        }
+
+        .code-inputs input:focus {
+            outline: none;
+            border-color: var(--brass);
+            box-shadow: 0 0 0 3px rgba(185, 138, 46, 0.14);
+        }
+
+        .code-inputs input:disabled {
+            background: var(--parchment);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .timer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.82rem;
+            color: var(--stone);
+            margin-bottom: 1rem;
+        }
+
+        .timer-row #timer {
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .timer-row a {
+            color: var(--ink);
+            font-weight: 600;
+            font-size: 0.82rem;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        /* Footer / secure note */
+        .secure-note {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            margin-top: 1.5rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--hair);
+            color: var(--stone);
+            font-size: 0.77rem;
+            line-height: 1.6;
+        }
+
+        .secure-note i {
+            color: var(--brass);
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .secure-note strong {
+            color: var(--ink);
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            color: var(--stone);
+            font-size: 0.72rem;
+        }
+
+        .footer a {
+            color: var(--stone);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        /* Link button */
+        .link-button {
+            background: none;
+            border: none;
+            color: var(--ink);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            padding: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            body {
+                grid-template-columns: 1fr;
+            }
+
+            .story {
+                display: none;
+            }
+
+            .main {
+                padding: 2rem 1.25rem;
+                min-height: 100vh;
+            }
+
+            .mobile-brand {
+                display: flex;
+            }
+
+            .panel {
+                max-width: 480px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .main {
+                padding: 1.25rem;
+            }
+
+            .panel-heading h2 {
+                font-size: 1.85rem;
+            }
+
+            .form-row {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .code-inputs {
+                gap: 0.35rem;
+            }
+
+            .code-inputs input {
+                height: 48px;
+                font-size: 1.1rem;
+            }
+
+            .method-options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Toast container -->
+    <div id="messageContainer"></div>
+
+    <!-- Loading overlay -->
+    <div class="premium-loader" id="premiumLoader"
+        style="position:fixed;inset:0;background:var(--ink);z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity 0.6s var(--ease),visibility 0.6s var(--ease);">
+        <div style="text-align:center;">
+            <div
+                style="font-family:'Source Serif 4', serif; font-size:1.9rem; font-weight:600; color:var(--bone); margin-bottom:1.25rem;">
+                <span
+                    style="color:var(--brass-bright); font-family:'IBM Plex Mono', monospace; font-size:1.1rem; margin-right:0.6rem;">H·I</span>HeritageInvest
+            </div>
+            <div
+                style="width:160px;height:1px;background:var(--hair-dark);position:relative;margin:0 auto;overflow:hidden;">
+                <div
+                    style="position:absolute;top:0;left:-40%;width:40%;height:100%;background:var(--brass-bright);animation:loading 1.1s infinite;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        @keyframes loading {
+            0% {
+                left: -40%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+    </style>
+
+    <!-- Left story panel -->
+    <aside class="story">
+        <div class="brand">
+            <div class="brand-mark">H·I</div>
+            <div>
+                <div class="brand-name">HeritageInvest</div>
+                <div class="brand-sub">Private Banking</div>
+            </div>
+        </div>
+
+        <div class="story-copy">
+            <div class="eyebrow">A considered approach to wealth</div>
+            <h1>Built on trust.<br>Focused on tomorrow.</h1>
+            <p>Explore the HeritageInvest account experience — a polished demo of private banking, secure transfers, and
+                considered financial tools.</p>
+        </div>
+
+        <div class="trust-row">
+            <span><b>✦</b> Thoughtful by design</span>
+            <span><b>◇</b> Demo environment</span>
+            <span><b>◎</b> Responsive experience</span>
+        </div>
+    </aside>
+
+    <!-- Right form panel -->
+    <main class="main">
+        <section class="panel">
+            <div class="brand mobile-brand">
+                <div class="brand-mark">H·I</div>
+                <div>
+                    <div class="brand-name">HeritageInvest</div>
+                    <div class="brand-sub">Private Banking</div>
+                </div>
+            </div>
+
+            <div class="demo-banner">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                    <strong>sign-in</strong>
+
+                </div>
+            </div>
+
+            <!-- ============================================================
+                 STEP 1 — Email + password
+                 ============================================================ -->
+            <div id="step1">
+                <header class="panel-heading">
+                    <div class="eyebrow">Member access</div>
+                    <h2>Welcome back</h2>
+                    <p class="subheading">Sign in to view your accounts and manage your transfers.</p>
+                </header>
+
+                <form id="loginForm" autocomplete="off" novalidate>
+                    <div class="field">
+                        <label for="email">Email address <span class="label-note"></span></label>
+                        <div class="input-wrap">
+                            <i class="fas fa-envelope"></i>
+                            <input id="email" type="email" placeholder="you@example.com" autocomplete="off" required>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="password">Password <span class="label-note"></span></label>
+                        <div class="input-wrap">
+                            <i class="fas fa-lock"></i>
+                            <input id="password" type="password" placeholder="Enter your password"
+                                autocomplete="new-password" required>
+                            <button class="show-btn" type="button" onclick="togglePassword('password')"
+                                aria-label="Show password">SHOW</button>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <label class="remember" for="remember">
+                            <input id="remember" type="checkbox">
+                            Remember this device
+                        </label>
+                        <a href="#" id="forgotPassword">Need help?</a>
+                    </div>
+
+                    <button class="btn" type="submit" id="loginBtn">
+                        <span id="loginText">Sign In</span>
+                        <div class="loading-spinner" id="loginSpinner" style="display:none;"></div>
+                    </button>
+                </form>
+
+                <div class="secure-note">
+                    <i class="fas fa-shield-alt"></i>
+                    <div>
+                        <strong>Enhanced Security Active</strong><br>
+                        Your connection is protected by 256-bit TLS encryption. All login attempts are monitored for
+                        suspicious activity. If you suspect any unauthorized access, please contact support immediately.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================
+                 STEP 2 — 2FA verification
+                 ============================================================ -->
+            <div id="step2" class="hidden">
+                <header class="panel-heading">
+                    <div class="eyebrow">Two-factor authentication</div>
+                    <h2>Verify your identity</h2>
+                    <p class="subheading">Choose how you want to receive your verification code.</p>
+                </header>
+
+                <!-- Method selector -->
+                <div class="method-options">
+                    <div class="method-option selected" id="emailOption" onclick="select2FAMethod('email')">
+                        <i class="fas fa-envelope"></i>
+                        <span class="method-label">Email</span>
+                        <span class="method-sub">To your inbox</span>
+                    </div>
+                    <div class="method-option" id="smsOption" onclick="select2FAMethod('sms')">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span class="method-label">SMS</span>
+                        <span class="method-sub">To your phone</span>
+                    </div>
+                </div>
+
+                <!-- Delivery status -->
+                <div class="delivery-panel">
+                    <div class="delivery-title" id="deliveryMessage">Ready to send code</div>
+                    <div class="delivery-sub" id="deliverySub">Select method and send</div>
+                </div>
+
+                <!-- Send code button -->
+                <button class="btn" id="sendCodeBtn" type="button" onclick="initiateSendCode()">
+                    <i class="fas fa-envelope-open-text"></i> Send verification code
+                </button>
+
+                <!-- Code entry (hidden until sent) -->
+                <div id="codeEntrySection" class="code-section hidden" style="margin-top:1.5rem;">
+                    <div class="code-inputs">
+                        <input type="text" id="code1" maxlength="1" inputmode="numeric"
+                            oninput="moveToNext(this,'code2')" onkeydown="handleBackspace(this,event)" disabled>
+                        <input type="text" id="code2" maxlength="1" inputmode="numeric"
+                            oninput="moveToNext(this,'code3')" onkeydown="handleBackspace(this,event)" disabled>
+                        <input type="text" id="code3" maxlength="1" inputmode="numeric"
+                            oninput="moveToNext(this,'code4')" onkeydown="handleBackspace(this,event)" disabled>
+                        <input type="text" id="code4" maxlength="1" inputmode="numeric"
+                            oninput="moveToNext(this,'code5')" onkeydown="handleBackspace(this,event)" disabled>
+                        <input type="text" id="code5" maxlength="1" inputmode="numeric"
+                            oninput="moveToNext(this,'code6')" onkeydown="handleBackspace(this,event)" disabled>
+                        <input type="text" id="code6" maxlength="1" inputmode="numeric" oninput="moveToNext(this,null)"
+                            onkeydown="handleBackspace(this,event)" disabled>
+                    </div>
+
+                    <div class="timer-row">
+                        <span>Code expires in <span id="timer">02:00</span></span>
+                        <a href="#" id="resendCodeLink">Resend</a>
+                    </div>
+
+                    <button class="btn" id="verifyBtn" type="button" onclick="verifyCodeWithDelay()">
+                        <span>Verify &amp; Continue</span>
+                        <div class="loading-spinner" id="verifySpinner" style="display:none;"></div>
+                    </button>
+                </div>
+
+                <!-- Back -->
+                <div style="text-align:center; margin-top:1.5rem;">
+                    <button class="link-button" id="backToLogin" type="button">← Back to sign in</button>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <span>© <span id="year"></span> HeritageInvest · Demo</span>
+                <span><a href="index.html">Return to homepage</a></span>
+            </footer>
+        </section>
+    </main>
+
+    <!-- ============================================================
+         LOGIN SCRIPT — working 2FA flow
+         ============================================================ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Loader fade-out
+            const loader = document.getElementById('premiumLoader');
+            if (loader) {
+                setTimeout(() => {
+                    loader.style.opacity = '0';
+                    loader.style.visibility = 'hidden';
+                    setTimeout(() => loader.remove(), 700);
+                }, 700);
+            }
+
+            // Year in footer
+            const yearEl = document.getElementById('year');
+            if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+            // ============================================================
+            // Valid credentials + 2FA codes
+            // ============================================================
+            const validCredentials = [
+                { email: "john.doe5@gmail.com", password: "Mylittlegirl32!" },
+                { email: "john.doe@gmail.com", password: "Mylittlegirl32!" },
+                { email: "robert.alexandre10@gmail.com", password: "SecurePass2024" },
+                { email: "michael.chen@heritagebank.com", password: "Investor2024" },
+                { email: "emily.williams@heritagebank.com", password: "Wealth123!" }
+            ];
+
+            const valid2FACodes = ["537589", "782622", "345678", "901234", "768671"];
+
+            let currentUserEmail = "";
+            let current2FAMethod = "email";
+            let timerInterval;
+            let timeLeft = 120;
+            let expectedCode = "123456";
+
+            // ============================================================
+            // Toast messages
+            // ============================================================
+            window.showMessage = function (message, type) {
+                const container = document.getElementById('messageContainer');
+                if (!container) return;
+                const msgDiv = document.createElement('div');
+                msgDiv.className = `message ${type}`;
+                const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+                msgDiv.innerHTML = `<i class="fas ${icon}"></i><span>${message}</span>`;
+                container.appendChild(msgDiv);
+                setTimeout(() => {
+                    msgDiv.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => msgDiv.remove(), 300);
+                }, 4500);
+            };
+
+            // ============================================================
+            // Password visibility toggle
+            // ============================================================
+            window.togglePassword = function (fieldId) {
+                const field = document.getElementById(fieldId);
+                if (!field) return;
+                const btn = event.currentTarget || event.target.closest('button');
+                const isHidden = field.type === 'password';
+                field.type = isHidden ? 'text' : 'password';
+                if (btn) {
+                    const icon = btn.querySelector('i');
+                    if (icon) icon.classList.toggle('fa-eye-slash', isHidden);
+                    btn.textContent = isHidden ? 'HIDE' : 'SHOW';
+                }
+            };
+
+            // ============================================================
+            // Login submit
+            // ============================================================
+            document.getElementById('loginForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+
+                if (!email || !password) return showMessage('Email and password required', 'error');
+
+                const loginBtn = document.getElementById('loginBtn');
+                const loginText = document.getElementById('loginText');
+                const loginSpinner = document.getElementById('loginSpinner');
+
+                loginBtn.disabled = true;
+                loginText.textContent = 'Authenticating...';
+                loginSpinner.style.display = 'inline-block';
+
+                setTimeout(() => {
+                    const isValid = validCredentials.some(c =>
+                        c.email.toLowerCase() === email.toLowerCase() && c.password === password
+                    );
+
+                    if (isValid) {
+                        currentUserEmail = email;
+                        showMessage('Login successful. Proceed to verification.', 'success');
+                        document.getElementById('step1').classList.add('hidden');
+                        document.getElementById('step2').classList.remove('hidden');
+                        reset2FAPanel();
+                    } else {
+                        showMessage('Invalid email or password', 'error');
+                    }
+                    loginBtn.disabled = false;
+                    loginText.textContent = 'Sign In';
+                    loginSpinner.style.display = 'none';
+                }, 1200);
+            });
+
+            // ============================================================
+            // Forgot password / back to login
+            // ============================================================
+            document.getElementById('forgotPassword').addEventListener('click', (e) => {
+                e.preventDefault();
+                showMessage('Reset link sent (demo)', 'info');
+            });
+
+            document.getElementById('backToLogin').addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('step2').classList.add('hidden');
+                document.getElementById('step1').classList.remove('hidden');
+                clearInterval(timerInterval);
+            });
+
+            // ============================================================
+            // 2FA method selection
+            // ============================================================
+            window.select2FAMethod = function (method) {
+                current2FAMethod = method;
+                document.getElementById('emailOption').classList.toggle('selected', method === 'email');
+                document.getElementById('smsOption').classList.toggle('selected', method === 'sms');
+                document.getElementById('deliveryMessage').innerText = 'Ready to send code';
+                document.getElementById('deliverySub').innerText = `Will send via ${method === 'email' ? 'email' : 'SMS'}`;
+                document.getElementById('codeEntrySection').classList.add('hidden');
+                document.getElementById('sendCodeBtn').disabled = false;
+                document.getElementById('sendCodeBtn').innerHTML = '<i class="fas fa-envelope-open-text"></i> Send verification code';
+            };
+
+            // ============================================================
+            // Send code
+            // ============================================================
+            window.initiateSendCode = function () {
+                const sendBtn = document.getElementById('sendCodeBtn');
+                if (sendBtn.disabled) return;
+
+                sendBtn.disabled = true;
+                sendBtn.innerHTML = '<div class="loading-spinner" style="display:inline-block"></div> Sending...';
+
+                const deliveryMsg = document.getElementById('deliveryMessage');
+                const deliverySub = document.getElementById('deliverySub');
+                deliveryMsg.innerText = 'Sending code';
+                deliverySub.innerText = 'please wait, generating secure code';
+
+                setTimeout(() => {
+                    const randomIndex = Math.floor(Math.random() * valid2FACodes.length);
+                    expectedCode = valid2FACodes[randomIndex];
+                    console.log(`[demo] 2FA code: ${expectedCode}`);
+
+                    const maskedContact = current2FAMethod === 'email'
+                        ? currentUserEmail
+                        : currentUserEmail.replace(/(.{2}).+(.{2})/, '$1••••$2');
+
+                    deliveryMsg.innerText = `Code sent to ${maskedContact}`;
+                    deliverySub.innerText = 'Enter the 6-digit code below';
+
+                    sendBtn.innerHTML = '<i class="fas fa-redo-alt"></i> Resend code';
+                    sendBtn.disabled = false;
+
+                    document.getElementById('codeEntrySection').classList.remove('hidden');
+                    enableCodeInputs(true);
+                    document.getElementById('code1').focus();
+                    resetTimer();
+                }, 2000);
+            };
+
+            // ============================================================
+            // Code inputs
+            // ============================================================
+            function enableCodeInputs(enable) {
+                for (let i = 1; i <= 6; i++) {
+                    const el = document.getElementById(`code${i}`);
+                    if (el) {
+                        el.disabled = !enable;
+                        if (!enable) el.value = '';
+                    }
+                }
+            }
+
+            window.moveToNext = function (current, nextId) {
+                if (current.value.length === 1 && nextId) {
+                    const next = document.getElementById(nextId);
+                    if (next) next.focus();
+                }
+            };
+
+            window.handleBackspace = function (current, e) {
+                if (e.key === 'Backspace' && current.value.length === 0) {
+                    const inputs = current.parentElement.querySelectorAll('input');
+                    const idx = Array.from(inputs).indexOf(current);
+                    if (idx > 0) inputs[idx - 1].focus();
+                }
+            };
+
+            // ============================================================
+            // Timer
+            // ============================================================
+            function resetTimer() {
+                clearInterval(timerInterval);
+                timeLeft = 120;
+                updateTimerDisplay();
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateTimerDisplay();
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        const timerEl = document.getElementById('timer');
+                        if (timerEl) timerEl.innerText = 'Expired';
+                        showMessage('Code expired. Request a new one.', 'error');
+                    }
+                }, 1000);
+            }
+
+            function updateTimerDisplay() {
+                const m = Math.floor(timeLeft / 60);
+                const s = timeLeft % 60;
+                const el = document.getElementById('timer');
+                if (el) el.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            }
+
+            // ============================================================
+            // Resend
+            // ============================================================
+            document.getElementById('resendCodeLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                enableCodeInputs(false);
+                document.getElementById('codeEntrySection').classList.add('hidden');
+                document.getElementById('sendCodeBtn').disabled = false;
+                document.getElementById('sendCodeBtn').innerHTML = '<i class="fas fa-envelope-open-text"></i> Send verification code';
+                document.getElementById('deliveryMessage').innerText = 'Resending code...';
+                document.getElementById('deliverySub').innerText = 'please wait';
+                setTimeout(() => initiateSendCode(), 500);
+            });
+
+            // ============================================================
+            // Verify
+            // ============================================================
+            window.verifyCodeWithDelay = function () {
+                const code = Array.from({ length: 6 }, (_, i) => {
+                    const el = document.getElementById(`code${i + 1}`);
+                    return el ? el.value : '';
+                }).join('');
+
+                if (code.length < 6) {
+                    showMessage('Enter full 6-digit code', 'error');
+                    return;
+                }
+
+                const verifyBtn = document.getElementById('verifyBtn');
+                const verifySpinner = document.getElementById('verifySpinner');
+                const btnText = verifyBtn.querySelector('span');
+
+                verifyBtn.disabled = true;
+                btnText.innerText = 'Verifying';
+                verifySpinner.style.display = 'inline-block';
+
+                setTimeout(() => {
+                    verifySpinner.style.display = 'none';
+
+                    if (code === expectedCode || valid2FACodes.includes(code)) {
+                        sessionStorage.setItem('nexusbank_auth', 'authenticated');
+                        sessionStorage.setItem('nexusbank_expiry', Date.now() + 3600000);
+                        sessionStorage.setItem('nexusbank_user', currentUserEmail);
+
+                        showMessage('Verification successful. Redirecting...', 'success');
+                        btnText.innerText = 'Success';
+
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 1200);
+                    } else {
+                        showMessage('Invalid code. Please try again.', 'error');
+                        verifyBtn.disabled = false;
+                        btnText.innerText = 'Verify & Continue';
+                    }
+                }, 2000);
+            };
+
+            // ============================================================
+            // Reset 2FA panel
+            // ============================================================
+            function reset2FAPanel() {
+                enableCodeInputs(false);
+                document.getElementById('codeEntrySection').classList.add('hidden');
+                document.getElementById('sendCodeBtn').disabled = false;
+                document.getElementById('sendCodeBtn').innerHTML = '<i class="fas fa-envelope-open-text"></i> Send verification code';
+                document.getElementById('deliveryMessage').innerText = 'Ready to send code';
+                document.getElementById('deliverySub').innerText = 'Select method and send';
+                clearInterval(timerInterval);
+                current2FAMethod = 'email';
+                document.getElementById('emailOption').classList.add('selected');
+                document.getElementById('smsOption').classList.remove('selected');
+            }
+
+            // ============================================================
+            // Touch detection
+            // ============================================================
+            if (('ontouchstart' in window) || (navigator.maxTouchPoints > 0)) {
+                document.body.classList.add('touch-device');
+            }
+        });
+    </script>
+</body>
+
+</html>

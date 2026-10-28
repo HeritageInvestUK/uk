@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <title>Transactions · HeritageInvest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png"
+        href="https://a.mktgcdn.com/p/trqY8cbRb9rpmzNBIHFEHxK3n0czpuAaJO27NrH_lzQ/1.0000/676x676.png">
+    <style>
+        :root {
+            --ink: #10201B;
+            --ink-soft: #1B2F27;
+            --parchment: #F3EFE4;
+            --parchment-deep: #EAE3D2;
+            --bone: #FBF9F3;
+            --brass: #B98A2E;
+            --brass-bright: #D7A83F;
+            --ledger-green: #2F6B4F;
+            --ledger-red: #A24632;
+            --charcoal: #23302B;
+            --stone: #6B7A72;
+            --hair: rgba(35, 48, 43, 0.14);
+            --hair-dark: rgba(243, 239, 228, 0.16);
+            --shadow-card: 0 1px 2px rgba(16, 32, 27, 0.06), 0 8px 24px rgba(16, 32, 27, 0.06);
+            --shadow-lift: 0 20px 45px rgba(16, 32, 27, 0.16);
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--charcoal);
+            background: var(--parchment);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Source Serif 4', serif;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .mono {
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        ::selection {
+            background: var(--brass);
+            color: var(--ink);
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--brass);
+            outline-offset: 2px;
+        }
+
+        /* Loader */
+        .premium-loader {
+            position: fixed;
+            inset: 0;
+            background: var(--ink);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s var(--ease), visibility 0.6s var(--ease);
+            pointer-events: all;
+        }
+
+        .premium-loader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-logo {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.9rem;
+            font-weight: 600;
+            color: var(--bone);
+            margin-bottom: 1.25rem;
+        }
+
+        .loader-logo .mark {
+            color: var(--brass-bright);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.1rem;
+            margin-right: 0.6rem;
+        }
+
+        .loader-rule {
+            width: 160px;
+            height: 1px;
+            background: var(--hair-dark);
+            position: relative;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .loader-rule::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -40%;
+            width: 40%;
+            height: 100%;
+            background: var(--brass-bright);
+            animation: loading 1.1s infinite;
+        }
+
+        @keyframes loading {
+            0% {
+                left: -40%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* Layout */
+        .dashboard-premium {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .sidebar-premium {
+            background: var(--ink);
+            color: var(--bone);
+            width: 280px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--hair-dark);
+            transition: left 0.35s var(--ease);
+            z-index: 1000;
+        }
+
+        .sidebar-brand {
+            padding: 2rem 1.5rem 1.5rem;
+            border-bottom: 1px solid var(--hair-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .brand-logo .mark {
+            width: 38px;
+            height: 38px;
+            border: 1.5px solid var(--brass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--brass);
+        }
+
+        .brand-logo span {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--bone);
+            margin-left: 0.6rem;
+        }
+
+        .brand-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--stone);
+            margin-top: 0.3rem;
+        }
+
+        .sidebar-nav-premium {
+            flex: 1;
+            padding: 1.5rem 0;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-section-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--brass);
+            padding: 0 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-section ul {
+            list-style: none;
+        }
+
+        .nav-section li a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.8rem 1.5rem;
+            color: rgba(251, 249, 243, 0.7);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: background 0.2s var(--ease), color 0.2s var(--ease);
+            -webkit-tap-highlight-color: rgba(185, 138, 46, 0.15);
+            cursor: pointer;
+        }
+
+        .nav-section li a:hover,
+        .nav-section li.active a {
+            background: var(--ink-soft);
+            color: var(--bone);
+        }
+
+        .nav-section li a i {
+            width: 20px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .nav-badge {
+            background: var(--brass);
+            color: var(--ink);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.65rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 20px;
+            margin-left: auto;
+        }
+
+        .nav-amount {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--stone);
+            margin-left: auto;
+        }
+
+        .sidebar-footer-premium {
+            padding: 1.5rem;
+            border-top: 1px solid var(--hair-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-avatar img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-details .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-details .user-role {
+            color: var(--stone);
+            font-size: 0.75rem;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-left: auto;
+        }
+
+        .icon-btn {
+            background: none;
+            border: 1px solid var(--hair-dark);
+            color: var(--bone);
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+            -webkit-tap-highlight-color: rgba(185, 138, 46, 0.2);
+        }
+
+        .icon-btn:hover {
+            border-color: var(--brass);
+            color: var(--brass);
+        }
+
+        /* Overlay */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.35s var(--ease);
+            pointer-events: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Menu Toggle Button */
+        .menu-toggle {
+            display: none;
+            background: var(--bone);
+            border: 1.5px solid var(--hair);
+            color: var(--ink);
+            width: 44px;
+            height: 44px;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            border-radius: 8px;
+            flex-shrink: 0;
+            transition: background 0.2s var(--ease), border-color 0.2s var(--ease), transform 0.15s var(--ease);
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            position: relative;
+            z-index: 10;
+        }
+
+        .menu-toggle:active {
+            background: var(--parchment-deep);
+            border-color: var(--ink);
+            transform: scale(0.95);
+        }
+
+        .menu-toggle:hover {
+            border-color: var(--ink);
+            background: var(--parchment);
+        }
+
+        .main-content-premium {
+            flex: 1;
+            background: var(--parchment);
+            padding: 1.5rem 2rem 2rem;
+            overflow-y: auto;
+            min-height: 100vh;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .top-nav-premium {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--hair);
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .page-title h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .page-title p {
+            color: var(--stone);
+            font-size: 0.95rem;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            gap: 0.5rem;
+            min-width: 200px;
+        }
+
+        .search-bar i {
+            color: var(--stone);
+            font-size: 0.9rem;
+        }
+
+        .search-bar input {
+            border: none;
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            color: var(--charcoal);
+            width: 100%;
+        }
+
+        .notification-btn,
+        .support-btn {
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            transition: border-color 0.2s var(--ease);
+            border-radius: 8px;
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
+        }
+
+        .notification-btn:hover,
+        .support-btn:hover {
+            border-color: var(--ink);
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--ledger-red);
+            border-radius: 50%;
+        }
+
+        .support-btn {
+            gap: 0.4rem;
+            width: auto;
+            padding: 0 1rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .support-btn i {
+            font-size: 1rem;
+        }
+
+        /* Filter bar */
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid var(--hair);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .filter-tab {
+            padding: 0.8rem 1.5rem;
+            background: transparent;
+            border: none;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--stone);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s var(--ease);
+            white-space: nowrap;
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
+        }
+
+        .filter-tab.active {
+            color: var(--ink);
+            border-bottom-color: var(--brass);
+        }
+
+        .filter-tab:hover {
+            color: var(--ink);
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .date-range {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--charcoal);
+            font-size: 0.9rem;
+        }
+
+        .filter-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            color: var(--charcoal);
+            transition: border-color 0.2s var(--ease);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--ink);
+        }
+
+        /* Summary */
+        .transactions-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-stat {
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            border-radius: 4px;
+        }
+
+        .summary-stat .stat-label {
+            font-size: 0.8rem;
+            color: var(--stone);
+            text-transform: uppercase;
+        }
+
+        .summary-stat .stat-value {
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .summary-stat .stat-value.positive {
+            color: var(--ledger-green);
+        }
+
+        .summary-stat .stat-value.negative {
+            color: var(--ledger-red);
+        }
+
+        /* Transaction list */
+        .transactions-list-premium {
+            margin-bottom: 2rem;
+        }
+
+        .transaction-group {
+            margin-bottom: 2rem;
+        }
+
+        .group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .group-header h3 {
+            font-size: 1.1rem;
+            color: var(--ink);
+        }
+
+        .group-total {
+            font-size: 0.85rem;
+            color: var(--stone);
+        }
+
+        .transaction-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            gap: 1rem;
+            cursor: pointer;
+            transition: border-color 0.2s var(--ease);
+            border-radius: 4px;
+        }
+
+        .transaction-item:hover {
+            border-color: var(--brass);
+        }
+
+        .transaction-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--parchment);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: var(--ink);
+        }
+
+        .transaction-details {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .transaction-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .transaction-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .transaction-category {
+            font-size: 0.75rem;
+            color: var(--stone);
+            background: var(--parchment-deep);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .transaction-meta {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.25rem;
+            font-size: 0.8rem;
+            color: var(--stone);
+        }
+
+        .transaction-amount {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            min-width: 80px;
+        }
+
+        .amount {
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .amount.positive {
+            color: var(--ledger-green);
+        }
+
+        .amount.negative {
+            color: var(--ledger-red);
+        }
+
+        .status-badge {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            font-family: 'IBM Plex Mono', monospace;
+            margin-top: 0.3rem;
+        }
+
+        .status-badge.completed {
+            background: rgba(47, 107, 79, 0.1);
+            color: var(--ledger-green);
+        }
+
+        .status-badge.pending {
+            background: rgba(185, 138, 46, 0.1);
+            color: var(--brass);
+        }
+
+        .transaction-menu {
+            background: none;
+            border: none;
+            color: var(--stone);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        /* Pagination */
+        .pagination-premium {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-top: 1px solid var(--hair);
+        }
+
+        .page-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: var(--bone);
+            border: 1px solid var(--hair);
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            color: var(--charcoal);
+            transition: border-color 0.2s var(--ease);
+            border-radius: 4px;
+        }
+
+        .page-nav.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .page-nav:hover {
+            border-color: var(--ink);
+        }
+
+        .page-numbers {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .page-number {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--hair);
+            background: var(--bone);
+            font-weight: 500;
+            cursor: pointer;
+            transition: border-color 0.2s var(--ease);
+            border-radius: 4px;
+        }
+
+        .page-number.active {
+            background: var(--ink);
+            color: var(--bone);
+            border-color: var(--ink);
+        }
+
+        .page-number:hover:not(.active) {
+            border-color: var(--ink);
+        }
+
+        .page-dots {
+            display: flex;
+            align-items: center;
+            color: var(--stone);
+        }
+
+        /* Modal */
+        .modal-premium {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-premium.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bone);
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            border-top: 3px solid var(--brass);
+            box-shadow: var(--shadow-lift);
+            border-radius: 4px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.4rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--stone);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            -webkit-tap-highlight-color: rgba(16, 32, 27, 0.08);
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .transaction-detail-card {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .detail-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--parchment);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--ink);
+            flex-shrink: 0;
+        }
+
+        .detail-rows {
+            flex: 1;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--hair);
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .detail-row .detail-label {
+            font-size: 0.8rem;
+            color: var(--stone);
+        }
+
+        .detail-row .detail-value {
+            font-weight: 500;
+            font-size: 0.95rem;
+            word-break: break-word;
+        }
+
+        .detail-value.amount.negative {
+            color: var(--ledger-red);
+            font-weight: 600;
+        }
+
+        .detail-value.amount.positive {
+            color: var(--ledger-green);
+            font-weight: 600;
+        }
+
+        .copy-btn-small {
+            background: none;
+            border: none;
+            color: var(--stone);
+            cursor: pointer;
+            margin-left: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn-small:hover {
+            color: var(--ink);
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 0.7rem 1.5rem;
+            background: var(--ink);
+            color: var(--bone);
+            border: 1px solid var(--ink);
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.2s var(--ease);
+            border-radius: 4px;
+        }
+
+        .btn-primary:hover {
+            background: var(--ink-soft);
+        }
+
+        .btn-secondary {
+            padding: 0.7rem 1.5rem;
+            background: transparent;
+            border: 1px solid var(--hair);
+            color: var(--charcoal);
+            font-weight: 600;
+            cursor: pointer;
+            transition: border-color 0.2s var(--ease);
+            border-radius: 4px;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--ink);
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 1rem;
+            color: var(--stone);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Responsive */
+        @media (max-width:1024px) {
+            .sidebar-premium {
+                position: fixed;
+                left: -290px;
+                top: 0;
+                bottom: 0;
+                height: 100vh;
+                height: 100dvh;
+                width: 280px;
+                box-shadow: 4px 0 30px rgba(0, 0, 0, 0.3);
+            }
+
+            .sidebar-premium.active {
+                left: 0;
+            }
+
+            .sidebar-overlay {
+                display: block;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .main-content-premium {
+                margin-left: 0;
+                padding: 1rem;
+                width: 100%;
+            }
+
+            .top-nav-premium {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-left {
+                width: 100%;
+            }
+
+            .nav-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-actions {
+                justify-content: space-between;
+            }
+
+            .transaction-item {
+                flex-wrap: wrap;
+            }
+
+            .transaction-amount {
+                flex-direction: row;
+                align-items: center;
+                gap: 0.5rem;
+            }
+        }
+
+        @media (max-width:600px) {
+            .main-content-premium {
+                padding: 0.75rem;
+            }
+
+            .page-title h1 {
+                font-size: 1.4rem;
+            }
+
+            .search-bar {
+                min-width: 120px;
+            }
+
+            .filter-tab {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.7rem;
+            }
+
+            .transaction-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .transaction-amount {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .pagination-premium {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .page-numbers {
+                order: -1;
+            }
+
+            .transaction-detail-card {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="premium-loader" id="premiumLoader">
+        <div class="loader-content">
+            <div class="loader-logo"><span class="mark">H·I</span>HeritageInvest</div>
+            <div class="loader-rule"></div>
+        </div>
+    </div>
+
+    <div class="dashboard-premium">
+        <!-- Sidebar -->
+        <aside class="sidebar-premium" id="sidebarPremium">
+            <div class="sidebar-brand">
+                <div class="brand-logo">
+                    <span class="mark">H·I</span>
+                    <span>HeritageInvest</span>
+                </div>
+                <div class="brand-tag">Private Banking</div>
+            </div>
+            <nav class="sidebar-nav-premium">
+                <div class="nav-section">
+                    <div class="nav-section-title">MAIN</div>
+                    <ul>
+                        <li><a href="dashboard.html"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a></li>
+                        <li class="active"><a href="transactions.html"><i
+                                    class="fas fa-arrow-right-arrow-left"></i><span>Transactions</span><span
+                                    class="nav-badge" id="txBadge">0</span></a></li>
+                        <li><a href="transfer.html"><i class="fas fa-paper-plane"></i><span>Transfers</span></a></li>
+                        <li><a href="statements.html"><i class="fas fa-file-invoice"></i><span>Statements</span></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">ACCOUNTS</div>
+                    <ul>
+                        <li><a href="checking.html"><i class="fas fa-wallet"></i><span>Checking</span><span
+                                    class="nav-amount" data-balance="checking">$0</span></a></li>
+                        <li><a href="savings.html"><i class="fas fa-piggy-bank"></i><span>Savings</span><span
+                                    class="nav-amount" data-balance="savings">$0</span></a></li>
+                        <li><a href="investments.html"><i class="fas fa-chart-line"></i><span>Investments</span><span
+                                    class="nav-amount" data-balance="investments">$0</span></a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-section-title">SERVICES</div>
+                    <ul>
+                        <li><a href="cards.html"><i class="fas fa-credit-card"></i><span>Cards</span></a></li>
+                        <li><a href="paybills.html"><i class="fas fa-file-invoice-dollar"></i><span>Pay Bills</span></a>
+                        </li>
+                        <li><a href="settings.html"><i class="fas fa-gear"></i><span>Settings</span></a></li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="sidebar-footer-premium">
+                <div class="user-avatar"><img src="https://pbs.twimg.com/media/HVr9a6xW0AA2cn5?format=jpg&name=small"
+                        alt="Robert Alexandre"></div>
+                <div class="user-details">
+                    <div class="user-name">Robert Alexandre</div>
+                    <div class="user-role">Premium Member</div>
+                </div>
+                <div class="user-actions">
+
+                    <button class="icon-btn" title="Settings" onclick="location.href='settings.html'"><i
+                            class="fas fa-sliders-h"></i></button>
+                    <button class="icon-btn" title="Logout" onclick="location.href='index.html'"><i
+                            class="fas fa-sign-out-alt"></i></button>
+                </div>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+
+        <!-- Main Content -->
+        <main class="main-content-premium" id="mainContent">
+            <header class="top-nav-premium">
+                <div class="nav-left">
+                    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle navigation menu"
+                        aria-expanded="false">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="page-title">
+                        <h1>Transactions</h1>
+                        <p>View and manage your transaction history</p>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search transactions..." id="searchInput">
+                    </div>
+                    <button class="notification-btn" type="button"><i class="far fa-bell"></i><span
+                            class="notification-dot"></span></button>
+                    <button class="support-btn" type="button"><i
+                            class="far fa-question-circle"></i><span>Help</span></button>
+                </div>
+            </header>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-tabs" id="filterTabs">
+                    <button class="filter-tab active" data-filter="all">All Transactions</button>
+                    <button class="filter-tab" data-filter="income">Income</button>
+                    <button class="filter-tab" data-filter="expenses">Expenses</button>
+                    <button class="filter-tab" data-filter="transfers">Transfers</button>
+                    <button class="filter-tab" data-filter="pending">Pending</button>
+                </div>
+                <div class="filter-actions">
+                    <div class="date-range">
+                        <i class="far fa-calendar"></i>
+                        <span>Last 30 days</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <button class="filter-btn" onclick="alert('Demo: export not wired up yet')"><i
+                            class="fas fa-download"></i>Export</button>
+                    <button class="filter-btn" onclick="alert('Demo: filters not wired up yet')"><i
+                            class="fas fa-filter"></i>Filter</button>
+                </div>
+            </div>
+
+            <!-- Summary -->
+            <div class="transactions-summary">
+                <div class="summary-stat">
+                    <span class="stat-label">Total Inflow</span>
+                    <span class="stat-value positive" id="totalInflow">+$0.00</span>
+                </div>
+                <div class="summary-stat">
+                    <span class="stat-label">Total Outflow</span>
+                    <span class="stat-value negative" id="totalOutflow">-$0.00</span>
+                </div>
+                <div class="summary-stat">
+                    <span class="stat-label">Net Change</span>
+                    <span class="stat-value positive" id="netChange">+$0.00</span>
+                </div>
+                <div class="summary-stat">
+                    <span class="stat-label">Transactions</span>
+                    <span class="stat-value" id="txCount">0</span>
+                </div>
+            </div>
+
+            <!-- Transactions List -->
+            <div class="transactions-list-premium" id="transactionsList">
+                <!-- Rendered by script -->
+            </div>
+
+            <!-- Pagination (visual only — page shows all rows) -->
+            <div class="pagination-premium">
+                <button class="page-nav disabled"><i class="fas fa-chevron-left"></i>Previous</button>
+                <div class="page-numbers">
+                    <button class="page-number active">1</button>
+                </div>
+                <button class="page-nav disabled">Next<i class="fas fa-chevron-right"></i></button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Transaction Details Modal -->
+    <div class="modal-premium" id="transactionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Transaction Details</h2>
+                <button class="modal-close" onclick="closeTransactionModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="transaction-detail-card">
+                    <div class="detail-icon transfer" id="detailIcon"><i class="fas fa-arrow-right"></i></div>
+                    <div class="detail-rows" id="detailRows">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="downloadReceipt()"><i class="fas fa-download"></i>Download
+                    Receipt</button>
+                <button class="btn-primary" onclick="closeTransactionModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         Shared demo state module
+         ============================================================ -->
+    <script src="bank-demo.js"></script>
+    <script src="bank-idle.js"></script>
+
+    <!-- ============================================================
+         Transactions page wiring
+         ============================================================ -->
+    <script>
+        (function () {
+            // ---------- Inline fallback if bank-demo.js failed to load ----------
+            if (typeof window.BankDemo === 'undefined') {
+                console.warn('[transactions] bank-demo.js not loaded — using inline fallback.');
+                (function () {
+                    const KEY = 'heritage_demo_state_v1';
+                    const defaultState = () => ({
+                        accounts: {
+                            checking: { label: 'Checking', balance: 645432.10 },
+                            savings: { label: 'Savings', balance: 215678.90 },
+                            credit: { label: 'Premium Credit', balance: 28234.56 },
+                            investments: { label: 'Investments', balance: 3456789.00 },
+                            stocks: { label: 'Stocks', balance: 2700000.50 },
+                            etf: { label: 'ETF', balance: 759058.87 }
+                        },
+                        transactions: [],
+                        dailyUsed: 250,
+                        dailyLimit: 25000,
+                        perTxnLimit: 10000
+                    });
+                    const load = () => {
+                        try { const r = localStorage.getItem(KEY); return r ? JSON.parse(r) : defaultState(); }
+                        catch (_) { return defaultState(); }
+                    };
+                    const save = s => localStorage.setItem(KEY, JSON.stringify(s));
+                    let state = load();
+                    const fmt = n => '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    const fmtShort = n => '$' + Math.round(n).toLocaleString('en-US');
+                    const totalBalance = () => state.accounts.checking.balance + state.accounts.savings.balance + state.accounts.investments.balance;
+
+                    function refreshUI() {
+                        document.querySelectorAll('[data-balance]').forEach(el => {
+                            const k = el.getAttribute('data-balance');
+                            if (state.accounts[k]) el.textContent = fmt(state.accounts[k].balance);
+                        });
+                        document.querySelectorAll('[data-balance-total]').forEach(el => {
+                            el.textContent = fmt(totalBalance());
+                        });
+                        const navMap = { 'checking.html': 'checking', 'savings.html': 'savings', 'investments.html': 'investments' };
+                        Object.entries(navMap).forEach(([href, k]) => {
+                            document.querySelectorAll('a[href$="' + href + '"] .nav-amount').forEach(el => {
+                                el.textContent = fmtShort(state.accounts[k].balance);
+                            });
+                        });
+                    }
+                    function transfer(p) {
+                        const { fromAccount, recipient, bankName, accountNumber, routing, amount, description } = p;
+                        if (!recipient) throw new Error('Missing recipient.');
+                        if (!Number.isFinite(amount) || amount <= 0) throw new Error('Invalid amount.');
+                        if (amount > state.perTxnLimit) throw new Error('Exceeds per-transaction limit.');
+                        if (state.dailyUsed + amount > state.dailyLimit) throw new Error('Exceeds daily limit.');
+                        const acc = state.accounts[fromAccount];
+                        if (!acc) throw new Error('Unknown source account.');
+                        if (acc.balance < amount) throw new Error('Insufficient funds.');
+                        acc.balance -= amount;
+                        state.dailyUsed += amount;
+                        state.transactions.unshift({
+                            id: 'TX' + Date.now(), ts: new Date().toISOString(),
+                            from: fromAccount, to: recipient, bank: bankName,
+                            account: '****' + String(accountNumber).slice(-4),
+                            routing, amount, description: description || '—', status: 'completed'
+                        });
+                        save(state);
+                        return state.transactions[0];
+                    }
+                    function reset() { state = defaultState(); save(state); refreshUI(); }
+                    window.addEventListener('storage', e => {
+                        if (e.key === KEY && e.newValue) { state = JSON.parse(e.newValue); refreshUI(); }
+                    });
+                    window.BankDemo = {
+                        getState: () => structuredClone(state),
+                        refreshUI, transfer, reset, totalBalance
+                    };
+                })();
+            }
+
+            // ---------- Baseline demo history (static, so page never looks empty) ----------
+            const BASELINE_TRANSACTIONS = [
+                { id: 'TRX-20260315-001', ts: '2026-03-15T09:42:00Z', type: 'transfer', category: 'Transfer', name: 'Transfer to Sarah Johnson', account: 'Checking ****5872', amount: -250.00, status: 'completed', bank: 'Chase Bank', reference: 'REF-88756442', to: 'Sarah Johnson (****4567)' },
+                { id: 'TRX-20260315-002', ts: '2026-03-15T08:00:00Z', type: 'deposit', category: 'Income', name: 'Salary Deposit - ABC Corp', account: 'Checking ****5872', amount: 3500.00, status: 'completed', bank: 'ABC Corp Payroll', reference: 'REF-88756111', to: 'Checking Account' },
+                { id: 'TRX-20260314-001', ts: '2026-03-14T15:15:00Z', type: 'payment', category: 'Shopping', name: 'Amazon.com', account: 'Checking ****9432', amount: -89.99, status: 'completed', bank: 'Amazon', reference: 'REF-88755001', to: 'Amazon.com' },
+                { id: 'TRX-20260314-002', ts: '2026-03-14T19:30:00Z', type: 'payment', category: 'Dining', name: 'The Italian Restaurant', account: 'Checking ****2321', amount: -78.50, status: 'completed', bank: 'Italian Restaurant', reference: 'REF-88755002', to: 'The Italian Restaurant' },
+                { id: 'TRX-20260312-001', ts: '2026-03-12T10:00:00Z', type: 'bill', category: 'Utilities', name: 'Electric Company', account: 'Checking ****5972', amount: -145.67, status: 'pending', bank: 'Electric Company', reference: 'REF-88754001', to: 'Electric Company' },
+                { id: 'TRX-20260310-001', ts: '2026-03-10T14:20:00Z', type: 'transfer', category: 'Transfer', name: 'Transfer to John Smith', account: 'Savings ****1234', amount: -500.00, status: 'completed', bank: 'Bank of America', reference: 'REF-88753001', to: 'John Smith (****9876)' },
+                { id: 'TRX-20260309-001', ts: '2026-03-09T11:45:00Z', type: 'payment', category: 'Shopping', name: 'Walmart Supercenter', account: 'Checking ****9432', amount: -120.75, status: 'completed', bank: 'Walmart', reference: 'REF-88752001', to: 'Walmart Supercenter' },
+                { id: 'TRX-20260308-001', ts: '2026-03-08T16:30:00Z', type: 'bill', category: 'Internet & Cable', name: 'Comcast Cable Co.', account: 'Checking ****5972', amount: -89.99, status: 'completed', bank: 'Comcast Cable Co.', reference: 'REF-88751001', to: 'Comcast Cable Co.' },
+                { id: 'TRX-20260307-001', ts: '2026-03-07T09:15:00Z', type: 'deposit', category: 'Income', name: 'Freelance Payment - XYZ Design Studio', account: 'Checking ****5872', amount: 750.00, status: 'completed', bank: 'XYZ Design Studio Payroll', reference: 'REF-88750001', to: 'Checking Account' }];
+
+            const fmt = n => '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const escapeHtml = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+            // ---------- Build a unified transaction list ----------
+            function getAllTransactions() {
+                const state = BankDemo.getState();
+                const live = (state.transactions || []).map(tx => ({
+                    id: tx.id,
+                    ts: tx.ts,
+                    type: 'transfer',
+                    category: 'Transfer',
+                    name: 'Transfer to ' + (tx.to || 'recipient'),
+                    account: (tx.from === 'savings' ? 'Savings' : tx.from === 'credit' ? 'Premium Credit' : 'Checking') + ' · ' + (tx.account || ''),
+                    amount: -Math.abs(tx.amount || 0),
+                    status: 'completed',
+                    bank: tx.bank || '',
+                    reference: tx.id,
+                    to: (tx.to || '') + ' (' + (tx.account || '') + ')',
+                    description: tx.description || ''
+                }));
+
+                // Combine live + baseline, sorted newest first
+                const all = [...live, ...BASELINE_TRANSACTIONS];
+                all.sort((a, b) => new Date(b.ts) - new Date(a.ts));
+                return all;
+            }
+
+            // ---------- Filters ----------
+            let currentFilter = 'all';
+            let currentSearch = '';
+
+            function matchesFilter(tx, filter) {
+                if (filter === 'all') return true;
+                if (filter === 'income') return tx.amount > 0;
+                if (filter === 'expenses') return tx.amount < 0 && tx.category !== 'Transfer';
+                if (filter === 'transfers') return tx.category === 'Transfer';
+                if (filter === 'pending') return tx.status === 'pending';
+                return true;
+            }
+
+            function matchesSearch(tx, q) {
+                if (!q) return true;
+                const needle = q.toLowerCase();
+                return (
+                    (tx.name || '').toLowerCase().includes(needle) ||
+                    (tx.category || '').toLowerCase().includes(needle) ||
+                    (tx.account || '').toLowerCase().includes(needle) ||
+                    (tx.bank || '').toLowerCase().includes(needle) ||
+                    (tx.id || '').toLowerCase().includes(needle)
+                );
+            }
+
+            // ---------- Group by date ----------
+            function groupByDate(list) {
+                const groups = {};
+                list.forEach(tx => {
+                    const d = new Date(tx.ts);
+                    const key = d.toISOString().slice(0, 10);
+                    if (!groups[key]) groups[key] = [];
+                    groups[key].push(tx);
+                });
+                // Return sorted by date desc
+                return Object.entries(groups).sort((a, b) => b[0].localeCompare(a[0]));
+            }
+
+            function dateLabel(isoDate) {
+                const d = new Date(isoDate + 'T00:00:00Z');
+                const today = new Date();
+                const yesterday = new Date();
+                yesterday.setDate(today.getDate() - 1);
+
+                const sameDay = (a, b) =>
+                    a.getUTCFullYear() === b.getUTCFullYear() &&
+                    a.getUTCMonth() === b.getUTCMonth() &&
+                    a.getUTCDate() === b.getUTCDate();
+
+                if (sameDay(d, today)) return 'Today';
+                if (sameDay(d, yesterday)) return 'Yesterday';
+                return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+            }
+
+            function timeLabel(iso) {
+                return new Date(iso).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+            }
+
+            // ---------- Icon for transaction type ----------
+            function iconFor(tx) {
+                if (tx.type === 'deposit') return { cls: 'deposit', icon: 'fa-arrow-down' };
+                if (tx.type === 'transfer') return { cls: 'transfer', icon: 'fa-arrow-right' };
+                if (tx.type === 'bill') return { cls: 'bill', icon: 'fa-bolt' };
+                return { cls: 'payment', icon: 'fa-shopping-cart' };
+            }
+
+            // ---------- Render ----------
+            let ALL_TRANSACTIONS = [];
+
+            function render() {
+                const listEl = document.getElementById('transactionsList');
+
+                // Filter
+                ALL_TRANSACTIONS = getAllTransactions();
+                const filtered = ALL_TRANSACTIONS.filter(tx =>
+                    matchesFilter(tx, currentFilter) && matchesSearch(tx, currentSearch)
+                );
+
+                // Summary (from the full list, not the filtered list, so totals don't jump)
+                let inflow = 0, outflow = 0;
+                ALL_TRANSACTIONS.forEach(tx => {
+                    if (tx.amount > 0) inflow += tx.amount;
+                    else if (tx.amount < 0) outflow += Math.abs(tx.amount);
+                });
+                const net = inflow - outflow;
+
+                document.getElementById('totalInflow').textContent = '+' + fmt(inflow);
+                document.getElementById('totalOutflow').textContent = '-' + fmt(outflow);
+                const netEl = document.getElementById('netChange');
+                netEl.textContent = (net >= 0 ? '+' : '-') + fmt(Math.abs(net));
+                netEl.classList.toggle('positive', net >= 0);
+                netEl.classList.toggle('negative', net < 0);
+                document.getElementById('txCount').textContent = ALL_TRANSACTIONS.length;
+                document.getElementById('txBadge').textContent = ALL_TRANSACTIONS.length;
+
+                // Sidebar balances
+                BankDemo.refreshUI();
+
+                if (!filtered.length) {
+                    listEl.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p style="font-weight:600; margin-bottom:0.5rem;">No transactions match your filter</p>
+                        <p style="font-size:0.85rem;">Try a different tab or clear the search.</p>
+                    </div>`;
+                    return;
+                }
+
+                const groups = groupByDate(filtered);
+                listEl.innerHTML = groups.map(([dateKey, txs]) => {
+                    const label = dateLabel(dateKey);
+                    const totalStr = txs.length + ' transaction' + (txs.length === 1 ? '' : 's');
+                    return `
+                    <div class="transaction-group">
+                        <div class="group-header">
+                            <h3>${escapeHtml(label)}</h3>
+                            <span class="group-total">${totalStr}</span>
+                        </div>
+                        <div class="group-transactions">
+                            ${txs.map(tx => {
+                        const ic = iconFor(tx);
+                        const amtCls = tx.amount >= 0 ? 'positive' : 'negative';
+                        const amtStr = (tx.amount >= 0 ? '+' : '-') + fmt(Math.abs(tx.amount));
+                        return `
+                                    <div class="transaction-item" data-tx-id="${escapeHtml(tx.id)}">
+                                        <div class="transaction-icon ${ic.cls}"><i class="fas ${ic.icon}"></i></div>
+                                        <div class="transaction-details">
+                                            <div class="transaction-main">
+                                                <span class="transaction-name">${escapeHtml(tx.name)}</span>
+                                                <span class="transaction-category">${escapeHtml(tx.category)}</span>
+                                            </div>
+                                            <div class="transaction-meta">
+                                                <span class="transaction-time">${timeLabel(tx.ts)}</span>
+                                                <span class="transaction-account">${escapeHtml(tx.account)}</span>
+                                            </div>
+                                        </div>
+                                        <div class="transaction-amount">
+                                            <span class="amount ${amtCls}">${amtStr}</span>
+                                            <span class="status-badge ${tx.status}">${tx.status}</span>
+                                        </div>
+                                        <button class="transaction-menu" onclick="event.stopPropagation(); alert('Transaction options would appear here')"><i class="fas fa-ellipsis-v"></i></button>
+                                    </div>`;
+                    }).join('')}
+                        </div>
+                    </div>`;
+                }).join('');
+
+                // Wire up click handlers for the newly-rendered rows
+                document.querySelectorAll('#transactionsList .transaction-item').forEach(item => {
+                    item.addEventListener('click', function (e) {
+                        if (e.target.closest('.transaction-menu')) return;
+                        openTransactionModal(this.getAttribute('data-tx-id'));
+                    });
+                });
+            }
+
+            // ---------- Detail modal ----------
+            function openTransactionModal(txId) {
+                const tx = ALL_TRANSACTIONS.find(t => t.id === txId);
+                if (!tx) return;
+
+                const ic = iconFor(tx);
+                const iconEl = document.getElementById('detailIcon');
+                iconEl.className = 'detail-icon ' + ic.cls;
+                iconEl.innerHTML = '<i class="fas ' + ic.icon + '"></i>';
+
+                const amtCls = tx.amount >= 0 ? 'positive' : 'negative';
+                const amtStr = (tx.amount >= 0 ? '+' : '-') + fmt(Math.abs(tx.amount));
+                const dt = new Date(tx.ts);
+                const dateStr = dt.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                const timeStr = dt.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+                document.getElementById('detailRows').innerHTML = `
+                <div class="detail-row">
+                    <span class="detail-label">Transaction ID</span>
+                    <span class="detail-value mono">${escapeHtml(tx.id)}
+                        <button class="copy-btn-small" onclick="copyText('${escapeHtml(tx.id)}', this)"><i class="fas fa-copy"></i></button>
+                    </span>
+                </div>
+                <div class="detail-row"><span class="detail-label">Description</span><span class="detail-value">${escapeHtml(tx.name)}</span></div>
+                <div class="detail-row"><span class="detail-label">Date &amp; Time</span><span class="detail-value">${escapeHtml(dateStr)} · ${escapeHtml(timeStr)}</span></div>
+                <div class="detail-row"><span class="detail-label">Amount</span><span class="detail-value amount ${amtCls}">${amtStr}</span></div>
+                <div class="detail-row"><span class="detail-label">Status</span><span class="detail-value"><span class="status-badge ${tx.status}">${tx.status}</span></span></div>
+                <div class="detail-row"><span class="detail-label">Account</span><span class="detail-value">${escapeHtml(tx.account)}</span></div>
+                <div class="detail-row"><span class="detail-label">To</span><span class="detail-value">${escapeHtml(tx.to || '—')}</span></div>
+                <div class="detail-row"><span class="detail-label">Bank</span><span class="detail-value">${escapeHtml(tx.bank || '—')}</span></div>
+                <div class="detail-row"><span class="detail-label">Reference</span><span class="detail-value mono">${escapeHtml(tx.reference || tx.id)}</span></div>
+            `;
+
+                document.getElementById('transactionModal').classList.add('show');
+            }
+
+            window.closeTransactionModal = function () {
+                document.getElementById('transactionModal').classList.remove('show');
+            };
+
+            window.downloadReceipt = function () {
+                alert('Demo: receipt download would start');
+            };
+
+            window.copyText = function (text, btn) {
+                if (navigator.clipboard) navigator.clipboard.writeText(text);
+                const original = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => btn.innerHTML = original, 1500);
+            };
+
+            window.addEventListener('click', e => {
+                const modal = document.getElementById('transactionModal');
+                if (e.target === modal) modal.classList.remove('show');
+            });
+
+            // ---------- Filter tabs ----------
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.addEventListener('click', function () {
+                    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.getAttribute('data-filter') || 'all';
+                    render();
+                });
+            });
+
+            // ---------- Search ----------
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', function (e) {
+                    currentSearch = e.target.value.trim();
+                    render();
+                });
+            }
+
+            // ---------- Boot ----------
+            function refreshTransactionsPage() {
+                render();
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', refreshTransactionsPage);
+            } else {
+                refreshTransactionsPage();
+            }
+
+            window.addEventListener('storage', e => {
+                if (e.key === 'heritage_demo_state_v1') refreshTransactionsPage();
+            });
+
+            window.addEventListener('focus', () => {
+                try { refreshTransactionsPage(); } catch (_) { }
+            });
+
+            window.__refreshTransactions = refreshTransactionsPage;
+
+            // ---------- Mobile menu ----------
+            (function () {
+                const menuToggle = document.getElementById('menuToggle');
+                const sidebar = document.getElementById('sidebarPremium');
+                const overlay = document.getElementById('sidebarOverlay');
+                if (!menuToggle || !sidebar || !overlay) return;
+                let isMenuOpen = false;
+                function toggleMenu(show) {
+                    if (typeof show !== 'boolean') show = !isMenuOpen;
+                    isMenuOpen = show;
+                    sidebar.classList.toggle('active', show);
+                    overlay.classList.toggle('active', show);
+                    menuToggle.setAttribute('aria-expanded', show ? 'true' : 'false');
+                    overlay.setAttribute('aria-hidden', show ? 'false' : 'true');
+                    document.body.style.overflow = show ? 'hidden' : '';
+                }
+                function handleToggleInteraction(e) { e.preventDefault(); e.stopPropagation(); toggleMenu(); }
+                menuToggle.addEventListener('pointerdown', handleToggleInteraction, { passive: false });
+                menuToggle.addEventListener('click', function (e) {
+                    if (e.pointerType === 'touch' || e.pointerType === 'pen') return;
+                    handleToggleInteraction(e);
+                });
+                menuToggle.addEventListener('touchstart', function (e) {
+                    if (window.PointerEvent) return;
+                    handleToggleInteraction(e);
+                }, { passive: false });
+                overlay.addEventListener('pointerdown', function (e) { if (isMenuOpen) { e.preventDefault(); toggleMenu(false); } });
+                overlay.addEventListener('click', function (e) { if (isMenuOpen && (e.pointerType === 'mouse' || !window.PointerEvent)) toggleMenu(false); });
+                sidebar.addEventListener('click', function (e) {
+                    const link = e.target.closest('a');
+                    if (link && isMenuOpen) {
+                        e.preventDefault();
+                        const href = link.getAttribute('href');
+                        toggleMenu(false);
+                        setTimeout(() => { if (href && href !== '#') window.location.href = href; }, 350);
+                    }
+                });
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape' && isMenuOpen) { toggleMenu(false); menuToggle.focus(); }
+                });
+                window.addEventListener('resize', function () {
+                    if (window.innerWidth >= 1024 && isMenuOpen) toggleMenu(false);
+                });
+                let tsX = 0, tsY = 0;
+                sidebar.addEventListener('touchstart', function (e) { tsX = e.changedTouches[0].screenX; tsY = e.changedTouches[0].screenY; }, { passive: true });
+                sidebar.addEventListener('touchend', function (e) {
+                    if (!isMenuOpen) return;
+                    const dx = tsX - e.changedTouches[0].screenX;
+                    if (dx > 60 && dx > Math.abs(tsY - e.changedTouches[0].screenY)) toggleMenu(false);
+                });
+            })();
+
+            // ---------- Loader ----------
+            setTimeout(() => {
+                const loader = document.getElementById('premiumLoader');
+                if (loader) { loader.classList.add('fade-out'); setTimeout(() => loader.remove(), 700); }
+            }, 700);
+
+            // ---------- Auth protection ----------
+            (function () {
+                const auth = sessionStorage.getItem('nexusbank_auth');
+                const expiry = sessionStorage.getItem('nexusbank_expiry');
+                if (auth !== 'authenticated' || !expiry || Date.now() > parseInt(expiry)) {
+                    sessionStorage.clear();
+                    window.location.replace('login.html');
+                    return;
+                }
+                sessionStorage.setItem('nexusbank_expiry', Date.now() + 3600000);
+                let inactivityTimer;
+                function resetInactivity() {
+                    clearTimeout(inactivityTimer);
+                    inactivityTimer = setTimeout(() => { sessionStorage.clear(); window.location.replace('login.html'); }, 900000);
+                }
+                ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart', 'pointerdown'].forEach(e => document.addEventListener(e, resetInactivity, { passive: true }));
+                resetInactivity();
+            })();
+        })();
+    </script>
+</body>
+
+</html>
