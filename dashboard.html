@@ -161,6 +161,7 @@
             min-height: 100vh;
         }
 
+        /* Base sidebar — same structure as paybills.html's .sidebar-premium */
         .sidebar {
             width: 260px;
             flex: 0 0 260px;
@@ -210,7 +211,7 @@
             margin-top: 5px;
         }
 
-        /* KEY FIX: nav scrolls, footer stays pinned */
+        /* nav scrolls, footer stays pinned */
         .nav {
             padding: 22px 0;
             overflow-y: auto;
@@ -1135,6 +1136,7 @@
 
         /* ============================================================
            MOBILE — sidebar as a proper flex column with pinned footer
+           (mirrors paybills.html's working .sidebar-premium rules)
            ============================================================ */
         @media (max-width: 900px) {
             .sidebar {
@@ -1142,46 +1144,24 @@
                 left: -280px;
                 top: 0;
                 bottom: 0;
+                height: 100vh;
+                /* fallback for old browsers */
                 height: 100dvh;
-                /* dynamic viewport */
-                max-height: 100dvh;
+                /* modern dynamic viewport */
                 width: 260px;
                 flex-basis: 260px;
                 transition: left .3s var(--ease);
                 box-shadow: 4px 0 30px rgba(0, 0, 0, .2);
-                display: flex;
-                flex-direction: column;
-                overflow: hidden;
-                /* nav scrolls, not the panel */
-                padding-bottom: env(safe-area-inset-bottom, 0);
-                /* iOS notch */
+                /* Base rule already provides:
+                   display: flex; flex-direction: column; height: 100vh;
+                   So we inherit the correct flex layout.
+                   .nav has flex: 1 1 auto; min-height: 0; overflow-y: auto
+                   .sidebar-foot has flex-shrink: 0
+                   → footer always visible, nav scrolls if needed. */
             }
 
             .sidebar.open {
                 left: 0;
-            }
-
-            /* nav takes available space and scrolls when it needs to */
-            .nav {
-                flex: 1 1 auto;
-                min-height: 0;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-                padding: 18px 0;
-            }
-
-            /* brand + footer stay their natural size */
-            .brand {
-                flex: 0 0 auto;
-            }
-
-            .sidebar-foot {
-                flex: 0 0 auto;
-                padding: 1rem 1.25rem;
-                padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0));
-                background: var(--ink);
-                position: relative;
-                z-index: 2;
             }
 
             .menu-toggle {
@@ -1828,7 +1808,6 @@
                 { symbol: 'META', name: 'Meta Platforms, Inc.', domain: 'meta.com', price: 621.17, change: 1.73 }
             ];
 
-            // ---------- Fallback BankDemo if bank-demo.js missing ----------
             if (typeof window.BankDemo === 'undefined') {
                 console.warn('[dashboard] bank-demo.js not loaded — using inline fallback.');
                 (function () {
