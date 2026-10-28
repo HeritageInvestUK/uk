@@ -161,7 +161,11 @@
             min-height: 100vh;
         }
 
-        /* Base sidebar — same structure as paybills.html's .sidebar-premium */
+        /* ============================================================
+           SIDEBAR (desktop base)
+           FIX 1: explicit z-index so it stays above .overlay + .main
+           FIX 2: will-change so the transform toggle is GPU-smooth
+           ============================================================ */
         .sidebar {
             width: 260px;
             flex: 0 0 260px;
@@ -174,7 +178,10 @@
             top: 0;
             height: 100vh;
             z-index: 40;
+            /* FIX 1 */
             border-right: 1px solid var(--hair-dark);
+            will-change: transform;
+            /* FIX 2 */
         }
 
         .brand {
@@ -238,7 +245,10 @@
             font-size: 13px;
             font-weight: 500;
             border-left: 3px solid transparent;
-            transition: .2s;
+            transition: background .2s, color .2s;
+            position: relative;
+            z-index: 1;
+            /* FIX 3: keep links clickable */
         }
 
         .nav a i {
@@ -315,8 +325,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: border-color .2s;
+            transition: border-color .2s, color .2s;
             border-radius: 3px;
+            position: relative;
+            z-index: 1;
         }
 
         .icon-btn:hover {
@@ -328,6 +340,8 @@
             min-width: 0;
             flex: 1;
             padding: 0 30px 40px;
+            position: relative;
+            z-index: 1;
         }
 
         .topbar {
@@ -356,6 +370,8 @@
             color: var(--ink);
             border-radius: 6px;
             place-items: center;
+            position: relative;
+            z-index: 50;
         }
 
         .eyebrow {
@@ -1100,10 +1116,14 @@
             inset: 0;
             background: rgba(16, 32, 27, .5);
             z-index: 35;
+            opacity: 0;
+            transition: opacity .3s var(--ease);
+            -webkit-tap-highlight-color: transparent;
         }
 
         .overlay.show {
             display: block;
+            opacity: 1;
         }
 
         /* Responsive */
@@ -1135,33 +1155,31 @@
         }
 
         /* ============================================================
-           MOBILE — sidebar as a proper flex column with pinned footer
-           (mirrors paybills.html's working .sidebar-premium rules)
+           MOBILE — off-canvas drawer, GPU-accelerated slide,
+           pinned footer, clickable links
            ============================================================ */
         @media (max-width: 900px) {
             .sidebar {
                 position: fixed;
-                left: -280px;
                 top: 0;
+                left: 0;
                 bottom: 0;
-                height: 100vh;
-                /* fallback for old browsers */
-                height: 100dvh;
-                /* modern dynamic viewport */
                 width: 260px;
                 flex-basis: 260px;
-                transition: left .3s var(--ease);
+                height: 100vh;
+                height: 100dvh;
+                /* FIX 2: transform instead of left → GPU smooth, no layout thrash */
+                transform: translateX(-100%);
+                transition: transform .3s var(--ease);
                 box-shadow: 4px 0 30px rgba(0, 0, 0, .2);
-                /* Base rule already provides:
-                   display: flex; flex-direction: column; height: 100vh;
-                   So we inherit the correct flex layout.
-                   .nav has flex: 1 1 auto; min-height: 0; overflow-y: auto
-                   .sidebar-foot has flex-shrink: 0
-                   → footer always visible, nav scrolls if needed. */
+                z-index: 40;
+                /* FIX 1: above overlay */
+                will-change: transform;
+                pointer-events: auto;
             }
 
             .sidebar.open {
-                left: 0;
+                transform: translateX(0);
             }
 
             .menu-toggle {
