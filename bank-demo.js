@@ -12,9 +12,9 @@ const BankDemo = (() => {
             etf: { label: 'ETF', balance: 759058.87 }
         },
         transactions: [],
-        dailyUsed: 250,
-        dailyLimit: 25000,
-        perTxnLimit: 10000
+        dailyUsed: 0,
+        dailyLimit: 100000,
+        perTxnLimit: 50000
     });
 
     function load() {
