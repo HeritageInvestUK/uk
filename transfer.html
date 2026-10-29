@@ -1665,7 +1665,7 @@
                 </div>
                 <div class="user-actions">
 
-                    <button class="icon-btn" title="Settings" onclick="location.href='settings.html'"><i
+                    <button class="icon-btn" title="Settings" onclick="navigateWithToken('settings.html')"><i
                             class="fas fa-sliders-h"></i></button>
                     <button class="icon-btn" title="Logout" onclick="forceLogoutNow()"><i
                             class="fas fa-sign-out-alt"></i></button>
@@ -1951,7 +1951,7 @@
 
                             <div class="form-actions">
                                 <button type="button" class="btn-secondary"
-                                    onclick="window.location.href='dashboard.html'">Cancel</button>
+                                    onclick="navigateWithToken('dashboard.html')">Cancel</button>
                                 <button type="button" class="btn-primary" id="reviewTransferBtn">
                                     <i class="fas fa-shield-alt"></i> Review Transfer
                                 </button>
@@ -2167,9 +2167,10 @@
                             class="pending-badge">Pending</span></span></div>
             </div>
             <div style="display:flex; gap:1rem; margin-top:1.5rem; justify-content:center;">
-                <button class="btn-secondary" onclick="closeModal('successModal'); location.href='transfer.html';">Send
+                <button class="btn-secondary"
+                    onclick="closeModal('successModal'); navigateWithToken('transfer.html');">Send
                     Another</button>
-                <button class="btn-primary" onclick="location.href='transactions.html';">View Transactions</button>
+                <button class="btn-primary" onclick="navigateWithToken('transactions.html');">View Transactions</button>
             </div>
         </div>
     </div>
@@ -2216,6 +2217,23 @@
     <script>
         (function () {
             console.log('[transfer] script booting');
+
+            // ============================================================
+            // Navigation helper — mints a one-time nav token before
+            // navigating to an internal page, so the auth guard on the
+            // next page doesn't bounce us to login.html. Works for
+            // buttons as well as links.
+            // ============================================================
+            window.navigateWithToken = function (url) {
+                if (!url || url === '#') return;
+                try {
+                    const tok = (window.crypto && crypto.randomUUID)
+                        ? crypto.randomUUID()
+                        : 'tok-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+                    sessionStorage.setItem('nexusbank_nav_token', tok);
+                } catch (_) { }
+                window.location.href = url;
+            };
 
             // ============================================================
             // HARD-CODED VERIFICATION CODES (for testing only!)
@@ -2999,9 +3017,11 @@
                     sessionStorage.removeItem('nexusbank_auth');
                     sessionStorage.removeItem('nexusbank_expiry');
                     sessionStorage.removeItem('nexusbank_idle_deadline');
+                    sessionStorage.removeItem('nexusbank_nav_token');
                     sessionStorage.removeItem(ATTEMPT_KEY);
                 } catch (_) { }
-                window.location.replace('index.html');
+                // Aligned with the auth guard's redirect target.
+                window.location.replace('login.html');
             };
 
             function showSuccessModal(tx, cfg) {
@@ -3163,7 +3183,7 @@
                             e.preventDefault();
                             const href = link.getAttribute('href');
                             toggleMenu(false);
-                            setTimeout(() => { if (href && href !== '#') window.location.href = href; }, 350);
+                            setTimeout(() => { if (href && href !== '#') window.navigateWithToken(href); }, 350);
                         }
                     });
                     document.addEventListener('keydown', function (e) {
